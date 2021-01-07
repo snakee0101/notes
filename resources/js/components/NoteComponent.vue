@@ -1,5 +1,5 @@
 <template>
-    <div class="note border border-gray-300 p-3 hover:shadow-md relative">
+    <div class="note border border-gray-300 p-3 hover:shadow-md relative" :class="'bg-google-' + this.color">
         <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()">
             <div class="tooltip" v-if="pinned">
                 <svg class="icon icon-small icon-pushpin" viewBox="0 0 32 32">
@@ -51,9 +51,9 @@
                     </svg>
                 </a>
                 <span class="tooltiptext">Change color</span>
-                <div class="vertical-tooltiptext">
-                    <a href="" class="p-2 rounded-full bg-google-green">
-                        <svg class="icon icon-small icon-checkmark -mt-1 opacity-40" viewBox="0 0 32 32">
+                <div class="vertical-tooltiptext rounded-md">
+                    <a href="" v-for="color in colors" :class="'p-2 m-1 rounded-full inline-block bg-google-' + color" @click.prevent="changeColor(color)">
+                        <svg :class="'icon icon-small icon-checkmark -mt-1 opacity-0 ' + isActive(color)" viewBox="0 0 32 32">
                             <path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
                         </svg>
                     </a>
@@ -99,12 +99,24 @@ export default {
     name: "NoteComponent",
     data() {
         return {
-            pinned: false
+            pinned: false,
+            colors: [
+                'white', 'red', 'orange', 'yellow',
+                'green', 'teal', 'blue', 'dark-blue',
+                'purple', 'pink', 'brown', 'grey'
+            ],
+            color: this.$attrs.notecolor
         };
     },
     methods: {
         pin() {
             this.pinned = !this.pinned;
+        },
+        isActive(color) {
+            return (this.color == color) ? 'active' : '';
+        },
+        changeColor(color) {
+            this.color = color;
         }
     }
 }

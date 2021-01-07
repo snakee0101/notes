@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <note-component></note-component>
+    <note-component noteColor="orange">
+
+    </note-component>
 @endsection

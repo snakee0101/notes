@@ -55,7 +55,7 @@
 .vertical-tooltiptext {
     background: #fff;
     visibility: hidden;
-    width: 120px;
+    width: 200px;
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
@@ -72,4 +72,8 @@
 .tooltip:hover .vertical-tooltiptext{
     visibility: visible;
     opacity: 1;
+}
+
+.icon-checkmark.active {
+    @apply opacity-40;
 }
