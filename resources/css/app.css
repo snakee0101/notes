@@ -52,7 +52,24 @@
     transition: opacity 0.3s;
 }
 
-.tooltip:hover .tooltiptext {
+.vertical-tooltiptext {
+    background: #fff;
+    visibility: hidden;
+    width: 120px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext,
+.tooltip:hover .vertical-tooltiptext{
     visibility: visible;
     opacity: 1;
 }

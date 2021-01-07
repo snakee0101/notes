@@ -51,6 +51,13 @@
                     </svg>
                 </a>
                 <span class="tooltiptext">Change color</span>
+                <div class="vertical-tooltiptext">
+                    <a href="" class="p-2 rounded-full bg-google-green">
+                        <svg class="icon icon-small icon-checkmark -mt-1 opacity-40" viewBox="0 0 32 32">
+                            <path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
+                        </svg>
+                    </a>
+                </div>
             </div>
 
 
