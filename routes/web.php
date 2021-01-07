@@ -14,8 +14,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('notes');
+})->name('notes');
+
+Route::get('/reminders', function () {
+    return view('reminders');
+})->name('reminders');
+
+Route::get('/archive', function () {
+    return view('archive');
+})->name('archive');
+
+Route::get('/trash', function () {
+    return view('archive');
+})->name('trash');
+
+Route::get('/tag/{tag}', function ($tag) {
+    return view('tag');
+})->name('tag');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

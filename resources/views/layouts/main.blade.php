@@ -29,13 +29,13 @@
     </header>
     <div class="flex flex-row justify-between">
         <nav class="flex flex-col" style="width: 280px">
-            <a href="" class="bg-yellow-100 p-4 rounded-r-full">Notes</a>
-            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Reminders</a>
-            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Tag 1</a>
-            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Tag 2</a>
+            <a href="{{ route('notes') }}" class="bg-yellow-100 p-4 rounded-r-full">Notes</a>
+            <a href="{{ route('reminders') }}" class="p-4 rounded-r-full hover:bg-gray-200">Reminders</a>
+            <a href="{{ route('tag', 'tag 1') }}" class="p-4 rounded-r-full hover:bg-gray-200">Tag 1</a>
+            <a href="{{ route('tag', 'tag 2') }}" class="p-4 rounded-r-full hover:bg-gray-200">Tag 2</a>
             <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Edit labels</a>
-            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Archive</a>
-            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Trash</a>
+            <a href="{{ route('archive') }}" class="p-4 rounded-r-full hover:bg-gray-200">Archive</a>
+            <a href="{{ route('trash') }}" class="p-4 rounded-r-full hover:bg-gray-200">Trash</a>
         </nav>
         <main class="bg-green-400 flex-grow" id="app">
             @section('content')
