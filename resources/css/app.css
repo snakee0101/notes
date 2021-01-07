@@ -30,12 +30,16 @@
     max-height: 450px;
 }
 
-.tooltip {
+.tooltip, .tooltip2 {
     position: relative;
     display: inline-block;
 }
 
-.tooltiptext {
+.tooltip2 {
+    @apply my-3;
+}
+
+.tooltiptext, .tooltip2text {
     visibility: hidden;
     width: 120px;
     background-color: #555;
@@ -69,6 +73,7 @@
 }
 
 .tooltip:hover .tooltiptext,
+.tooltip2:hover .tooltip2text,
 .tooltip:hover .vertical-tooltiptext{
     visibility: visible;
     opacity: 1;

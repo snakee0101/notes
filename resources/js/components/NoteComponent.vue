@@ -52,11 +52,14 @@
                 </a>
                 <span class="tooltiptext">Change color</span>
                 <div class="vertical-tooltiptext rounded-md">
-                    <a href="" v-for="color in colors" :class="'p-2 m-1 rounded-full inline-block bg-google-' + color" @click.prevent="changeColor(color)">
-                        <svg :class="'icon icon-small icon-checkmark -mt-1 opacity-0 ' + isActive(color)" viewBox="0 0 32 32">
-                            <path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
-                        </svg>
-                    </a>
+                    <div class="tooltip2" v-for="color in colors">
+                        <a href="" :class="'p-2 m-1 d-inline-block rounded-full bg-google-' + color" @click.prevent="changeColor(color)">
+                            <svg :class="'icon icon-small icon-checkmark -mt-1 opacity-0 ' + isActive(color)" viewBox="0 0 32 32">
+                                <path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
+                            </svg>
+                        </a>
+                        <span class="tooltip2text" v-text="color"></span>
+                    </div>
                 </div>
             </div>
 
