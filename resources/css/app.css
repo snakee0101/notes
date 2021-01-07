@@ -7,3 +7,11 @@
 .active {
     @apply bg-yellow-100;
 }
+
+.note {
+    width: 240px;
+}
+
+.note-content {
+    max-height: 450px;
+}

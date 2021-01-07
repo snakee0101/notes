@@ -37,7 +37,7 @@
             <a href="{{ route('archive') }}" class="p-4 rounded-r-full hover:bg-gray-200">Archive</a>
             <a href="{{ route('trash') }}" class="p-4 rounded-r-full hover:bg-gray-200">Trash</a>
         </nav>
-        <main class="bg-green-400 flex-grow" id="app">
+        <main class="flex-grow" id="app">
             @section('content')
 
             @show
