@@ -13,8 +13,8 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-gray-100 h-screen antialiased leading-none font-sans m-2 flex flex-col">
-    <header class="flex flex-row justify-between">
+<body class="bg-gray-100 h-screen antialiased leading-none font-sans flex flex-col">
+    <header class="flex flex-row justify-between mb-3 shadow-sm">
         <section>
             keep
         </section>
@@ -28,8 +28,14 @@
         </section>
     </header>
     <div class="flex flex-row justify-between">
-        <nav class="bg-blue-400" style="width: 280px">
-            75207520
+        <nav class="flex flex-col" style="width: 280px">
+            <a href="" class="bg-yellow-100 p-4 rounded-r-full">Notes</a>
+            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Reminders</a>
+            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Tag 1</a>
+            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Tag 2</a>
+            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Edit labels</a>
+            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Archive</a>
+            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Trash</a>
         </nav>
         <main class="bg-green-400 flex-grow">
             75207520
