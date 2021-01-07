@@ -37,9 +37,13 @@
             <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Archive</a>
             <a href="" class="p-4 rounded-r-full hover:bg-gray-200">Trash</a>
         </nav>
-        <main class="bg-green-400 flex-grow">
-            75207520
+        <main class="bg-green-400 flex-grow" id="app">
+            @section('content')
+
+            @show
         </main>
     </div>
+
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

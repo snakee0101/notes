@@ -18,7 +18,7 @@ mix
     require('tailwindcss'),
     require('postcss-nested'),
     require('autoprefixer'),
-  ]);
+  ]).vue();
 
 if (mix.inProduction()) {
   mix
