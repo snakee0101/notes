@@ -13,6 +13,11 @@
     fill: #000;
 }
 
+.icon-small {
+    width: 1.2em;
+    height: 1.2em;
+}
+
 .active {
     @apply bg-yellow-100;
 }
