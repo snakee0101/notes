@@ -29,7 +29,7 @@
     </header>
     <div class="flex flex-row justify-between">
         <nav class="flex flex-col" style="width: 280px">
-            <a href="{{ route('notes') }}" class="bg-yellow-100 p-4 rounded-r-full">Notes</a>
+            <a href="{{ route('notes') }}" class="p-4 rounded-r-full hover:bg-gray-200">Notes</a>
             <a href="{{ route('reminders') }}" class="p-4 rounded-r-full hover:bg-gray-200">Reminders</a>
             <a href="{{ route('tag', 'tag 1') }}" class="p-4 rounded-r-full hover:bg-gray-200">Tag 1</a>
             <a href="{{ route('tag', 'tag 2') }}" class="p-4 rounded-r-full hover:bg-gray-200">Tag 2</a>
