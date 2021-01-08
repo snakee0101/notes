@@ -164,10 +164,12 @@
                 </div>
                 <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
                     <button
+                        @click="cancelCollaborators()"
                         class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
                         Cancel
                     </button>
                     <button
+                        @click="saveCollaborators()"
                         class="text-gray-800 text-sm font-medium px-6 py-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
                         Save
                     </button>
@@ -217,7 +219,13 @@ export default {
         addCollaborator(email) {
             this.collaboratorEmails.push(email);
             this.newEmail = '';
-        }
+        },
+        cancelCollaborators() {
+            alert('Cancel');
+        },
+        saveCollaborators() {
+            alert('Add');
+        },
     }
 }
 </script>
