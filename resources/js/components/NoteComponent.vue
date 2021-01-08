@@ -112,7 +112,7 @@
              class="collaborators-dialog fixed top-0 left-0 right-0
              bottom-0 flex items-center bg-gray-800 bg-opacity-75">
             <div class="collaborators-content m-auto">
-                <div class="bg-white p-4 rounded-t-xl">
+                <div class="bg-white p-4 rounded-t-lg">
                     <h3 class="font-medium text-lg">Collaborators</h3>
                     <div class="mt-3 pt-4 px-2 border-t-2 border-gray-200">
                         <div class="collaborator flex flex-row mb-4 items-center">
@@ -145,13 +145,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-200 rounded-b-xl py-2 px-4 text-right">
+                <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
                     <button
-                        class="font-normal px-6 py-2 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
+                        class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
                         Cancel
                     </button>
                     <button
-                        class="font-normal px-6 py-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
+                        class="text-gray-800 text-sm font-medium px-6 py-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
                         Save
                     </button>
                 </div>
