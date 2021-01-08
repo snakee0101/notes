@@ -108,7 +108,7 @@
         </div>
 
         <div v-if="isCollaboratorsDialogVisible"
-             @click.self="hideCollaboratorsDialog()"
+             @mousedown.self="hideCollaboratorsDialog()"
              class="collaborators-dialog fixed top-0 left-0 right-0
              bottom-0 flex items-center bg-gray-800 bg-opacity-75">
             <div class="collaborators-content m-auto">
