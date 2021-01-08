@@ -18,7 +18,7 @@
     height: 1.2em;
 }
 
-.active {
+nav a.active {
     @apply bg-yellow-100;
 }
 
@@ -79,6 +79,10 @@
     opacity: 1;
 }
 
-.icon-checkmark.active {
+.color-circle.active {
+    @apply border-gray-800;
+}
+
+.color-circle.active .icon-checkmark {
     @apply opacity-40;
 }

@@ -53,8 +53,8 @@
                 <span class="tooltiptext">Change color</span>
                 <div class="vertical-tooltiptext rounded-md">
                     <div class="tooltip2" v-for="color in colors">
-                        <a href="" :class="'p-2 m-1 d-inline-block rounded-full bg-google-' + color" @click.prevent="changeColor(color)">
-                            <svg :class="'icon icon-small icon-checkmark -mt-1 opacity-0 ' + isActive(color)" viewBox="0 0 32 32">
+                        <a href="" :class="'color-circle border-2 border-transparent p-2 m-1 d-inline-block rounded-full bg-google-' + color + ' ' + isActive(color)" @click.prevent="changeColor(color)">
+                            <svg class="icon icon-small icon-checkmark -mt-1 opacity-0" viewBox="0 0 32 32">
                                 <path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
                             </svg>
                         </a>
