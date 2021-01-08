@@ -34,7 +34,7 @@
             </div>
 
             <div class="tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent>
+                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="showCollaboratorsDialog()">
                     <svg class="icon icon-small icon-user-plus" viewBox="0 0 32 32">
                         <path d="M12 23c0-4.726 2.996-8.765 7.189-10.319 0.509-1.142 0.811-2.411 0.811-3.681 0-4.971 0-9-6-9s-6 4.029-6 9c0 3.096 1.797 6.191 4 7.432v1.649c-6.784 0.555-12 3.888-12 7.918h12.416c-0.271-0.954-0.416-1.96-0.416-3z"></path>
                         <path d="M23 14c-4.971 0-9 4.029-9 9s4.029 9 9 9c4.971 0 9-4.029 9-9s-4.029-9-9-9zM28 24h-4v4h-2v-4h-4v-2h4v-4h2v4h4v2z"></path>
@@ -94,6 +94,26 @@
             </div>
 
         </div>
+
+        <div v-if="isCollaboratorsDialogVisible"
+             @click.self="hideCollaboratorsDialog()"
+             class="collaborators-dialog fixed top-0 left-0 right-0
+             bottom-0 flex items-center bg-gray-800 bg-opacity-75">
+            <div class="collaborators-content m-auto">
+                <div class="bg-white p-4 rounded-t-xl">
+                    <h3 class="font-medium text-lg">Collaborators</h3>
+                    <div class="mt-4 border-t-2 border-gray-200">
+                        <p>uyiyui</p>
+                        <p>uyiyui</p>
+                        <p>uyiyui</p>
+                    </div>
+                </div>
+                <div class="bg-gray-200 rounded-b-xl py-2 px-4 text-right">
+                    <button class="font-normal px-5 py-3 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">Cancel</button>
+                    <button class="font-normal px-5 py-3 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">Save</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -103,6 +123,7 @@ export default {
     data() {
         return {
             pinned: false,
+            isCollaboratorsDialogVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -120,6 +141,12 @@ export default {
         },
         changeColor(color) {
             this.color = color;
+        },
+        showCollaboratorsDialog() {
+            this.isCollaboratorsDialogVisible = true;
+        },
+        hideCollaboratorsDialog() {
+            this.isCollaboratorsDialogVisible = false;
         }
     }
 }

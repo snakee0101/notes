@@ -86,3 +86,7 @@ nav a.active {
 .color-circle.active .icon-checkmark {
     @apply opacity-40;
 }
+
+.collaborators-content {
+    width: 600px;
+}
