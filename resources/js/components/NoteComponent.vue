@@ -1,5 +1,5 @@
 <template>
-    <div class="note border border-gray-300 p-3 hover:shadow-md relative" :class="'bg-google-' + this.color">
+    <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors" :class="'bg-google-' + this.color">
         <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()">
             <div class="tooltip" v-if="pinned">
                 <svg class="icon icon-small icon-pushpin" viewBox="0 0 32 32">
@@ -53,8 +53,8 @@
                 <span class="tooltiptext">Change color</span>
                 <div class="vertical-tooltiptext rounded-md">
                     <div class="tooltip2" v-for="color in colors">
-                        <a href="" :class="'color-circle border-2 border-transparent p-2 m-1 d-inline-block rounded-full bg-google-' + color + ' ' + isActive(color)" @click.prevent="changeColor(color)">
-                            <svg class="icon icon-small icon-checkmark -mt-1 opacity-0" viewBox="0 0 32 32">
+                        <a href="" :class="'color-circle border-2 transition border-transparent p-2 m-1 d-inline-block rounded-full bg-google-' + color + ' ' + isActive(color)" @click.prevent="changeColor(color)">
+                            <svg class="icon icon-small icon-checkmark -mt-1 opacity-0 transition" viewBox="0 0 32 32">
                                 <path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
                             </svg>
                         </a>
