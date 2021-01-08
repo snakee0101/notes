@@ -1,5 +1,5 @@
-<template>
-    <div @mousedown.self="hideCollaboratorsDialog()"
+<template>  <!--TODO: There should be the animation when the dialog appears and disappears-->
+    <div @mousedown.self="hide()"
          class="collaborators-dialog fixed top-0 left-0 right-0
              bottom-0 flex items-center bg-gray-800 bg-opacity-75">
         <div class="collaborators-content m-auto">
@@ -55,12 +55,12 @@
             </div>
             <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
                 <button
-                    @click="cancelCollaborators()"
+                    @click="cancel()"
                     class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
                     Cancel
                 </button>
                 <button
-                    @click="saveCollaborators()"
+                    @click="save()"
                     class="text-gray-800 text-sm font-medium px-6 py-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
                     Save
                 </button>
@@ -79,7 +79,7 @@ export default {
         };
     },
     methods: {
-        hideCollaboratorsDialog(){
+        hide(){   //TODO: Clicking outside must show confirmation dialog for discarding changes
             this.$emit('hide_dialog');
         },
         deleteCollaborator(email) {
@@ -90,11 +90,11 @@ export default {
             this.emails.push(email);
             this.newEmail = '';
         },
-        cancelCollaborators() {
-            alert('Cancel');
+        cancel() {
+            alert('Cancel'); //TODO: Cancel button must actually cancel adding collaborators
         },
-        saveCollaborators() {
-            alert('Add');
+        save() {
+            alert('Add');  //TODO: Save button must actually add collaborators
         },
     }
 }
