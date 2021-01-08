@@ -102,15 +102,15 @@
             <div class="collaborators-content m-auto">
                 <div class="bg-white p-4 rounded-t-xl">
                     <h3 class="font-medium text-lg">Collaborators</h3>
-                    <div class="mt-4 border-t-2 border-gray-200">
-                        <p>uyiyui</p>
-                        <p>uyiyui</p>
-                        <p>uyiyui</p>
+                    <div class="mt-3 pt-4 px-2 border-t-2 border-gray-200">
+                        <div class="collaborator" v-for="i in [1,2,3]">
+                            <p>test</p>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-gray-200 rounded-b-xl py-2 px-4 text-right">
-                    <button class="font-normal px-5 py-3 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">Cancel</button>
-                    <button class="font-normal px-5 py-3 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">Save</button>
+                    <button class="font-normal px-6 py-2 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">Cancel</button>
+                    <button class="font-normal px-6 py-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">Save</button>
                 </div>
             </div>
         </div>
