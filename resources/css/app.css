@@ -78,6 +78,23 @@ nav a.active {
     transition: opacity 0.3s;
 }
 
+.tooltip4text {
+    visibility: hidden;
+    width: 150px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: -200%;
+    left: 20%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
 .vertical-tooltiptext {
     background: #fff;
     visibility: hidden;
@@ -97,6 +114,7 @@ nav a.active {
 .tooltip:hover .tooltiptext,
 .tooltip2:hover .tooltip2text,
 .tooltip:hover .tooltip3text,
+.tooltip:hover .tooltip4text,
 .tooltip:hover .vertical-tooltiptext{
     visibility: visible;
     opacity: 1;
@@ -112,4 +130,11 @@ nav a.active {
 
 .collaborators-content {
     width: 600px;
+}
+
+.add-collaborator-input:invalid + .tooltip {
+    display: none;
+}
+.add-collaborator-input:valid + .tooltip {
+    display: inline;
 }
