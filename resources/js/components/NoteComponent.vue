@@ -1,4 +1,5 @@
-<template>
+<template> <!--TODO: There must be UNDO and REDO buttons while editing the note-->
+    <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors"
          :class="'bg-google-' + this.color">
         <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()">
@@ -9,7 +10,7 @@
                 </svg>
                 <span class="tooltiptext">Pin</span>
             </div>
-
+<!--TODO: there should be editing state for the note-->
             <div class="tooltip" v-else>
                 <svg class="icon icon-small icon-cancel-circle" viewBox="0 0 32 32">
                     <path
@@ -34,7 +35,7 @@
                             d="M32.047 25c0-9-8-7-8-14 0-0.58-0.056-1.076-0.158-1.498-0.526-3.532-2.88-6.366-5.93-7.23 0.027-0.123 0.041-0.251 0.041-0.382 0-1.040-0.9-1.891-2-1.891s-2 0.851-2 1.891c0 0.131 0.014 0.258 0.041 0.382-3.421 0.969-5.966 4.416-6.039 8.545-0.001 0.060-0.002 0.121-0.002 0.183 0 7-8 5-8 14 0 2.382 5.331 4.375 12.468 4.878 0.673 1.263 2.002 2.122 3.532 2.122s2.86-0.86 3.532-2.122c7.137-0.503 12.468-2.495 12.468-4.878 0-0.007-0.001-0.014-0.001-0.021l0.048 0.021zM25.82 26.691c-1.695 0.452-3.692 0.777-5.837 0.958-0.178-2.044-1.893-3.648-3.984-3.648s-3.805 1.604-3.984 3.648c-2.144-0.18-4.142-0.506-5.837-0.958-2.332-0.622-3.447-1.318-3.855-1.691 0.408-0.372 1.523-1.068 3.855-1.691 2.712-0.724 6.199-1.122 9.82-1.122s7.109 0.398 9.82 1.122c2.332 0.622 3.447 1.318 3.855 1.691-0.408 0.372-1.523 1.068-3.855 1.691z"></path>
                     </svg>
                 </a>
-                <span class="tooltiptext">Remind me</span>
+                <span class="tooltiptext">Remind me</span> <!--TODO: Remind Me button should show a dropdown-->
             </div>
 
             <div class="tooltip">
@@ -58,7 +59,7 @@
                     </svg>
                 </a>
                 <span class="tooltiptext">Change color</span>
-                <div class="vertical-tooltiptext rounded-md">
+                <div class="vertical-tooltiptext rounded-md"> <!--TODO: Color circles' tooltips work another way - they're smaller and they're closed when the cursor is out of the color circle (even when it was on the tooltip). So when the cursor is on the tooltip, it will be closed.-->
                     <div class="tooltip2" v-for="color in colors">
                         <a href=""
                            :class="'color-circle border-2 transition border-transparent p-2 m-1 d-inline-block rounded-full bg-google-' + color + ' ' + isActive(color)"
@@ -82,7 +83,7 @@
                         <path d="M28 26h-24v-4l7-12 8 10h2l7-6z"></path>
                     </svg>
                 </a>
-                <span class="tooltiptext">Add image</span>
+                <span class="tooltiptext">Add image</span> <!--TODO: Add Image button should show and image selecting dialog and save the image into internal array-->
             </div>
 
             <div class="tooltip">
@@ -102,7 +103,7 @@
                             d="M6 19.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 11.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 3.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5z"></path>
                     </svg>
                 </a>
-                <span class="tooltiptext">More</span>
+                <span class="tooltiptext">More</span> <!--TODO: More button should show a dropdown-->
             </div>
 
         </div>

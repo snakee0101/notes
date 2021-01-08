@@ -15,20 +15,27 @@
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none font-sans flex flex-col">
     <header class="flex flex-row justify-between mb-3 shadow-sm">
+
+        <!--TODO: Make a top menu. There should be:-->
         <section>
             keep
+            <!--TODO: button that collapses a menu-->
+            <!--TODO: logo-->
         </section>
 
         <section>
-            Search
+            Search <!--TODO: Search box-->
+                   <!--TODO: When a user focuses Search box, the notes will disappear and instead of them there will be search filter sections-->
         </section>
 
         <section>
-            Menu
+            Menu  <!--TODO: Listview button-->
+                  <!--TODO: Settings dropdown-->
+                  <!--TODO: Account button-->
         </section>
     </header>
     <div class="flex flex-row justify-between">
-        <nav class="flex flex-col" style="width: 280px">
+        <nav class="flex flex-col" style="width: 280px"> <!--TODO: Add active state highlight for this links-->
             <a href="{{ route('notes') }}" class="p-4 rounded-r-full hover:bg-gray-200">
                 <svg class="icon icon-bulb mr-3" viewBox="0 0 32 32">
                     <path d="M16 0c-6.076 0-11 4.924-11 11 0 4.031 3.688 8.303 5.031 12.055 2.003 5.595 1.781 8.945 5.969 8.945 4.25 0 3.965-3.334 5.969-8.922 1.347-3.76 5.031-8.078 5.031-12.078 0-6.076-4.926-11-11-11zM18.592 27.176l-4.958 0.619c-0.177-0.512-0.367-1.111-0.598-1.893-0.003-0.010-0.007-0.021-0.009-0.031l6.188-0.773c-0.088 0.295-0.182 0.605-0.264 0.883-0.131 0.449-0.248 0.839-0.359 1.195zM12.736 24.908c-0.182-0.602-0.387-1.236-0.615-1.908h7.766c-0.123 0.359-0.246 0.719-0.352 1.059l-6.799 0.849zM16 30c-1.013 0-1.479-0.117-1.997-1.25l4.238-0.531c-0.614 1.654-1.061 1.781-2.241 1.781zM20.672 21h-9.333c-0.498-1.080-1.096-2.16-1.686-3.217-1.305-2.335-2.653-4.75-2.653-6.783 0-4.963 4.037-9 9-9s9 4.037 9 9c0 2.018-1.35 4.446-2.656 6.795-0.584 1.053-1.178 2.131-1.672 3.205zM16 5c0.275 0 0.5 0.224 0.5 0.5s-0.224 0.5-0.5 0.5c-2.757 0-5 2.243-5 5 0 0.276-0.224 0.5-0.5 0.5s-0.5-0.224-0.5-0.5c0-3.309 2.691-6 6-6z"></path>
@@ -54,7 +61,7 @@
             <a href="" class="p-4 rounded-r-full hover:bg-gray-200">
                 <svg class="icon icon-pencil2 mr-3" viewBox="0 0 32 32">
                     <path d="M12 20l4-2 14-14-2-2-14 14-2 4zM9.041 27.097c-0.989-2.085-2.052-3.149-4.137-4.137l3.097-8.525 4-2.435 12-12h-6l-12 12-6 20 20-6 12-12v-6l-12 12-2.435 4z"></path>
-                </svg> Edit labels
+                </svg> Edit labels  <!--TODO: This button must show a dialog, where the user can edit tags-->
             </a>
             <a href="{{ route('archive') }}" class="p-4 rounded-r-full hover:bg-gray-200">
                 <svg class="icon icon-box-add mr-3" viewBox="0 0 32 32">
