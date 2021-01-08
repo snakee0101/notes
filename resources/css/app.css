@@ -18,6 +18,11 @@
     height: 1.2em;
 }
 
+.icon-xs {
+    width: 0.8em;
+    height: 0.8em;
+}
+
 nav a.active {
     @apply bg-yellow-100;
 }
@@ -56,6 +61,23 @@ nav a.active {
     transition: opacity 0.3s;
 }
 
+.tooltip3text {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: -200%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
 .vertical-tooltiptext {
     background: #fff;
     visibility: hidden;
@@ -74,6 +96,7 @@ nav a.active {
 
 .tooltip:hover .tooltiptext,
 .tooltip2:hover .tooltip2text,
+.tooltip:hover .tooltip3text,
 .tooltip:hover .vertical-tooltiptext{
     visibility: visible;
     opacity: 1;
