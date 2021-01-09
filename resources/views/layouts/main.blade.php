@@ -34,7 +34,7 @@
                   <!--TODO: Account button-->
         </section>
     </header>
-    <div class="flex flex-row justify-between">
+    <div class="flex flex-row justify-between" id="app">
         <nav class="flex flex-col" style="width: 280px">
             <a href="{{ route('notes') }}" class="p-4 rounded-r-full hover:bg-gray-200 {{ setActiveLink('notes') }}">
                 <svg class="icon icon-bulb mr-3" viewBox="0 0 32 32">
@@ -58,11 +58,9 @@
                     <path d="M4 17l17-17h-2.5c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l0.939-0.939-13-13z"></path>
                 </svg> Tag 2
             </a>
-            <a href="" class="p-4 rounded-r-full hover:bg-gray-200">
-                <svg class="icon icon-pencil2 mr-3" viewBox="0 0 32 32">
-                    <path d="M12 20l4-2 14-14-2-2-14 14-2 4zM9.041 27.097c-0.989-2.085-2.052-3.149-4.137-4.137l3.097-8.525 4-2.435 12-12h-6l-12 12-6 20 20-6 12-12v-6l-12 12-2.435 4z"></path>
-                </svg> Edit labels  <!--TODO: This button must show a dialog, where the user can edit tags-->
-            </a>
+
+            <edit-labels-component></edit-labels-component>
+
             <a href="{{ route('archive') }}" class="p-4 rounded-r-full hover:bg-gray-200 {{ setActiveLink('archive') }}">
                 <svg class="icon icon-box-add mr-3" viewBox="0 0 32 32">
                     <path d="M26 2h-20l-6 6v21c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-21l-6-6zM16 26l-10-8h6v-6h8v6h6l-10 8zM4.828 6l2-2h18.343l2 2h-22.343z"></path>
@@ -75,7 +73,7 @@
                 </svg> Trash
             </a>
         </nav>
-        <main class="flex-grow" id="app">
+        <main class="flex-grow">
             @section('content')
 
             @show
