@@ -90,6 +90,7 @@ export default {
         },
         save() {
             this.addLabel(this.newLabel);
+            this.hide();
         },
     }
 }
