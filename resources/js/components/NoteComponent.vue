@@ -104,9 +104,13 @@
                     </svg>
                 </a>
                 <span class="tooltiptext">More</span> <!--TODO: More button should show a dropdown-->
-                <div class="dropdown">
-                    <div class="dropdown-content">
-                        dropdown content
+                <div class="dropdown more-dropdown">
+                    <div class="dropdown-content p-0 rounded-md bg-clip-padding">
+                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Delete note</button>
+                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add label</button>
+                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add drawing</button>
+                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Make a copy</button>
+                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Show checkboxes</button>
                     </div>
                 </div>
             </div>
@@ -134,7 +138,7 @@ export default {
                 'purple', 'pink', 'brown', 'grey'
             ],
             color: this.$attrs.notecolor,
-            collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
+            collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com']
         };
     },
     methods: {
@@ -152,7 +156,7 @@ export default {
         },
         showCollaboratorsDialog() {
             this.isCollaboratorsDialogVisible = true;
-        }
+        },
     }
 }
 </script>
