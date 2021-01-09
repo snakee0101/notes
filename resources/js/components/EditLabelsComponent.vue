@@ -91,7 +91,7 @@ export default {
             alert('Cancel'); //TODO: clicking outside clears create new label field
         },
         save() {
-            alert('Add');  //TODO: Done button saves unsaved label in "create label" field
+            this.addLabel(this.newLabel);
         },
     }
 }
