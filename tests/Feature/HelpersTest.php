@@ -8,13 +8,19 @@ use Tests\TestCase;
 
 class HelpersTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    public function test_setActiveLink()
     {
         $this->get( route('notes') );
+        $this->assertEquals('active', setActiveLink('notes') );
+
+        $this->get( route('reminders') );
+        $this->assertEmpty( setActiveLink('notes') );
+    }
+
+    public function test_setActiveTagLink()
+    {
+        $this->get( route('tag', 'tag 1') );
+        $this->assertEquals('active', setActiveTagLink('tag 1') );
+        $this->assertEmpty( setActiveTagLink('tag 2') );
     }
 }
