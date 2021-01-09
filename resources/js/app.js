@@ -5,6 +5,7 @@ require('alpinejs');
 
 Vue.component('note-component', require('./components/NoteComponent.vue').default);
 Vue.component('collaborator-dialog-component', require('./components/CollaboratorDialogComponent.vue').default);
+Vue.component('edit-labels-component', require('./components/EditLabelsComponent.vue').default);
 
 new Vue({
     el: '#app'
