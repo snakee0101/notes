@@ -97,13 +97,18 @@
             </div>
 
             <div class="tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent>
+                <a href="" class="hover:bg-gray-300 p-2 rounded-full dropdown-opener" @click.prevent>
                     <svg class="icon icon-small icon-ellipsis-v" viewBox="0 0 6 28">
                         <path
                             d="M6 19.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 11.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 3.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5z"></path>
                     </svg>
                 </a>
                 <span class="tooltiptext">More</span> <!--TODO: More button should show a dropdown-->
+                <div class="dropdown">
+                    <div class="dropdown-content">
+                        dropdown content
+                    </div>
+                </div>
             </div>
 
         </div>
