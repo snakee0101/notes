@@ -78,6 +78,7 @@ export default {
         },
         hide(){
             this.isDialogVisible = false;
+            this.newLabel = '';
         },
         deleteLabel(label) {
             let index = this.labels.indexOf(label);
@@ -86,9 +87,6 @@ export default {
         addLabel(label) {
             this.labels.push(label);
             this.newLabel = '';
-        },
-        cancel() {
-            alert('Cancel'); //TODO: clicking outside clears create new label field
         },
         save() {
             this.addLabel(this.newLabel);
