@@ -59,7 +59,9 @@
                 </svg> Tag 2
             </a>
 
-            <edit-labels-component></edit-labels-component>
+            <edit-labels-component :labels="['label 1','label 2']">
+
+            </edit-labels-component>
 
             <a href="{{ route('archive') }}" class="p-4 rounded-r-full hover:bg-gray-200 {{ setActiveLink('archive') }}">
                 <svg class="icon icon-box-add mr-3" viewBox="0 0 32 32">

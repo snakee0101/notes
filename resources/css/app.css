@@ -137,8 +137,18 @@ nav a.active {
 }
 .add-collaborator-input:valid + .tooltip {
     display: inline;
+
+}
+.labels-content {
+    width: 600px;
 }
 
+.add-label-input:invalid + .tooltip {
+    display: none;
+}
+.add-label-input:valid + .tooltip {
+    display: inline;
+}
 
 .dropdown {
     position: relative;
