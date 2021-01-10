@@ -132,6 +132,8 @@ export default {
             this.editingLabel = '';
         },
         addLabel(label) {
+            if (label === '')
+                return false;
             this.labels.push(label);
             this.clearNewLabel();
             this.hideCancelButton();
