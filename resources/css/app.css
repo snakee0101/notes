@@ -10,7 +10,14 @@
     height: 1.5em;
     stroke-width: 0;
     stroke: currentColor;
+}
+
+.type-controls .icon {
     fill: #000;
+}
+
+.label-controls .icon {
+    fill: #707070!important;
 }
 
 .icon-lg {
