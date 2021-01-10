@@ -60,7 +60,7 @@
                                     </svg>
                                 </a>
                                 <a href="" class="pt-1 px-2 pb-2 rounded-full hover:bg-gray-200"
-                                   @click.prevent="renameLabel('label_' + key)"
+                                   @click.prevent="renameLabel('label_' + key, key)"
                                    v-else>
                                     <svg class="icon icon-xs icon-checkmark" viewBox="0 0 32 32">
                                         <path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
@@ -114,8 +114,9 @@ export default {
         isEditing(refName) {
             return this.editingLabel === refName;
         },
-        renameLabel(refName) {
-            alert('actually renames label');
+        renameLabel(refName, key) {
+            this.labels[key] = this.$refs[refName][0].value;
+            this.editingLabel = '';
         },
         addLabel(label) {
             this.labels.push(label);
