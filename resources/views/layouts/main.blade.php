@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-gray-100 h-screen antialiased leading-none font-sans flex flex-col">
+<body class="h-screen antialiased leading-none font-sans flex flex-col">
     <header class="flex flex-row justify-between mb-3 shadow-sm">
 
         <!--TODO: Make a top menu. There should be:-->
