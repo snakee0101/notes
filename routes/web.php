@@ -26,7 +26,7 @@ Route::get('/archive', function () {
 })->name('archive');
 
 Route::get('/trash', function () {
-    return view('archive');
+    return view('trash');
 })->name('trash');
 
 Route::get('/tag/{tag}', function ($tag) {

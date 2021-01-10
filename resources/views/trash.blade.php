@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-    <!--TODO: In a trash there should be the button to empty the trash-->
+    <empty-trash-component></empty-trash-component>
     <note-component></note-component>
 @endsection
