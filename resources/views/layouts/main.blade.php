@@ -137,8 +137,14 @@
                         </button>
                     </div>
                 </div>
-                <div class="color-controls">
-                    <p>color controls</p>
+                <div class="color-controls shadow-lg border border-gray-300 mb-4">
+                    <h2 class="font-bold p-2 pb-2">Colors</h2>
+                    <div class="p-4">
+                        <div class="tooltip2">
+                            <span class="tooltip2text">White</span>
+                            <a href="" class="p-4 px-6 color-circle border transition border-gray-400 d-inline-block rounded-full bg-google-green"></a>
+                        </div>
+                    </div>
                 </div>
             </div>
             @section('content')
