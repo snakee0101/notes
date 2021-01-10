@@ -7,6 +7,7 @@ Vue.component('note-component', require('./components/NoteComponent.vue').defaul
 Vue.component('collaborator-dialog-component', require('./components/CollaboratorDialogComponent.vue').default);
 Vue.component('edit-labels-component', require('./components/EditLabelsComponent.vue').default);
 Vue.component('empty-trash-component', require('./components/EmptyTrashComponent.vue').default);
+Vue.component('search-component', require('./components/SearchComponent.vue').default);
 
 new Vue({
     el: '#app'
