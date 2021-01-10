@@ -11,7 +11,9 @@
         <input type="text" class="flex-grow focus:outline-none mx-2 bg-gray-100" placeholder="Search"
                @focus="inFocus()"
                @blur="inBlur()">
-        <a href="" class="p-2 rounded-full hover:bg-gray-300">
+        <a href="" class="p-2 rounded-full hover:bg-gray-300"
+           v-if="isSearchControlsShown"
+           @click.prevent="clear()">
             <svg class="icon icon-small icon-close" viewBox="0 0 20 20">
                 <path d="M10 8.586l-7.071-7.071-1.414 1.414 7.071 7.071-7.071 7.071 1.414 1.414 7.071-7.071 7.071 7.071 1.414-1.414-7.071-7.071 7.071-7.071-1.414-1.414-7.071 7.071z"></path>
             </svg>
@@ -35,6 +37,10 @@ export default {
         },
         inBlur() {
             this.isSearchFieldActive = false;
+        },
+        clear() {
+            this.isSearchFieldActive = false;
+            this.isSearchControlsShown = false;
         }
     }
 }
