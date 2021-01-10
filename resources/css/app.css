@@ -13,6 +13,11 @@
     fill: #000;
 }
 
+.icon-lg {
+    width: 2em;
+    height: 2em;
+}
+
 .icon-small {
     width: 1.2em;
     height: 1.2em;
@@ -181,4 +186,12 @@ section.search.active input {
 
 section.search.active {
     @apply shadow-md;
+}
+
+.search-box-button {
+    width: 24%;
+}
+
+.search-box-button .icon {
+    fill: #fff;
 }
