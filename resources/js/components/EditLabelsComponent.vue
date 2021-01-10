@@ -40,21 +40,21 @@
                             </div>
                         </div>
 
-                        <div class="label flex flex-row mb-4 items-center" v-for="label in labels">
+                        <div class="label flex flex-row mb-4 items-center" v-for="(label, key) in labels">
                             <svg class="icon icon-xs icon-pricetag" viewBox="0 0 32 32">
                                 <path d="M30.5 0h-12c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l14.879-14.879c0.583-0.583 1.061-1.736 1.061-2.561v-12c0-0.825-0.675-1.5-1.5-1.5zM23 12c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"></path>
                             </svg>
 
-                            <input type="text" @focus="hideCancelButton()" :value="label" class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200">
+                            <input type="text" @focus="hideCancelButton()" :value="label" :ref="'label_' + key" class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200">
                             <!--TODO: data, entered in these fields, should be saved in intermediate variable-->
 
                             <div class="tooltip">
-                                <a href="" class="pt-1 px-2 pb-2 rounded-full hover:bg-gray-200" @click.prevent="deleteLabel(label)">
-                                    <svg class="icon icon-xs icon-close" viewBox="0 0 20 20">
-                                        <path d="M10 8.586l-7.071-7.071-1.414 1.414 7.071 7.071-7.071 7.071 1.414 1.414 7.071-7.071 7.071 7.071 1.414-1.414-7.071-7.071 7.071-7.071-1.414-1.414-7.071 7.071z"></path>
+                                <a href="" class="pt-1 px-2 pb-2 rounded-full hover:bg-gray-200" @click.prevent="renameLabel('label_' + key)">
+                                    <svg class="icon icon-xs icon-pencil" viewBox="0 0 32 32">
+                                        <path d="M27 0c2.761 0 5 2.239 5 5 0 1.126-0.372 2.164-1 3l-2 2-7-7 2-2c0.836-0.628 1.874-1 3-1zM2 23l-2 9 9-2 18.5-18.5-7-7-18.5 18.5zM22.362 11.362l-14 14-1.724-1.724 14-14 1.724 1.724z"></path>
                                     </svg>
                                 </a>
-                                <span class="tooltip3text">Delete</span>  <!--TODO: There should be confirmation dialog for deleting a label-->
+                                <span class="tooltip3text">Rename label</span>  <!--TODO: There should be confirmation dialog for deleting a label-->
                             </div>
                         </div>
                     </div>
@@ -93,6 +93,9 @@ export default {
         deleteLabel(label) {
             let index = this.labels.indexOf(label);
             this.labels.splice(index,1);
+        },
+        renameLabel(refName) {
+            this.$refs[refName][0].focus();
         },
         addLabel(label) {
             this.labels.push(label);
