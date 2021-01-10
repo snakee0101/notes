@@ -173,3 +173,12 @@ nav a.active {
 .dropdown-opener:focus ~ .dropdown .dropdown-content {
     display: block;
 }
+
+section.search.active,
+section.search.active input {
+    background: #fff;
+}
+
+section.search.active {
+    @apply shadow-md;
+}
