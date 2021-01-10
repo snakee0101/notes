@@ -41,7 +41,19 @@
                         </div>
 
                         <div class="label flex flex-row mb-4 items-center" v-for="(label, key) in labels">
-                            <svg class="icon icon-xs icon-pricetag" viewBox="0 0 32 32">
+                            <a href=""
+                               @click.prevent="deleteLabel(label)"
+                               @mouseout="hideDeleteButtonOn('label_' + key)"
+                               v-if="isEditing('label_' + key) || isDeleteButtonVisible('label_' + key)">
+                                <svg class="icon icon-xs icon-bin" viewBox="0 0 32 32">
+                                    <path d="M4 10v20c0 1.1 0.9 2 2 2h18c1.1 0 2-0.9 2-2v-20h-22zM10 28h-2v-14h2v14zM14 28h-2v-14h2v14zM18 28h-2v-14h2v14zM22 28h-2v-14h2v14z"></path>
+                                    <path d="M26.5 4h-6.5v-2.5c0-0.825-0.675-1.5-1.5-1.5h-7c-0.825 0-1.5 0.675-1.5 1.5v2.5h-6.5c-0.825 0-1.5 0.675-1.5 1.5v2.5h26v-2.5c0-0.825-0.675-1.5-1.5-1.5zM18 4h-6v-1.975h6v1.975z"></path>
+                                </svg>
+                            </a>
+
+                            <svg class="icon icon-xs icon-pricetag" viewBox="0 0 32 32"
+                                 @mouseover="showDeleteButtonOn('label_' + key)"
+                                 v-else>
                                 <path d="M30.5 0h-12c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l14.879-14.879c0.583-0.583 1.061-1.736 1.061-2.561v-12c0-0.825-0.675-1.5-1.5-1.5zM23 12c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"></path>
                             </svg>
 
@@ -49,7 +61,6 @@
                                    @focus="setFocusedState('label_' + key)"
                                    :value="label" :ref="'label_' + key"
                                    class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200">
-                            <!--TODO: data, entered in these fields, should be saved in intermediate variable-->
 
                             <div class="tooltip">
                                 <a href="" class="pt-1 px-2 pb-2 rounded-full hover:bg-gray-200"
@@ -92,7 +103,8 @@ export default {
             labels: this.$attrs.labels,
             isDialogVisible: false,
             isCancelButtonVisible: false,
-            editingLabel: ''
+            editingLabel: '',
+            deleteButtonOn: ''
         };
     },
     methods: {
@@ -106,6 +118,7 @@ export default {
         deleteLabel(label) {
             let index = this.labels.indexOf(label);
             this.labels.splice(index,1);
+            //TODO: Show confirmation dialog before deletion
         },
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
@@ -143,6 +156,16 @@ export default {
         },
         clearNewLabel() {
             this.newLabel = ''
+        },
+        showDeleteButtonOn(refName) {
+            this.deleteButtonOn = refName;
+        },
+        hideDeleteButtonOn(refName) {
+            if (this.deleteButtonOn === refName)
+                this.deleteButtonOn = '';
+        },
+        isDeleteButtonVisible(refName) {
+            return this.deleteButtonOn === refName;
         }
     }
 }
