@@ -27,7 +27,21 @@
             note's content
             note's content
         </div>
-        <div class="toolbar">
+
+        <div class="toolbar flex justify-between" v-if="trashed">
+            <button
+                @click=""
+                class="text-white bg-green-500 border border-green-600 text-sm font-medium px-2 py-2 mr-2 hover:bg-green-700 focus:bg-green-900 focus:outline-none rounded-sm">
+                Restore
+            </button>
+            <button
+                @click=""
+                class="text-white bg-red-500 border border-red-800 text-sm font-medium px-2 py-2 hover:bg-red-700 focus:bg-red-900 focus:outline-none  rounded-sm">
+                Delete Forever
+            </button>
+        </div>
+
+        <div class="toolbar" v-else>
             <div class="tooltip">
                 <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent>
                     <svg class="icon icon-small icon-bell" viewBox="0 0 32 32">

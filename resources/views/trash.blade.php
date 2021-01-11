@@ -3,7 +3,7 @@
 @section('content')
     <empty-trash-component></empty-trash-component>
     <div class="notes-container">
-        <note-component noteColor="orange" :isTrashed="true">
+        <note-component noteColor="white" :isTrashed="true">
 
         </note-component>
     </div>
