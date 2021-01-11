@@ -13,7 +13,8 @@
         <input type="text" class="flex-grow focus:outline-none mx-2 bg-gray-100" placeholder="Search"
                @focus="inFocus()"
                @blur="inBlur()"
-               @keypress.enter="search()">
+               @keypress.enter="search()"
+               @input="delayedSearch()">
         <div class="tooltip">
             <a href="" class="p-2 rounded-full hover:bg-gray-300"
                v-if="isSearchControlsShown"
@@ -30,9 +31,6 @@
 
 <script>
 import eventBus from "../eventBus";
-
-//TODO: When the search is started:
-//While entering text
 
 export default {
     name: "SearchComponent",
@@ -60,6 +58,10 @@ export default {
         },
         search() {
             alert('starting search');
+        },
+        delayedSearch() {
+            clearTimeout(window.searchTimeoutId);
+            window.searchTimeoutId = setTimeout(this.search, 500);
         }
     }
 }
