@@ -204,11 +204,13 @@ section.search.active {
 }
 
 .search-controls.active,
-.search-controls + .notes-container {
+.search-controls ~ .empty-trash,
+.search-controls ~ .notes-container {
     display: block;
 }
 
 .search-controls,
-.search-controls.active + .notes-container {
+.search-controls.active ~ .empty-trash,
+.search-controls.active ~ .notes-container {
     display: none;
 }
