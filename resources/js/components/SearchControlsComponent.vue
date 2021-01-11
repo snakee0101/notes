@@ -52,10 +52,14 @@
         </div>
         <div class="color-controls shadow-lg border border-gray-300 mb-4">
             <h2 class="font-bold p-2 pb-2">Colors</h2>
-            <div class="p-4">
-                <div class="tooltip2">
-                    <span class="tooltip2text">White</span>
-                    <a href="" class="p-4 px-6 color-circle border transition border-gray-400 d-inline-block rounded-full bg-google-green"></a>
+            <div class="p-4 flex flex-row flex-wrap">
+                <div class="tooltip2 mx-2" v-for="color in colors">
+                    <span class="tooltip2text">{{ color }}</span>
+                    <a href=""
+                       class="p-4 px-6 color-circle border transition border-gray-400 d-inline-block rounded-full"
+                       :class="'bg-google-' + color"
+                       @click.prevent></a>
+                    <!--TODO: Problems with color circles positioning-->
                 </div>
             </div>
         </div>
@@ -67,6 +71,15 @@ import eventBus from "../eventBus";
 
 export default {
     name: "SearchControlsComponent.vue",
+    data: function(){
+        return {
+            colors: [
+                'white', 'red', 'orange', 'yellow',
+                'green', 'teal', 'blue', 'dark-blue',
+                'purple', 'pink', 'brown', 'grey'
+            ],
+        };
+    },
     created() {
         eventBus.$on('searchActivated', function () {
             let controls = document.getElementsByClassName('search-controls')[0];
