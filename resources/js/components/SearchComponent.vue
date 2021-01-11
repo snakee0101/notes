@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import eventBus from "../eventBus";
+
 export default {
     name: "SearchComponent",
     data: function () {
@@ -34,6 +36,8 @@ export default {
         inFocus() {
             this.isSearchFieldActive = true;
             this.isSearchControlsShown = true;
+
+            eventBus.$emit('searchActivated');
         },
         inBlur() {
             this.isSearchFieldActive = false;
@@ -41,6 +45,8 @@ export default {
         clear() {
             this.isSearchFieldActive = false;
             this.isSearchControlsShown = false;
+
+            eventBus.$emit('searchCleared');
         }
     }
 }

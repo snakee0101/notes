@@ -63,8 +63,21 @@
 </template>
 
 <script>
+import eventBus from "../eventBus";
+
 export default {
-name: "SearchControlsComponent.vue"
+    name: "SearchControlsComponent.vue",
+    created() {
+        eventBus.$on('searchActivated', function () {
+            let controls = document.getElementsByClassName('search-controls')[0];
+            controls.classList.add('active');
+        });
+
+        eventBus.$on('searchCleared', function () {
+            let controls = document.getElementsByClassName('search-controls')[0];
+            controls.classList.remove('active');
+        });
+    }
 }
 </script>
 
