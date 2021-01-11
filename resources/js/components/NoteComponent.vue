@@ -2,7 +2,7 @@
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors"
          :class="'bg-google-' + this.color">
-        <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()">
+        <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()" v-if="!trashed">
             <div class="tooltip" v-if="pinned">
                 <svg class="icon icon-small icon-pushpin" viewBox="0 0 32 32">
                     <path
@@ -30,12 +30,12 @@
 
         <div class="toolbar flex justify-between" v-if="trashed">
             <button
-                @click=""
+                @click="restore()"
                 class="text-white bg-green-500 border border-green-600 text-sm font-medium px-2 py-2 mr-2 hover:bg-green-700 focus:bg-green-900 focus:outline-none rounded-sm">
                 Restore
             </button>
             <button
-                @click=""
+                @click="delete_forever()"
                 class="text-white bg-red-500 border border-red-800 text-sm font-medium px-2 py-2 hover:bg-red-700 focus:bg-red-900 focus:outline-none  rounded-sm">
                 Delete Forever
             </button>
@@ -172,6 +172,12 @@ export default {
         showCollaboratorsDialog() {
             this.isCollaboratorsDialogVisible = true;
         },
+        restore() {
+            alert('note is restored');
+        },
+        delete_forever() {
+            alert('note is deleted permanently');
+        }
     }
 }
 </script>
