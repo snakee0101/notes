@@ -12,7 +12,8 @@
         </div>
         <input type="text" class="flex-grow focus:outline-none mx-2 bg-gray-100" placeholder="Search"
                @focus="inFocus()"
-               @blur="inBlur()">
+               @blur="inBlur()"
+               @keypress.enter="search()">
         <div class="tooltip">
             <a href="" class="p-2 rounded-full hover:bg-gray-300"
                v-if="isSearchControlsShown"
@@ -31,8 +32,6 @@
 import eventBus from "../eventBus";
 
 //TODO: When the search is started:
-//when the search button is clicked
-//When the Enter is pressed
 //While entering text
 
 export default {
