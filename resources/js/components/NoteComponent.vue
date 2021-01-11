@@ -138,7 +138,8 @@ export default {
                 'purple', 'pink', 'brown', 'grey'
             ],
             color: this.$attrs.notecolor,
-            collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com']
+            collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
+            trashed: this.$attrs.istrashed
         };
     },
     methods: {
