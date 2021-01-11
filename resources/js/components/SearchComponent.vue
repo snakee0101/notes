@@ -63,7 +63,8 @@ export default {
             eventBus.$emit('searchCleared');
         },
         search() {
-            alert('starting search');
+            if(this.searchText !== '')
+                alert('starting search');
         },
         delayedSearch() {
             clearTimeout(window.searchTimeoutId);
