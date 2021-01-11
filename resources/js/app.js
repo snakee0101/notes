@@ -3,6 +3,8 @@ import Vue from 'vue';
 require('./bootstrap');
 require('alpinejs');
 
+window.events = new Vue();
+
 Vue.component('note-component', require('./components/NoteComponent.vue').default);
 Vue.component('collaborator-dialog-component', require('./components/CollaboratorDialogComponent.vue').default);
 Vue.component('edit-labels-component', require('./components/EditLabelsComponent.vue').default);
