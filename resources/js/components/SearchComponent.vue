@@ -14,7 +14,8 @@
                @focus="inFocus()"
                @blur="inBlur()"
                @keypress.enter="search()"
-               @input="delayedSearch()">
+               @input="delayedSearch()"
+               v-model="searchText">
         <div class="tooltip">
             <a href="" class="p-2 rounded-full hover:bg-gray-300"
                v-if="isSearchControlsShown"
@@ -37,7 +38,8 @@ export default {
     data: function () {
         return {
             isSearchFieldActive: false,
-            isSearchControlsShown: false
+            isSearchControlsShown: false,
+            searchText: ''
         };
     },
     methods: {
@@ -50,10 +52,14 @@ export default {
         inBlur() {
             this.isSearchFieldActive = false;
         },
+        clearSearchText() {
+            this.searchText = '';
+        },
         clear() {
             this.isSearchFieldActive = false;
             this.isSearchControlsShown = false;
 
+            this.clearSearchText();
             eventBus.$emit('searchCleared');
         },
         search() {
