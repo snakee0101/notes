@@ -11,6 +11,7 @@ Vue.component('edit-labels-component', require('./components/EditLabelsComponent
 Vue.component('empty-trash-component', require('./components/EmptyTrashComponent.vue').default);
 Vue.component('search-component', require('./components/SearchComponent.vue').default);
 Vue.component('search-controls-component', require('./components/SearchControlsComponent.vue').default);
+Vue.component('menu-switcher-component', require('./components/MenuSwitcherComponent.vue').default);
 
 new Vue({
     el: '#app'
