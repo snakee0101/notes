@@ -12,6 +12,7 @@ Vue.component('empty-trash-component', require('./components/EmptyTrashComponent
 Vue.component('search-component', require('./components/SearchComponent.vue').default);
 Vue.component('search-controls-component', require('./components/SearchControlsComponent.vue').default);
 Vue.component('menu-switcher-component', require('./components/MenuSwitcherComponent.vue').default);
+Vue.component('menu-component', require('./components/MenuComponent.vue').default);
 
 new Vue({
     el: '#app'
