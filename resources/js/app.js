@@ -13,6 +13,7 @@ Vue.component('search-component', require('./components/SearchComponent.vue').de
 Vue.component('search-controls-component', require('./components/SearchControlsComponent.vue').default);
 Vue.component('menu-switcher-component', require('./components/MenuSwitcherComponent.vue').default);
 Vue.component('menu-component', require('./components/MenuComponent.vue').default);
+Vue.component('notification-component', require('./components/NotificationComponent.vue').default);
 
 new Vue({
     el: '#app'
