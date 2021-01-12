@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex flex-col" style="width: 280px">
+    <nav class="flex flex-col" style="width: 280px" :class="setCollapsedState()">
         <a href="/" class="p-4 rounded-r-full hover:bg-gray-200" :class="setActiveLink('notes')">
             <svg class="icon icon-bulb mr-3" viewBox="0 0 32 32">
                 <path
@@ -80,6 +80,9 @@ export default {
         },
         setActiveTagLink(tag) {
             return (this.$attrs.tag_link === tag) ? 'active' : '';
+        },
+        setCollapsedState() {
+            return (window.localStorage.getItem('menu-collapsed') == 'true') ? 'collapsed' : '';
         }
     }
 }
