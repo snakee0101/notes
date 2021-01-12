@@ -47,6 +47,8 @@
             @show
         </main>
     </div>
+
+    <notification-component></notification-component>
 </div>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

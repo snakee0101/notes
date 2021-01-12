@@ -239,3 +239,7 @@ section.search.active {
 .search-controls.active ~ .notes-container {
     display: none;
 }
+
+.notification {
+    width: 460px;
+}
