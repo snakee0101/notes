@@ -62,10 +62,16 @@ export default {
     created() {
         window.events.$on('menu-collapsed', function () {
             localStorage.setItem('menu-collapsed', true);
+
+            let navigation = document.getElementsByTagName('nav')[0];
+            navigation.classList.add('collapsed');
         });
 
         window.events.$on('menu-expanded', function () {
             localStorage.setItem('menu-collapsed', false);
+
+            let navigation = document.getElementsByTagName('nav')[0];
+            navigation.classList.remove('collapsed');
         });
     },
     methods: {
