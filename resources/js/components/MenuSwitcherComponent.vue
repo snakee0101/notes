@@ -16,17 +16,19 @@ export default {
     name: "MenuSwitcher",
     data() {
         return {
-            menuCollapsed: false
+            menuCollapsed: localStorage.getItem('menu-collapsed')
         };
     },
     methods: {
         toggle() {
-            this.menuCollapsed = !this.menuCollapsed;
-
-            if(this.menuCollapsed)
-                window.events.$emit('menu-collapsed')
-            else
+            if(this.menuCollapsed === 'true') {
+                this.menuCollapsed = 'false';
                 window.events.$emit('menu-expanded');
+            }
+            else {
+                this.menuCollapsed = 'true';
+                window.events.$emit('menu-collapsed');
+            }
         }
     }
 }
