@@ -6,7 +6,7 @@
                 <path d="M2 6h28v6h-28zM2 14h28v6h-28zM2 22h28v6h-28z"></path>
             </svg>
         </a>
-        <img src="keep.png" alt="">
+        <img src="/keep.png" alt="">
         <span class="text-xl">Keep</span>
     </section>
 </template>
