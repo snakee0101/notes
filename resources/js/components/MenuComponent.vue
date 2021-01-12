@@ -1,5 +1,7 @@
 <template>
-    <nav class="flex flex-col" :class="setCollapsedState()">
+    <nav class="flex flex-col" :class="setCollapsedState()" ref="menu"
+         @mouseover="temporaryExpand()"
+         @mouseout="temporaryCollapse()">
         <a href="/" class="p-4 rounded-r-full hover:bg-gray-200" :class="setActiveLink('notes')">
             <svg class="icon icon-bulb mr-3" viewBox="0 0 32 32">
                 <path
@@ -75,6 +77,9 @@ export default {
         });
     },
     methods: {
+        isMenuCollapsed() {
+            return window.localStorage.getItem('menu-collapsed') === 'true';
+        },
         setActiveLink(route) {
             return (this.$attrs.current_route === route) ? 'active' : '';
         },
@@ -82,7 +87,15 @@ export default {
             return (this.$attrs.tag_link === tag) ? 'active' : '';
         },
         setCollapsedState() {
-            return (window.localStorage.getItem('menu-collapsed') == 'true') ? 'collapsed' : '';
+            return this.isMenuCollapsed() ? 'collapsed' : '';
+        },
+        temporaryExpand() {
+            if(this.isMenuCollapsed())
+                this.$refs.menu.classList.remove('collapsed');
+        },
+        temporaryCollapse() {
+            if(this.isMenuCollapsed())
+                this.$refs.menu.classList.add('collapsed');
         }
     }
 }
