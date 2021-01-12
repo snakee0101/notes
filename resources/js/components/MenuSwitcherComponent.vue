@@ -14,9 +14,14 @@
 <script>
 export default {
     name: "MenuSwitcher",
+    data() {
+        return {
+            menuCollapsed: false
+        };
+    },
     methods: {
         toggle() {
-            alert('switching menu');
+            this.menuCollapsed = !this.menuCollapsed;
         }
     }
 }
