@@ -61,11 +61,11 @@ export default {
     name: "MenuComponent",
     created() {
         window.events.$on('menu-collapsed', function () {
-            alert('collapsed');
+            localStorage.setItem('menu-collapsed', true);
         });
 
         window.events.$on('menu-expanded', function () {
-            alert('expanded');
+            localStorage.setItem('menu-collapsed', false);
         });
     },
     methods: {
