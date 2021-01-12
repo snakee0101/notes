@@ -22,6 +22,11 @@ export default {
     methods: {
         toggle() {
             this.menuCollapsed = !this.menuCollapsed;
+
+            if(this.menuCollapsed)
+                window.events.$emit('menu-collapsed')
+            else
+                window.events.$emit('menu-expanded');
         }
     }
 }
