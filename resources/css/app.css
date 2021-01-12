@@ -40,6 +40,7 @@ nav {
 }
 
 nav.collapsed {
+    @apply fixed z-10;
     width: auto!important;
 }
 
@@ -53,6 +54,10 @@ nav.collapsed a {
 
 nav.collapsed svg {
     @apply m-0;
+}
+
+nav.collapsed-in-session + main .notes-container {
+    @apply ml-8;
 }
 
 nav a.active {

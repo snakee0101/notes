@@ -1,6 +1,6 @@
 <template>  <!--TODO: There should be the animation when the dialog appears and disappears-->
     <div @mousedown.self="hide()"
-         class="collaborators-dialog fixed top-0 left-0 right-0
+         class="collaborators-dialog z-20 fixed top-0 left-0 right-0
              bottom-0 flex items-center bg-gray-800 bg-opacity-75">
         <div class="collaborators-content m-auto">
             <div class="bg-white p-4 rounded-t-lg">
