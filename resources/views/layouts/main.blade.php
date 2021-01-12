@@ -35,7 +35,8 @@
         </section>
     </header>
     <div class="flex flex-row justify-between">
-        <menu-component current_route="{{ Route::currentRouteName() }}">
+        <menu-component current_route="{{ Route::currentRouteName() }}"
+                        tag_link="{{ getActiveTag() }}">
 
         </menu-component>
 
