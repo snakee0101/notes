@@ -35,6 +35,26 @@
     height: 0.8em;
 }
 
+nav {
+    width: 280px!important;
+}
+
+nav.collapsed {
+    width: auto!important;
+}
+
+nav.collapsed a span {
+    display: none;
+}
+
+nav.collapsed a {
+    @apply rounded-full ml-1;
+}
+
+nav.collapsed svg {
+    @apply m-0;
+}
+
 nav a.active {
     @apply bg-yellow-100;
 }
