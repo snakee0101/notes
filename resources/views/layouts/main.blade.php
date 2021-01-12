@@ -35,7 +35,9 @@
         </section>
     </header>
     <div class="flex flex-row justify-between">
-        <menu-component></menu-component>
+        <menu-component current_route="{{ Route::currentRouteName() }}">
+
+        </menu-component>
 
         <main class="flex-grow p-10">
             <search-controls-component></search-controls-component>
