@@ -243,3 +243,8 @@ section.search.active {
 .notification {
     width: 460px;
 }
+
+.note-header-input,
+.note-content-input {
+    width: 94%!important;
+}

@@ -2,7 +2,13 @@
 
 @section('content')
     <!--TODO: There should be 2 sections of the notes: PINNED and OTHERS-->
-    <!--TODO: At the top there must be an editor for creating a note-->
+
+    <div class="mb-10">
+        <note-component noteColor="white" :newNote="true" class="m-auto">
+
+        </note-component>
+    </div>
+
     <div class="notes-container">
         <note-component noteColor="orange">
 

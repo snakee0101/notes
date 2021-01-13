@@ -1,7 +1,8 @@
 <template> <!--TODO: There must be UNDO and REDO buttons while editing the note-->
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors"
-         :class="'bg-google-' + this.color">
+         :class="'bg-google-' + this.color"
+         :style="newNote ? 'width: 600px' : ''">
         <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()" v-if="!trashed">
             <div class="tooltip" v-if="pinned">
                 <svg class="icon icon-small icon-pushpin" viewBox="0 0 32 32">
@@ -21,12 +22,31 @@
             </div>
         </a>
 
-        <h3 class="font-bold">Note's header</h3>
-        <div class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px">
+
+        <div v-if="newNote">
+            <textarea name="note_header" placeholder="Title"
+                      class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold"
+                      @input="setInputHeight('note-header-input')">
+
+            </textarea>
+        </div>
+        <h3 class="font-bold" v-else>Note's header</h3>
+
+
+        <div v-if="newNote">
+            <textarea name="note_content"
+                      placeholder="Take a note..."
+                      class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none"
+                      @input="setInputHeight('note-content-input')">
+
+            </textarea>
+        </div>
+        <div class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px" v-else>
             note's content
             note's content
             note's content
         </div>
+
 
         <div class="toolbar flex justify-between" v-if="trashed">
             <button
@@ -153,7 +173,8 @@ export default {
             ],
             color: this.$attrs.notecolor,
             collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
-            trashed: this.$attrs.istrashed
+            trashed: this.$attrs.istrashed,
+            newNote: this.$attrs.newnote
         };
     },
     methods: {
@@ -177,6 +198,12 @@ export default {
         },
         delete_forever() {
             alert('note is deleted permanently');
+        },
+        setInputHeight(itemClass) {
+            let element = document.getElementsByClassName(itemClass)[0];
+
+            element.style.height = "auto";
+            element.style.height = (element.scrollHeight) + "px";
         }
     }
 }
