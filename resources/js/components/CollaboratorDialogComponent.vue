@@ -25,7 +25,7 @@
                             <p class="text-sm font-bold">{{ email }}</p>
                         </div>
                         <div class="tooltip">
-                            <a href="" class="pt-1 px-2 pb-2 rounded-full hover:bg-gray-200" @click.prevent="deleteCollaborator(email)">
+                            <a href="" class="delete-collaborator pt-1 px-2 pb-2 rounded-full hover:bg-gray-200" @click.prevent="deleteCollaborator(email)">
                                 <svg class="icon icon-xs icon-close" viewBox="0 0 20 20">
                                     <path d="M10 8.586l-7.071-7.071-1.414 1.414 7.071 7.071-7.071 7.071 1.414 1.414 7.071-7.071 7.071 7.071 1.414-1.414-7.071-7.071 7.071-7.071-1.414-1.414-7.071 7.071z"></path>
                                 </svg>
