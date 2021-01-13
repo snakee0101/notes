@@ -28,7 +28,8 @@
         <div v-if="newNote">
             <textarea name="note_header" placeholder="Title"
                       class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
-                      @input="setInputHeight('note-header-input')">
+                      @input="setInputHeight('note-header-input')"
+                      v-model="header">
 
             </textarea>
         </div>
@@ -39,7 +40,8 @@
             <textarea name="note_content"
                       placeholder="Take a note..."
                       class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
-                      @input="setInputHeight('note-content-input')">
+                      @input="setInputHeight('note-content-input')"
+                      v-model="text">
 
             </textarea>
         </div>
@@ -176,7 +178,9 @@ export default {
             color: this.$attrs.notecolor,
             collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
             trashed: this.$attrs.istrashed,
-            newNote: this.$attrs.newnote
+            newNote: this.$attrs.newnote,
+            header: '',
+            text: ''
         };
     },
     created() {
@@ -187,11 +191,16 @@ export default {
 
           //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
           if( !(clicked_exactly_on_container || clicked_in_the_container) )
-              console.log(event);
+              window.events.$emit('save_new_note');
 
-      })
+      });
+
+      window.events.$on('save_new_note', this.saveNewNote);
     },
     methods: {
+        saveNewNote() {
+            console.log(this.$data);
+        },
         pin() {
             this.pinned = !this.pinned;
         },
