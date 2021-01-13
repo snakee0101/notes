@@ -15,6 +15,12 @@ class CreateNotesTable extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
+            $table->string('header');
+            $table->text('body');
+            $table->boolean('pinned');
+            $table->boolean('archived');
+            $table->string('color');
+            $table->enum('type', ['text', 'list']);
             $table->timestamps();
         });
     }
