@@ -185,17 +185,19 @@ export default {
     },
     created() {
         //Save the note when clicked outside
-      window.addEventListener("click", function(event) {
-          let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
-          let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
+       if(this.newNote === true) {
+           window.addEventListener("click", function(event) {
+               let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
+               let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
 
-          //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
-          if( !(clicked_exactly_on_container || clicked_in_the_container) )
-              window.events.$emit('save_new_note');
+               //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
+               if( !(clicked_exactly_on_container || clicked_in_the_container) )
+                   window.events.$emit('save_new_note');
 
-      });
+           });
 
-      window.events.$on('save_new_note', this.saveNewNote);
+           window.events.$on('save_new_note', this.saveNewNote);
+       }
     },
     methods: {
         saveNewNote() {
