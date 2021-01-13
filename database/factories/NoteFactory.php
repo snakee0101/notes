@@ -22,7 +22,12 @@ class NoteFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'header' => $this->faker->sentence,
+            'body' => $this->faker->sentence,
+            'pinned' => false,
+            'archived' => false,
+            'color' => 'blue',  //TODO: color should be set as the relationship
+            'type' => 'text'
         ];
     }
 }
