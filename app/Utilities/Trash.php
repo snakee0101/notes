@@ -9,7 +9,14 @@ class Trash
     public static function removeExpired() {
          Note::onlyTrashed()->whereDate('deleted_at', '<', now()->subWeek())
              ->get()
-             ->each   //each - because it should delete collaborators, images, reminders and other dependencies - with the MODEL EVENTS
+             ->each   //each - because it should delete collaborators, IMAGES (and its FILES), reminders and other dependencies - with the MODEL EVENTS
              ->forceDelete();
+    }
+
+    public static function empty() {
+        Note::onlyTrashed()
+            ->get()
+            ->each   //each - because it should delete collaborators, IMAGES (and its FILES), reminders and other dependencies - with the MODEL EVENTS
+            ->forceDelete();
     }
 }

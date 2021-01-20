@@ -23,4 +23,12 @@ class TrashTest extends TestCase
         Trash::removeExpired();
         $this->assertCount(1, Note::onlyTrashed()->get());
     }
+
+    public function test_empty() {
+        Note::factory()->count(5)->create()->each->delete();
+        $this->assertCount(5, Note::onlyTrashed()->get());
+
+        Trash::empty();
+        $this->assertEmpty( Note::onlyTrashed()->get() );
+    }
 }
