@@ -194,7 +194,8 @@ export default {
             this.isCollaboratorsDialogVisible = true;
         },
         restore() {
-            alert('note is restored');
+            axios.post('note/restore/' + this.note.id); //TODO: there should be notification after the note is restored
+            //TODO: a note should vanish after it is restored
         },
         delete_forever() {
             alert('note is deleted permanently');
