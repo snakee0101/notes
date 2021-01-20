@@ -197,9 +197,12 @@ export default {
         },
         restore() {
             axios.post('note/restore/' + this.note.id);
-            //TODO: there should be notification after the note is restored
-            //TODO: notification can undo the deletion
             this.shown = false;  //TODO: There should be animation while hiding a note
+
+            window.events.$emit('show-notification', 'Note restored', this.deleteNote);
+        },
+        deleteNote(){
+            alert('the note is deleted');
         },
         delete_forever() {
             alert('note is deleted permanently');
