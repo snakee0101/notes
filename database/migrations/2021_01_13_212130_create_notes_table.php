@@ -23,6 +23,7 @@ class CreateNotesTable extends Migration
             $table->string('color');
             $table->enum('type', ['text', 'list']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
