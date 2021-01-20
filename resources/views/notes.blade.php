@@ -4,9 +4,9 @@
     <!--TODO: There should be 2 sections of the notes: PINNED and OTHERS-->
     <div class="notes-container">
         <div class="mb-10">
-            <note-component :newNote="true" class="m-auto new-note">
+            <new-note-component>
 
-            </note-component>
+            </new-note-component>
         </div>
 
         @foreach($notes as $note)

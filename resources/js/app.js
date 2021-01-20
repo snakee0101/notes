@@ -6,6 +6,7 @@ require('alpinejs');
 window.events = new Vue();
 
 Vue.component('note-component', require('./components/NoteComponent.vue').default);
+Vue.component('new-note-component', require('./components/NewNoteComponent.vue').default);
 Vue.component('collaborator-dialog-component', require('./components/CollaboratorDialogComponent.vue').default);
 Vue.component('edit-labels-component', require('./components/EditLabelsComponent.vue').default);
 Vue.component('empty-trash-component', require('./components/EmptyTrashComponent.vue').default);
