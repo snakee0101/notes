@@ -1,10 +1,9 @@
 <template> <!--TODO: There must be UNDO and REDO buttons while editing the note-->
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors"
-         :class="'bg-google-' + note.color"
-         :style="newNote ? 'width: 600px' : ''">
+         :class="'bg-google-' + note.color">
         <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()" v-if="!trashed">
-            <div class="tooltip" v-if="pinned">
+            <div class="tooltip" v-if="note.pinned">
                 <svg class="icon icon-small icon-cancel-circle" viewBox="0 0 32 32">
                     <path
                         d="M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13z"></path>
@@ -25,7 +24,7 @@
         </a>
 
 
-        <div v-if="newNote">
+        <div v-if="editing">
             <textarea name="note_header" placeholder="Title"
                       class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
                       @input="setInputHeight('note-header-input')"
@@ -36,7 +35,7 @@
         <h3 class="font-bold" v-else>{{ note.header }}</h3>
 
 
-        <div v-if="newNote">
+        <div v-if="editing">
             <textarea name="note_content"
                       placeholder="Take a note..."
                       class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
@@ -166,7 +165,7 @@ export default {
     name: "NoteComponent",
     data() {
         return {
-            pinned: false,
+            editing: false,
             isCollaboratorsDialogVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
@@ -175,32 +174,12 @@ export default {
             ],
             collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
             trashed: this.$attrs.istrashed,
-            newNote: this.$attrs.newnote,
-            note: JSON.parse(this.$attrs.note)  //TODO: header, text, and other params are there
+            note: JSON.parse(this.$attrs.note)
         };
     },
-    created() {
-        //Save the note when clicked outside
-       if(this.newNote === true) {
-           window.addEventListener("click", function(event) {
-               let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
-               let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
-
-               //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
-               if( !(clicked_exactly_on_container || clicked_in_the_container) )
-                   window.events.$emit('save_new_note');
-
-           });
-
-           window.events.$on('save_new_note', this.saveNewNote);
-       }
-    },
     methods: {
-        saveNewNote() {
-            console.log(this.$data);
-        },
         pin() {
-            this.pinned = !this.pinned;
+            this.note.pinned = !this.note.pinned;
         },
         isActive(color) {
             return (this.note.color === color) ? 'active' : '';
