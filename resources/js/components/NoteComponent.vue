@@ -208,7 +208,8 @@ export default {
             window.events.$emit('show-notification', 'Action undone');
         },
         delete_forever() {
-            alert('note is deleted permanently');
+            this.shown = false;
+            axios.delete('note/' + this.note.id);  //TODO: There should be confirmation when deleting the note forever
         },
         setInputHeight(itemClass) {
             let element = document.getElementsByClassName(itemClass)[0];
