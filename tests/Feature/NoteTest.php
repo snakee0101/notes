@@ -12,10 +12,8 @@ class NoteTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var array
-     */
     private $userData;
+    private $changes;
 
     protected function setUp(): void
     {
@@ -28,6 +26,15 @@ class NoteTest extends TestCase
             'archived' => false,
             'color' => 'blue',
             'type' => 'text'
+        ];
+
+        $this->changes = [
+            'header' => 'new header',
+            'body' => 'new body',
+            'pinned' => true,
+            'archived' => true,
+            'color' => 'red',
+            'type' => 'list'
         ];
     }
 
@@ -46,4 +53,18 @@ class NoteTest extends TestCase
         $this->assertEquals($this->userData['color'], $note->color);
         $this->assertEquals($this->userData['type'], $note->type);
     }
+
+     public function test_a_note_could_be_updated() {
+        $note = Note::factory()->create();
+        $this->put(route('note.update', $note), $this->changes);
+
+        $note->refresh();
+
+        $this->assertEquals($this->changes['header'], $note->header);
+        $this->assertEquals($this->changes['body'], $note->body);
+        $this->assertEquals($this->changes['pinned'], $note->pinned);
+        $this->assertEquals($this->changes['archived'], $note->archived);
+        $this->assertEquals($this->changes['color'], $note->color);
+        $this->assertEquals($this->changes['type'], $note->type);
+     }
 }

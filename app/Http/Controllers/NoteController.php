@@ -33,10 +33,10 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $r)
+    public function store(Request $request)
     {
         Note::create(
-            $r->only(['header', 'body', 'pinned', 'archived', 'color', 'type'])
+            $request->only(['header', 'body', 'pinned', 'archived', 'color', 'type'])
         );
     }
 
@@ -71,7 +71,9 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        //
+        $note->update(
+            $request->only(['header', 'body', 'pinned', 'archived', 'color', 'type'])
+        );
     }
 
     /**
