@@ -47,7 +47,9 @@ export default {
         },
         emptyTrash() {
             this.hideConfirmation();
-            alert('empty trash');
+            axios.delete('/trash/empty').then(
+                res => location.reload()
+            );
         }
     }
 }
