@@ -40,7 +40,7 @@ class NoteTest extends TestCase
 
     public function test_a_note_could_be_created()
     {
-        $user = User::factory()->make();
+        $user = User::factory()->create();
         auth()->login($user);
 
         $response = $this->post(route('note.store'), $this->userData);
@@ -77,4 +77,17 @@ class NoteTest extends TestCase
         $this->delete( route('note.destroy',$note->fresh()->id) );
         $this->assertEmpty( Note::withTrashed()->get() );
      }
+
+    public function test_a_note_could_be_restored() {
+        $note = Note::factory()->for(User::factory(), 'owner')->create();
+
+        $note->delete();
+        $this->assertEmpty( Note::all() );
+        $this->assertNotEmpty( Note::onlyTrashed()->get() );
+
+        $this->post( route('note.restore', $note->id) );
+
+        $this->assertEmpty( Note::onlyTrashed()->get() );
+        $this->assertNotEmpty( Note::all() );
+    }
 }

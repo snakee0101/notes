@@ -35,9 +35,10 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        Note::create(
-            $request->only(['header', 'body', 'pinned', 'archived', 'color', 'type'])
-        );
+        $data = $request->only(['header', 'body', 'pinned', 'archived', 'color', 'type']);
+        $data['owner_id'] = auth()->id();
+
+        Note::create($data);
     }
 
     /**
@@ -87,5 +88,11 @@ class NoteController extends Controller
         $note = Note::withTrashed()->find($noteId);
 
         ($note->deleted_at) ? $note->forceDelete() : $note->delete();
+    }
+
+    public function restore($id)
+    {
+        Note::onlyTrashed()->find($id)
+                           ->restore();
     }
 }
