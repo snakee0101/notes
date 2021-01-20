@@ -1,7 +1,8 @@
 <template> <!--TODO: There must be UNDO and REDO buttons while editing the note-->
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors"
-         :class="'bg-google-' + note.color">
+         :class="'bg-google-' + note.color"
+         v-if="shown">
         <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()" v-if="!trashed">
             <div class="tooltip" v-if="note.pinned">
                 <svg class="icon icon-small icon-cancel-circle" viewBox="0 0 32 32">
@@ -166,6 +167,7 @@ export default {
     data() {
         return {
             editing: false,
+            shown: true,
             isCollaboratorsDialogVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
@@ -194,8 +196,10 @@ export default {
             this.isCollaboratorsDialogVisible = true;
         },
         restore() {
-            axios.post('note/restore/' + this.note.id); //TODO: there should be notification after the note is restored
-            //TODO: a note should vanish after it is restored
+            axios.post('note/restore/' + this.note.id);
+            //TODO: there should be notification after the note is restored
+            //TODO: notification can undo the deletion
+            this.shown = false;  //TODO: There should be animation while hiding a note
         },
         delete_forever() {
             alert('note is deleted permanently');
