@@ -14,4 +14,8 @@ class Note extends Model
         'pinned' => 'boolean',
         'archived' => 'boolean',
     ];
+
+    public function owner() {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
 }
