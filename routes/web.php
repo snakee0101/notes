@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\NoteController;
 use App\Models\Note;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TrashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('note', \App\Http\Controllers\NoteController::class);
+Route::resource('note', NoteController::class);
 
 Route::get('/', function () {
     return view('notes', [
@@ -30,9 +32,7 @@ Route::get('/archive', function () {
     return view('archive');
 })->name('archive');
 
-Route::get('/trash', function () {
-    return view('trash');
-})->name('trash');
+Route::get('/trash', [TrashController::class, 'index'])->name('trash');
 
 Route::get('/tag/{tag}', function ($tag) {
     return view('tag');

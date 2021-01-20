@@ -3,9 +3,10 @@
 @section('content')
     <empty-trash-component></empty-trash-component>
     <div class="notes-container">
-        <note-component noteColor="white" :isTrashed="true">
+        @foreach($notes as $note)
+            <note-component note="{{ $note }}" :isTrashed="true">
 
-        </note-component>
+            </note-component>
+        @endforeach
     </div>
-    <!--TODO: Deleted note should have only 2 buttons (only with text) - "Delete forever" and "Restore"-->
 @endsection
