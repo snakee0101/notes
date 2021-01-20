@@ -179,6 +179,7 @@ export default {
             collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
             trashed: this.$attrs.istrashed,
             newNote: this.$attrs.newnote,
+            note: JSON.parse(this.$attrs.note),
             header: '',
             text: ''
         };

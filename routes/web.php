@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Note;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::resource('note', \App\Http\Controllers\NoteController::class);
 
 Route::get('/', function () {
-    return view('notes');
+    return view('notes', [
+        'notes' => Note::all()
+    ]);
 })->name('notes');
 
 Route::get('/reminders', function () {
