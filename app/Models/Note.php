@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
+    protected $hidden = [];
+
     use HasFactory;
 
     protected $guarded = [];

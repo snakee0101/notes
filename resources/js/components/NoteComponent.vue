@@ -1,7 +1,7 @@
 <template> <!--TODO: There must be UNDO and REDO buttons while editing the note-->
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors"
-         :class="'bg-google-' + this.color"
+         :class="'bg-google-' + note.color"
          :style="newNote ? 'width: 600px' : ''">
         <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()" v-if="!trashed">
             <div class="tooltip" v-if="pinned">
@@ -29,11 +29,11 @@
             <textarea name="note_header" placeholder="Title"
                       class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
                       @input="setInputHeight('note-header-input')"
-                      v-model="header">
+                      v-model="note.header">
 
             </textarea>
         </div>
-        <h3 class="font-bold" v-else>Note's header</h3>
+        <h3 class="font-bold" v-else>{{ note.header }}</h3>
 
 
         <div v-if="newNote">
@@ -41,14 +41,12 @@
                       placeholder="Take a note..."
                       class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
                       @input="setInputHeight('note-content-input')"
-                      v-model="text">
+                      v-model="note.body">
 
             </textarea>
         </div>
         <div class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px" v-else>
-            note's content
-            note's content
-            note's content
+            {{ bnote.body }}
         </div>
 
 
@@ -175,13 +173,10 @@ export default {
                 'green', 'teal', 'blue', 'dark-blue',
                 'purple', 'pink', 'brown', 'grey'
             ],
-            color: this.$attrs.notecolor,
             collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
             trashed: this.$attrs.istrashed,
             newNote: this.$attrs.newnote,
-            note: JSON.parse(this.$attrs.note),
-            header: '',
-            text: ''
+            note: JSON.parse(this.$attrs.note)  //TODO: header, text, and other params are there
         };
     },
     created() {
@@ -208,10 +203,10 @@ export default {
             this.pinned = !this.pinned;
         },
         isActive(color) {
-            return (this.color == color) ? 'active' : '';
+            return (this.note.color === color) ? 'active' : '';
         },
         changeColor(color) {
-            this.color = color;
+            this.note.color = color;
         },
         hideCollaboratorsDialog() {
             this.isCollaboratorsDialogVisible = false;
