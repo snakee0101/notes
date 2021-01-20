@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Utilities\Trash;
 use Illuminate\Http\Request;
 
 class TrashController extends Controller
@@ -11,5 +12,9 @@ class TrashController extends Controller
         return view('trash', [
             'notes' => Note::onlyTrashed()->get()
         ]);
+    }
+
+    public function empty() {
+        Trash::empty();
     }
 }

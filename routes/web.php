@@ -34,6 +34,7 @@ Route::get('/archive', function () {
 })->name('archive');
 
 Route::get('/trash', [TrashController::class, 'index'])->name('trash');
+Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
 
 Route::get('/tag/{tag}', function ($tag) {
     return view('tag');
