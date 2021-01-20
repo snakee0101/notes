@@ -79,11 +79,13 @@ class NoteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Note  $note
+     * @param  \App\Models\Note  $noteId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Note $note)
+    public function destroy($noteId)
     {
-        //
+        $note = Note::withTrashed()->find($noteId);
+
+        ($note->deleted_at) ? $note->forceDelete() : $note->delete();
     }
 }

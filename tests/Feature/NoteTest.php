@@ -67,4 +67,14 @@ class NoteTest extends TestCase
         $this->assertEquals($this->changes['color'], $note->color);
         $this->assertEquals($this->changes['type'], $note->type);
      }
+
+     public function test_a_note_could_be_deleted() {
+        $note = Note::factory()->for(User::factory(), 'owner')->create();
+
+        $this->delete( route('note.destroy', $note->id) );
+        $this->assertSoftDeleted($note);
+
+        $this->delete( route('note.destroy',$note->fresh()->id) );
+        $this->assertEmpty( Note::withTrashed()->get() );
+     }
 }
