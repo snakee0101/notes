@@ -10,4 +10,8 @@ class Note extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $casts = [
+        'pinned' => 'boolean',
+        'archived' => 'boolean',
+    ];
 }

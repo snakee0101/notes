@@ -33,16 +33,11 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $r)
     {
-        Note::create([
-            'header' => 'header',
-            'body' => 'body',
-            'pinned' => false,
-            'archived' => false,
-            'color' => 'blue',
-            'type' => 'text'
-        ]);
+        Note::create(
+            $r->only(['header', 'body', 'pinned', 'archived', 'color', 'type'])
+        );
     }
 
     /**
