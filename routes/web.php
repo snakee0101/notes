@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::resource('note', \App\Http\Controllers\NoteController::class);
+
 Route::get('/', function () {
     return view('notes');
 })->name('notes');

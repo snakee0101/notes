@@ -35,7 +35,14 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Note::create([
+            'header' => 'header',
+            'body' => 'body',
+            'pinned' => false,
+            'archived' => false,
+            'color' => 'blue',
+            'type' => 'text'
+        ]);
     }
 
     /**
