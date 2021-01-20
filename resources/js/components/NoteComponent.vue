@@ -202,7 +202,10 @@ export default {
             window.events.$emit('show-notification', 'Note restored', this.deleteNote);
         },
         deleteNote(){
-            alert('the note is deleted');
+            axios.delete('note/' + this.note.id);
+            this.shown = true;
+
+            window.events.$emit('show-notification', 'Action undone');
         },
         delete_forever() {
             alert('note is deleted permanently');
