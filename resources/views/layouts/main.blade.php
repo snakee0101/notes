@@ -36,7 +36,8 @@
     </header>
     <div class="flex flex-row justify-between">
         <menu-component current_route="{{ Route::currentRouteName() }}"
-                        tag_link="{{ getActiveTag() }}">
+                        tag_link="{{ getActiveTag() }}"
+                        tag_names="{{ \App\Models\Tag::getAllNames() }}">
 
         </menu-component>
 

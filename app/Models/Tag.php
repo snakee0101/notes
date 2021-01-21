@@ -13,4 +13,10 @@ class Tag extends Model
     {
         return static::whereName($value)->first();
     }
+
+    public static function getAllNames()
+    {
+        return static::where('user_id', auth()->id())
+                     ->pluck('name');
+    }
 }
