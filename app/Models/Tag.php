@@ -9,9 +9,16 @@ class Tag extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function resolveRouteBinding($value, $field = null)
     {
         return static::whereName($value)->first();
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id', 'owner');
     }
 
     public static function getAllNames()
