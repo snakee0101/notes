@@ -67,4 +67,19 @@ class TagTest extends TestCase
             $this->assertDatabaseCount('tags', 1);
         }
     }
+
+    public function test_a_tag_could_be_renamed()
+    {
+        $user = User::factory()->create();
+        auth()->login($user);
+
+        $tag = Tag::factory()->for($user, 'owner')
+            ->has(Note::factory())
+            ->create();
+
+        $this->put( route('tag.destroy', $tag->name), ['new_name' => 'new tag']);
+        $tag->refresh();
+
+        $this->assertEquals('new tag', $tag->name);
+    }
 }
