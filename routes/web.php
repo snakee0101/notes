@@ -21,7 +21,7 @@ Route::post('note/restore/{id}', [NoteController::class, 'restore'])->name('note
 
 Route::get('/', function () {
     return view('notes', [
-        'notes' => Note::all()
+        'notes' => Note::where('owner_id', auth()->id())->get()
     ]);
 })->name('notes');
 
