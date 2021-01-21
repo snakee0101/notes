@@ -122,7 +122,9 @@ export default {
         deleteLabel(label) {
             let index = this.labels.indexOf(label);
             this.labels.splice(index,1);
-            //TODO: Show confirmation dialog before deletion
+
+            axios.delete('tag/' + label)
+                 .then(res => location.href = ''); //TODO: Show confirmation dialog before deletion
         },
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
