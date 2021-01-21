@@ -36,7 +36,9 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        return view('tag');
+        return view('tag', [
+            'tag_name' => $tag->name
+        ]);
     }
 
     /**
