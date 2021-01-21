@@ -38,10 +38,6 @@ Route::get('/archive', function () {
 Route::get('/trash', [TrashController::class, 'index'])->name('trash');
 Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
 
-Route::get('/tag/{tag}', function ($tag) {
-    return view('tag'); //TODO: Move to tag.show
-})->name('tag');
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
