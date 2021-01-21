@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\TagController;
 use App\Models\Note;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TrashController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\TrashController;
 */
 
 Route::resource('note', NoteController::class);
+Route::resource('tag', TagController::class);
 Route::post('note/restore/{id}', [NoteController::class, 'restore'])->name('note.restore');
 
 Route::get('/', function () {
@@ -37,7 +39,7 @@ Route::get('/trash', [TrashController::class, 'index'])->name('trash');
 Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
 
 Route::get('/tag/{tag}', function ($tag) {
-    return view('tag');
+    return view('tag'); //TODO: Move to tag.show
 })->name('tag');
 
 Route::get('/dashboard', function () {
