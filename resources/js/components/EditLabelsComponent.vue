@@ -153,7 +153,10 @@ export default {
 
             this.clearNewLabel();
             this.hideCancelButton();
-            this.labels.push(label);
+
+            axios.post('tag', {
+                'tag_name' : label
+            }).then(res => this.labels.push(label));
         },
         save() {
             this.addLabel(this.newLabel);  //TODO: When user clicks Save - all editing fields are saved
