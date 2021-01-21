@@ -13,7 +13,7 @@ class TrashTest extends TestCase
         Note::factory()->create()
                        ->delete();
 
-        $this->travelTo( now()->subWeek()->subDay() );
+        $this->travel(-8)->days();
         Note::factory()->create()
                         ->delete();
 
