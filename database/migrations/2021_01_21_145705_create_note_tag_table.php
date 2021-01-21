@@ -13,7 +13,7 @@ class CreateNoteTagTable extends Migration
      */
     public function up()
     {
-        Schema::table('note_tag', function (Blueprint $table) {
+        Schema::create('note_tag', function (Blueprint $table) {
             $table->id();
             $table->foreignId('note_id');
             $table->foreignId('tag_id');
@@ -27,8 +27,6 @@ class CreateNoteTagTable extends Migration
      */
     public function down()
     {
-        Schema::table('note_tag', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('note_tag');
     }
 }

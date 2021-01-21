@@ -37,7 +37,10 @@ class TagController extends Controller
     public function show(Tag $tag)
     {
         return view('tag', [
-            'tag_name' => $tag->name
+            'tag_name' => $tag->name,
+            'notes' => $tag->notes()
+                           ->where('owner_id', auth()->id())
+                           ->get()
         ]);
     }
 

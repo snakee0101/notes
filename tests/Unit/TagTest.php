@@ -2,12 +2,18 @@
 
 namespace Tests\Unit;
 
+use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class TagTest extends TestCase
 {
+    use RefreshDatabase, DatabaseMigrations;
+
     public function test_tag_has_an_owner()
     {
         $user = User::factory()->create();
@@ -32,6 +38,9 @@ class TagTest extends TestCase
 
     public function test_user_can_get_notes_for_a_specific_tag()
     {
+        $tag = Tag::factory()->has(Note::factory()->count(3))->create();
 
+        $this->assertCount(3, $tag->notes);
+        $this->assertInstanceOf(Note::class, $tag->notes->first());
     }
 }
