@@ -17,6 +17,8 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('user_id');
+
+            $table->unique(['name', 'user_id']);
         });
     }
 

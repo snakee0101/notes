@@ -43,4 +43,20 @@ class TagTest extends TestCase
         $this->assertCount(3, $tag->notes);
         $this->assertInstanceOf(Note::class, $tag->notes->first());
     }
+
+    public function test_tags_should_be_unique_for_specific_user()
+    {
+        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+
+        $user = User::factory()->create();
+
+        $tag_1_data = Tag::factory()->for($user, 'owner')
+                               ->has(Note::factory())
+                               ->raw();
+
+        Tag::create($tag_1_data);
+        $this->assertCount(1, Tag::all());
+
+        Tag::create($tag_1_data);
+    }
 }
