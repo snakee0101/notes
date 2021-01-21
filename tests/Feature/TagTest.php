@@ -25,4 +25,25 @@ class TagTest extends TestCase
         $this->assertEquals('test', Tag::first()->name);
         $this->assertEquals($user->id, Tag::first()->user_id);
     }
+
+    public function test_user_can_delete_a_tag_by_name()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create();
+        auth()->login($user);
+
+        $tag = Tag::factory()->for($user, 'owner')
+                             ->has(Note::factory())
+                             ->create();
+        $this->assertDatabaseCount('tags', 1);
+
+        $this->delete( route('tag.destroy', $tag->name) );
+        $this->assertDatabaseCount('tags', 0);
+    }
+
+    public function test_user_can_delete_only_their_own_tag()
+    {
+
+    }
 }
