@@ -27,7 +27,7 @@
             <span>{{ tag_name }}</span>
         </a>
 
-        <edit-labels-component :labels="['label 1','label 2']">
+        <edit-labels-component :labels="tag_names">
 
         </edit-labels-component>
 
