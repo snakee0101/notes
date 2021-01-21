@@ -44,6 +44,27 @@ class TagTest extends TestCase
 
     public function test_user_can_delete_only_their_own_tag()
     {
+        $user = User::factory()->create();
+        $user_2 = User::factory()->create();
 
+        auth()->login($user);
+
+        $tag = Tag::factory()->for($user, 'owner')
+            ->has(Note::factory())
+            ->create();
+
+        $tag_2 = Tag::factory()->for($user_2, 'owner')
+            ->has(Note::factory())
+            ->create();
+
+        $this->assertDatabaseCount('tags', 2);
+
+        $this->delete( route('tag.destroy', $tag->name) );
+
+        try {
+            $this->delete( route('tag.destroy', $tag_2->name) );
+        } finally {
+            $this->assertDatabaseCount('tags', 1);
+        }
     }
 }
