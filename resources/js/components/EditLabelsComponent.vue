@@ -167,11 +167,12 @@ export default {
             return this.editingLabel === refName;
         },
         renameLabel(refName, key) {
-            axios.put('tag/' + this.labels[key], {
+            axios.put(this.labels[key], {
                 new_name : this.$refs[refName][0].value
             }).then(res => {
                 this.labels[key] = this.$refs[refName][0].value;
                 this.editingLabel = '';
+                location.href = '/';
             });
         },
         hideUniqueError() {
@@ -196,6 +197,8 @@ export default {
             axios.post('tag', {
                 'tag_name' : label
             }).then(res => this.labels.push(label));
+
+            this.$emit('refreshLabels', this.labels);
         },
         save() {
             this.addLabel(this.newLabel);

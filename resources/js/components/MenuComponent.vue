@@ -27,7 +27,7 @@
             <span>{{ tag_name }}</span>
         </a>
 
-        <edit-labels-component :labels="tag_names">
+        <edit-labels-component :labels="tag_names" v-on:refreshLabels="tag_names = $event">
 
         </edit-labels-component>
 
