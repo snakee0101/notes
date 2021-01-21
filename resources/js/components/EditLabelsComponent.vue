@@ -167,8 +167,12 @@ export default {
             return this.editingLabel === refName;
         },
         renameLabel(refName, key) {
-            this.labels[key] = this.$refs[refName][0].value;
-            this.editingLabel = '';
+            axios.put('tag/' + this.labels[key], {
+                new_name : this.$refs[refName][0].value
+            }).then(res => {
+                this.labels[key] = this.$refs[refName][0].value;
+                this.editingLabel = '';
+            });
         },
         hideUniqueError() {
             this.uniqueErrorShown = false;
@@ -194,7 +198,7 @@ export default {
             }).then(res => this.labels.push(label));
         },
         save() {
-            this.addLabel(this.newLabel);  //TODO: When user clicks Save - all editing fields are saved
+            this.addLabel(this.newLabel);
             this.hide();
         },
         showCancelButton() {
