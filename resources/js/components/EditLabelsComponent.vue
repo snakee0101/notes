@@ -7,6 +7,29 @@
             <span>Edit labels</span>
         </a>
 
+        <div class="delete-confirmation fixed top-0 left-0 right-0 bottom-0 flex items-center bg-gray-800 bg-opacity-75 z-20"
+             v-if="isDeleteConfirmationVisible"
+             @click.self="hideDeleteConfirmation()">
+            <div class="trash-content m-auto">
+                <div class="bg-white p-6 rounded-t-lg text-center text-sm">
+                    We’ll delete this label and remove it from all of your notes. Your notes won’t be deleted.
+                </div>
+                <div class="bg-white rounded-b-lg py-2 px-4 text-right">
+                    <button
+                        @click="hideDeleteConfirmation()"
+                        class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none  rounded-sm">
+                        Cancel
+                    </button>
+                    <button
+                        @click="deleteLabel()"
+                        class="py-2 px-6 text-red-500 text-sm font-bold hover:bg-red-50 focus:bg-red-100 focus:outline-none">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
         <div v-if="isDialogVisible"
              @mousedown.self="hide()"
              class="labels-dialog fixed top-0 left-0 right-0
@@ -45,7 +68,7 @@
 
                         <div class="label flex flex-row mb-4 items-center" v-for="(label, key) in labels">
                             <a href=""
-                               @click.prevent="deleteLabel(label)"
+                               @click.prevent="showDeleteConfirmation(label)"
                                @mouseout="hideDeleteButtonOn('label_' + key)"
                                v-if="isEditing('label_' + key) || isDeleteButtonVisible('label_' + key)">
                                 <svg class="icon icon-xs icon-bin" viewBox="0 0 32 32">
@@ -108,23 +131,33 @@ export default {
             isCancelButtonVisible: false,
             editingLabel: '',
             deleteButtonOn: '',
-            uniqueErrorShown: false
+            uniqueErrorShown: false,
+            isDeleteConfirmationVisible: false,
+            deletingLabel: ''
         };
     },
     methods: {
         show() {
             this.isDialogVisible = true;
         },
-        hide(){
+        hide() {
             this.isDialogVisible = false;
             this.clearNewLabel();
         },
-        deleteLabel(label) {
-            let index = this.labels.indexOf(label);
+        showDeleteConfirmation(label) {
+            this.isDeleteConfirmationVisible = true;
+            this.deletingLabel = label;
+        },
+        hideDeleteConfirmation() {
+            this.isDeleteConfirmationVisible = false;
+            this.deletingLabel = '';
+        },
+        deleteLabel() {
+            let index = this.labels.indexOf(this.deletingLabel);
             this.labels.splice(index,1);
 
-            axios.delete('tag/' + label)
-                 .then(res => location.href = ''); //TODO: Show confirmation dialog before deletion
+            axios.delete('tag/' + this.deletingLabel)
+                 .then(res => location.href = '');
         },
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
