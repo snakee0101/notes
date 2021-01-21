@@ -16,23 +16,15 @@
             </svg>
             <span>Reminders</span>
         </a>
-        <a href="/tag/tag 1" class="p-4 rounded-r-full hover:bg-gray-200" :class="setActiveTagLink('tag 1')">
+
+        <a :href="'/tag/' + tag_name" class="p-4 rounded-r-full hover:bg-gray-200" :class="setActiveTagLink(tag_name)" v-for="tag_name in tag_names">
             <svg class="icon icon-price-tags mr-3" viewBox="0 0 40 32">
                 <path
                     d="M38.5 0h-12c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l14.879-14.879c0.583-0.583 1.061-1.736 1.061-2.561v-12c0-0.825-0.675-1.5-1.5-1.5zM31 12c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"></path>
                 <path
                     d="M4 17l17-17h-2.5c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l0.939-0.939-13-13z"></path>
             </svg>
-            <span>Tag 1</span>
-        </a>
-        <a href="/tag/tag 2" class="p-4 rounded-r-full hover:bg-gray-200" :class="setActiveTagLink('tag 2')">
-            <svg class="icon icon-price-tags mr-3" viewBox="0 0 40 32">
-                <path
-                    d="M38.5 0h-12c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l14.879-14.879c0.583-0.583 1.061-1.736 1.061-2.561v-12c0-0.825-0.675-1.5-1.5-1.5zM31 12c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"></path>
-                <path
-                    d="M4 17l17-17h-2.5c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l0.939-0.939-13-13z"></path>
-            </svg>
-            <span>Tag 2</span>
+            <span>{{ tag_name }}</span>
         </a>
 
         <edit-labels-component :labels="['label 1','label 2']">
@@ -61,6 +53,11 @@
 <script>
 export default {
     name: "MenuComponent",
+    data() {
+        return {
+            'tag_names': JSON.parse(this.$attrs.tag_names)
+        };
+    },
     created() {
         window.events.$on('menu-collapsed', function () {
             localStorage.setItem('menu-collapsed', true);
