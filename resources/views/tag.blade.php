@@ -1,9 +1,19 @@
 @extends('layouts.main')
 
 @section('content')
+    <!--TODO: There should be 2 sections of the notes: PINNED and OTHERS-->
     <div class="notes-container">
-        <note-component noteColor="orange">
+        <div class="mb-10">
+            <new-note-component>
 
-        </note-component>
+            </new-note-component>
+        </div>
+
+        @foreach($notes as $note)
+            <note-component note="{{ $note }}">
+
+            </note-component>
+        @endforeach
+
     </div>
 @endsection

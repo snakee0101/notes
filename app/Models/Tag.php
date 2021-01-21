@@ -26,4 +26,9 @@ class Tag extends Model
         return static::where('user_id', auth()->id())
                      ->pluck('name');
     }
+
+    public function notes()
+    {
+        return $this->belongsToMany(Note::class, 'note_tag', 'tag_id', 'note_id');
+    }
 }

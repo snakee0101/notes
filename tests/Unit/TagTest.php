@@ -29,4 +29,9 @@ class TagTest extends TestCase
         auth()->login($user_2);
         $this->assertCount(10, Tag::getAllNames());
     }
+
+    public function test_user_can_get_notes_for_a_specific_tag()
+    {
+
+    }
 }
