@@ -41,6 +41,8 @@
                             </div>
                         </div>
 
+                        <p class="mb-4 text-red-700" v-if="uniqueErrorShown">Tag names must be unique</p>
+
                         <div class="label flex flex-row mb-4 items-center" v-for="(label, key) in labels">
                             <a href=""
                                @click.prevent="deleteLabel(label)"
@@ -85,7 +87,7 @@
                 </div>
                 <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
                     <button
-                        @click="save()"
+                        @click="hide()"
                         class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
                         Done
                     </button>
@@ -105,7 +107,8 @@ export default {
             isDialogVisible: false,
             isCancelButtonVisible: false,
             editingLabel: '',
-            deleteButtonOn: ''
+            deleteButtonOn: '',
+            uniqueErrorShown: false
         };
     },
     methods: {
@@ -132,12 +135,25 @@ export default {
             this.labels[key] = this.$refs[refName][0].value;
             this.editingLabel = '';
         },
+        hideUniqueError() {
+            this.uniqueErrorShown = false;
+        },
         addLabel(label) {
             if (label === '')
                 return false;
-            this.labels.push(label);
+
+            if (this.labels.includes(label))
+            {
+                this.uniqueErrorShown = true;
+                this.clearNewLabel();
+                this.hideCancelButton();
+                setTimeout(this.hideUniqueError,2000);
+                return false;
+            }
+
             this.clearNewLabel();
             this.hideCancelButton();
+            this.labels.push(label);
         },
         save() {
             this.addLabel(this.newLabel);  //TODO: When user clicks Save - all editing fields are saved
