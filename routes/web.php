@@ -30,7 +30,9 @@ Route::middleware('auth')->group(function() {
     })->name('notes');
 
     Route::get('/reminders', function () {
-        return view('reminders');
+        return view('reminders', [
+            "notes" => [] //Note::all()  //TODO: filter notes with reminders only
+        ]);
     })->name('reminders');
 
     Route::get('/archive', function () {
