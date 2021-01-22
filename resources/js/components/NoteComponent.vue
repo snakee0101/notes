@@ -193,6 +193,12 @@ export default {
         pin() {
             this.note.pinned = !this.note.pinned;
         },
+        hide() {
+            this.shown = false;
+        },
+        show() {
+            this.shown = true;
+        },
         isActive(color) {
             return (this.note.color === color) ? 'active' : '';
         },
@@ -207,21 +213,23 @@ export default {
         },
         restore() {
             axios.post('note/restore/' + this.note.id);
-            this.shown = false;  //TODO: There should be animation while hiding a note
+            this.hide();//TODO: There should be animation while hiding a note
 
             window.events.$emit('show-notification', 'Note restored', this.deleteNote);
         },
         deleteNote(){
             axios.delete('note/' + this.note.id);
-            this.shown = true;
+            this.show();
 
             window.events.$emit('show-notification', 'Action undone');
         },
         archive() {
-            axios.post('/archive/' + this.note.id);
+            axios.post('/archive/' + this.note.id)
+                 .then(res => this.hide());
         },
         unarchive() {
-            axios.delete('/unarchive/' + this.note.id);
+            axios.delete('/unarchive/' + this.note.id)
+                 .then(res => this.hide());
         },
         delete_forever() {
             this.shown = false;
