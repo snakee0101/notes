@@ -45,4 +45,17 @@ class NoteTest extends TestCase
 
         $this->assertCount(2, Note::withArchived()->get() );
     }
+
+    public function test_only_archived_notes_could_be_shown()
+    {
+        Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->archived()->create();
+
+        Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->create();
+
+        $this->assertCount(1, Note::onlyArchived()->get() );
+    }
 }

@@ -33,7 +33,9 @@ Route::get('/reminders', function () {
 })->name('reminders');
 
 Route::get('/archive', function () {
-    return view('archive');
+    return view('archive', [
+        "notes" => Note::onlyArchived()->get()
+    ]);
 })->name('archive');
 
 Route::post('/archive/{note}', [NoteToolbarController::class, 'archive'])->name('archive_note');

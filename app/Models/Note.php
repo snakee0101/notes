@@ -31,6 +31,11 @@ class Note extends Model
         return static::withoutGlobalScope('hideArchived');
     }
 
+    public function scopeOnlyArchived()
+    {
+        return static::withArchived()->where('archived', true);
+    }
+
     public function owner() {
         return $this->belongsTo(User::class, 'owner_id');
     }

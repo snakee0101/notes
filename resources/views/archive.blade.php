@@ -2,8 +2,10 @@
 
 @section('content')
     <div class="notes-container">
-        <note-component noteColor="orange">
+        @foreach($notes as $note)
+            <note-component note="{{ $note }}">
 
-        </note-component>
+            </note-component>
+        @endforeach
     </div>
 @endsection
