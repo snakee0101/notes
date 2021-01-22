@@ -2,21 +2,28 @@
 
 namespace Tests\Feature;
 
+use App\Models\Note;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class NoteToolbarTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    public function test_a_note_could_be_archived()
     {
-        $response = $this->get('/');
+        $note = Note::factory()->create(['archived' => false]);
+        $this->post( route('archive_note', $note) );
 
-        $response->assertStatus(200);
+        $note->refresh();
+        $this->assertTrue($note->archived);
+    }
+
+    public function test_a_note_could_be_unarchived()
+    {
+        $note = Note::factory()->create(['archived' => true]);
+        $this->delete( route('unarchive_note', $note) );
+
+        $note->refresh();
+        $this->assertFalse($note->archived);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\NoteToolbarController;
 use App\Http\Controllers\TagController;
 use App\Models\Note;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,9 @@ Route::get('/reminders', function () {
 Route::get('/archive', function () {
     return view('archive');
 })->name('archive');
+
+Route::post('/archive/{note}', [NoteToolbarController::class, 'archive'])->name('archive_note');
+Route::delete('/unarchive/{note}', [NoteToolbarController::class, 'unarchive'])->name('unarchive_note');
 
 Route::get('/trash', [TrashController::class, 'index'])->name('trash');
 Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
