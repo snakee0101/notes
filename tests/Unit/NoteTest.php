@@ -17,4 +17,32 @@ class NoteTest extends TestCase
 
         $this->assertInstanceOf(User::class, $note->owner);
     }
+
+    public function test_archived_notes_are_hidden()
+    {
+        Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->archived()->create();
+
+        $this->assertEmpty( Note::all() );
+
+        Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->create();
+
+        $this->assertCount(1, Note::all() );
+    }
+
+    public function test_archived_notes_could_be_shown()
+    {
+        Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->archived()->create();
+
+        Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->create();
+
+        $this->assertCount(2, Note::withArchived()->get() );
+    }
 }

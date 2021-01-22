@@ -18,6 +18,19 @@ class Note extends Model
         'archived' => 'boolean',
     ];
 
+    protected static function booted()
+    {
+        parent::boot();
+        static::addGlobalScope('hideArchived', function($query){
+            $query->where('archived', false);
+        });
+    }
+
+    public function scopeWithArchived()
+    {
+        return static::withoutGlobalScope('hideArchived');
+    }
+
     public function owner() {
         return $this->belongsTo(User::class, 'owner_id');
     }

@@ -32,4 +32,11 @@ class NoteFactory extends Factory
             'type' => 'text'
         ];
     }
+
+    public function archived()
+    {
+        return $this->state([
+            'archived' => true
+        ]);
+    }
 }
