@@ -261,8 +261,8 @@ export default {
         unarchive() {
             axios.delete('/unarchive/' + this.note.id);
 
-            this.show();
-            window.events.$emit('show-notification', 'Note unarchived', this.archive);
+            this.hide();
+            window.events.$emit('show-notification', 'Note unarchived');
         },
         delete_forever() {
             this.shown = false;
