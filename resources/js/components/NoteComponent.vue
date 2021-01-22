@@ -256,13 +256,25 @@ export default {
             axios.post('/archive/' + this.note.id);
 
             this.hide();
-            window.events.$emit('show-notification', 'Note archived', this.unarchive);
+            window.events.$emit('show-notification', 'Note archived', this.undo_archive);
         },
         unarchive() {
             axios.delete('/unarchive/' + this.note.id);
 
             this.hide();
-            window.events.$emit('show-notification', 'Note unarchived');
+            window.events.$emit('show-notification', 'Note unarchived', this.undo_unarchive);
+        },
+        undo_archive() {
+            axios.delete('/unarchive/' + this.note.id);
+
+            this.show();
+            window.events.$emit('show-notification', 'Action undone');
+        },
+        undo_unarchive() {
+            axios.post('/archive/' + this.note.id);
+
+            this.show();
+            window.events.$emit('show-notification', 'Action undone');
         },
         delete_forever() {
             this.shown = false;
