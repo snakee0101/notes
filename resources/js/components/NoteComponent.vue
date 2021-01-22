@@ -57,7 +57,7 @@
                 Restore
             </button>
             <button
-                @click="delete_forever()"
+                @click="showDeleteConfirmation()"
                 class="text-white bg-red-500 border border-red-800 text-sm font-medium px-2 py-2 hover:bg-red-700 focus:bg-red-900 focus:outline-none  rounded-sm">
                 Delete Forever
             </button>
@@ -168,6 +168,28 @@
                                        v-on:hide_dialog="hideCollaboratorsDialog()">
 
         </collaborator-dialog-component>
+
+        <div class="confirmation fixed top-0 left-0 right-0 bottom-0 flex items-center bg-gray-800 bg-opacity-75 z-20"
+             v-if="isDeleteConfirmationVisible"
+             @click.self="hideDeleteConfirmation()">
+            <div class="m-auto">
+                <div class="bg-white p-6 rounded-t-lg text-center text-sm">
+                    Delete note forever?
+                </div>
+                <div class="bg-white rounded-b-lg py-2 px-4 text-right">
+                    <button
+                        @click="hideDeleteConfirmation()"
+                        class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none  rounded-sm">
+                        Cancel
+                    </button>
+                    <button
+                        @click="delete_forever()"
+                        class="py-2 px-6 text-red-500 text-sm font-bold hover:bg-red-50 focus:bg-red-100 focus:outline-none">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -179,6 +201,7 @@ export default {
             editing: false,
             shown: true,
             isCollaboratorsDialogVisible: false,
+            isDeleteConfirmationVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -211,6 +234,12 @@ export default {
         showCollaboratorsDialog() {
             this.isCollaboratorsDialogVisible = true;
         },
+        hideDeleteConfirmation() {
+            this.isDeleteConfirmationVisible = false;
+        },
+        showDeleteConfirmation() {
+            this.isDeleteConfirmationVisible = true;
+        },
         restore() {
             axios.post('note/restore/' + this.note.id);
             this.hide();//TODO: There should be animation while hiding a note
@@ -237,7 +266,7 @@ export default {
         },
         delete_forever() {
             this.shown = false;
-            axios.delete('note/' + this.note.id);  //TODO: There should be confirmation when deleting the note forever
+            axios.delete('note/' + this.note.id);
         },
         setInputHeight(itemClass) {
             let element = document.getElementsByClassName(itemClass)[0];
