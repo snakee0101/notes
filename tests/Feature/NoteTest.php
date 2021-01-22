@@ -54,7 +54,8 @@ class NoteTest extends TestCase
         $this->assertEquals($this->userData['type'], $note->type);
     }
 
-     public function test_a_note_could_be_updated() {
+     public function test_a_note_could_be_updated()
+     {
         $note = Note::factory()->create();
         $this->put(route('note.update', $note), $this->changes);
 
@@ -68,17 +69,19 @@ class NoteTest extends TestCase
         $this->assertEquals($this->changes['type'], $note->type);
      }
 
-     public function test_a_note_could_be_deleted() {
+     public function test_a_note_could_be_deleted()
+     {
         $note = Note::factory()->for(User::factory(), 'owner')->create();
 
-        $this->delete( route('note.destroy', $note->id) );
+        $this->delete( route('note.destroy', $note) );
         $this->assertSoftDeleted($note);
 
-        $this->delete( route('note.destroy',$note->fresh()->id) );
-        $this->assertEmpty( Note::withTrashed()->get() );
+        $this->delete( route('note.destroy',$note) );
+        $this->assertEmpty( Note::onlyTrashed()->get() );
      }
 
-    public function test_a_note_could_be_restored() {
+    public function test_a_note_could_be_restored()
+    {
         $note = Note::factory()->for(User::factory(), 'owner')->create();
 
         $note->delete();
@@ -89,5 +92,31 @@ class NoteTest extends TestCase
 
         $this->assertEmpty( Note::onlyTrashed()->get() );
         $this->assertNotEmpty( Note::all() );
+    }
+
+    public function test_archived_note_could_be_updated()
+    {
+        $note = Note::factory()->create(['archived' => true]);
+        $this->put( route('note.destroy', $note), ['body' => 'new content'] );
+
+        $this->assertEquals('new content', $note->fresh()->body);
+    }
+
+    public function test_archived_note_could_be_deleted()
+    {
+        $note = Note::factory()->create(['archived' => true]);
+        $this->delete( route('note.destroy', $note) );
+
+        $this->assertSoftDeleted($note->fresh());
+    }
+
+    public function test_archived_note_could_be_restored()
+    {
+        $note = Note::factory()->create(['deleted_at' => now(), 'archived' => true]);
+        auth()->login($note->owner);
+
+        $this->post( route('note.restore', $note) );
+
+        $this->assertNull( $note->fresh()->deleted_at );
     }
 }

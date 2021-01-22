@@ -20,7 +20,7 @@ use App\Http\Controllers\TrashController;
 
 Route::resource('note', NoteController::class);
 Route::resource('tag', TagController::class);
-Route::post('note/restore/{id}', [NoteController::class, 'restore'])->name('note.restore');
+Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
 
 Route::get('/', function () {
     return view('notes', [

@@ -18,6 +18,13 @@ class Note extends Model
         'archived' => 'boolean',
     ];
 
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return static::withArchived()
+                     ->withTrashed()
+                     ->findOrFail($value);
+    }
+
     protected static function booted()
     {
         parent::boot();
