@@ -224,12 +224,16 @@ export default {
             window.events.$emit('show-notification', 'Action undone');
         },
         archive() {
-            axios.post('/archive/' + this.note.id)
-                 .then(res => this.hide());
+            axios.post('/archive/' + this.note.id);
+
+            this.hide();
+            window.events.$emit('show-notification', 'Note archived', this.unarchive);
         },
         unarchive() {
-            axios.delete('/unarchive/' + this.note.id)
-                 .then(res => this.hide());
+            axios.delete('/unarchive/' + this.note.id);
+
+            this.show();
+            window.events.$emit('show-notification', 'Note unarchived', this.archive);
         },
         delete_forever() {
             this.shown = false;
