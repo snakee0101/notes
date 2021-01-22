@@ -18,38 +18,40 @@ use App\Http\Controllers\TrashController;
 |
 */
 
-Route::resource('note', NoteController::class);
-Route::resource('tag', TagController::class);
-Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
+Route::middleware('auth')->group(function() {
+    Route::resource('note', NoteController::class);
+    Route::resource('tag', TagController::class);
+    Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
 
-Route::get('/', function () {
-    return view('notes', [
-        'notes' => Note::where('owner_id', auth()->id())->get()
-    ]);
-})->name('notes');
+    Route::get('/', function () {
+        return view('notes', [
+            'notes' => Note::where('owner_id', auth()->id())->get()
+        ]);
+    })->name('notes');
 
-Route::get('/reminders', function () {
-    return view('reminders');
-})->name('reminders');
+    Route::get('/reminders', function () {
+        return view('reminders');
+    })->name('reminders');
 
-Route::get('/archive', function () {
-    return view('archive', [
-        "notes" => Note::onlyArchived()->get()
-    ]);
-})->name('archive');
+    Route::get('/archive', function () {
+        return view('archive', [
+            "notes" => Note::onlyArchived()->get()
+        ]);
+    })->name('archive');
 
-Route::post('/archive/{note}', [NoteToolbarController::class, 'archive'])->name('archive_note');
-Route::delete('/unarchive/{note}', [NoteToolbarController::class, 'unarchive'])->name('unarchive_note');
+    Route::post('/archive/{note}', [NoteToolbarController::class, 'archive'])->name('archive_note');
+    Route::delete('/unarchive/{note}', [NoteToolbarController::class, 'unarchive'])->name('unarchive_note');
 
-Route::get('/trash', [TrashController::class, 'index'])->name('trash');
-Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
+    Route::get('/trash', [TrashController::class, 'index'])->name('trash');
+    Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
 
 require __DIR__.'/auth.php';
 Auth::routes();
-
-Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
