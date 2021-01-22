@@ -20,6 +20,11 @@
     fill: #707070!important;
 }
 
+.icon-xl {
+    width: 4em;
+    height: 4em;
+}
+
 .icon-lg {
     width: 2em;
     height: 2em;
