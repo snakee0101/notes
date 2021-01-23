@@ -2,21 +2,29 @@
 
 namespace Tests\Feature;
 
+use App\Models\Note;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CollaboratorTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    public function test_collaborator_can_be_attached()
     {
-        $response = $this->get('/');
+        $owner = User::factory()->create();
+        $user = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
 
-        $response->assertStatus(200);
+        auth()->login($owner);
+
+        $this->assertEmpty($note->collaborators);
+
+        $this->post(route('store_collaborator', [
+            'note' => $note,
+            'user' => $user
+        ]));
+
+        $this->assertNotEmpty($note->fresh()->collaborators);
     }
 }

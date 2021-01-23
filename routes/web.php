@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\NoteController;
-use App\Http\Controllers\NoteToolbarController;
 use App\Http\Controllers\TagController;
 use App\Models\Note;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TrashController;
 
@@ -22,11 +22,13 @@ use App\Http\Controllers\TrashController;
 
 Route::middleware('auth')->group(function() {
     Route::resource('note', NoteController::class);
-    Route::resource('collaborator', CollaboratorController::class);
     Route::resource('tag', TagController::class);
 
     Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
-    Route::post('/collaborator/{user}', [CollaboratorController::class, 'check'])->name('collaborator.check');
+
+    Route::post('/collaborator/{user}/{note}', [CollaboratorController::class, 'store'])->name('store_collaborator');
+    Route::delete('/collaborator/{user}/{note}', [CollaboratorController::class, 'destroy'])->name('delete_collaborator');
+    Route::get('/collaborator/{user}/{note}', [CollaboratorController::class, 'check'])->name('check_user_existence');
 
     Route::get('/', function () {
         return view('notes', [
