@@ -70,4 +70,17 @@ class NoteTest extends TestCase
         $this->assertInstanceOf(Tag::class, $note->tags()->first());
         $this->assertCount(3, $note->tags);
     }
+
+    public function test_a_note_appends_tags_to_json()
+    {
+        $note = Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->hasAttached(Tag::factory()->count(3))
+            ->create();
+
+
+        $json_decoded = json_decode($note->toJson());
+        $this->assertObjectHasAttribute('tags', $json_decoded);
+        $this->assertCount(3, $json_decoded->tags);
+    }
 }

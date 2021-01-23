@@ -12,6 +12,7 @@ class Note extends Model
 
     use HasFactory, SoftDeletes;
 
+    protected $appends = ['tags'];
     protected $guarded = [];
     protected $casts = [
         'pinned' => 'boolean',
@@ -51,5 +52,10 @@ class Note extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function getTagsAttribute()
+    {
+        return $this->tags()->pluck('name');
     }
 }
