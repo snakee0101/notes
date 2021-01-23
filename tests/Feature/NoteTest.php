@@ -57,6 +57,7 @@ class NoteTest extends TestCase
      public function test_a_note_could_be_updated()
      {
         $note = Note::factory()->create();
+        auth()->login($note->owner);
         $this->put(route('note.update', $note), $this->changes);
 
         $note->refresh();
@@ -72,6 +73,7 @@ class NoteTest extends TestCase
      public function test_a_note_could_be_deleted()
      {
         $note = Note::factory()->for(User::factory(), 'owner')->create();
+        auth()->login($note->owner);
 
         $this->delete( route('note.destroy', $note) );
         $this->assertSoftDeleted($note);
@@ -83,6 +85,7 @@ class NoteTest extends TestCase
     public function test_a_note_could_be_restored()
     {
         $note = Note::factory()->for(User::factory(), 'owner')->create();
+        auth()->login($note->owner);
 
         $note->delete();
         $this->assertEmpty( Note::all() );
@@ -97,6 +100,7 @@ class NoteTest extends TestCase
     public function test_archived_note_could_be_updated()
     {
         $note = Note::factory()->create(['archived' => true]);
+        auth()->login($note->owner);
         $this->put( route('note.destroy', $note), ['body' => 'new content'] );
 
         $this->assertEquals('new content', $note->fresh()->body);
@@ -105,6 +109,7 @@ class NoteTest extends TestCase
     public function test_archived_note_could_be_deleted()
     {
         $note = Note::factory()->create(['archived' => true]);
+        auth()->login($note->owner);
         $this->delete( route('note.destroy', $note) );
 
         $this->assertSoftDeleted($note->fresh());
