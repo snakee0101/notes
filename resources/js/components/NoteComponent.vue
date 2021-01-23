@@ -275,13 +275,17 @@ export default {
             window.events.$emit('show-notification', 'Action undone');
         },
         archive() {
-            axios.post('/archive/' + this.note.id);
+            axios.put('/note/' + this.note.id, {
+                'archived' : true
+            });
 
             this.hide();
             window.events.$emit('show-notification', 'Note archived', this.undo_archive);
         },
         unarchive() {
-            axios.delete('/unarchive/' + this.note.id);
+            axios.put('/note/' + this.note.id, {
+                'archived' : false
+            });
 
             this.hide();
             window.events.$emit('show-notification', 'Note unarchived', this.undo_unarchive);

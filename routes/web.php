@@ -46,9 +46,6 @@ Route::middleware('auth')->group(function() {
         $note->tags()->detach($tag);
     })->name('detach_tag');
 
-    Route::post('/archive/{note}', [NoteToolbarController::class, 'archive'])->name('archive_note');
-    Route::delete('/unarchive/{note}', [NoteToolbarController::class, 'unarchive'])->name('unarchive_note');
-
     Route::get('/trash', [TrashController::class, 'index'])->name('trash');
     Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
 
