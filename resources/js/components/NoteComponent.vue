@@ -303,6 +303,12 @@ export default {
            axios.delete('/detach_tag/'+ this.note.id +'/' + tag);
            let index = this.note.tags.indexOf(tag);
            this.note.tags.splice(index, 1);
+
+           let tagsLocation = 'tag/' + encodeURIComponent(tag);
+           if( location.href.includes(tagsLocation) )
+           {
+               this.hide();
+           }
         }
     }
 }
