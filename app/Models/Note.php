@@ -58,4 +58,9 @@ class Note extends Model
     {
         return $this->tags()->pluck('name');
     }
+
+    public function collaborators()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
