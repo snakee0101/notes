@@ -19,7 +19,7 @@ class TagTest extends TestCase
         $user = User::factory()->create();
         auth()->login($user);
 
-        $this->post( route('tag.store'), ['tag_name' => 'test'] );
+        $this->post(route('tag.store'), ['tag_name' => 'test']);
 
         $this->assertCount(1, Tag::all());
         $this->assertEquals('test', Tag::first()->name);
@@ -34,11 +34,11 @@ class TagTest extends TestCase
         auth()->login($user);
 
         $tag = Tag::factory()->for($user, 'owner')
-                             ->has(Note::factory())
-                             ->create();
+            ->has(Note::factory())
+            ->create();
         $this->assertDatabaseCount('tags', 1);
 
-        $this->delete( route('tag.destroy', $tag->name) );
+        $this->delete(route('tag.destroy', $tag->name));
         $this->assertDatabaseCount('tags', 0);
     }
 
@@ -59,10 +59,10 @@ class TagTest extends TestCase
 
         $this->assertDatabaseCount('tags', 2);
 
-        $this->delete( route('tag.destroy', $tag->name) );
+        $this->delete(route('tag.destroy', $tag->name));
 
         try {
-            $this->delete( route('tag.destroy', $tag_2->name) );
+            $this->delete(route('tag.destroy', $tag_2->name));
         } finally {
             $this->assertDatabaseCount('tags', 1);
         }
@@ -77,9 +77,28 @@ class TagTest extends TestCase
             ->has(Note::factory())
             ->create();
 
-        $this->put( route('tag.destroy', $tag->name), ['new_name' => 'new tag']);
+        $this->put(route('tag.destroy', $tag->name), ['new_name' => 'new tag']);
         $tag->refresh();
 
         $this->assertEquals('new tag', $tag->name);
+    }
+
+    public function test_a_tag_could_be_detached_from_a_note()
+    {
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $tag = Tag::factory()->for($note->owner, 'owner')
+            ->hasAttached($note)
+            ->create();
+
+        $this->assertNotEmpty( $note->fresh()->tags );
+
+        $this->delete( route('detach_tag', [
+            'note' => $note,
+            'tag' => $tag->name
+        ]) );
+
+        $this->assertEmpty( $note->fresh()->tags );
     }
 }
