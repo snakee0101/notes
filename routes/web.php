@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function() {
 
     Route::post('/collaborator/{user}/{note}', [CollaboratorController::class, 'store'])->name('store_collaborator');
     Route::delete('/collaborator/{user}/{note}', [CollaboratorController::class, 'destroy'])->name('delete_collaborator');
-    Route::get('/collaborator/{user}/{note}', [CollaboratorController::class, 'check'])->name('check_user_existence');
+    Route::get('/collaborator/{user}', [CollaboratorController::class, 'check'])->name('check_user_existence');
 
     Route::get('/', function () {
         return view('notes', [

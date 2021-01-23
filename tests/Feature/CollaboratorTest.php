@@ -46,4 +46,6 @@ class CollaboratorTest extends TestCase
 
         $this->assertEmpty($note->collaborators);
     }
+
+
 }
