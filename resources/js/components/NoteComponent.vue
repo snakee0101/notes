@@ -50,8 +50,9 @@
         </div>
 
         <div class="tags mb-4">
-            <a href="" class="mr-2 border border-gray-200 rounded-full px-1 py-0.5 text-sm">12345</a>
-            <a href="" class="mr-2 border border-gray-200 rounded-full px-1 py-0.5 text-sm">12345</a>
+            <a href=""
+               class="mr-2 border border-gray-200 rounded-full px-1 py-0.5 text-sm"
+               v-for="tag in note.tags">{{ tag }}</a>
         </div>
 
         <div class="toolbar flex justify-between" v-if="trashed">
