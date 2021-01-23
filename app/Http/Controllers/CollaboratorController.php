@@ -18,8 +18,10 @@ class CollaboratorController extends Controller
         $note->collaborators()->detach($user);
     }
 
-    public function check(User $user, Note $note)
+    public function check($email)
     {
-        //
+        return response()->json([
+            'exists' => User::whereEmail($email)->exists()
+        ]);
     }
 }

@@ -47,5 +47,15 @@ class CollaboratorTest extends TestCase
         $this->assertEmpty($note->collaborators);
     }
 
+    public function test_check_user_existence()
+    {
+        $user = User::factory()->create();
+        auth()->login($user);
 
+        $response = $this->get( route('check_user_existence', $user->email) );
+        $response->assertJson(['exists' => true]);
+
+        $response = $this->get( route('check_user_existence', 'not-exists@gmail.com') );
+        $response->assertJson(['exists' => false]);
+    }
 }
