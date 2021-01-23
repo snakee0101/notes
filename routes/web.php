@@ -4,6 +4,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NoteToolbarController;
 use App\Http\Controllers\TagController;
 use App\Models\Note;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TrashController;
 
@@ -40,6 +41,10 @@ Route::middleware('auth')->group(function() {
             "notes" => Note::onlyArchived()->get()
         ]);
     })->name('archive');
+
+    Route::delete('/detach_tag/{note}/{tag}', function(Note $note, Tag $tag){
+        $note->tags()->detach($tag);
+    })->name('detach_tag');
 
     Route::post('/archive/{note}', [NoteToolbarController::class, 'archive'])->name('archive_note');
     Route::delete('/unarchive/{note}', [NoteToolbarController::class, 'unarchive'])->name('unarchive_note');

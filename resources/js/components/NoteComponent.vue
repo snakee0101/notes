@@ -300,7 +300,9 @@ export default {
             element.style.height = (element.scrollHeight) + "px";
         },
         detach_tag(tag) {
-            alert('detached');
+           axios.delete('/detach_tag/'+ this.note.id +'/' + tag);
+           let index = this.note.tags.indexOf(tag);
+           this.note.tags.splice(index, 1);
         }
     }
 }
