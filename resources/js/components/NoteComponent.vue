@@ -52,8 +52,15 @@
         <div class="tags mb-4">
             <a v-for="tag in note.tags"
                :href="'/tag/' + tag"
-               class="mr-2 border border-gray-200 rounded-full px-1 py-0.5 text-sm"
-               >{{ tag }}</a>
+               class="mr-2 border border-gray-200 rounded-full px-2 py-0.5 text-sm group relative">
+                {{ tag }}
+                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full px-1 z-20"
+                      @click.prevent="detach_tag(tag)">
+                    <svg class="icon icon-xs icon-close" viewBox="0 0 20 20">
+                        <path d="M10 8.586l-7.071-7.071-1.414 1.414 7.071 7.071-7.071 7.071 1.414 1.414 7.071-7.071 7.071 7.071 1.414-1.414-7.071-7.071 7.071-7.071-1.414-1.414-7.071 7.071z"></path>
+                    </svg>
+                </a>
+            </a>
         </div>
 
         <div class="toolbar flex justify-between" v-if="trashed">
@@ -291,6 +298,9 @@ export default {
 
             element.style.height = "auto";
             element.style.height = (element.scrollHeight) + "px";
+        },
+        detach_tag(tag) {
+            alert('detached');
         }
     }
 }

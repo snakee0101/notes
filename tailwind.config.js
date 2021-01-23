@@ -23,7 +23,11 @@ module.exports = {
         }
     }
   },
-  variants: {},
+  variants: {
+      extend: {
+          display: ['group-hover'],
+      }
+  },
   plugins: [
     require('@tailwindcss/ui'),
   ]
