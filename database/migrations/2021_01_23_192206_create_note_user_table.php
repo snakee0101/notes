@@ -17,6 +17,8 @@ class CreateNoteUserTable extends Migration
             $table->id();
             $table->foreignId('note_id');
             $table->foreignId('user_id');
+
+            $table->unique(['note_id', 'user_id']);
         });
     }
 

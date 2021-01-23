@@ -19,4 +19,17 @@ class CollaboratorTest extends TestCase
         $this->assertInstanceOf(User::class, $note->collaborators->first());
         $this->assertCount(3, $note->collaborators);
     }
+
+    public function test_collaborators_must_be_unique()
+    {
+        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+
+        $owner = User::factory()->create();
+        $user = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')
+            ->hasAttached($user, [], 'collaborators')
+            ->create();
+
+        $note->collaborators()->attach($user);
+    }
 }
