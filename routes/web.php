@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NoteToolbarController;
 use App\Http\Controllers\TagController;
@@ -21,8 +22,11 @@ use App\Http\Controllers\TrashController;
 
 Route::middleware('auth')->group(function() {
     Route::resource('note', NoteController::class);
+    Route::resource('collaborator', CollaboratorController::class);
     Route::resource('tag', TagController::class);
+
     Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
+    Route::post('/collaborator/{user}', [CollaboratorController::class, 'check'])->name('collaborator.check');
 
     Route::get('/', function () {
         return view('notes', [
