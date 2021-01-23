@@ -52,7 +52,7 @@
         <div class="tags mb-4">
             <a v-for="tag in note.tags"
                :href="'/tag/' + tag"
-               class="mr-2 border border-gray-200 rounded-full px-2 py-0.5 text-sm group relative">
+               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
                 {{ tag }}
                 <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full px-1 z-20"
                       @click.prevent="detach_tag(tag)">
@@ -249,6 +249,10 @@ export default {
         },
         changeColor(color) {
             this.note.color = color;
+
+            axios.put('/note/' + this.note.id, {
+                'color' : color
+            });
         },
         hideCollaboratorsDialog() {
             this.isCollaboratorsDialogVisible = false;
