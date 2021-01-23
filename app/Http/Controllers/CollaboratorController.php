@@ -15,7 +15,7 @@ class CollaboratorController extends Controller
 
     public function destroy(User $user, Note $note)
     {
-        //
+        $note->collaborators()->detach($user);
     }
 
     public function check(User $user, Note $note)

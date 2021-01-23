@@ -27,4 +27,23 @@ class CollaboratorTest extends TestCase
 
         $this->assertNotEmpty($note->fresh()->collaborators);
     }
+
+    public function test_collaborator_can_be_detached()
+    {
+        $owner = User::factory()->create();
+        $user = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')
+                               ->hasAttached($user, [],'collaborators')
+                               ->create();
+
+        auth()->login($owner);
+        $this->assertNotEmpty($note->fresh()->collaborators);
+
+        $this->delete(route('delete_collaborator', [
+            'note' => $note,
+            'user' => $user
+        ]));
+
+        $this->assertEmpty($note->collaborators);
+    }
 }
