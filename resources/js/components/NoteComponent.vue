@@ -227,6 +227,15 @@ export default {
     },
     methods: {
         pin() {
+            if(this.note.pinned)
+                axios.put('/note/' + this.note.id, {
+                    'pinned' : false
+                });
+            else
+                axios.put('/note/' + this.note.id, {
+                    'pinned' : true
+                });
+
             this.note.pinned = !this.note.pinned;
         },
         hide() {

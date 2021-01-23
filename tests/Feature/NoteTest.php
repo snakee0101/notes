@@ -119,4 +119,20 @@ class NoteTest extends TestCase
 
         $this->assertNull( $note->fresh()->deleted_at );
     }
+
+    public function test_a_note_could_be_pinned_and_unpinned()
+    {
+        $note = Note::factory()->create(['pinned' => false]);
+        auth()->login($note->owner);
+
+        $this->put( route('note.update', $note), [
+            'pinned' => true
+        ] );
+        $this->assertTrue( $note->fresh()->pinned );
+
+        $this->put( route('note.update', $note), [
+            'pinned' => false
+        ] );
+        $this->assertFalse( $note->fresh()->pinned );
+    }
 }
