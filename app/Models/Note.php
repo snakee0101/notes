@@ -43,7 +43,13 @@ class Note extends Model
         return static::withArchived()->where('archived', true);
     }
 
-    public function owner() {
+    public function owner()
+    {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

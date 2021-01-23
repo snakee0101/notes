@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Note;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -57,5 +58,16 @@ class NoteTest extends TestCase
         )->create();
 
         $this->assertCount(1, Note::onlyArchived()->get() );
+    }
+
+    public function test_a_note_has_the_tags()
+    {
+        $note = Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->hasAttached(Tag::factory()->count(3))
+         ->create();
+
+        $this->assertInstanceOf(Tag::class, $note->tags()->first());
+        $this->assertCount(3, $note->tags);
     }
 }
