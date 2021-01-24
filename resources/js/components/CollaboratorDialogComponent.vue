@@ -97,7 +97,14 @@ export default {
         checkUserExistence(response)
         {
             if(response.data.exists){
-                this.addCollaborator(this.checkingEmail);
+                if((this.emails.length > 0) && this.emails.includes(this.checkingEmail)) {
+                    alert("The user you want to add is already your collaborator");
+                } else {
+                    if (this.owner.email === this.checkingEmail)
+                        alert("You are already the owner of the note");
+                    else
+                        this.addCollaborator(this.checkingEmail);
+                }
             } else {
                 alert("The user with requested email does not registered");
             }
