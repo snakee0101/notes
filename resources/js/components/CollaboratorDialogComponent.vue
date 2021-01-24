@@ -108,18 +108,16 @@ export default {
         },
         checkUserExistence(response)
         {
-            if(response.data.exists){ //TODO: Refactor this with return-early rule
-                if((this.emails.length > 0) && this.emails.includes(this.checkingEmail)) {
-                    this.showError("The user you want to add is already your collaborator");
-                } else {
-                    if (this.owner.email === this.checkingEmail)
-                        this.showError("You are already the owner of the note");
-                    else
-                        this.addCollaborator(this.checkingEmail);
-                }
-            } else {
-                this.showError("The user with requested email does not registered");
-            }
+            if(response.data.exists === false)
+                return this.showError("The user with requested email is not registered");
+
+            if((this.emails.length > 0) && this.emails.includes(this.checkingEmail))
+                return this.showError("The user you want to add is already your collaborator");
+
+            if (this.owner.email === this.checkingEmail)
+                return this.showError("You are already the owner of the note");
+
+            this.addCollaborator(this.checkingEmail);
         },
         addCollaborator(email)
         {
