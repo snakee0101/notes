@@ -90,7 +90,9 @@ export default {
         {
             this.errorMessage = message;
             this.errorShown = true;
-            setTimeout(this.hideError,3000);
+
+            clearTimeout(window.collaboratorErrorTimeoutId);
+            window.collaboratorErrorTimeoutId = setTimeout(this.hideError,3000);
         },
         hideError()
         {
