@@ -177,7 +177,7 @@
         </div>
 
         <collaborator-dialog-component v-if="isCollaboratorsDialogVisible"
-                                       :emails="collaboratorEmails"
+                                       :emails="note.collaborators_json"
                                        v-on:hide_dialog="hideCollaboratorsDialog()">
 
         </collaborator-dialog-component>
@@ -220,7 +220,6 @@ export default {
                 'green', 'teal', 'blue', 'dark-blue',
                 'purple', 'pink', 'brown', 'grey'
             ],
-            collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
             trashed: this.$attrs.istrashed,
             note: JSON.parse(this.$attrs.note)
         };

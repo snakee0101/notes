@@ -12,7 +12,7 @@ class Note extends Model
 
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['tags'];
+    protected $appends = ['tags', 'collaborators_json'];
     protected $guarded = [];
     protected $casts = [
         'pinned' => 'boolean',
@@ -62,5 +62,10 @@ class Note extends Model
     public function collaborators()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function getCollaboratorsJsonAttribute()
+    {
+        return $this->collaborators()->pluck('email');
     }
 }
