@@ -74,7 +74,8 @@
                     </svg>
                 </a>
                 <span class="tooltiptext">Change color</span>
-                <div class="vertical-tooltiptext rounded-md"> <!--TODO: Color circles' tooltips work another way - they're smaller and they're closed when the cursor is out of the color circle (even when it was on the tooltip). So when the cursor is on the tooltip, it will be closed.-->
+                <div class="vertical-tooltiptext rounded-md">
+                    <!--TODO: Color circles' tooltips work another way - they're smaller and they're closed when the cursor is out of the color circle (even when it was on the tooltip). So when the cursor is on the tooltip, it will be closed.-->
                     <div class="tooltip2" v-for="color in colors">
                         <a href=""
                            :class="'color-circle border-2 transition border-transparent p-2 m-1 d-inline-block rounded-full bg-google-' + color + ' ' + isActive(color)"
@@ -98,7 +99,8 @@
                         <path d="M28 26h-24v-4l7-12 8 10h2l7-6z"></path>
                     </svg>
                 </a>
-                <span class="tooltiptext">Add image</span> <!--TODO: Add Image button should show and image selecting dialog and save the image into internal array-->
+                <span class="tooltiptext">Add image</span>
+                <!--TODO: Add Image button should show and image selecting dialog and save the image into internal array-->
             </div>
 
             <div class="tooltip">
@@ -121,11 +123,26 @@
                 <span class="tooltiptext">More</span> <!--TODO: More button should show a dropdown-->
                 <div class="dropdown more-dropdown">
                     <div class="dropdown-content p-0 rounded-md bg-clip-padding">
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Delete note</button>
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add label</button>
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add drawing</button>
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Make a copy</button>
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Show checkboxes</button>
+                        <button
+                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
+                            Delete note
+                        </button>
+                        <button
+                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
+                            Add label
+                        </button>
+                        <button
+                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
+                            Add drawing
+                        </button>
+                        <button
+                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
+                            Make a copy
+                        </button>
+                        <button
+                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
+                            Show checkboxes
+                        </button>
                     </div>
                 </div>
             </div>
@@ -133,7 +150,8 @@
             <div class="tooltip">
                 <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="undo_input()">
                     <svg class="icon icon-small icon-undo" viewBox="0 0 512 512">
-                        <path d="M380.931 512c56.863-103.016 66.444-260.153-156.931-254.912v126.912l-192-192 192-192v124.186c267.481-6.971 297.285 236.107 156.931 387.814z"></path>
+                        <path
+                            d="M380.931 512c56.863-103.016 66.444-260.153-156.931-254.912v126.912l-192-192 192-192v124.186c267.481-6.971 297.285 236.107 156.931 387.814z"></path>
                     </svg>
                 </a>
                 <span class="tooltiptext">Undo</span>
@@ -142,7 +160,8 @@
             <div class="tooltip">
                 <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="redo_input()">
                     <svg class="icon icon-small icon-redo" viewBox="0 0 512 512">
-                        <path d="M288 124.186v-124.186l192 192-192 192v-126.912c-223.375-5.241-213.794 151.896-156.93 254.912-140.356-151.707-110.55-394.785 156.93-387.814z"></path>
+                        <path
+                            d="M288 124.186v-124.186l192 192-192 192v-126.912c-223.375-5.241-213.794 151.896-156.93 254.912-140.356-151.707-110.55-394.785 156.93-387.814z"></path>
                     </svg>
                 </a>
                 <span class="tooltiptext">Redo</span>
@@ -165,10 +184,9 @@ export default {
         return {
             isCollaboratorsDialogVisible: false,
             changes: [
-                {'header' : '', 'content' : ''},
+                {'header': '', 'content': ''},
             ],
             currentChangeIndex: 0,
-            inputTimeoutId: 0,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -187,19 +205,27 @@ export default {
     },
     created() {
         //Save the note when clicked outside
-           window.addEventListener("click", function(event) {
-               let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
-               let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
+        window.addEventListener("click", function (event) {
+            let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
+            let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
 
-               //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
-               if( !(clicked_exactly_on_container || clicked_in_the_container) )
-                   window.events.$emit('save_new_note');
+            //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
+            if (!(clicked_exactly_on_container || clicked_in_the_container))
+                window.events.$emit('save_new_note');
 
-           });
+        });
 
-           window.events.$on('save_new_note', this.save);
+        window.events.$on('save_new_note', this.save);
     },
     methods: {
+        delay(callback, ms) {
+            if(window.noteInputTimer)
+                clearTimeout(window.noteInputTimer);
+
+            window.noteInputTimer = setTimeout(function () {
+                callback.apply(this);
+            }, ms);
+        },
         save() {
             console.log(this.$data);
         },
@@ -230,20 +256,16 @@ export default {
             element.style.height = "auto";
             element.style.height = (element.scrollHeight) + "px";
         },
-        undo_input()
-        {
-          if(this.currentChangeIndex > 0)
-          {
-              let change = this.changes[--this.currentChangeIndex];
+        undo_input() {
+            if (this.currentChangeIndex > 0) {
+                let change = this.changes[--this.currentChangeIndex];
 
-              this.note.header = change.header;
-              this.note.body = change.content;
-          }
+                this.note.header = change.header;
+                this.note.body = change.content;
+            }
         },
-        redo_input()
-        {
-            if(this.currentChangeIndex < (this.changes.length - 1))
-            {
+        redo_input() {
+            if (this.currentChangeIndex < (this.changes.length - 1)) {
                 this.currentChangeIndex++;
                 let change = this.changes[this.currentChangeIndex];
 
@@ -251,20 +273,16 @@ export default {
                 this.note.body = change.content;
             }
         },
-        track_fields()
-        {
-            if(this.currentChangeIndex < (this.changes.length - 1))
-                this.changes.splice(this.currentChangeIndex + 1,100);
+        track_fields() {
+             if(this.currentChangeIndex < (this.changes.length - 1))
+                 this.changes.splice(this.currentChangeIndex + 1,100);
 
-            clearTimeout(this.inputTimeoutId);
-            this.inputTimeoutId = setTimeout(this.track, 500);
-5
+            this.delay(this.track, 500);
             this.setInputHeight('note-header-input');
             this.setInputHeight('note-content-input');
         },
-        track()
-        {
-            this.changes.push( {'header' : this.note.header, 'content' : this.note.body} );
+        track() {
+            this.changes.push({'header': this.note.header, 'content': this.note.body});
             this.currentChangeIndex = this.changes.length - 1;
         }
     }
