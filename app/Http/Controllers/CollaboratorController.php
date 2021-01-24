@@ -12,14 +12,9 @@ class CollaboratorController extends Controller
     {
         $emails = request('emails');
 
-        $userIds = [];
-        foreach($emails as $email)  //TODO: Try to apply Collection approach
-        {
-            if(User::whereEmail($email)->exists())
-                $userIds[] = User::whereEmail($email)->value('id');
-        }
-
-        $note->collaborators()->sync($userIds);
+        $note->collaborators()->sync(
+            User::whereIn('email', $emails)->pluck('id')
+        );
         //TODO: Send mail to the user when it is added or deleted from collaborators
     }
 
