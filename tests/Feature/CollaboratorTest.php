@@ -10,41 +10,34 @@ use Tests\TestCase;
 
 class CollaboratorTest extends TestCase
 {
-    public function test_collaborator_can_be_attached()
+    public function test_collaborator_can_be_synchronized()
     {
         $owner = User::factory()->create();
         $user = User::factory()->create();
+        $user2 = User::factory()->create();
         $note = Note::factory()->for($owner, 'owner')->create();
 
         auth()->login($owner);
 
         $this->assertEmpty($note->collaborators);
 
-        $this->post(route('store_collaborator', [
+        $this->post(route('sync_collaborator', [
             'note' => $note,
-            'user' => $user
-        ]));
+        ]), [
+            'emails' => [$user->email, $user2->email]
+        ]);
 
-        $this->assertNotEmpty($note->fresh()->collaborators);
-    }
+        $this->assertContains($user->id, $note->fresh()->collaborators->pluck('id'));
+        $this->assertContains($user2->id, $note->fresh()->collaborators->pluck('id'));
 
-    public function test_collaborator_can_be_detached()
-    {
-        $owner = User::factory()->create();
-        $user = User::factory()->create();
-        $note = Note::factory()->for($owner, 'owner')
-                               ->hasAttached($user, [],'collaborators')
-                               ->create();
-
-        auth()->login($owner);
-        $this->assertNotEmpty($note->fresh()->collaborators);
-
-        $this->delete(route('delete_collaborator', [
+        $this->post(route('sync_collaborator', [
             'note' => $note,
-            'user' => $user
-        ]));
+        ]), [
+            'emails' => [$user->email]
+        ]);
 
-        $this->assertEmpty($note->collaborators);
+        $this->assertContains($user->id, $note->fresh()->collaborators->pluck('id'));
+        $this->assertNotContains($user2->id, $note->fresh()->collaborators->pluck('id'));
     }
 
     public function test_check_user_existence()

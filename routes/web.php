@@ -26,8 +26,7 @@ Route::middleware('auth')->group(function() {
 
     Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
 
-    Route::post('/collaborator/{user}/{note}', [CollaboratorController::class, 'store'])->name('store_collaborator');
-    Route::delete('/collaborator/{user}/{note}', [CollaboratorController::class, 'destroy'])->name('delete_collaborator');
+    Route::post('/collaborator/{note}', [CollaboratorController::class, 'sync'])->name('sync_collaborator');
     Route::get('/collaborator/{email}', [CollaboratorController::class, 'check'])->name('check_user_existence');
 
     Route::get('/', function () {

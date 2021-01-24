@@ -8,14 +8,18 @@ use Illuminate\Http\Request;
 
 class CollaboratorController extends Controller
 {
-    public function store(User $user, Note $note)
+    public function sync(Note $note)
     {
-        $note->collaborators()->attach($user);
-    }
+        $emails = request('emails');
 
-    public function destroy(User $user, Note $note)
-    {
-        $note->collaborators()->detach($user);
+        $userIds = [];
+        foreach($emails as $email)
+        {
+            if(User::whereEmail($email)->exists())
+                $userIds[] = User::whereEmail($email)->value('id');
+        }
+
+        $note->collaborators()->sync($userIds);
     }
 
     public function check($email)
