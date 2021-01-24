@@ -26,7 +26,7 @@
         <div>
             <textarea name="note_header" placeholder="Title"
                       class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
-                      @input="track_header()"
+                      @input="track_fields()"
                       v-model="note.header">
 
             </textarea>
@@ -36,7 +36,7 @@
             <textarea name="note_content"
                       placeholder="Take a note..."
                       class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
-                      @input="track_content()"
+                      @input="track_fields()"
                       v-model="note.body">
 
             </textarea>
@@ -165,9 +165,9 @@ export default {
         return {
             isCollaboratorsDialogVisible: false,
             changes: [
-                {header : ''},
-                {content : ''},
+                {'header' : '', 'content' : ''},
             ],
+            currentChangeIndex: 0,
             inputTimeoutId: 0,
             colors: [
                 'white', 'red', 'orange', 'yellow',
@@ -232,33 +232,40 @@ export default {
         },
         undo_input()
         {
-          alert('undo');
+          if(this.currentChangeIndex > 0)
+          {
+              let change = this.changes[--this.currentChangeIndex];
+
+              this.note.header = change.header;
+              this.note.body = change.content;
+          }
         },
         redo_input()
         {
-          alert('redo');
+            if(this.currentChangeIndex < (this.changes.length - 1))
+            {
+                this.currentChangeIndex++;
+                let change = this.changes[this.currentChangeIndex];
+
+                this.note.header = change.header;
+                this.note.body = change.content;
+            }
         },
-        track_header()
+        track_fields()
         {
+            if(this.currentChangeIndex < (this.changes.length - 1))
+                this.changes.splice(this.currentChangeIndex + 1,100);
+
             clearTimeout(this.inputTimeoutId);
-            this.inputTimeoutId = setTimeout(this.trackHeader, 500);
+            this.inputTimeoutId = setTimeout(this.track, 500);
 5
             this.setInputHeight('note-header-input');
-        },
-        track_content()
-        {
-            clearTimeout(this.inputTimeoutId);
-            this.inputTimeoutId = setTimeout(this.trackContent, 500);
-
             this.setInputHeight('note-content-input');
         },
-        trackHeader()
+        track()
         {
-            this.changes.push( {'header' : this.note.header} );
-        },
-        trackContent()
-        {
-            this.changes.push( {'content' : this.note.body} );
+            this.changes.push( {'header' : this.note.header, 'content' : this.note.body} );
+            this.currentChangeIndex = this.changes.length - 1;
         }
     }
 }
