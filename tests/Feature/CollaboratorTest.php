@@ -51,4 +51,16 @@ class CollaboratorTest extends TestCase
         $response = $this->get( route('check_user_existence', 'not-exists@gmail.com') );
         $response->assertJson(['exists' => false]);
     }
+
+    public function test_note_can_restore_collaborator_emails()
+    {
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $users = User::factory()->count(3)->create();
+        $note->collaborators()->sync($users->pluck('id'));
+
+        $response = $this->get( route('collaborators_list', $note->fresh()) );
+        $response->assertJson( $users->pluck('email')->toArray() );
+    }
 }

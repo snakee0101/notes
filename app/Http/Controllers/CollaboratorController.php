@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class CollaboratorController extends Controller
 {
+    public function index(Note $note)
+    {
+        $emails = $note->collaborators->pluck('email');
+        return response()->json($emails);
+    }
+
     public function sync(Note $note)
     {
         $emails = request('emails');
