@@ -51,6 +51,8 @@
                             <span class="tooltip4text">Add collaborator</span>
                         </div>
                     </div>
+
+                    <p v-if="errorShown" class="text-sm text-red-700">{{ errorMessage }}</p>
                 </div>
             </div>
             <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
@@ -79,11 +81,23 @@ export default {
             owner: this.$attrs.owner,
             checkingEmail: '',
             note: this.$attrs.note,
+            errorShown: false,
+            errorMessage: ''
         };
     },
     methods: {
         hide(){   //TODO: Clicking outside must show confirmation dialog for discarding changes
             this.$emit('hide_dialog');
+        },
+        showError(message)
+        {
+            this.errorMessage = message;
+            this.errorShown = true;
+            setTimeout(this.hideError,3000);
+        },
+        hideError()
+        {
+            this.errorShown = false;
         },
         deleteCollaborator(email) {
             let index = this.emails.indexOf(email);
@@ -99,15 +113,15 @@ export default {
         {
             if(response.data.exists){ //TODO: Refactor this with return-early rule
                 if((this.emails.length > 0) && this.emails.includes(this.checkingEmail)) {
-                    alert("The user you want to add is already your collaborator");
+                    this.showError("The user you want to add is already your collaborator");
                 } else {
                     if (this.owner.email === this.checkingEmail)
-                        alert("You are already the owner of the note");
+                        this.showError("You are already the owner of the note");
                     else
                         this.addCollaborator(this.checkingEmail);
                 }
             } else {
-                alert("The user with requested email does not registered");
+                this.showError("The user with requested email does not registered");
             }
         },
         addCollaborator(email)
