@@ -130,6 +130,24 @@
                 </div>
             </div>
 
+            <div class="tooltip">
+                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="undo_input()">
+                    <svg class="icon icon-small icon-undo" viewBox="0 0 512 512">
+                        <path d="M380.931 512c56.863-103.016 66.444-260.153-156.931-254.912v126.912l-192-192 192-192v124.186c267.481-6.971 297.285 236.107 156.931 387.814z"></path>
+                    </svg>
+                </a>
+                <span class="tooltiptext">Undo</span>
+            </div>
+
+            <div class="tooltip">
+                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="redo_input()">
+                    <svg class="icon icon-small icon-redo" viewBox="0 0 512 512">
+                        <path d="M288 124.186v-124.186l192 192-192 192v-126.912c-223.375-5.241-213.794 151.896-156.93 254.912-140.356-151.707-110.55-394.785 156.93-387.814z"></path>
+                    </svg>
+                </a>
+                <span class="tooltiptext">Redo</span>
+            </div>
+
         </div>
 
         <collaborator-dialog-component v-if="isCollaboratorsDialogVisible"
@@ -206,6 +224,14 @@ export default {
 
             element.style.height = "auto";
             element.style.height = (element.scrollHeight) + "px";
+        },
+        undo_input()
+        {
+          alert('undo');
+        },
+        redo_input()
+        {
+          alert('redo');
         }
     }
 }
