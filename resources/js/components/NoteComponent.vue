@@ -176,7 +176,7 @@
 
         </div>
 
-        <collaborator-dialog-component v-if="isCollaboratorsDialogVisible"
+        <collaborator-dialog-component v-show="isCollaboratorsDialogVisible"
                                        :note="note"
                                        :emails="note.collaborators_json"
                                        :owner="note.owner_json"

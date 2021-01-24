@@ -1,5 +1,5 @@
 <template>  <!--TODO: There should be the animation when the dialog appears and disappears-->
-    <div @mousedown.self="hide()"
+    <div @mousedown.self="cancel()"
          class="collaborators-dialog z-20 fixed top-0 left-0 right-0
              bottom-0 flex items-center bg-gray-800 bg-opacity-75">
         <div class="collaborators-content m-auto">
@@ -86,9 +86,6 @@ export default {
         };
     },
     methods: {
-        hide(){   //TODO: Clicking outside must show confirmation dialog for discarding changes
-            this.$emit('hide_dialog');
-        },
         showError(message)
         {
             this.errorMessage = message;
@@ -130,13 +127,21 @@ export default {
             this.newEmail = '';
         },
         cancel() {
-            this.hide();
+            this.$emit('hide_dialog');
+
+            axios.get('/collaborators/' + this.note.id)
+                 .then(res => this.resetData(res));
+        },
+        resetData(res)
+        {
+            this.emails = res.data;
+            this.$attrs.emails = res.data;
         },
         save() {
             axios.post('/collaborator/' + this.note.id, {
                 emails : this.emails
             });
-            this.hide();
+            this.cancel();
         },
     }
 }
