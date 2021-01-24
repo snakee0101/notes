@@ -77,7 +77,8 @@ export default {
             newEmail: '',
             emails: this.$attrs.emails,
             owner: this.$attrs.owner,
-            checkingEmail: ''
+            checkingEmail: '',
+            note: this.$attrs.note,
         };
     },
     methods: {
@@ -96,7 +97,7 @@ export default {
         },
         checkUserExistence(response)
         {
-            if(response.data.exists){
+            if(response.data.exists){ //TODO: Refactor this with return-early rule
                 if((this.emails.length > 0) && this.emails.includes(this.checkingEmail)) {
                     alert("The user you want to add is already your collaborator");
                 } else {
@@ -115,10 +116,13 @@ export default {
             this.newEmail = '';
         },
         cancel() {
-            alert('Cancel'); //TODO: Cancel button must restore emails list
+            this.hide();
         },
         save() {
-            alert('Add');  //TODO: Save button must actually save collaborators (make a post request) or remove them
+            axios.post('/collaborator/' + this.note.id, {
+                emails : this.emails
+            });
+            this.hide();
         },
     }
 }
