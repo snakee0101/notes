@@ -178,6 +178,7 @@
 
         <collaborator-dialog-component v-if="isCollaboratorsDialogVisible"
                                        :emails="note.collaborators_json"
+                                       :owner="note.owner_json"
                                        v-on:hide_dialog="hideCollaboratorsDialog()">
 
         </collaborator-dialog-component>
