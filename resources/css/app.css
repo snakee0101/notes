@@ -202,7 +202,6 @@ nav a.active {
 }
 
 .dropdown-content {
-    display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
@@ -210,10 +209,6 @@ nav a.active {
     z-index: 1;
     left: -40px;
     top: 10px;
-}
-
-.dropdown-opener:focus ~ .dropdown .dropdown-content {
-    display: block;
 }
 
 section.search.active,
