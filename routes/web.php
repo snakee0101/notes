@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CollaboratorController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TagController;
 use App\Models\Note;
@@ -23,6 +24,7 @@ use App\Http\Controllers\TrashController;
 Route::middleware('auth')->group(function() {
     Route::resource('note', NoteController::class);
     Route::resource('tag', TagController::class);
+    Route::resource('image', ImageController::class);
 
     Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
 
