@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class ImageController extends Controller
@@ -30,16 +31,24 @@ class ImageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     * @param Note $note
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function store(Request $request)
     {
         $image = $request->file('image');
-        $ext = $image->extension();  //extension without .
 
-        $filename = now()->timestamp . random_int(10000,10000000) . '.' . $ext;
+        $filename = now()->timestamp . random_int(10000,10000000) . '.' . $image->extension();
         $image->storeAs('images', $filename);
+
+        $note = Note::find( $request->input('note_id') );
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => $image->getPath(),
+            'thumbnail_path' => ''
+        ]);
 
         return $filename;
     }
