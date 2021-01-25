@@ -166,7 +166,7 @@
                 <span class="tooltiptext more-button">More</span> <!--TODO: More button should show a dropdown-->
                 <div class="dropdown more-dropdown">
                     <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="dropdownShown">
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Delete note</button>
+                        <button @click="deleteNote()" class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Delete note</button>
                         <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add label</button>
                         <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add drawing</button>
                         <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Make a copy</button>
@@ -301,9 +301,21 @@ export default {
             axios.post('note/restore/' + this.note.id);
             this.hide();//TODO: There should be animation while hiding a note
 
-            window.events.$emit('show-notification', 'Note restored', this.deleteNote);
+            window.events.$emit('show-notification', 'Note restored', this.undoRestore);
         },
         deleteNote(){
+            axios.delete('note/' + this.note.id);
+            this.hide();
+
+            window.events.$emit('show-notification', 'Note deleted', this.undoDelete);
+        },
+        undoDelete(){
+            axios.post('note/restore/' + this.note.id);
+            this.show();
+
+            window.events.$emit('show-notification', 'Action undone');
+        },
+        undoRestore(){
             axios.delete('note/' + this.note.id);
             this.show();
 
