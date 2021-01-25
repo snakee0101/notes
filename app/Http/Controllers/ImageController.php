@@ -35,7 +35,13 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = $request->file('image');
+        $ext = $image->extension();  //extension without .
+
+        $filename = now()->timestamp . random_int(10000,10000000) . '.' . $ext;
+        $image->storeAs('images', $filename);
+
+        return $filename;
     }
 
     /**
