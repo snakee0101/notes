@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Image;
 use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
@@ -82,5 +83,11 @@ class NoteTest extends TestCase
         $json_decoded = json_decode($note->toJson());
         $this->assertObjectHasAttribute('tags', $json_decoded);
         $this->assertCount(3, $json_decoded->tags);
+    }
+
+    public function test_a_note_has_images()
+    {
+        $note = Note::factory()->has(Image::factory()->count(3))->create();
+        $this->assertInstanceOf(Image::class, $note->images->first());
     }
 }

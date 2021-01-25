@@ -73,4 +73,9 @@ class Note extends Model
     {
         return $this->owner;
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }
