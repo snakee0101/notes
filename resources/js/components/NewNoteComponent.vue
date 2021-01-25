@@ -2,7 +2,8 @@
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors m-auto new-note"
          :class="'bg-google-' + note.color"
-         style="width: 600px">
+         style="width: 600px"
+         ref="note">
         <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()">
             <div class="tooltip" v-if="note.pinned">
                 <svg class="icon icon-small icon-cancel-circle" viewBox="0 0 32 32">
@@ -113,36 +114,19 @@
                 <span class="tooltiptext">Archive</span>
             </div>
 
-            <div class="tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full dropdown-opener" @click.prevent>
+            <div class="tooltip dropdown-tooltip">
+                <a href="" class="hover:bg-gray-300 p-2 rounded-full dropdown-opener" @click.prevent="showDropdown()">
                     <svg class="icon icon-small icon-ellipsis-v" viewBox="0 0 6 28">
                         <path
                             d="M6 19.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 11.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 3.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5z"></path>
                     </svg>
                 </a>
-                <span class="tooltiptext">More</span> <!--TODO: More button should show a dropdown-->
+                <span class="tooltiptext more-button">More</span> <!--TODO: More button should show a dropdown-->
                 <div class="dropdown more-dropdown">
-                    <div class="dropdown-content p-0 rounded-md bg-clip-padding">
-                        <button
-                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
-                            Delete note
-                        </button>
-                        <button
-                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
-                            Add label
-                        </button>
-                        <button
-                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
-                            Add drawing
-                        </button>
-                        <button
-                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
-                            Make a copy
-                        </button>
-                        <button
-                            class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">
-                            Show checkboxes
-                        </button>
+                    <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="dropdownShown">
+                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add label</button>
+                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add drawing</button>
+                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Show checkboxes</button>
                     </div>
                 </div>
             </div>
@@ -183,6 +167,7 @@ export default {
     data() {
         return {
             isCollaboratorsDialogVisible: false,
+            dropdownShown: false,
             changes: [
                 {'header': '', 'content': ''},
             ],
@@ -216,8 +201,37 @@ export default {
         });
 
         window.events.$on('save_new_note', this.save);
+
+
+
+        //Close all dropdowns
+        window.addEventListener("click", function (event) {
+            window.events.$emit('close_dropdown');
+
+            let collection = document.getElementsByClassName('dropdown-tooltip');
+
+            Array.prototype.filter.call(collection, function(element){
+                if(element.contains(event.target))
+                    window.events.$emit('open_dropdown', element);
+            });
+        });
+
+        window.events.$on('close_dropdown', this.hideDropdown);
+        window.events.$on('open_dropdown', this.openDropdown);
     },
     methods: {
+        openDropdown(element)
+        {
+            if(this.$refs.note.contains(element))
+                this.showDropdown();
+        },
+        showDropdown()
+        {
+            this.dropdownShown = true;
+        },
+        hideDropdown(){
+            this.dropdownShown = false;
+        },
         delay(callback, ms) {
             if(window.noteInputTimer)
                 clearTimeout(window.noteInputTimer);
