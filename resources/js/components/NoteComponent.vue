@@ -21,10 +21,11 @@
                 </svg>
                 <span class="tooltiptext">Pin</span>
             </div>
-
-
         </a>
 
+        <div class="images">
+            <img src="" alt="">
+        </div>
 
         <div v-if="editing">
             <textarea name="note_header" placeholder="Title"

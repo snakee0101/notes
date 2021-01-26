@@ -12,7 +12,7 @@ class Note extends Model
 
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['tags', 'collaborators_json', 'owner_json'];
+    protected $appends = ['tags', 'collaborators_json', 'owner_json', 'images_json'];
     protected $guarded = [];
     protected $casts = [
         'pinned' => 'boolean',
@@ -77,5 +77,10 @@ class Note extends Model
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function getImagesJsonAttribute()
+    {
+        return $this->images;
     }
 }
