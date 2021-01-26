@@ -53,4 +53,14 @@ class ImageTest extends TestCase
         $this->assertCount(1, $note->fresh()->images);
         $this->assertInstanceOf(Image::class, $note->fresh()->images()->first());
     }
+
+    public function test_thumbnail_small_is_attached()
+    {
+
+    }
+
+    public function test_thumbnail_large_is_attached()
+    {
+
+    }
 }

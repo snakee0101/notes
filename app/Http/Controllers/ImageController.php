@@ -39,18 +39,17 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         $image = $request->file('image');
-
-        $filename = now()->timestamp . random_int(10000,10000000) . '.' . $image->getClientOriginalExtension();
-        $image->storeAs('images', $filename);
+        $paths = Image::processUpload($image);
 
         $note = Note::find( $request->input('note_id') );
         $note->images()->create([
             'note_id' => $note->id,
-            'image_path' => "/storage/images/" . $filename,
-            'thumbnail_path' => ''
+            'image_path' => $paths['image_path'],
+            'thumbnail_small_path' => $paths['thumbnail_small_path'],
+            'thumbnail_large_path' => $paths['thumbnail_large_path'],
         ]);
 
-        return $filename;
+        return $paths['image_path'];
     }
 
     /**

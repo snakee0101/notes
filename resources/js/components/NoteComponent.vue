@@ -133,7 +133,7 @@
                         <path d="M28 26h-24v-4l7-12 8 10h2l7-6z"></path>
                     </svg>
                 </a>
-                <input type="file" ref="image" class="hidden" accept="image/*" @change="handleFiles()">
+                <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif" @change="handleFiles()">
                 <span class="tooltiptext">Add image</span> <!--TODO: Add Image button should show and image selecting dialog and save the image into internal array-->
             </div>
 
