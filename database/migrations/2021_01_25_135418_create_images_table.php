@@ -17,7 +17,8 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->foreignId('note_id');
             $table->string('image_path');
-            $table->string('thumbnail_path');
+            $table->string('thumbnail_small_path');
+            $table->string('thumbnail_large_path');
         });
     }
 
