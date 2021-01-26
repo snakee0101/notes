@@ -19,6 +19,10 @@ class CreateNoteUserTable extends Migration
             $table->foreignId('user_id');
 
             $table->unique(['note_id', 'user_id']);
+
+            $table->foreign('note_id')->references('id')
+                                              ->on('notes')
+                                              ->onDelete('cascade');
         });
     }
 
