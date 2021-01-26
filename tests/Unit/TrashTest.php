@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Note;
 use App\Models\User;
 use App\Utilities\Trash;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class TrashTest extends TestCase
@@ -65,5 +66,69 @@ class TrashTest extends TestCase
         Trash::empty();
 
         $this->assertEmpty(Note::onlyTrashed()->get());
+    }
+
+    public function test_images_are_deleted_when_trash_is_emptied()
+    {
+        $storage = Storage::fake();
+        $note = Note::factory()->create();
+        $storage->put('images/123.jpeg', 12345);
+        $storage->put('thumbnails_small/456.jpeg', 12345);
+        $storage->put('thumbnails_large/789.jpeg', 12345);
+        auth()->login($note->owner);
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
+                '.jpeg',
+        ]);
+
+        $this->assertTrue( $storage->exists('images/123.jpeg') );
+        $this->assertTrue( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
+        $this->assertDatabaseCount('images', 1);
+
+        $note->delete();
+        Trash::empty();
+
+        $this->assertFalse( $storage->exists('images/123.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_large/789.jpeg') );
+        $this->assertDatabaseCount('images', 0);
+    }
+
+    public function test_images_are_deleted_when_expired_notes_are_removed()
+    {
+        $storage = Storage::fake();
+        $note = Note::factory()->create();
+        $storage->put('images/123.jpeg', 12345);
+        $storage->put('thumbnails_small/456.jpeg', 12345);
+        $storage->put('thumbnails_large/789.jpeg', 12345);
+        auth()->login($note->owner);
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
+                '.jpeg',
+        ]);
+
+        $this->assertTrue( $storage->exists('images/123.jpeg') );
+        $this->assertTrue( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
+        $this->assertDatabaseCount('images', 1);
+
+        $this->travel(-8)->days();
+        $note->delete();
+        $this->travelBack();
+        Trash::removeExpired();
+
+        $this->assertFalse( $storage->exists('images/123.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_large/789.jpeg') );
+        $this->assertDatabaseCount('images', 0);
     }
 }
