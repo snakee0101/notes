@@ -125,7 +125,7 @@
 
 
             <div class="tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent>
+                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="selectImage()">
                     <svg class="icon icon-small icon-image" viewBox="0 0 32 32">
                         <path
                             d="M29.996 4c0.001 0.001 0.003 0.002 0.004 0.004v23.993c-0.001 0.001-0.002 0.003-0.004 0.004h-27.993c-0.001-0.001-0.003-0.002-0.004-0.004v-23.993c0.001-0.001 0.002-0.003 0.004-0.004h27.993zM30 2h-28c-1.1 0-2 0.9-2 2v24c0 1.1 0.9 2 2 2h28c1.1 0 2-0.9 2-2v-24c0-1.1-0.9-2-2-2v0z"></path>
@@ -133,6 +133,7 @@
                         <path d="M28 26h-24v-4l7-12 8 10h2l7-6z"></path>
                     </svg>
                 </a>
+                <input type="file" ref="image" class="hidden" accept="image/*" @change="handleFiles()">
                 <span class="tooltiptext">Add image</span> <!--TODO: Add Image button should show and image selecting dialog and save the image into internal array-->
             </div>
 
@@ -245,6 +246,20 @@ export default {
         window.events.$on('open_dropdown', this.openDropdown);
     },
     methods: {
+        selectImage()
+        {
+            this.$refs['image'].click();
+        },
+        handleFiles()
+        {
+            let image = this.$refs['image'].files[0];
+
+            let data = new FormData();
+            data.append('image', image, image.name);
+            data.append('note_id', this.note.id);
+
+            axios.post('/image', data);
+        },
         openDropdown(element)
         {
             if(this.$refs.note.contains(element))

@@ -40,13 +40,13 @@ class ImageController extends Controller
     {
         $image = $request->file('image');
 
-        $filename = now()->timestamp . random_int(10000,10000000) . '.' . $image->extension();
+        $filename = now()->timestamp . random_int(10000,10000000) . '.' . $image->getClientOriginalExtension();
         $image->storeAs('images', $filename);
 
         $note = Note::find( $request->input('note_id') );
         $note->images()->create([
             'note_id' => $note->id,
-            'image_path' => $image->getPath(),
+            'image_path' => "/storage/images/" . $filename,
             'thumbnail_path' => ''
         ]);
 
