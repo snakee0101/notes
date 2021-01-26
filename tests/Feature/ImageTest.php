@@ -85,12 +85,14 @@ class ImageTest extends TestCase
         $this->assertTrue( $storage->exists('images/123.jpeg') );
         $this->assertTrue( $storage->exists('thumbnails_small/456.jpeg') );
         $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
+        $this->assertDatabaseCount('images', 1);
 
         $note->forceDelete();
 
         $this->assertFalse( $storage->exists('images/123.jpeg') );
         $this->assertFalse( $storage->exists('thumbnails_small/456.jpeg') );
         $this->assertFalse( $storage->exists('thumbnails_large/789.jpeg') );
+        $this->assertDatabaseCount('images', 0);
 
     }
 }

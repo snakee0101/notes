@@ -48,6 +48,8 @@ class Note extends Model
                 Storage::delete($path_2);
                 Storage::delete($path_3);
             }
+
+            $object->images()->delete();
         });
     }
 
