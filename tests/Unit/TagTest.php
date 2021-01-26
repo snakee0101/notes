@@ -72,4 +72,17 @@ class TagTest extends TestCase
         $tag->forceDelete();
         $this->assertDatabaseCount('note_tag', 0);
     }
+
+    public function test_note_is_removed_from_a_pivot_when_it_is_deleted()
+    {
+        $user = User::factory();
+        $tag = Tag::factory()->has($user, 'owner')->count(3);
+        auth()->login($user->create());
+
+        $note = Note::factory()->hasAttached($tag)->create();
+        $this->assertDatabaseCount('note_tag', 3);
+
+        $note->forceDelete();
+        $this->assertDatabaseCount('note_tag', 0);
+    }
 }
