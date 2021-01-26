@@ -15,7 +15,14 @@ class CreateRemindersTable extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('note_id')->unique();
+            $table->timestamp('time')->nullable();
+            $table->string('location')->nullable();
+            $table->json('repeat')->nullable();
+
+            $table->foreign('note_id')->references('id')
+                ->on('notes')
+                ->onDelete('cascade');
         });
     }
 
