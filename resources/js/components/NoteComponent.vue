@@ -24,7 +24,7 @@
         </a>
 
         <div class="images">
-            <img src="" alt="">
+            <img :src="image.thumbnail_small_path" v-for="image in note.images_json">
         </div>
 
         <div v-if="editing">
