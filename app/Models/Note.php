@@ -13,7 +13,7 @@ class Note extends Model
 
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['tags', 'collaborators_json', 'owner_json', 'images_json'];
+    protected $appends = ['tags', 'collaborators_json', 'owner_json', 'images_json', 'reminder_json'];
     protected $guarded = [];
     protected $casts = [
         'pinned' => 'boolean',
@@ -106,5 +106,10 @@ class Note extends Model
     public function reminder()
     {
         return $this->hasOne(Reminder::class);
+    }
+
+    public function getReminderJsonAttribute()
+    {
+        return $this->reminder;
     }
 }
