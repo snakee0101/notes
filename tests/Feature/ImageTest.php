@@ -65,4 +65,32 @@ class ImageTest extends TestCase
     {
 
     }
+
+    public function test_images_are_physically_deleted_when_deleting_the_note()
+    {
+        $storage = Storage::fake();
+        $note = Note::factory()->create();
+        $storage->put('images/123.jpeg', 12345);
+        $storage->put('thumbnails_small/456.jpeg', 12345);
+        $storage->put('thumbnails_large/789.jpeg', 12345);
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
+                '.jpeg',
+        ]);
+
+        $this->assertTrue( $storage->exists('images/123.jpeg') );
+        $this->assertTrue( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
+
+        $note->forceDelete();
+
+        $this->assertFalse( $storage->exists('images/123.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_large/789.jpeg') );
+
+    }
 }

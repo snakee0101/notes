@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Note extends Model
 {
@@ -22,15 +23,31 @@ class Note extends Model
     public function resolveRouteBinding($value, $field = null)
     {
         return static::withArchived()
-                     ->withTrashed()
-                     ->findOrFail($value);
+            ->withTrashed()
+            ->findOrFail($value);
     }
 
     protected static function booted()
     {
         parent::boot();
-        static::addGlobalScope('hideArchived', function($query){
+
+        static::addGlobalScope('hideArchived', function ($query) {
             $query->where('archived', false);
+        });
+
+        static::deleting(function (self $object) {
+            if (!$object->isForceDeleting())
+                return;
+
+            foreach ($object->images as $image) {
+                $path_1 = substr($image->image_path, 9);  //offset for '/storage/' part
+                $path_2 = substr($image->thumbnail_small_path, 9);
+                $path_3 = substr($image->thumbnail_large_path, 9);
+
+                Storage::delete($path_1);
+                Storage::delete($path_2);
+                Storage::delete($path_3);
+            }
         });
     }
 
