@@ -6,13 +6,14 @@ use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class TagTest extends TestCase
 {
-    use RefreshDatabase, DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
 
     public function test_tag_has_an_owner()
     {
@@ -58,5 +59,17 @@ class TagTest extends TestCase
         $this->assertCount(1, Tag::all());
 
         Tag::create($tag_1_data);
+    }
+
+    public function test_tag_is_removed_from_intermediate_table_when_it_is_deleted()
+    {
+        $tag = Tag::factory()->create();
+        auth()->login($tag->owner);
+
+        $note = Note::factory()->count(3)->hasAttached($tag)->create();
+        $this->assertDatabaseCount('note_tag', 3);
+
+        $tag->forceDelete();
+        $this->assertDatabaseCount('note_tag', 0);
     }
 }
