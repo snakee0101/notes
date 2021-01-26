@@ -79,14 +79,19 @@
         </div>
 
         <div class="toolbar" v-else>
-            <div class="tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent>
+            <div class="tooltip reminders-dropdown-tooltip">
+                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="showRemindersDropdown()">
                     <svg class="icon icon-small icon-bell" viewBox="0 0 32 32">
                         <path
                             d="M32.047 25c0-9-8-7-8-14 0-0.58-0.056-1.076-0.158-1.498-0.526-3.532-2.88-6.366-5.93-7.23 0.027-0.123 0.041-0.251 0.041-0.382 0-1.040-0.9-1.891-2-1.891s-2 0.851-2 1.891c0 0.131 0.014 0.258 0.041 0.382-3.421 0.969-5.966 4.416-6.039 8.545-0.001 0.060-0.002 0.121-0.002 0.183 0 7-8 5-8 14 0 2.382 5.331 4.375 12.468 4.878 0.673 1.263 2.002 2.122 3.532 2.122s2.86-0.86 3.532-2.122c7.137-0.503 12.468-2.495 12.468-4.878 0-0.007-0.001-0.014-0.001-0.021l0.048 0.021zM25.82 26.691c-1.695 0.452-3.692 0.777-5.837 0.958-0.178-2.044-1.893-3.648-3.984-3.648s-3.805 1.604-3.984 3.648c-2.144-0.18-4.142-0.506-5.837-0.958-2.332-0.622-3.447-1.318-3.855-1.691 0.408-0.372 1.523-1.068 3.855-1.691 2.712-0.724 6.199-1.122 9.82-1.122s7.109 0.398 9.82 1.122c2.332 0.622 3.447 1.318 3.855 1.691-0.408 0.372-1.523 1.068-3.855 1.691z"></path>
                     </svg>
                 </a>
-                <span class="tooltiptext">Remind me</span> <!--TODO: Remind Me button should show a dropdown-->
+                <span class="tooltiptext">Remind me</span>
+                <div class="dropdown">
+                    <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="remindersDropdownShown">
+                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Test</button>
+                    </div>
+                </div>
             </div>
 
             <div class="tooltip">
@@ -221,6 +226,7 @@ export default {
             dropdownShown: false,
             isCollaboratorsDialogVisible: false,
             isDeleteConfirmationVisible: false,
+            remindersDropdownShown: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -234,6 +240,7 @@ export default {
         //Close all dropdowns
         window.addEventListener("click", function (event) {
             window.events.$emit('close_dropdown');
+            window.events.$emit('close_reminders_dropdown');
 
             let collection = document.getElementsByClassName('dropdown-tooltip');
 
@@ -241,10 +248,19 @@ export default {
                 if(element.contains(event.target))
                     window.events.$emit('open_dropdown', element);
             });
+
+            let collection2 = document.getElementsByClassName('reminders-dropdown-tooltip');
+
+            Array.prototype.filter.call(collection2, function(element){
+                if(element.contains(event.target))
+                    window.events.$emit('open_reminders_dropdown', element);
+            });
         });
 
         window.events.$on('close_dropdown', this.hideDropdown);
+        window.events.$on('close_reminders_dropdown', this.hideRemindersDropdown);
         window.events.$on('open_dropdown', this.openDropdown);
+        window.events.$on('open_reminders_dropdown', this.openRemindersDropdown);
 
         window.events.$on('refresh_image', this.refreshImage);
     },
@@ -277,9 +293,22 @@ export default {
             if(this.$refs.note.contains(element))
                 this.showDropdown();
         },
+        openRemindersDropdown(element)
+        {
+            if(this.$refs.note.contains(element))
+                this.showRemindersDropdown();
+        },
         showDropdown()
         {
             this.dropdownShown = true;
+        },
+        showRemindersDropdown()
+        {
+            this.remindersDropdownShown = true;
+        },
+        hideRemindersDropdown()
+        {
+            this.remindersDropdownShown = false;
         },
         hideDropdown(){
             this.dropdownShown = false;
