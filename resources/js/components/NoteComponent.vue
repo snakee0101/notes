@@ -245,8 +245,15 @@ export default {
 
         window.events.$on('close_dropdown', this.hideDropdown);
         window.events.$on('open_dropdown', this.openDropdown);
+
+        window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        refreshImage(data)
+        {
+            if(Object.is(this, window.newImageComponent))
+                this.note.images_json.push(data);
+        },
         selectImage()
         {
             this.$refs['image'].click();
@@ -259,7 +266,11 @@ export default {
             data.append('image', image, image.name);
             data.append('note_id', this.note.id);
 
-            axios.post('/image', data);
+            window.newImageComponent = this;
+
+            axios.post('/image', data).then(function(result) {
+                window.events.$emit('refresh_image', result.data);
+            });
         },
         openDropdown(element)
         {
