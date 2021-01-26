@@ -3,6 +3,7 @@
 use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\TagController;
 use App\Models\Note;
 use App\Models\Tag;
@@ -27,6 +28,10 @@ Route::middleware('auth')->group(function() {
     Route::resource('image', ImageController::class);
 
     Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
+
+    Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');
+    Route::put('/reminder/{note}', [ReminderController::class, 'update'])->name('reminder.update');
+    Route::delete('/reminder/{note}', [ReminderController::class, 'destroy'])->name('reminder.destroy');
 
     Route::post('/collaborator/{note}', [CollaboratorController::class, 'sync'])->name('sync_collaborator');
     Route::get('/collaborator/{email}', [CollaboratorController::class, 'check'])->name('check_user_existence');
