@@ -88,8 +88,29 @@
                 </a>
                 <span class="tooltiptext">Remind me</span>
                 <div class="dropdown">
-                    <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="remindersDropdownShown">
-                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Test</button>
+                    <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="remindersDropdownShown" style="width: 300px">
+                        <p class="text-lg p-2 pl-4 font-bold">Reminder:</p>
+                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
+                            Tomorrow
+                            <span class="absolute right-4 text-gray-500">8:00 AM</span>
+                        </button>
+                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
+                            Next week
+                            <span class="absolute right-4 text-gray-500">Mon., 8:00 AM</span>
+                        </button>
+                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200">
+                            <svg class="icon icon-small icon-alarm mr-3" viewBox="0 0 32 32">
+                                <path d="M16 4c-7.732 0-14 6.268-14 14s6.268 14 14 14 14-6.268 14-14-6.268-14-14-14zM16 29.25c-6.213 0-11.25-5.037-11.25-11.25s5.037-11.25 11.25-11.25c6.213 0 11.25 5.037 11.25 11.25s-5.037 11.25-11.25 11.25zM29.212 8.974c0.501-0.877 0.788-1.892 0.788-2.974 0-3.314-2.686-6-6-6-1.932 0-3.65 0.913-4.747 2.331 4.121 0.851 7.663 3.287 9.96 6.643v0zM12.748 2.331c-1.097-1.418-2.816-2.331-4.748-2.331-3.314 0-6 2.686-6 6 0 1.082 0.287 2.098 0.788 2.974 2.297-3.356 5.838-5.792 9.96-6.643z"></path>
+                                <path d="M16 18v-8h-2v10h8v-2z"></path>
+                            </svg>
+                            Pick date & time
+                        </button>
+                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200">
+                            <svg class="icon icon-small icon-location2 mr-3" viewBox="0 0 32 32">
+                                <path d="M16 0c-5.523 0-10 4.477-10 10 0 10 10 22 10 22s10-12 10-22c0-5.523-4.477-10-10-10zM16 16.125c-3.383 0-6.125-2.742-6.125-6.125s2.742-6.125 6.125-6.125 6.125 2.742 6.125 6.125-2.742 6.125-6.125 6.125zM12.125 10c0-2.14 1.735-3.875 3.875-3.875s3.875 1.735 3.875 3.875c0 2.14-1.735 3.875-3.875 3.875s-3.875-1.735-3.875-3.875z"></path>
+                            </svg>
+                            Pick place
+                        </button>
                     </div>
                 </div>
             </div>
