@@ -19,6 +19,6 @@ class ReminderController extends Controller
 
     public function destroy(Note $note)
     {
-        //
+        $note->reminder()->delete();
     }
 }
