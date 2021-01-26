@@ -49,7 +49,7 @@ class ImageController extends Controller
             'thumbnail_large_path' => $paths['thumbnail_large_path'],
         ]);
 
-        return $paths['image_path'];
+        return $paths;
     }
 
     /**
