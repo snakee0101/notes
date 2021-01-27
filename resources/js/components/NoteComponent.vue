@@ -331,6 +331,9 @@ export default {
                 'time' : time[text_time]
             });
             this.hideRemindersDropdown();
+            this.note.reminder_json = {
+                'time' : time[text_time]
+            };
         },
         removeReminder()
         {
