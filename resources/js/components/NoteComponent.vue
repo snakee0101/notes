@@ -105,7 +105,7 @@
                 <div class="dropdown">
                     <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="remindersDropdownShown" style="width: 300px">
                         <p class="text-lg p-2 pl-4 font-bold">Reminder:</p>
-                        <button @click="storeReminder('later_today')" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
+                        <button @click="storeReminder('later_today')" v-if="isLaterTodayVisible" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
                             Later today
                             <span class="absolute right-4 text-gray-500">8:00 PM</span>
                         </button>
@@ -269,6 +269,7 @@ export default {
             isCollaboratorsDialogVisible: false,
             isDeleteConfirmationVisible: false,
             remindersDropdownShown: false,
+            isLaterTodayVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -279,6 +280,8 @@ export default {
         };
     },
     created() {
+        setInterval(this.checkLaterTodayVisibility,1000);
+
         //Close all dropdowns
         window.addEventListener("click", function (event) {
             window.events.$emit('close_dropdown');
@@ -307,6 +310,15 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        checkLaterTodayVisibility()
+        {
+          let evening = (new Date).setHours(19, 0, 0);
+
+          if(Date.now() < evening)
+               this.isLaterTodayVisible = true;
+          else
+               this.isLaterTodayVisible = false;
+        },
         storeReminder(text_time)
         {
             let time = {
