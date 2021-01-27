@@ -421,14 +421,17 @@ export default {
             this.dropdownShown = false;
         },
         pin() {
-            if(this.note.pinned)
+            if(this.note.pinned) {
                 axios.put('/note/' + this.note.id, {
-                    'pinned' : false
+                    'pinned': false
                 });
-            else
+                document.querySelector('div.others').appendChild(this.$refs.note);
+            } else {
                 axios.put('/note/' + this.note.id, {
                     'pinned' : true
                 });
+                document.querySelector('div.pinned').appendChild(this.$refs.note);
+            }
 
             this.note.pinned = !this.note.pinned;
         },

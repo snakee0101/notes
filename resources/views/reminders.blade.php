@@ -8,11 +8,25 @@
             </new-note-component>
         </div>
 
-        @forelse($notes as $note)
-            <note-component note="{{ $note }}">
+        @if( ! $notes->isEmpty() )
+            <div class="pinned">
+                <p class="font-bold text-sm mb-2">PINNED</p>
+                @foreach($notes->where('pinned', true) as $note)
+                    <note-component note="{{ $note }}">
 
-            </note-component>
-        @empty
+                    </note-component>
+                @endforeach
+            </div>
+
+            <div class="others">
+                <p class="font-bold text-sm mt-20 mb-2">OTHERS</p>
+                @foreach($notes->where('pinned', false) as $note)
+                    <note-component note="{{ $note }}">
+
+                    </note-component>
+                @endforeach
+            </div>
+        @else
             <p class="text-center text-2xl mb-6 mt-14">
                 <svg class="icon icon-xl icon-bell" viewBox="0 0 32 32" fill="rgba(107, 114, 128, 0.2)">
                     <path
@@ -20,6 +34,6 @@
                 </svg>
             </p>
             <p class="text-center text-2xl text-gray-600 font-light">Notes with upcoming reminders appear here</p>
-        @endforelse
+        @endif
     </div>
 @endsection
