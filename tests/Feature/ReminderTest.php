@@ -39,6 +39,28 @@ class ReminderTest extends TestCase
         $this->assertDatabaseHas('reminders', ['time' => $date]);
     }
 
+    public function test_remainder_could_be_rewritten()
+    {
+        $note = Note::factory()->create();
+        $this->assertDatabaseCount('reminders', 0);
+        auth()->login($note->owner);
+
+        $date = now()->addDay()->format('YYYY-M-d HH:i:s');
+
+        $this->post( route('reminder.store', $note), [
+            'time' => $date
+        ]);
+
+        $this->assertDatabaseHas('reminders', ['time' => $date]);
+
+        $rewritten = now()->addWeek()->format('YYYY-M-d HH:i:s');
+        $this->post( route('reminder.store', $note), [
+            'time' => $rewritten
+        ]);
+
+        $this->assertDatabaseHas('reminders', ['time' => $rewritten]);
+    }
+
     public function test_reminder_could_have_repeat_status()
     {
 

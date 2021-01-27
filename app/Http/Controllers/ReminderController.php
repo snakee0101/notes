@@ -16,6 +16,8 @@ class ReminderController extends Controller
 
     public function store(Request $request, Note $note)
     {
+        $note->reminder()->delete();
+
         $note->reminder()->create([
             'note_id' => $note->id,
             'time' => $request->input('time')
