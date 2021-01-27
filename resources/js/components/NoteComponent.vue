@@ -338,7 +338,25 @@ export default {
         removeReminder()
         {
             axios.delete('/reminder/' + this.note.id);
+
+            window.ReminderNoteId = this.note.id;
+            window.ReminderTime = this.note.reminder_json.time;
+
             this.note.reminder_json = null;
+
+            window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
+        },
+        undoReminderRemoval()
+        {
+            axios.post('/reminder/' + window.ReminderNoteId, {
+                'time' : window.ReminderTime
+            });
+
+            this.note.reminder_json = {
+                'time' : window.ReminderTime
+            };
+
+            window.events.$emit('show-notification', 'Action undone');
         },
         getReminderTime()
         {
