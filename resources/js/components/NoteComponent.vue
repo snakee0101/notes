@@ -216,7 +216,7 @@
                         <button @click="deleteNote()" class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Delete note</button>
                         <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add label</button>
                         <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add drawing</button>
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Make a copy</button>
+                        <button @click="copy()" class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Make a copy</button>
                         <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Show checkboxes</button>
                     </div>
                 </div>
@@ -310,6 +310,10 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        copy()
+        {
+            axios.post('/note/duplicate/' + this.note.id);
+        },
         checkLaterTodayVisibility()
         {
           let evening = (new Date).setHours(19, 0, 0);
