@@ -95,6 +95,6 @@ class NoteController extends Controller
 
     public function duplicate(Note $note)
     {
-        $note->makeCopy();
+        return $note->makeCopy();
     }
 }

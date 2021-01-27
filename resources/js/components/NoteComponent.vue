@@ -312,7 +312,15 @@ export default {
     methods: {
         copy()
         {
-            axios.post('/note/duplicate/' + this.note.id);
+            axios.post('/note/duplicate/' + this.note.id)
+                 .then(res => window.duplicatedNoteId = res.data.id);
+            window.events.$emit('show-notification', 'Note created', this.undoCopy);
+        },
+        undoCopy()
+        {
+            axios.delete('note/' + window.duplicatedNoteId);
+            axios.delete('note/' + window.duplicatedNoteId); //force delete
+            window.events.$emit('show-notification', 'Action undone');
         },
         checkLaterTodayVisibility()
         {
