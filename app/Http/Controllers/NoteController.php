@@ -92,4 +92,9 @@ class NoteController extends Controller
     {
         $note->restore();
     }
+
+    public function duplicate(Note $note)
+    {
+        $note->makeCopy();
+    }
 }

@@ -140,4 +140,16 @@ class NoteTest extends TestCase
         ] );
         $this->assertFalse( $note->fresh()->pinned );
     }
+
+    public function test_a_note_could_be_duplicated()
+    {
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $this->assertDatabaseCount('notes', 1);
+
+        $this->post( route('note.duplicate', $note) );
+
+        $this->assertDatabaseCount('notes', 2);
+    }
 }

@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function() {
     Route::resource('image', ImageController::class);
 
     Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
+    Route::post('/note/duplicate/{note}', [NoteController::class, 'duplicate'])->name('note.duplicate');
 
     Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');
     Route::put('/reminder/{note}', [ReminderController::class, 'update'])->name('reminder.update');
