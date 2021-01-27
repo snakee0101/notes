@@ -105,15 +105,15 @@
                 <div class="dropdown">
                     <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="remindersDropdownShown" style="width: 300px">
                         <p class="text-lg p-2 pl-4 font-bold">Reminder:</p>
-                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
+                        <button @click="storeReminder('later_today')" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
                             Later today
                             <span class="absolute right-4 text-gray-500">8:00 PM</span>
                         </button>
-                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
+                        <button @click="storeReminder('tomorrow')" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
                             Tomorrow
                             <span class="absolute right-4 text-gray-500">8:00 AM</span>
                         </button>
-                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
+                        <button @click="storeReminder('next_week')" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
                             Next week
                             <span class="absolute right-4 text-gray-500">Mon., 8:00 AM</span>
                         </button>
@@ -307,6 +307,31 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        storeReminder(text_time)
+        {
+            let time = {
+                'later_today': moment().set({'hour': 20,
+                                             'minute': 0,
+                                             'second':0})
+                                       .format('YYYY-MM-DD HH:mm:ss'),
+                'tomorrow': moment().add(1, 'days')
+                                    .set({'hour': 8,
+                                          'minute': 0,
+                                          'second':0})
+                                    .format('YYYY-MM-DD HH:mm:ss'),
+                'next_week': moment().add(1, 'weeks')
+                                     .set({'day' : 'Monday',
+                                           'hour': 8,
+                                           'minute': 0,
+                                           'second':0})
+                                     .format('YYYY-MM-DD HH:mm:ss'),
+            };
+
+            axios.post('/reminder/' + this.note.id, {
+                'time' : time[text_time]
+            });
+            this.hideRemindersDropdown();
+        },
         removeReminder()
         {
             axios.delete('/reminder/' + this.note.id);
