@@ -61,7 +61,7 @@
                 </svg>
                 {{ getReminderTime() }}
                 <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full px-1 z-20"
-                   @click.prevent="">
+                   @click.prevent="removeReminder()">
                     <svg class="icon icon-xs icon-close" viewBox="0 0 20 20">
                         <path d="M10 8.586l-7.071-7.071-1.414 1.414 7.071 7.071-7.071 7.071 1.414 1.414 7.071-7.071 7.071 7.071 1.414-1.414-7.071-7.071 7.071-7.071-1.414-1.414-7.071 7.071z"></path>
                     </svg>
@@ -307,6 +307,11 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        removeReminder()
+        {
+            axios.delete('/reminder/' + this.note.id);
+            this.note.reminder_json = null;
+        },
         getReminderTime()
         {
             let reminder_date = this.note.reminder_json.time;
