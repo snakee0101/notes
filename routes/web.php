@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');
     Route::put('/reminder/{note}', [ReminderController::class, 'update'])->name('reminder.update');
     Route::delete('/reminder/{note}', [ReminderController::class, 'destroy'])->name('reminder.destroy');
+    Route::get('/reminder', [ReminderController::class, 'index'])->name('reminder.index');
 
     Route::post('/collaborator/{note}', [CollaboratorController::class, 'sync'])->name('sync_collaborator');
     Route::get('/collaborator/{email}', [CollaboratorController::class, 'check'])->name('check_user_existence');
@@ -42,12 +43,6 @@ Route::middleware('auth')->group(function() {
             'notes' => Note::where('owner_id', auth()->id())->get()
         ]);
     })->name('notes');
-
-    Route::get('/reminders', function () {
-        return view('reminders', [
-            "notes" => [] //Note::all()  //TODO: filter notes with reminders only
-        ]);
-    })->name('reminders');
 
     Route::get('/archive', function () {
         return view('archive', [

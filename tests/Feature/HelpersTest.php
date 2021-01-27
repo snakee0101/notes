@@ -13,7 +13,7 @@ class HelpersTest extends TestCase
         $this->get( route('notes') );
         $this->assertEquals('active', setActiveLink('notes') );
 
-        $this->get( route('reminders') );
+        $this->get( route('reminder.index') );
         $this->assertEmpty( setActiveLink('notes') );
     }
 
