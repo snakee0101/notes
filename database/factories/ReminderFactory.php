@@ -22,7 +22,9 @@ class ReminderFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'time' => now()->addDay(),
+            'location' => $this->faker->address,
+            'repeat' => null
         ];
     }
 }

@@ -24,8 +24,9 @@ class ImageFactory extends Factory
     {
         return [
             'note_id' => Note::factory(),
-            'image_path' => '/images/1',
-            'thumbnail_path' => '/thumbnails/1',
+            'image_path' => '/storage/images/1.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789' . '.jpeg',
         ];
     }
 }

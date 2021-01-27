@@ -112,4 +112,45 @@ class Note extends Model
     {
         return $this->reminder;
     }
+
+    public function makeCopy()
+    {
+        //replicate the note
+        $replica = $this->replicate();
+        $replica->push();
+
+        //replicate the reminder
+        $reminder = $this->reminder->replicate();
+        $reminder->note_id = $replica->id;
+        $reminder->push();
+
+        //replicate the tags
+        $replica->tags()->saveMany( $this->tags()->get() );
+        $replica->push();
+
+        //replicate the image
+        foreach($this->images as $image)
+        {
+            $path_1 = substr($image->image_path, 9);  //offset for '/storage/' part
+            $path_2 = substr($image->thumbnail_small_path, 9);
+            $path_3 = substr($image->thumbnail_large_path, 9);
+
+            $extension = pathinfo($image->image_path)['extension'];
+            $new_filename = now()->timestamp . random_int(10000,10000000) . '.' . $extension;
+
+            Storage::copy($path_1, 'images/' . $new_filename);
+            Storage::copy($path_2, 'thumbnails_small/' . $new_filename);
+            Storage::copy($path_3, 'thumbnails_large/' . $new_filename);
+
+            $replica->images()->create([
+                'note_id' => $replica->id,
+                'image_path' => '/storage/images/' . $new_filename,
+                'thumbnail_small_path' => '/storage/thumbnails_small/' . $new_filename,
+                'thumbnail_large_path' => '/storage/thumbnails_large/' . $new_filename,
+            ]);
+        }
+        $replica->push();
+
+        return $replica->fresh();
+    }
 }
