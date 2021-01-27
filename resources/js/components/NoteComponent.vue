@@ -52,6 +52,21 @@
         </div>
 
         <div class="tags mb-4">
+            <a v-if="note.reminder_json"
+               href="/reminders"
+               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
+                <svg class="icon icon-small icon-alarm mr-1" viewBox="0 0 32 32">
+                    <path d="M16 4c-7.732 0-14 6.268-14 14s6.268 14 14 14 14-6.268 14-14-6.268-14-14-14zM16 29.25c-6.213 0-11.25-5.037-11.25-11.25s5.037-11.25 11.25-11.25c6.213 0 11.25 5.037 11.25 11.25s-5.037 11.25-11.25 11.25zM29.212 8.974c0.501-0.877 0.788-1.892 0.788-2.974 0-3.314-2.686-6-6-6-1.932 0-3.65 0.913-4.747 2.331 4.121 0.851 7.663 3.287 9.96 6.643v0zM12.748 2.331c-1.097-1.418-2.816-2.331-4.748-2.331-3.314 0-6 2.686-6 6 0 1.082 0.287 2.098 0.788 2.974 2.297-3.356 5.838-5.792 9.96-6.643z"></path>
+                    <path d="M16 18v-8h-2v10h8v-2z"></path>
+                </svg>
+                {{ getReminderTime() }}
+                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full px-1 z-20"
+                   @click.prevent="">
+                    <svg class="icon icon-xs icon-close" viewBox="0 0 20 20">
+                        <path d="M10 8.586l-7.071-7.071-1.414 1.414 7.071 7.071-7.071 7.071 1.414 1.414 7.071-7.071 7.071 7.071 1.414-1.414-7.071-7.071 7.071-7.071-1.414-1.414-7.071 7.071z"></path>
+                    </svg>
+                </a>
+            </a>
             <a v-for="tag in note.tags"
                :href="'/tag/' + tag"
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
@@ -90,6 +105,10 @@
                 <div class="dropdown">
                     <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="remindersDropdownShown" style="width: 300px">
                         <p class="text-lg p-2 pl-4 font-bold">Reminder:</p>
+                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
+                            Later today
+                            <span class="absolute right-4 text-gray-500">8:00 PM</span>
+                        </button>
                         <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
                             Tomorrow
                             <span class="absolute right-4 text-gray-500">8:00 AM</span>
@@ -238,6 +257,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
     name: "NoteComponent",
     data() {
@@ -286,6 +307,14 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        getReminderTime()
+        {
+            let reminder_date = this.note.reminder_json.time;
+            if (moment(reminder_date).year() > moment().year())
+                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
+            else
+                return moment(reminder_date).format('MMM D, H:mm A');
+        },
         refreshImage(data)
         {
             if(Object.is(this, window.newImageComponent))
