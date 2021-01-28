@@ -2,19 +2,18 @@
 
 namespace App\Notifications;
 
+use App\Models\Note;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class TimeNotification extends Notification
 {
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    private $note;
+
+    public function __construct(Note $note)
     {
-        //
+
+        $this->note = $note;
     }
 
     /**
@@ -37,9 +36,8 @@ class TimeNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('Reminder about the note ' . $this->note->header)
+                    ->action('View the note', url('/'));
     }
 
     /**

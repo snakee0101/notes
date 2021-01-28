@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Note;
 use App\Models\Reminder;
 use App\Notifications\TimeNotification;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -79,7 +80,20 @@ class ReminderTest extends TestCase
 
     public function test_time_notification_sends_mail()
     {
+        Notification::fake();
+        Mail::fake();
 
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => now()->addHour()
+        ]);
+
+        $this->travel(61)->minutes();
+        Reminder::sendTimeReminders();
+        Notification::assertSentTo($note->owner, TimeNotification::class, function($notification, $channels, $notifiable){
+            return array_search('mail', $channels) !== false;
+        });
     }
 
     public function test_time_notification_is_broadcasted()
