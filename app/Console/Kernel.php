@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\Reminder;
 use App\Utilities\Trash;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -28,6 +29,10 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             Trash::removeExpired();
         })->daily();
+
+        $schedule->call(function () {
+            Reminder::sendExpired();
+        })->everyMinute();
     }
 
     /**
