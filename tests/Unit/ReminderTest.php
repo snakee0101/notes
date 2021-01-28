@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Models\Note;
 use App\Models\Reminder;
+use App\Notifications\TimeNotification;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class ReminderTest extends TestCase
@@ -27,5 +29,58 @@ class ReminderTest extends TestCase
 
         $json_decoded = json_decode($note->toJson());
         $this->assertObjectHasAttribute('reminder_json', $json_decoded);
+    }
+
+    public function test_reminder_can_access_the_note()
+    {
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => now()->addHour()
+        ]);
+
+        $this->assertInstanceOf(Note::class, $reminder->note);
+    }
+
+    public function test_reminder_sends_a_time_notification()
+    {
+        Notification::fake();
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => now()->addHour()
+        ]);
+
+        Notification::assertNothingSent();
+
+        $this->travel(61)->minutes();
+        $reminder->sendTimeReminder();
+        Notification::assertSentTo($note->owner, TimeNotification::class);
+    }
+
+    public function test_time_notification_sends_mail()
+    {
+
+    }
+
+    public function test_time_notification_is_broadcasted()
+    {
+
+    }
+
+    public function test_reminder_sends_a_location_notification()
+    {
+
+    }
+
+    public function test_location_notification_sends_mail()
+    {
+
+    }
+
+    public function test_location_notification_is_broadcasted()
+    {
+
     }
 }
