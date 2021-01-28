@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Note;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -24,7 +25,7 @@ class TimeNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'broadcast'];
     }
 
     /**
@@ -38,6 +39,15 @@ class TimeNotification extends Notification
         return (new MailMessage)
                     ->line('Reminder about the note ' . $this->note->header)
                     ->action('View the note', url('/'));
+    }
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'user_id' => $notifiable->id,
+            'reminder_text' => 'Reminder about the note ' . $this->note->header,
+            'link' => url('/'),
+        ]);
     }
 
     /**
