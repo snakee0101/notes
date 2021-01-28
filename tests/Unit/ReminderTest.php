@@ -59,6 +59,24 @@ class ReminderTest extends TestCase
         Notification::assertSentTo($note->owner, TimeNotification::class);
     }
 
+    public function test_reminders_are_sent_in_time()
+    {
+        Notification::fake();
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => now()->addHour()
+        ]);
+
+        Reminder::sendTimeReminders();
+        Notification::assertNothingSent();
+
+        $this->travel(61)->minutes();
+        Reminder::sendTimeReminders();
+        Notification::assertSentTo($note->owner, TimeNotification::class);
+    }
+
     public function test_time_notification_sends_mail()
     {
 

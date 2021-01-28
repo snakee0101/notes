@@ -27,13 +27,8 @@ class Reminder extends Model
 
     public static function sendTimeReminders()
     {
-        /*self::whereNotNull('time')
-            ->whereDate('time', '<', now())
-            ->get()
-            ->each
-            ->sendTimeReminder();*/
-
-        self::whereDate('time', '<', now())
+        self::whereNotNull('time')
+            ->where('time', '<', now())
             ->get()
             ->each
             ->sendTimeReminder();
