@@ -369,22 +369,17 @@ export default {
             this.note.reminder_json = null;
 
             if( location.href.includes('/reminder') )
-                this.hide();
+                this.shown = false;
 
             window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
         },
         undoReminderRemoval()
         {
-            axios.post('/reminder/' + window.ReminderNoteId, {
-                'time' : window.ReminderTime
-            });
-
-            this.note.reminder_json = {
-                'time' : window.ReminderTime
-            };
+            axios.post('/reminder/' + window.ReminderNoteId,  {'time' : window.ReminderTime} );
+            this.note.reminder_json = {'time' : window.ReminderTime};
 
             if( location.href.includes('/reminder') )
-                this.show();
+                this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
         },
@@ -393,8 +388,8 @@ export default {
             let reminder_date = this.note.reminder_json.time;
             if (moment(reminder_date).year() > moment().year())
                 return moment(reminder_date).format('MMM D, YYYY, H:mm A');
-            else
-                return moment(reminder_date).format('MMM D, H:mm A');
+
+            return moment(reminder_date).format('MMM D, H:mm A');
         },
         refreshImage(data)
         {
@@ -446,24 +441,14 @@ export default {
         },
         pin() {
             if(this.note.pinned) {
-                axios.put('/note/' + this.note.id, {
-                    'pinned': false
-                });
+                axios.put('/note/' + this.note.id, {'pinned': false} );
                 document.querySelector('div.others').appendChild(this.$refs.note);
             } else {
-                axios.put('/note/' + this.note.id, {
-                    'pinned' : true
-                });
+                axios.put('/note/' + this.note.id, {'pinned' : true} );
                 document.querySelector('div.pinned').appendChild(this.$refs.note);
             }
 
             this.note.pinned = !this.note.pinned;
-        },
-        hide() {
-            this.shown = false;
-        },
-        show() {
-            this.shown = true;
         },
         isActive(color) {
             return (this.note.color === color) ? 'active' : '';
@@ -489,50 +474,44 @@ export default {
         },
         restore() {
             axios.post('note/restore/' + this.note.id);
-            this.hide();//TODO: There should be animation while hiding a note
+            this.shown = false;//TODO: There should be animation while hiding a note
 
             window.events.$emit('show-notification', 'Note restored', this.undoRestore);
         },
         deleteNote(){
             axios.delete('note/' + this.note.id);
-            this.hide();
+            this.shown = false;
 
             window.events.$emit('show-notification', 'Note deleted', this.undoDelete);
         },
         undoDelete(){
             axios.post('note/restore/' + this.note.id);
-            this.show();
+            this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
         },
         undoRestore(){
             axios.delete('note/' + this.note.id);
-            this.show();
+            this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
         },
         archive() {
-            axios.put('/note/' + this.note.id, {
-                'archived' : true
-            });
+            axios.put('/note/' + this.note.id, {'archived' : true} );
 
-            this.hide();
+            this.shown = false;
             window.events.$emit('show-notification', 'Note archived', this.undo_archive);
         },
         unarchive() {
-            axios.put('/note/' + this.note.id, {
-                'archived' : false
-            });
+            axios.put('/note/' + this.note.id, {'archived' : false} );
 
-            this.hide();
+            this.shown = false;
             window.events.$emit('show-notification', 'Note unarchived', this.undo_unarchive);
         },
         undo_archive() {
-            axios.put('/note/' + this.note.id, {
-                'archived' : false
-            });
+            axios.put('/note/' + this.note.id, {'archived' : false} );
 
-            this.show();
+            this.shown = true;
             window.events.$emit('show-notification', 'Action undone');
         },
         undo_unarchive() {
@@ -540,7 +519,7 @@ export default {
                 'archived' : true
             });
 
-            this.show();
+            this.shown = true;
             window.events.$emit('show-notification', 'Action undone');
         },
         delete_forever() {
@@ -560,9 +539,7 @@ export default {
 
            let tagsLocation = 'tag/' + encodeURIComponent(tag);
            if( location.href.includes(tagsLocation) )
-           {
-               this.hide();
-           }
+               this.shown = false;
         }
     }
 }
