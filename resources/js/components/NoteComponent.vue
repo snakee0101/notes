@@ -330,30 +330,17 @@ export default {
         storeReminder(text_time)
         {
             let time = {
-                'later_today': moment().set({'hour': 20,
-                                             'minute': 0,
-                                             'second':0})
-                                       .format('YYYY-MM-DD HH:mm:ss'),
-                'tomorrow': moment().add(1, 'days')
-                                    .set({'hour': 8,
-                                          'minute': 0,
-                                          'second':0})
-                                    .format('YYYY-MM-DD HH:mm:ss'),
-                'next_week': moment().add(1, 'weeks')
-                                     .set({'day' : 'Monday',
-                                           'hour': 8,
-                                           'minute': 0,
-                                           'second':0})
-                                     .format('YYYY-MM-DD HH:mm:ss'),
+                'later_today': moment().set({'hour': 20}),
+                'tomorrow': moment().add(1, 'days').set({'hour': 8}),
+                'next_week': moment().add(1, 'weeks').set({'day' : 'Monday', 'hour': 8}),
             };
 
-            axios.post('/reminder/' + this.note.id, {
-                'time' : time[text_time]
-            });
+            let formatted_time = time[text_time].set({'minute': 0, 'second':0})
+                                                .format('YYYY-MM-DD HH:mm:ss');
             this.hideRemindersDropdown();
-            this.note.reminder_json = {
-                'time' : time[text_time]
-            };
+
+            axios.post('/reminder/' + this.note.id, {'time' : formatted_time} );
+            this.note.reminder_json = {'time' : formatted_time};
         },
         removeReminder()
         {
@@ -451,10 +438,7 @@ export default {
         },
         changeColor(color) {
             this.note.color = color;
-
-            axios.put('/note/' + this.note.id, {
-                'color' : color
-            });
+            axios.put('/note/' + this.note.id, {'color' : color} );
         },
         hideCollaboratorsDialog() {
             this.isCollaboratorsDialogVisible = false;
@@ -511,9 +495,7 @@ export default {
             window.events.$emit('show-notification', 'Action undone');
         },
         undo_unarchive() {
-            axios.put('/note/' + this.note.id, {
-                'archived' : true
-            });
+            axios.put('/note/' + this.note.id, {'archived' : true} );
 
             this.shown = true;
             window.events.$emit('show-notification', 'Action undone');
