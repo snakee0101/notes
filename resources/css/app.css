@@ -87,20 +87,20 @@ nav a.active {
 }
 
 .tooltiptext, .tooltip2text {
+    @apply text-xs p-1;
     visibility: hidden;
-    width: 120px;
     background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
     position: absolute;
     z-index: 1;
     bottom: -150%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: -20px;
     opacity: 0;
     transition: opacity 0.3s;
+    white-space: nowrap;
 }
 
 .tooltip3text {
