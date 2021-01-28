@@ -280,7 +280,7 @@ export default {
         };
     },
     created() {
-        setInterval(this.checkLaterTodayVisibility,1000);
+        setInterval(this.checkLaterTodayVisibility,500);
 
         //Close all dropdowns
         window.addEventListener("click", function (event) {
@@ -325,11 +325,7 @@ export default {
         checkLaterTodayVisibility()
         {
           let evening = (new Date).setHours(19, 0, 0);
-
-          if(Date.now() < evening)
-               this.isLaterTodayVisible = true;
-          else
-               this.isLaterTodayVisible = false;
+          this.isLaterTodayVisible = Date.now() < evening;
         },
         storeReminder(text_time)
         {
