@@ -121,7 +121,7 @@
                             d="M6 19.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 11.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 3.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5z"></path>
                     </svg>
                 </a>
-                <span class="tooltiptext more-button">More</span> <!--TODO: More button should show a dropdown-->
+                <span class="tooltiptext more-button" @click.stop.prevent>More</span>
                 <div class="dropdown more-dropdown">
                     <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="dropdownShown">
                         <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add label</button>
