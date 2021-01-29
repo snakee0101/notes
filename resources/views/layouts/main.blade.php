@@ -12,6 +12,9 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <script>
+        window.userId = {{ auth()->id() }};
+    </script>
 </head>
 <body class="h-screen antialiased leading-none font-sans flex flex-col">
 <div id="app">
@@ -52,5 +55,11 @@
     <notification-component></notification-component>
 </div>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        window.Echo.private('App.Models.User.' + window.userId)
+            .notification(function(notification) {
+                alert('12345');
+            });
+    </script>
 </body>
 </html>

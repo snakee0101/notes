@@ -25,7 +25,7 @@ class TimeNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'broadcast'];
+        return ['broadcast']; // + ['mail']
     }
 
     /**

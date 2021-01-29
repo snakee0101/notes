@@ -114,6 +114,16 @@ class ReminderTest extends TestCase
         });
     }
 
+    public function test_reminder_is_deleted_after_sending()
+    {
+
+    }
+
+    public function test_repeated_reminder_is_deleted_only_after_the_last_repeat()
+    {
+
+    }
+
     public function test_reminder_sends_a_location_notification()
     {
 
