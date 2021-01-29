@@ -132,7 +132,18 @@ class ReminderTest extends TestCase
 
     public function test_reminder_is_deleted_after_sending()
     {
+        Notification::fake();
 
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => now()->addHour()
+        ]);
+
+        $this->assertDatabaseCount('reminders', 1);
+
+        $reminder->sendTimeReminder();
+        $this->assertDatabaseCount('reminders', 0);
     }
 
     public function test_repeated_reminder_is_deleted_only_after_the_last_repeat()

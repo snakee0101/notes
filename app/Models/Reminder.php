@@ -43,7 +43,8 @@ class Reminder extends Model
     {
         Notification::send($this->note->owner, new TimeNotification($this->note));
 
-        //TODO: send the reminder and delete it if it is not repeated
+        if( is_null($this->repeat) )
+            $this->delete();
         //TODO: if it is repeated, change the time to the repeat time and (if needed) decrease the repeats counter
     }
 }
