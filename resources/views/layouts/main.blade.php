@@ -59,9 +59,14 @@
         if(!Notification.permission !== 'granted')
             Notification.requestPermission();
 
+        window.redirectToNote = function(){
+            location.hash = window.notificationData.link;
+        };
+
         window.Echo.private('App.Models.User.' + window.userId)
             .notification(function(notification) {
-                new Notification(notification.reminder_text);
+                window.notificationData = notification;
+                new Notification(notification.reminder_text).onclick = window.redirectToNote;
             });
     </script>
 </body>
