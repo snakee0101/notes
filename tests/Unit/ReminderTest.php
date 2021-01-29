@@ -114,6 +114,22 @@ class ReminderTest extends TestCase
         });
     }
 
+    public function test_reminder_could_send_expired_reminders()
+    {
+        Notification::fake();
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => now()->addHour()
+        ]);
+
+        Notification::assertNothingSent();
+        $this->travel(61)->minutes();
+        Reminder::sendExpired();
+        Notification::assertSentTo($note->owner, TimeNotification::class);
+    }
+
     public function test_reminder_is_deleted_after_sending()
     {
 

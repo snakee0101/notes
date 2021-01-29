@@ -21,13 +21,13 @@ class Reminder extends Model
 
     public static function sendExpired()
     {
-        self::sendTimeReminders();
-        self::sendLocationReminders();
+        static::sendTimeReminders();
+        static::sendLocationReminders();
     }
 
     public static function sendTimeReminders()
     {
-        self::whereNotNull('time')
+        static::whereNotNull('time')
             ->where('time', '<', now())
             ->get()
             ->each
