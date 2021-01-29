@@ -19,6 +19,19 @@ class CreateRemindersTable extends Migration
             $table->timestamp('time')->nullable();
             $table->string('location')->nullable();
             $table->json('repeat')->nullable();
+            /*
+             * repeat structure
+             * {
+             *   every {
+             *      number : integer,
+             *      unit : 'day | week | month | year'
+             *   }
+             *   ends {   //null means "never"
+             *     after : integer //number of occurences,   OR
+             *     date : Date //year, month, and day
+             *   }
+             * }
+             */
 
             $table->foreign('note_id')->references('id')
                 ->on('notes')
