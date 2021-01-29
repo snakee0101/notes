@@ -146,6 +146,16 @@ class ReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
     }
 
+    public function test_reminder_resets_next_execution_date_after_the_repeat()
+    {
+
+    }
+
+    public function test_reminder_decrements_repeat_counter()
+    {
+
+    }
+
     public function test_repeated_reminder_is_deleted_only_after_the_last_repeat()
     {
 

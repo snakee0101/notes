@@ -28,7 +28,7 @@ class CreateRemindersTable extends Migration
              *   }
              *   ends {   //null means "never"
              *     after : integer //number of occurences,   OR
-             *     date : Date //year, month, and day
+             *     on_date : Date //year, month, and day
              *   }
              * }
              */

@@ -44,7 +44,6 @@ class TimeNotification extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'user_id' => $notifiable->id,
             'reminder_text' => 'Reminder about the note ' . $this->note->header,
             'link' => url('/'),
         ]);

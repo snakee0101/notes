@@ -56,9 +56,12 @@
 </div>
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
+        if(!Notification.permission !== 'granted')
+            Notification.requestPermission();
+
         window.Echo.private('App.Models.User.' + window.userId)
             .notification(function(notification) {
-                alert('12345');
+                new Notification(notification.reminder_text);
             });
     </script>
 </body>
