@@ -71,8 +71,8 @@ class Reminder extends Model
 
         if($ends->after) { //if there is occurrence counter
             $this->update([ 'repeat->ends->after' => $ends->after - 1 ]);
-            if($this->repeat->ends->after === 0)
-                $this->delete();
+            if($this->repeat->ends->after == 0)
+                return $this->forceDelete();
         } else {  //if there is date restriction
             $restriction_date = Carbon::createFromTimestamp( $ends->on_date );
 
