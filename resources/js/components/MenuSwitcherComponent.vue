@@ -1,6 +1,9 @@
 <template>
     <section class="flex flex-row items-center">
-        <a href="" class="p-2 rounded-full hover:bg-gray-200" @click.prevent="toggle()">
+        <a href="" class="p-2 rounded-full hover:bg-gray-200"
+           v-b-tooltip.hover.bottom
+           title="Main menu"
+           @click.prevent="toggle()">
             <i class="bi bi-list icon-lg text-black"></i>
         </a>
         <img src="/keep.png" alt="">
