@@ -7,10 +7,10 @@
         <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="pin()" v-if="!trashed">
             <!--TODO: there should be editing state for the note-->
                 <i class="bi bi-pin-fill icon text-black"
-                   data-toggle="tooltip" data-placement="bottom" title="Unpin" v-if="note.pinned"></i>
+                   v-b-tooltip.hover.bottom title="Unpin" v-if="note.pinned"></i>
 
                 <i class="bi bi-pin icon text-black"
-                   data-toggle="tooltip" data-placement="bottom" title="Pin" v-else></i>
+                   v-b-tooltip.hover.bottom title="Pin" v-else></i>
         </a>
 
         <div class="images">
@@ -45,16 +45,11 @@
             <a v-if="note.reminder_json"
                href="/reminders"
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
-                <svg class="icon icon-small icon-alarm mr-1" viewBox="0 0 32 32">
-                    <path d="M16 4c-7.732 0-14 6.268-14 14s6.268 14 14 14 14-6.268 14-14-6.268-14-14-14zM16 29.25c-6.213 0-11.25-5.037-11.25-11.25s5.037-11.25 11.25-11.25c6.213 0 11.25 5.037 11.25 11.25s-5.037 11.25-11.25 11.25zM29.212 8.974c0.501-0.877 0.788-1.892 0.788-2.974 0-3.314-2.686-6-6-6-1.932 0-3.65 0.913-4.747 2.331 4.121 0.851 7.663 3.287 9.96 6.643v0zM12.748 2.331c-1.097-1.418-2.816-2.331-4.748-2.331-3.314 0-6 2.686-6 6 0 1.082 0.287 2.098 0.788 2.974 2.297-3.356 5.838-5.792 9.96-6.643z"></path>
-                    <path d="M16 18v-8h-2v10h8v-2z"></path>
-                </svg>
+                <i class="bi bi-alarm icon"></i>
                 {{ getReminderTime() }}
                 <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full px-1 z-20"
                    @click.prevent="removeReminder()">
-                    <svg class="icon icon-xs icon-close" viewBox="0 0 20 20">
-                        <path d="M10 8.586l-7.071-7.071-1.414 1.414 7.071 7.071-7.071 7.071 1.414 1.414 7.071-7.071 7.071 7.071 1.414-1.414-7.071-7.071 7.071-7.071-1.414-1.414-7.071 7.071z"></path>
-                    </svg>
+                    <i class="bi bi-x icon"></i>
                 </a>
             </a>
             <a v-for="tag in note.tags"
@@ -63,9 +58,7 @@
                 {{ tag }}
                 <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full px-1 z-20"
                       @click.prevent="detach_tag(tag)">
-                    <svg class="icon icon-xs icon-close" viewBox="0 0 20 20">
-                        <path d="M10 8.586l-7.071-7.071-1.414 1.414 7.071 7.071-7.071 7.071 1.414 1.414 7.071-7.071 7.071 7.071 1.414-1.414-7.071-7.071 7.071-7.071-1.414-1.414-7.071 7.071z"></path>
-                    </svg>
+                    <i class="bi bi-x icon"></i>
                 </a>
             </a>
         </div>
@@ -124,18 +117,12 @@
                 </div>
             </div>
 
-            <div class="tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="showCollaboratorsDialog()">
-                    <svg class="icon icon-small icon-user-plus" viewBox="0 0 32 32">
-                        <path
-                            d="M12 23c0-4.726 2.996-8.765 7.189-10.319 0.509-1.142 0.811-2.411 0.811-3.681 0-4.971 0-9-6-9s-6 4.029-6 9c0 3.096 1.797 6.191 4 7.432v1.649c-6.784 0.555-12 3.888-12 7.918h12.416c-0.271-0.954-0.416-1.96-0.416-3z"></path>
-                        <path
-                            d="M23 14c-4.971 0-9 4.029-9 9s4.029 9 9 9c4.971 0 9-4.029 9-9s-4.029-9-9-9zM28 24h-4v4h-2v-4h-4v-2h4v-4h2v4h4v2z"></path>
-                    </svg>
-                </a>
-                <span class="tooltiptext">Collaborator</span>
-            </div>
-
+            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+               v-b-tooltip.hover.bottom
+               title="Collaborator"
+               @click.prevent="showCollaboratorsDialog()">
+                <i class="bi bi-person-plus icon"></i>
+            </a>
 
             <div class="tooltip">
                 <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent>
@@ -160,38 +147,32 @@
             </div>
 
 
-            <div class="tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="selectImage()">
-                    <svg class="icon icon-small icon-image" viewBox="0 0 32 32">
-                        <path
-                            d="M29.996 4c0.001 0.001 0.003 0.002 0.004 0.004v23.993c-0.001 0.001-0.002 0.003-0.004 0.004h-27.993c-0.001-0.001-0.003-0.002-0.004-0.004v-23.993c0.001-0.001 0.002-0.003 0.004-0.004h27.993zM30 2h-28c-1.1 0-2 0.9-2 2v24c0 1.1 0.9 2 2 2h28c1.1 0 2-0.9 2-2v-24c0-1.1-0.9-2-2-2v0z"></path>
-                        <path d="M26 9c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path>
-                        <path d="M28 26h-24v-4l7-12 8 10h2l7-6z"></path>
-                    </svg>
-                </a>
-                <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif" @change="handleFiles()">
-                <span class="tooltiptext">Add image</span> <!--TODO: Add Image button should show and image selecting dialog and save the image into internal array-->
-            </div>
+            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+               v-b-tooltip.hover.bottom
+               title="Add image"
+               @click.prevent="selectImage()">
+                <i class="bi bi-image icon"></i>
+            </a>
 
-            <div class="tooltip" v-if="note.archived">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="unarchive()">
-                    <svg class="icon icon-small icon-box-add" viewBox="0 0 32 32">
-                        <path
-                            d="M26 2h-20l-6 6v21c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-21l-6-6zM16 26l-10-8h6v-6h8v6h6l-10 8zM4.828 6l2-2h18.343l2 2h-22.343z"></path>
-                    </svg>
-                </a>
-                <span class="tooltiptext">Unarchive</span>
-            </div>
+            <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
+                       @change="handleFiles()">
 
-            <div class="tooltip" v-else>
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="archive()">
-                    <svg class="icon icon-small icon-box-add" viewBox="0 0 32 32">
-                        <path
-                            d="M26 2h-20l-6 6v21c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-21l-6-6zM16 26l-10-8h6v-6h8v6h6l-10 8zM4.828 6l2-2h18.343l2 2h-22.343z"></path>
-                    </svg>
-                </a>
-                <span class="tooltiptext">Archive</span>
-            </div>
+
+            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+               v-b-tooltip.hover.bottom
+               title="Unarchive"
+               @click.prevent="unarchive()"
+               v-if="note.archived">
+                <i class="bi bi-save2-fill icon"></i>
+            </a>
+
+            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+               v-b-tooltip.hover.bottom
+               title="Archive"
+               @click.prevent="archive()"
+               v-else>
+                <i class="bi bi-save2-fill icon"></i>
+            </a>
 
             <div class="tooltip dropdown-tooltip">
                 <a href="" class="hover:bg-gray-300 p-2 rounded-full dropdown-opener" @click.prevent="showDropdown()">

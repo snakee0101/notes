@@ -23,6 +23,8 @@
 .icon-sm {font-size: 1.2em}
 .icon-xs {font-size: 0.8em}
 
+.icon, .icon-xl, .icon-lg, .icon-sm, .icon-xs {color: #000}
+
 nav {
     width: 280px!important;
 }
