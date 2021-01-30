@@ -174,25 +174,21 @@
                 <i class="bi bi-save2-fill icon-sm"></i>
             </a>
 
-            <div class="tooltip dropdown-tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full dropdown-opener" @click.prevent="showDropdown()">
-                    <svg class="icon icon-small icon-ellipsis-v" viewBox="0 0 6 28">
-                        <path
-                            d="M6 19.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 11.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5zM6 3.5v3c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5z"></path>
-                    </svg>
-                </a>
-                <span class="tooltiptext more-button" @click.stop.prevent>More</span>
-                <div class="dropdown more-dropdown">
-                    <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="dropdownShown">
-                        <button @click="deleteNote()" class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Delete note</button>
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add label</button>
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Add drawing</button>
-                        <button @click="copy()" class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Make a copy</button>
-                        <button class="dropdown-item focus:outline-none d-block w-full p-2 pl-4 text-left hover:bg-gray-200">Show checkboxes</button>
-                    </div>
-                </div>
-            </div>
-
+            <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
+               v-b-tooltip.hover.bottom
+               title="More"
+               @click.prevent>
+                    <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret>
+                        <template #button-content>
+                            <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
+                        </template>
+                        <b-dropdown-item href="#" @click="deleteNote()">Delete note</b-dropdown-item>
+                        <b-dropdown-item href="#">Add label</b-dropdown-item>
+                        <b-dropdown-item href="#">Add drawing</b-dropdown-item>
+                        <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
+                        <b-dropdown-item href="#">Show checkboxes</b-dropdown-item>
+                    </b-dropdown>
+            </a>
         </div>
 
         <collaborator-dialog-component v-show="isCollaboratorsDialogVisible"
