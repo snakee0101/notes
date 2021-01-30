@@ -228,10 +228,37 @@ class ReminderTest extends TestCase
 
     public function test_reminder_decrements_repeat_counter()
     {
+        Notification::fake();
+
+        $json = new class(){};
+        $json->every = new class() {
+            public $number = 1;
+            public $unit = 'day';
+        };
+        $json->ends = new class() {
+            public $after = 5;
+        };
+
+        $time = now()->addHour();
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => $time,
+            'repeat' => $json
+        ]);
+
+        $this->assertEquals(5, $reminder->repeat->ends->after);
+        $reminder->sendTimeReminder();
+        $this->assertEquals(4, $reminder->fresh()->repeat->ends->after);
+    }
+
+    public function test_repeated_reminder_is_deleted_only_after_the_last_occurence()
+    {
 
     }
 
-    public function test_repeated_reminder_is_deleted_only_after_the_last_repeat()
+    public function test_repeated_reminder_is_deleted_only_after_the_last_date_repeat()
     {
 
     }
