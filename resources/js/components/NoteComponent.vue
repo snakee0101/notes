@@ -77,45 +77,37 @@
         </div>
 
         <div class="toolbar" v-else>
-            <div class="tooltip reminders-dropdown-tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full" @click.prevent="showRemindersDropdown()">
-                    <svg class="icon icon-sm icon-bell" viewBox="0 0 32 32">
-                        <path
-                            d="M32.047 25c0-9-8-7-8-14 0-0.58-0.056-1.076-0.158-1.498-0.526-3.532-2.88-6.366-5.93-7.23 0.027-0.123 0.041-0.251 0.041-0.382 0-1.040-0.9-1.891-2-1.891s-2 0.851-2 1.891c0 0.131 0.014 0.258 0.041 0.382-3.421 0.969-5.966 4.416-6.039 8.545-0.001 0.060-0.002 0.121-0.002 0.183 0 7-8 5-8 14 0 2.382 5.331 4.375 12.468 4.878 0.673 1.263 2.002 2.122 3.532 2.122s2.86-0.86 3.532-2.122c7.137-0.503 12.468-2.495 12.468-4.878 0-0.007-0.001-0.014-0.001-0.021l0.048 0.021zM25.82 26.691c-1.695 0.452-3.692 0.777-5.837 0.958-0.178-2.044-1.893-3.648-3.984-3.648s-3.805 1.604-3.984 3.648c-2.144-0.18-4.142-0.506-5.837-0.958-2.332-0.622-3.447-1.318-3.855-1.691 0.408-0.372 1.523-1.068 3.855-1.691 2.712-0.724 6.199-1.122 9.82-1.122s7.109 0.398 9.82 1.122c2.332 0.622 3.447 1.318 3.855 1.691-0.408 0.372-1.523 1.068-3.855 1.691z"></path>
-                    </svg>
-                </a>
-                <span class="tooltiptext" @click.stop.prevent>Remind me</span>
-                <div class="dropdown">
-                    <div class="dropdown-content p-0 rounded-md bg-clip-padding" v-if="remindersDropdownShown" style="width: 300px">
-                        <p class="text-lg p-2 pl-4 font-bold">Reminder:</p>
-                        <button @click="storeReminder('later_today')" v-if="isLaterTodayVisible" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
-                            Later today
-                            <span class="absolute right-4 text-gray-500">8:00 PM</span>
-                        </button>
-                        <button @click="storeReminder('tomorrow')" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
-                            Tomorrow
-                            <span class="absolute right-4 text-gray-500">8:00 AM</span>
-                        </button>
-                        <button @click="storeReminder('next_week')" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200 relative">
-                            Next week
-                            <span class="absolute right-4 text-gray-500">Mon., 8:00 AM</span>
-                        </button>
-                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200">
-                            <svg class="icon icon-small icon-alarm mr-3" viewBox="0 0 32 32">
-                                <path d="M16 4c-7.732 0-14 6.268-14 14s6.268 14 14 14 14-6.268 14-14-6.268-14-14-14zM16 29.25c-6.213 0-11.25-5.037-11.25-11.25s5.037-11.25 11.25-11.25c6.213 0 11.25 5.037 11.25 11.25s-5.037 11.25-11.25 11.25zM29.212 8.974c0.501-0.877 0.788-1.892 0.788-2.974 0-3.314-2.686-6-6-6-1.932 0-3.65 0.913-4.747 2.331 4.121 0.851 7.663 3.287 9.96 6.643v0zM12.748 2.331c-1.097-1.418-2.816-2.331-4.748-2.331-3.314 0-6 2.686-6 6 0 1.082 0.287 2.098 0.788 2.974 2.297-3.356 5.838-5.792 9.96-6.643z"></path>
-                                <path d="M16 18v-8h-2v10h8v-2z"></path>
-                            </svg>
-                            Pick date & time
-                        </button>
-                        <button @click="" class="dropdown-item focus:outline-none d-block w-full p-3 pl-4 text-left hover:bg-gray-200">
-                            <svg class="icon icon-small icon-location2 mr-3" viewBox="0 0 32 32">
-                                <path d="M16 0c-5.523 0-10 4.477-10 10 0 10 10 22 10 22s10-12 10-22c0-5.523-4.477-10-10-10zM16 16.125c-3.383 0-6.125-2.742-6.125-6.125s2.742-6.125 6.125-6.125 6.125 2.742 6.125 6.125-2.742 6.125-6.125 6.125zM12.125 10c0-2.14 1.735-3.875 3.875-3.875s3.875 1.735 3.875 3.875c0 2.14-1.735 3.875-3.875 3.875s-3.875-1.735-3.875-3.875z"></path>
-                            </svg>
-                            Pick place
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
+               v-b-tooltip.hover.bottom
+               title="Remind me"
+               @click.prevent>
+                <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret>
+                    <template #button-content>
+                        <i class="bi bi-bell icon-sm p-0"></i>
+                    </template>
+                    <p class="text-lg p-2 pl-4 m-0 font-bold">Reminder:</p>
+                    <b-dropdown-item href="#" @click="storeReminder('later_today')" class="focus:outline-none py-2.5 hover:bg-gray-200" v-if="isLaterTodayVisible">
+                        Later today
+                        <span class="text-gray-500">8:00 PM</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item href="#" @click="storeReminder('tomorrow')" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                        Tomorrow
+                        <span class="text-gray-500">8:00 AM</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item href="#" @click="storeReminder('next_week')" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                        Next week
+                        <span class="text-gray-500">Mon., 8:00 AM</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item href="#" @click="" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                        <i class="bi bi-alarm-fill mr-3"></i>
+                        Pick date & time
+                    </b-dropdown-item>
+                    <b-dropdown-item href="#" @click="" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                        <i class="bi bi-geo-alt-fill mr-3"></i>
+                        Pick place
+                    </b-dropdown-item>
+                </b-dropdown>
+            </a>
 
             <a href="" class="hover:bg-gray-300 p-2 rounded-full"
                v-b-tooltip.hover.bottom
