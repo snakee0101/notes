@@ -149,7 +149,8 @@ class ReminderTest extends TestCase
 
     public function test_repeat_status_is_json_object()
     {
-        $json = new class(){
+        $json = new class(){};
+        $json->every = new class(){
             public $number = 2;
             public $unit = 'day';
         };
@@ -203,7 +204,26 @@ class ReminderTest extends TestCase
 
     public function test_if_reminder_never_ends_then_repeat_status_doesnt_change()
     {
+        Notification::fake();
 
+        $json = new class(){};
+        $json->every = new class() {
+            public $number = 2;
+            public $unit = 'day';
+        };
+
+        $time = now()->addHour();
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => $time,
+            'repeat' => $json
+        ]);
+
+        $repeat_status = $reminder->repeat;
+        $reminder->sendTimeReminder();
+        $this->assertEquals(json_encode($repeat_status), json_encode($reminder->fresh()->repeat));
     }
 
     public function test_reminder_decrements_repeat_counter()

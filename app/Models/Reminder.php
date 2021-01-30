@@ -59,7 +59,7 @@ class Reminder extends Model
         $this->time = $this->time->add($every->unit, $every->number);
         $this->push();
 
-        if( !property_exists($this->repeat, 'ends') )  //if execution never ends, then don't process counter and don't delete the reminder
+        if( !property_exists($this->repeat, 'ends') || is_null($this->repeat->ends) )  //if execution never ends, then don't process counter and don't delete the reminder
             return;
 
         $this->processRepeatsCounter();
