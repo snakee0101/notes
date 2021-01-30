@@ -19,7 +19,6 @@
 <body class="h-screen antialiased leading-none font-sans flex flex-col">
 <div id="app">
     <header class="flex flex-row justify-between py-2 px-3 shadow-sm items-center">
-
         <menu-switcher-component></menu-switcher-component>
         <search-component></search-component>
 

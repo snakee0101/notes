@@ -4,6 +4,10 @@
 
 @import "tailwindcss/utilities";
 
+@import '~bootstrap';
+@import '~bootstrap-vue';
+
+
 .icon {
     display: inline-block;
     width: 1.5em;
