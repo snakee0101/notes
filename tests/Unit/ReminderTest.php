@@ -146,6 +146,25 @@ class ReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
     }
 
+    public function test_repeat_status_is_json_object()
+    {
+        $json = new class(){
+            public $number = 2;
+            public $unit = 'day';
+        };
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => now()->addHour(),
+            'repeat' => $json
+        ]);
+
+        $this->assertIsObject($reminder->repeat);
+        $this->assertObjectHasAttribute('number', $reminder->repeat);
+        $this->assertObjectHasAttribute('unit', $reminder->repeat);
+    }
+
     public function test_reminder_resets_next_execution_date_after_the_repeat()
     {
 
