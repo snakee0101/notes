@@ -68,18 +68,18 @@ class Reminder extends Model
     public function processRepeatsCounter()
     {
         $ends = $this->repeat->ends;
+        $every = $this->repeat->every;
 
-        if($ends->after) { //if there is occurrence counter
+        if(property_exists($ends, 'after')) { //if there is occurrence counter
             $this->update([ 'repeat->ends->after' => $ends->after - 1 ]);
             if($this->repeat->ends->after == 0)
-                return $this->forceDelete();
+                $this->forceDelete();
         } else {  //if there is date restriction
             $restriction_date = Carbon::createFromTimestamp( $ends->on_date );
 
-            if($this->time->greaterThan( $restriction_date ))
+            if($this->time->add($every->unit, $every->number)
+                          ->greaterThan( $restriction_date ))
                 $this->delete();   //if the next execution date is greater than the restriction date - delete the reminder
         }
-
-        @$this->push();
     }
 }

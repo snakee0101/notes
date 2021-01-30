@@ -281,10 +281,36 @@ class ReminderTest extends TestCase
 
     public function test_repeated_reminder_is_deleted_only_after_the_last_date_repeat()
     {
+        Notification::fake();
 
+        $json = new class(){};
+        $json->every = new class() {
+            public $number = 1;
+            public $unit = 'day';
+        };
+
+        $time = now()->addDays(2)->subHour();
+
+        $json->ends = new class($time) {
+            public $on_date;
+            public function __construct($time) {
+                $this->on_date = $time->timestamp;
+            }
+        };
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => now(),
+            'repeat' => $json
+        ]);
+
+        $this->assertDatabaseCount('reminders', 1);
+        $reminder->sendTimeReminder();
+        $this->assertDatabaseCount('reminders', 0);
     }
 
-    public function test_reminder_sends_a_location_notification()
+    /*public function test_reminder_sends_a_location_notification()
     {
 
     }
@@ -297,5 +323,5 @@ class ReminderTest extends TestCase
     public function test_location_notification_is_broadcasted()
     {
 
-    }
+    }*/
 }
