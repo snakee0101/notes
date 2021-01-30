@@ -56,10 +56,10 @@ class Reminder extends Model
     public function processRepeatableReminder()
     {
         $every = $this->repeat->every;
-        $this->time = $this->time->add($every->unit, $every->number);  //set next execution time
+        $this->time = $this->time->add($every->unit, $every->number);
         $this->push();
 
-        if(! $this->repeat->ends)  //if execution never ends, then don't process counter and don't delete the reminder
+        if( !property_exists($this->repeat, 'ends') )  //if execution never ends, then don't process counter and don't delete the reminder
             return;
 
         $this->processRepeatsCounter();

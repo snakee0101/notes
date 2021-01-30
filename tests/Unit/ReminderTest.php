@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Note;
 use App\Models\Reminder;
 use App\Notifications\TimeNotification;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -161,11 +162,46 @@ class ReminderTest extends TestCase
         ]);
 
         $this->assertIsObject($reminder->repeat);
-        $this->assertObjectHasAttribute('number', $reminder->repeat);
-        $this->assertObjectHasAttribute('unit', $reminder->repeat);
+        $this->assertObjectHasAttribute('number', $reminder->repeat->every);
+        $this->assertObjectHasAttribute('unit', $reminder->repeat->every);
+    }
+
+    public function test_reminder_time_is_Carbon_instance()
+    {
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->for($note)->create([
+            'time' => now()->addHour()
+        ]);
+
+        $this->assertInstanceOf(Carbon::class, $reminder->time);
     }
 
     public function test_reminder_resets_next_execution_date_after_the_repeat()
+    {
+        Notification::fake();
+
+        $json = new class(){};
+        $json->every = new class() {
+                public $number = 2;
+                public $unit = 'day';
+        };
+
+        $time = now()->addHour();
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => $time,
+            'repeat' => $json
+        ]);
+
+        $this->assertEquals($time->timestamp, $reminder->time->timestamp);
+
+        $reminder->sendTimeReminder();
+        $this->assertEquals($time->addDays(2)->timestamp, $reminder->time->timestamp);
+    }
+
+    public function test_if_reminder_never_ends_then_repeat_status_doesnt_change()
     {
 
     }
