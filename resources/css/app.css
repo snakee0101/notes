@@ -4,17 +4,9 @@
 
 @import "tailwindcss/utilities";
 
-@import '~bootstrap';
-@import '~bootstrap-vue';
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
 
 
-.icon {
-    display: inline-block;
-    width: 1.5em;
-    height: 1.5em;
-    stroke-width: 0;
-    stroke: currentColor;
-}
 
 .type-controls .icon {
     fill: #000;
@@ -24,25 +16,12 @@
     fill: #707070!important;
 }
 
-.icon-xl {
-    width: 4em;
-    height: 4em;
-}
 
-.icon-lg {
-    width: 2em;
-    height: 2em;
-}
-
-.icon-small {
-    width: 1.2em;
-    height: 1.2em;
-}
-
-.icon-xs {
-    width: 0.8em;
-    height: 0.8em;
-}
+.icon-xl {font-size: 4em}
+.icon-lg {font-size: 2em}
+.icon {font-size: 1.5em}
+.icon-sm {font-size: 1.2em}
+.icon-xs {font-size: 0.8em}
 
 nav {
     width: 280px!important;

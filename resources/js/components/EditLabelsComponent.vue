@@ -1,10 +1,7 @@
 <template> <!--TODO: Доделать диалог Edit Labels-->
     <div>
-        <a href="" class="p-4 rounded-r-full hover:bg-gray-200 block" @click.prevent="show()">
-            <svg class="icon icon-pencil2 mr-3" viewBox="0 0 32 32">
-                <path d="M12 20l4-2 14-14-2-2-14 14-2 4zM9.041 27.097c-0.989-2.085-2.052-3.149-4.137-4.137l3.097-8.525 4-2.435 12-12h-6l-12 12-6 20 20-6 12-12v-6l-12 12-2.435 4z"></path>
-            </svg>
-            <span>Edit labels</span>
+        <a href="" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200 block" @click.prevent="show()">
+            <i class="bi bi-pencil icon-lg mr-3 text-black"></i> Edit labels
         </a>
 
         <div class="delete-confirmation fixed top-0 left-0 right-0 bottom-0 flex items-center bg-gray-800 bg-opacity-75 z-20"
