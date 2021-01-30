@@ -17,7 +17,7 @@
         </edit-labels-component>
 
         <a href="/archive" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveLink('archive')">
-            <i class="bi bi-save2-fill icon ml-1 mr-3 text-black"></i> Archive
+            <i class="bi bi-save2-fill icon-lg mr-3 text-black"></i> Archive
         </a>
         <a href="/trash" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveLink('trash')">
             <i class="bi bi-trash icon-lg mr-3 text-black"></i> Trash
