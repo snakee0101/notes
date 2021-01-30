@@ -56,8 +56,10 @@
                :href="'/tag/' + tag"
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
                 {{ tag }}
-                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full px-1 z-20"
-                      @click.prevent="detach_tag(tag)">
+                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
+                   v-b-tooltip.hover.bottom
+                   title="Remove label"
+                   @click.prevent="detach_tag(tag)">
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
@@ -238,7 +240,7 @@ export default {
     },
     created() {
         setInterval(this.checkLaterTodayVisibility,500);
-        
+
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
