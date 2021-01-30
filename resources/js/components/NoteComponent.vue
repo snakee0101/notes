@@ -4,23 +4,13 @@
          :class="'bg-google-' + note.color"
          v-if="shown"
          ref="note">
-        <a href="" class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full" @click.prevent="pin()" v-if="!trashed">
-            <div class="tooltip" v-if="note.pinned">
-                <svg class="icon icon-small icon-cancel-circle" viewBox="0 0 32 32">
-                    <path
-                        d="M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13z"></path>
-                    <path d="M21 8l-5 5-5-5-3 3 5 5-5 5 3 3 5-5 5 5 3-3-5-5 5-5z"></path>
-                </svg>
-                <span class="tooltiptext">Unpin</span>
-            </div>
+        <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="pin()" v-if="!trashed">
             <!--TODO: there should be editing state for the note-->
-            <div class="tooltip" v-else>
-                <svg class="icon icon-small icon-pushpin" viewBox="0 0 32 32">
-                    <path
-                        d="M17 0l-3 3 3 3-7 8h-7l5.5 5.5-8.5 11.269v1.231h1.231l11.269-8.5 5.5 5.5v-7l8-7 3 3 3-3-15-15zM14 17l-2-2 7-7 2 2-7 7z"></path>
-                </svg>
-                <span class="tooltiptext">Pin</span>
-            </div>
+                <i class="bi bi-pin-fill icon text-black"
+                   data-toggle="tooltip" data-placement="bottom" title="Unpin" v-if="note.pinned"></i>
+
+                <i class="bi bi-pin icon text-black"
+                   data-toggle="tooltip" data-placement="bottom" title="Pin" v-else></i>
         </a>
 
         <div class="images">
