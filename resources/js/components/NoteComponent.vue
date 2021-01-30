@@ -224,10 +224,8 @@ export default {
         return {
             editing: false,
             shown: true,
-            dropdownShown: false,
             isCollaboratorsDialogVisible: false,
             isDeleteConfirmationVisible: false,
-            remindersDropdownShown: false,
             isLaterTodayVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
@@ -240,32 +238,7 @@ export default {
     },
     created() {
         setInterval(this.checkLaterTodayVisibility,500);
-
-        //Close all dropdowns
-        window.addEventListener("click", function (event) {
-            window.events.$emit('close_dropdown');
-            window.events.$emit('close_reminders_dropdown');
-
-            let collection = document.getElementsByClassName('dropdown-tooltip');
-
-            Array.prototype.filter.call(collection, function(element){
-                if(element.contains(event.target))
-                    window.events.$emit('open_dropdown', element);
-            });
-
-            let collection2 = document.getElementsByClassName('reminders-dropdown-tooltip');
-
-            Array.prototype.filter.call(collection2, function(element){
-                if(element.contains(event.target))
-                    window.events.$emit('open_reminders_dropdown', element);
-            });
-        });
-
-        window.events.$on('close_dropdown', this.hideDropdown);
-        window.events.$on('close_reminders_dropdown', this.hideRemindersDropdown);
-        window.events.$on('open_dropdown', this.openDropdown);
-        window.events.$on('open_reminders_dropdown', this.openRemindersDropdown);
-
+        
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
@@ -356,30 +329,10 @@ export default {
                 window.events.$emit('refresh_image', result.data);
             });
         },
-        openDropdown(element)
-        {
-            if(this.$refs.note.contains(element))
-                this.showDropdown();
-        },
         openRemindersDropdown(element)
         {
             if(this.$refs.note.contains(element))
                 this.showRemindersDropdown();
-        },
-        showDropdown()
-        {
-            this.dropdownShown = true;
-        },
-        showRemindersDropdown()
-        {
-            this.remindersDropdownShown = true;
-        },
-        hideRemindersDropdown()
-        {
-            this.remindersDropdownShown = false;
-        },
-        hideDropdown(){
-            this.dropdownShown = false;
         },
         pin() {
             if(this.note.pinned) {
