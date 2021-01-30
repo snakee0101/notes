@@ -63,11 +63,31 @@ class ReminderTest extends TestCase
 
     public function test_reminder_could_have_repeat_status()
     {
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
 
+        $obj = new class() {};
+        $obj->every = new class() {
+            public $number = 2;
+            public $unit = 'day';
+        };
+        $obj->ends = new class() {
+            public $after = 3;
+        };
+
+        $this->post( route('reminder.store', $note), [
+            'time' => now()->addDay()->format('YYYY-M-d HH:i:s'),
+            'repeat' => json_encode($obj)
+        ]);
+
+        $this->assertDatabaseHas('reminders', ['repeat' => '{"every":{"number":2,"unit":"day"},"ends":{"after":3}}']);
+        $this->assertEquals(3, Reminder::first()->repeat->ends->after);
+        $this->assertEquals(2, Reminder::first()->repeat->every->number);
+        $this->assertEquals('day', Reminder::first()->repeat->every->unit);
     }
 
-    public function test_reminder_could_be_stored_for_specific_place()
+    /*public function test_reminder_could_be_stored_for_specific_place()
     {
 
-    }
+    }*/
 }

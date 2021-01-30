@@ -48,9 +48,9 @@ class Reminder extends Model
         Notification::send($this->note->owner, new TimeNotification($this->note));
 
         if( is_null($this->repeat) )
-            $this->delete();
-        else
-            $this->processRepeatableReminder();
+            return $this->delete();
+
+        $this->processRepeatableReminder();
     }
 
     public function processRepeatableReminder()

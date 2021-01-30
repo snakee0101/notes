@@ -20,7 +20,8 @@ class ReminderController extends Controller
 
         $note->reminder()->create([
             'note_id' => $note->id,
-            'time' => $request->input('time')
+            'time' => request('time'),
+            'repeat' => json_decode( request('repeat') )
         ]);
     }
 
