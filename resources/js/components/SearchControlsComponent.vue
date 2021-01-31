@@ -3,34 +3,20 @@
         <div class="type-controls shadow-lg border border-gray-300 mb-4">
             <h2 class="font-bold p-2 pb-4">Types</h2>
             <div class="flex flex-row justify-between">
-                <button class="search-box-button bg-blue-600 text-white pt-14 text-center flex flex-col items-center"
-                        @click="filterByType('list')">
-                    <svg class="icon icon-list2 icon-lg" viewBox="0 0 32 32">
-                        <path d="M12 2h20v4h-20v-4zM12 14h20v4h-20v-4zM12 26h20v4h-20v-4zM0 4c0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4s-4-1.791-4-4zM0 16c0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4s-4-1.791-4-4zM0 28c0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4s-4-1.791-4-4z"></path>
-                    </svg>
+                <button class="blue-search-box-button" @click="filterByType('list')">
+                    <i class="bi bi-list icon-lg text-white"></i>
                     <p class="mt-10 mb-4">Lists</p>
                 </button>
-                <button class="search-box-button bg-blue-600 text-white pt-14 text-center flex flex-col items-center"
-                        @click="filterByType('image')">
-                    <svg class="icon icon-image icon-lg" viewBox="0 0 32 32">
-                        <path d="M29.996 4c0.001 0.001 0.003 0.002 0.004 0.004v23.993c-0.001 0.001-0.002 0.003-0.004 0.004h-27.993c-0.001-0.001-0.003-0.002-0.004-0.004v-23.993c0.001-0.001 0.002-0.003 0.004-0.004h27.993zM30 2h-28c-1.1 0-2 0.9-2 2v24c0 1.1 0.9 2 2 2h28c1.1 0 2-0.9 2-2v-24c0-1.1-0.9-2-2-2v0z"></path>
-                        <path d="M26 9c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path>
-                        <path d="M28 26h-24v-4l7-12 8 10h2l7-6z"></path>
-                    </svg>
+                <button class="blue-search-box-button" @click="filterByType('image')">
+                    <i class="bi bi-image icon-lg text-white"></i>
                     <p class="mt-10 mb-4">Images</p>
                 </button>
-                <button class="search-box-button bg-blue-600 text-white pt-14 text-center flex flex-col items-center"
-                        @click="filterByType('drawing')">
-                    <svg class="icon icon-brush icon-lg" viewBox="0 0 32 32">
-                        <path d="M27.555 8.42c-1.355 1.647-5.070 6.195-8.021 9.81l-3.747-3.804c3.389-3.016 7.584-6.744 9.1-8.079 2.697-2.377 5.062-3.791 5.576-3.213 0.322 0.32-0.533 2.396-2.908 5.286zM18.879 19.030c-1.143 1.399-2.127 2.604-2.729 3.343l-4.436-4.323c0.719-0.64 1.916-1.705 3.304-2.939l3.861 3.919zM15.489 23.183v-0.012c-2.575 9.88-14.018 4.2-14.018 4.2s4.801 0.605 4.801-3.873c0-4.341 4.412-4.733 4.683-4.753l4.543 4.427c0 0.001-0.009 0.011-0.009 0.011z"></path>
-                    </svg>
+                <button class="blue-search-box-button" @click="filterByType('drawing')">
+                    <i class="bi bi-brush-fill icon-lg text-white"></i>
                     <p class="mt-10 mb-4">Drawings</p>
                 </button>
-                <button class="search-box-button bg-blue-600 text-white pt-14 text-center flex flex-col items-center"
-                        @click="filterByType('url')">
-                    <svg class="icon icon-list2" viewBox="0 0 32 32">
-                        <path d="M12 2h20v4h-20v-4zM12 14h20v4h-20v-4zM12 26h20v4h-20v-4zM0 4c0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4s-4-1.791-4-4zM0 16c0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4s-4-1.791-4-4zM0 28c0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4s-4-1.791-4-4z"></path>
-                    </svg>
+                <button class="blue-search-box-button" @click="filterByType('url')">
+                    <i class="bi bi-link icon-lg text-white"></i>
                     <p class="mt-10 mb-4">URLs</p>
                 </button>
             </div>

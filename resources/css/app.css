@@ -17,6 +17,7 @@
 }
 
 
+.icon-2xl {font-size: 8em}
 .icon-xl {font-size: 4em}
 .icon-lg {font-size: 2em}
 .icon {font-size: 1.5em}
@@ -163,12 +164,13 @@ section.search.active {
     @apply shadow-md;
 }
 
-.search-box-button {
+.blue-search-box-button {
+    @apply bg-blue-600 text-white pt-14 text-center flex flex-col items-center;
     width: 24%;
 }
 
-.search-box-button .icon {
-    fill: #fff;
+.search-box-button {
+    width: 24%;
 }
 
 .search-controls.active,
@@ -181,6 +183,10 @@ section.search.active {
 .search-controls.active ~ .empty-trash,
 .search-controls.active ~ .notes-container {
     display: none;
+}
+
+.search-controls .type_controls i {
+    color: #fff!important;
 }
 
 .notification {
