@@ -121,6 +121,14 @@ nav a.active {
     @apply border-2 transition border-transparent p-2 m-1 inline-block rounded-full;
 }
 
+.color-controls .color-circle {
+    @apply border transition border-gray-600 p-6 m-1 inline-block rounded-full mr-4;
+}
+
+.color-controls .color-circle:hover {
+    @apply border-black;
+}
+
 .color-circle.active {
     @apply border-gray-800;
 }

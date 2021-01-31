@@ -38,14 +38,11 @@
         <div class="color-controls shadow-lg border border-gray-300 mb-4">
             <h2 class="font-bold p-2 pb-2">Colors</h2>
             <div class="p-4 flex flex-row flex-wrap">
-                <div class="tooltip2 mx-2" v-for="color in colors">
-                    <span class="tooltip2text">{{ color }}</span>
-                    <a href=""
-                       class="p-4 px-6 color-circle border transition border-gray-400 d-inline-block rounded-full"
+                    <a v-for="color in colors" href=""
+                       class="color-circle"
                        :class="'bg-google-' + color"
+                       v-b-tooltip.hover.bottom :title="color"
                        @click.prevent="filterByColor(color)"></a>
-                    <!--TODO: Problems with color circles positioning-->
-                </div>
             </div>
         </div>
     </div>
