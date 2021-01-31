@@ -169,6 +169,11 @@ section.search.active {
     width: 24%;
 }
 
+.gray-search-box-button {
+    @apply bg-gray-200 text-black pt-14 text-center flex flex-col items-center;
+    width: 24%;
+}
+
 .search-box-button {
     width: 24%;
 }
