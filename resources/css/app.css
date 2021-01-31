@@ -206,6 +206,10 @@ section.search.active {
     width: 460px;
 }
 
+.notification_undo_button {
+    @apply text-yellow-300 text-sm font-medium px-6 py-2 ml-4 hover:bg-gray-700 focus:outline-none focus:bg-gray-600 rounded-sm;
+}
+
 .note-header-input,
 .note-content-input {
     width: 94%!important;
