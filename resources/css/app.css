@@ -136,10 +136,6 @@ nav a.active {
     width: 600px;
 }
 
-.trash-content {
-    width: 430px;
-}
-
 .add-collaborator-input:invalid + .tooltip {
     display: none;
 }
