@@ -1,5 +1,9 @@
-<template>  <!--TODO: There should be the animation when the dialog appears and disappears-->
-    <div @mousedown.self="cancel()"
+<template>
+    <b-modal ref="collaborators-dialog" hide-footer centered class="collaborators-dialog">
+        <p class="m-2">Delete note forever?</p>
+        <p>iuioyuko</p>
+    </b-modal>
+<!--    <div @mousedown.self="cancel()"
          class="collaborators-dialog z-20 fixed top-0 left-0 right-0
              bottom-0 flex items-center bg-gray-800 bg-opacity-75">
         <div class="collaborators-content m-auto">
@@ -68,12 +72,15 @@
                 </button>
             </div>
         </div>
-    </div>
+    </div>-->
 </template>
 
 <script>
 export default {
     name: "CollaboratorDialogComponent",
+    created() {
+        window.events.$on('show-collaborators-dialog', this.show);
+    },
     data() {
         return {
             newEmail: '',
@@ -86,6 +93,11 @@ export default {
         };
     },
     methods: {
+        show(note_id)
+        {
+            if(this.note.id === note_id)
+                this.$refs['collaborators-dialog'].show();
+        },
         showError(message)
         {
             this.errorMessage = message;

@@ -185,11 +185,9 @@
             </a>
         </div>
 
-        <collaborator-dialog-component v-show="isCollaboratorsDialogVisible"
-                                       :note="note"
+        <collaborator-dialog-component :note="note"
                                        :emails="note.collaborators_json"
-                                       :owner="note.owner_json"
-                                       v-on:hide_dialog="hideCollaboratorsDialog()">
+                                       :owner="note.owner_json">
 
         </collaborator-dialog-component>
 
@@ -347,11 +345,8 @@ export default {
             this.note.color = color;
             axios.put('/note/' + this.note.id, {'color' : color} );
         },
-        hideCollaboratorsDialog() {
-            this.isCollaboratorsDialogVisible = false;
-        },
         showCollaboratorsDialog() {
-            this.isCollaboratorsDialogVisible = true;
+            window.events.$emit('show-collaborators-dialog', this.note.id);
         },
         restore() {
             axios.post('note/restore/' + this.note.id);
