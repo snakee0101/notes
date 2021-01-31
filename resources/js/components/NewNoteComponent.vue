@@ -241,7 +241,7 @@ export default {
             }, ms);
         },
         save() {
-            console.log(this.$data);
+
         },
         pin() {
             this.note.pinned = !this.note.pinned;
