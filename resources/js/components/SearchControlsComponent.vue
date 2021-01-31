@@ -1,5 +1,5 @@
 <template>
-    <div class="search-controls m-auto" style="max-width: 640px">
+    <div class="search-controls m-auto" style="max-width: 640px" :class="isSearchActive ? 'active' :''">
         <div class="type-controls shadow-lg border border-gray-300 mb-4">
             <h2 class="font-bold p-2 pb-4">Types</h2>
             <div class="flex flex-row justify-between">
@@ -53,6 +53,7 @@ export default {
     name: "SearchControlsComponent.vue",
     data: function(){
         return {
+            isSearchActive: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -61,17 +62,16 @@ export default {
         };
     },
     created() {
-        window.events.$on('searchActivated', function () {
-            let controls = document.getElementsByClassName('search-controls')[0];
-            controls.classList.add('active');
-        });
-
-        window.events.$on('searchCleared', function () {
-            let controls = document.getElementsByClassName('search-controls')[0];
-            controls.classList.remove('active');
-        });
+        window.events.$on('searchActivated', this.activateSearch);
+        window.events.$on('searchCleared', this.deactivateSearch);
     },
     methods: {
+        activateSearch() {
+            this.isSearchActive = true;
+        },
+        deactivateSearch() {
+            this.isSearchActive = false;
+        },
         filterByType(type) {
             alert('Content is filtered by type ' + type);
         },
