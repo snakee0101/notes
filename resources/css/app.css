@@ -195,3 +195,12 @@ section.search.active {
 .note-content-input {
     width: 94%!important;
 }
+
+.modal-dialog header {
+    display: none!important;
+}
+
+.modal-content {
+    border-radius: 0.7rem!important;
+    width: 84%!important;
+}
