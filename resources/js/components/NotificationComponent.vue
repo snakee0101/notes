@@ -2,11 +2,9 @@
     <div class="notification bg-gray-800 pl-6 pr-2 py-1.5 text-white fixed bottom-6 left-6 rounded flex items-center"
     :class="isHidden ? 'hidden' : ''">
         <p class="flex-grow notification-message m-0">{{ message }}</p>
-        <p class="undo-button m-0" :class="isUndoHidden ? 'hidden' : ''">
-            <button @click="undo()" class="notification_undo_button">
-                Undo
-            </button>
-        </p>
+        <button @click="undo()" class="notification_undo_button" :class="isUndoHidden ? 'hidden' : ''">
+            Undo
+        </button>
         <a href="" class="ml-1 p-2 rounded-full hover:bg-gray-700"
            v-b-tooltip.hover.bottom title="Dismiss"
            @click.prevent="hide()">
