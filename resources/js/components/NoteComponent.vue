@@ -47,7 +47,9 @@
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
                 <i class="bi bi-alarm icon"></i>
                 {{ getReminderTime() }}
-                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full px-1 z-20"
+                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
+                   v-b-tooltip.hover.bottom
+                   title="Remove reminder"
                    @click.prevent="removeReminder()">
                     <i class="bi bi-x icon"></i>
                 </a>

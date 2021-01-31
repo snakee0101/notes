@@ -25,6 +25,9 @@
 
 .icon, .icon-xl, .icon-lg, .icon-sm, .icon-xs {color: #000}
 
+a {color: #000!important}
+a:hover {text-decoration: none!important}
+
 nav {
     width: 280px!important;
 }
