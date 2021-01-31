@@ -141,17 +141,6 @@ nav a.active {
     @apply opacity-40;
 }
 
-.collaborators-content {
-    width: 600px;
-}
-
-.add-collaborator-input:invalid + .tooltip {
-    display: none;
-}
-.add-collaborator-input:valid + .tooltip {
-    display: inline;
-
-}
 .labels-content {
     width: 600px;
 }
@@ -222,4 +211,38 @@ section.search.active {
 .modal-content {
     border-radius: 0.7rem!important;
     width: 84%!important;
+}
+
+.collaborators-footer {
+    @apply rounded-b-md bg-gray-200 py-2 px-4 text-right;
+}
+
+.modal-body{
+    padding: 0!important;
+}
+
+.collaborators-dialog p {
+    margin: 0;
+}
+
+.collaborator-image {
+    @apply rounded-full;
+    height: 32px;
+    width: 32px;
+}
+
+.add-collaborator-input {
+    @apply ml-4 flex-grow text-sm focus:outline-none;
+}
+
+.add-collaborator-input.invalid {
+    @apply border-b border-red-600;
+}
+
+.collaborators-content {
+    @apply p-4;
+}
+
+.collaborator-button {
+    @apply text-gray-800 text-sm font-medium px-6 py-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm;
 }
