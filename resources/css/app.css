@@ -65,7 +65,7 @@ nav a.active {
     max-height: 450px;
 }
 
-.tooltip, .tooltip2 {
+.custom-tooltip, .tooltip2 {
     position: relative;
     display: inline-block;
 }
@@ -91,40 +91,6 @@ nav a.active {
     white-space: nowrap;
 }
 
-.tooltip3text {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: -200%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.tooltip4text {
-    visibility: hidden;
-    width: 150px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: -200%;
-    left: 20%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
 .vertical-tooltiptext {
     background: #fff;
     visibility: hidden;
@@ -134,27 +100,35 @@ nav a.active {
     padding: 5px 0;
     position: absolute;
     z-index: 1;
-    bottom: 150%;
+    bottom: 80%;
     left: 50%;
     margin-left: -60px;
     opacity: 0;
     transition: opacity 0.3s;
 }
 
-.tooltip:hover .tooltiptext,
+.custom-tooltip:hover .tooltiptext,
 .tooltip2:hover .tooltip2text,
-.tooltip:hover .tooltip3text,
-.tooltip:hover .tooltip4text,
-.tooltip:hover .vertical-tooltiptext{
+.custom-tooltip:hover .tooltip3text,
+.custom-tooltip:hover .tooltip4text,
+.custom-tooltip:hover .vertical-tooltiptext{
     visibility: visible;
     opacity: 1;
+}
+
+.color-circle {
+    @apply border-2 transition border-transparent p-2 m-1 inline-block rounded-full;
 }
 
 .color-circle.active {
     @apply border-gray-800;
 }
 
-.color-circle.active .icon-checkmark {
+.color-circle .bi {
+    @apply opacity-0;
+}
+
+.color-circle.active .bi {
     @apply opacity-40;
 }
 

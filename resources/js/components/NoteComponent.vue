@@ -120,27 +120,25 @@
                 <i class="bi bi-person-plus icon-sm"></i>
             </a>
 
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
-               v-b-tooltip.hover.bottom
-               title="Change color"
-               @click.prevent>
-                <i class="bi bi-palette icon-sm"></i>
-            </a>
+            <div class="custom-tooltip">
+                <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+                   v-b-tooltip.hover.bottom
+                   title="Change color"
+                   @click.prevent>
+                    <i class="bi bi-palette icon-sm"></i>
 
-<!--            <div class="tooltip">   TODO: Problems with color circles
-                <div class="vertical-tooltiptext rounded-md"> &lt;!&ndash;TODO: Color circles' tooltips work another way - they're smaller and they're closed when the cursor is out of the color circle (even when it was on the tooltip). So when the cursor is on the tooltip, it will be closed.&ndash;&gt;
-                    <div class="tooltip2" v-for="color in colors">
-                        <a href=""
-                           :class="'color-circle border-2 transition border-transparent p-2 m-1 d-inline-block rounded-full bg-google-' + color + ' ' + isActive(color)"
+                </a>
+                <div class="vertical-tooltiptext rounded-md">
+                        <a v-for="color in colors"
+                           href=""
+                           :class="'color-circle bg-google-' + color + ' ' + isActive(color)"
+                           v-b-tooltip.hover.bottom
+                           :title="color"
                            @click.prevent="changeColor(color)">
-                            <svg class="icon icon-small icon-checkmark -mt-1 opacity-0 transition" viewBox="0 0 32 32">
-                                <path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
-                            </svg>
+                            <i class="bi bi-check icon-sm"></i>
                         </a>
-                        <span class="tooltip2text" v-text="color"></span>
-                    </div>
                 </div>
-            </div>-->
+            </div>
 
 
             <a href="" class="hover:bg-gray-300 p-2 rounded-full"
