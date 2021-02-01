@@ -70,12 +70,12 @@
         <div class="toolbar flex justify-between" v-if="trashed">
             <button
                 @click="restore()"
-                class="text-white bg-green-500 border border-green-600 text-sm font-medium px-2 py-2 mr-2 hover:bg-green-700 focus:bg-green-900 focus:outline-none rounded-sm">
+                class="restore-button">
                 Restore
             </button>
             <button
                 @click="$refs['delete-confirmation'].show()"
-                class="text-white bg-red-500 border border-red-800 text-sm font-medium px-2 py-2 hover:bg-red-700 focus:bg-red-900 focus:outline-none  rounded-sm">
+                class="delete-forever-button">
                 Delete Forever
             </button>
         </div>
@@ -194,14 +194,10 @@
         <b-modal ref="delete-confirmation" hide-footer centered class="delete-confirmation">
             <p class="m-2">Delete note forever?</p>
             <div class="bg-white rounded-b-lg text-right">
-                <button
-                    @click="$refs['delete-confirmation'].hide()"
-                    class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none  rounded-sm">
+                <button @click="$refs['delete-confirmation'].hide()" class="cancel-button">
                     Cancel
                 </button>
-                <button
-                    @click="delete_forever()"
-                    class="py-2 px-6 text-red-500 text-sm font-bold hover:bg-red-50 focus:bg-red-100 focus:outline-none">
+                <button @click="delete_forever()" class="delete-button">
                     Delete
                 </button>
             </div>

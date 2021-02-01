@@ -11,12 +11,12 @@
             <div class="bg-white rounded-b-lg text-right">
                 <button
                     @click="$refs['delete-confirmation'].hide()"
-                    class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none  rounded-sm">
+                    class="cancel-button">
                     Cancel
                 </button>
                 <button
                     @click="deleteLabel()"
-                    class="py-2 px-6 text-red-500 text-sm font-bold hover:bg-red-50 focus:bg-red-100 focus:outline-none">
+                    class="delete-button">
                     Delete
                 </button>
             </div>
@@ -90,9 +90,7 @@
                 </div>
             </div>
             <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
-                <button
-                    @click="hide()"
-                    class="text-gray-800 text-sm font-medium px-6 py-2 mr-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm">
+                <button @click="hide()" class="done-button">
                     Done
                 </button>
             </div>
