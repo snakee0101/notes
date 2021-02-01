@@ -59,7 +59,7 @@ nav a.active {
 }
 
 .note {
-    width: 266px;
+    width: 270px;
 }
 
 .note-content {
@@ -273,4 +273,19 @@ section.search.active {
 
 .empty-trash-button {
     @apply py-2 px-6 text-blue-500 text-sm font-bold hover:bg-blue-50 focus:bg-blue-100 focus:outline-none;
+}
+
+.toolbar {
+    @apply items-center;
+}
+
+.toolbar > .dropdown:first-child .dropdown-toggle {
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+}
+
+.datetimePicker-dropdown {
+    width: 280px;
 }

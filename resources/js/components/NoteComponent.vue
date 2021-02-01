@@ -81,11 +81,20 @@
         </div>
 
         <div class="toolbar" v-else>
+            <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret ref="datepicker-dropdown" menu-class="datetimePicker-dropdown">
+                <div>
+                    <p class="text-lg p-2 pl-3 m-0 font-bold">
+                        <a href=""> <i class="bi bi-arrow-left mr-3"></i> </a>Pick date & time
+                    </p>
+                </div>
+
+            </b-dropdown>
+
             <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
                v-b-tooltip.hover.bottom
                title="Remind me"
                @click.prevent>
-                <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret>
+                <b-dropdown size="sm" variant="link" toggle-class="" no-caret ref="reminder-dropdown">
                     <template #button-content>
                         <i class="bi bi-bell icon-sm p-0"></i>
                     </template>
@@ -102,7 +111,7 @@
                         Next week
                         <span class="text-gray-500">Mon., 8:00 AM</span>
                     </b-dropdown-item>
-                    <b-dropdown-item href="#" @click="" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                    <b-dropdown-item href="#" @click="$refs['datepicker-dropdown'].show(); $refs['reminder-dropdown'].hide()" class="focus:outline-none py-2.5 hover:bg-gray-200">
                         <i class="bi bi-alarm-fill mr-3"></i>
                         Pick date & time
                     </b-dropdown-item>
