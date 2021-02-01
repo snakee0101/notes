@@ -246,3 +246,7 @@ section.search.active {
 .collaborator-button {
     @apply text-gray-800 text-sm font-medium px-6 py-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm;
 }
+
+.delete-confirmation .modal-body {
+    padding: .7rem!important;
+}
