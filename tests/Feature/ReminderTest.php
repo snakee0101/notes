@@ -86,6 +86,33 @@ class ReminderTest extends TestCase
         $this->assertEquals('day', Reminder::first()->repeat->every->unit);
     }
 
+    public function test_a_repeat_status_on_specific_days_of_week_could_be_saved()
+    {
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $obj = new class() {};
+        $obj->every = new class() {
+            public $number = 2;
+            public $unit = 'week';
+            public $weekdays = ['Monday', 'Tuesday', 'Friday'];
+        };
+        $obj->ends = new class() {
+            public $after = 3;
+        };
+
+        $this->post( route('reminder.store', $note), [
+            'time' => now()->addDay()->format('YYYY-M-d HH:i:s'),
+            'repeat' => json_encode($obj)
+        ]);
+
+        $this->assertDatabaseHas('reminders', ['repeat' => '{"every":{"number":2,"unit":"week","weekdays":["Monday","Tuesday","Friday"]},"ends":{"after":3}}']);
+        $this->assertIsArray(Reminder::first()->repeat->every->weekdays);
+        $this->assertContains('Monday', Reminder::first()->repeat->every->weekdays);
+        $this->assertContains('Tuesday', Reminder::first()->repeat->every->weekdays);
+        $this->assertContains('Friday', Reminder::first()->repeat->every->weekdays);
+    }
+
     /*public function test_reminder_could_be_stored_for_specific_place()
     {
 

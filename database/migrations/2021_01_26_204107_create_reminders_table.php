@@ -24,7 +24,8 @@ class CreateRemindersTable extends Migration
              * {
              *   every {
              *      number : integer,
-             *      unit : 'day | week | month | year'
+             *      unit : 'day | week | month | year',
+             *      weekdays : ['Monday', 'Wednesday', ...]   //active only for 'week' unit
              *   }
              *   ends {   //null means "never"
              *     after : integer //number of occurences,   OR
