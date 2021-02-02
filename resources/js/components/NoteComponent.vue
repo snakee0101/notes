@@ -193,7 +193,12 @@
         <b-modal title="BootstrapVue" ref="dateTimePicker-modal"
                  centered hide-footer modal-class="dateTimePicker-modal">
             <p class="text-lg font-bold">
-                <a href=""> <i class="bi bi-arrow-left mr-3"></i> </a>Pick date & time
+                <a href=""
+                   v-b-tooltip.hover.bottom
+                   title="Go back"
+                   @click.prevent="$refs['dateTimePicker-modal'].hide(); $refs['reminder-dropdown'].show()">
+                    <i class="bi bi-arrow-left mr-3"></i>
+                </a>Pick date & time
             </p>
             <div>
                 <p class="m-0 mb-2 font-bold">Select date</p>
