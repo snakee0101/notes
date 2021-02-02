@@ -202,11 +202,11 @@
             </p>
             <div>
                 <p class="m-0 mb-2 font-bold">Select date</p>
-                <b-form-datepicker v-model="value"></b-form-datepicker>
+                <b-form-datepicker v-model="pickedDate"></b-form-datepicker>
             </div>
             <div class="mt-4">
                 <p class="mb-2 font-bold">Select time</p>
-                <b-form-timepicker v-model="pickedDate" locale="en"></b-form-timepicker>
+                <b-form-timepicker v-model="pickedTime" locale="en"></b-form-timepicker>
             </div>
             <div class="mt-4">
                 <p class="mb-2 font-bold">Select repeat status</p>
@@ -220,7 +220,46 @@
                 </b-form-select>
             </div>
             <div v-if="customRepeatStatusShown" class="border-2 border-green-600 mb-2 p-2">
-                <p>custom repeat status block</p>
+                <div class="flex justify-content-between">
+                    <p class="font-bold">Every: </p>
+                    <div>
+                        <input type="text" size="2" class="p-1 border-b border-gray-500 focus:outline-none text-center"
+                               v-model="repeat_every_value">
+                        <select>
+                            <option value="day">Day</option>
+                            <option value="week">Week</option>
+                            <option value="month">Month</option>
+                            <option value="Year">Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-content-between">
+                    <p class="font-bold">Ends: </p>
+                    <div>
+                        <p>
+                            <label>
+                                <input type="radio" name="repeat_ends" v-model="repeat_ends" value="never"> Never
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="repeat_ends" v-model="repeat_ends" id="occurrences" value="occurrences"
+                                       ref="occurrences_switch">
+                                After
+                                    <input type="text" v-model="repeat_occurrences"
+                                           size="2" class="border-b border-gray-500 focus:outline-none text-center"
+                                           @focus="$refs['occurrences_switch'].checked = true">
+                                occurrences
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="repeat_ends" v-model="repeat_ends" value="date">
+                                On:  <b-form-datepicker v-model="pickedRepeatsDate"></b-form-datepicker>
+                            </label>
+                        </p>
+                    </div>
+                </div>
             </div>
             <p class="text-right m-0">
                 <b-button variant="primary">Save</b-button>
@@ -257,6 +296,8 @@ export default {
             editing: false,
             shown: true,
             pickedDate: '',
+            pickedTime: '',
+            pickedRepeatsDate: '',
             repeatStatus: '',
             isCollaboratorsDialogVisible: false,
             customRepeatStatusShown: false,
@@ -267,7 +308,10 @@ export default {
                 'purple', 'pink', 'brown', 'grey'
             ],
             trashed: this.$attrs.istrashed,
-            note: JSON.parse(this.$attrs.note)
+            note: JSON.parse(this.$attrs.note),
+            repeat_ends: 'never',
+            repeat_occurrences: 1,
+            repeat_every_value: 1
         };
     },
     created() {
