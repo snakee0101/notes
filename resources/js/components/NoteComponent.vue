@@ -210,7 +210,7 @@
             </div>
             <div class="mt-4">
                 <p class="mb-2 font-bold">Select repeat status</p>
-                <b-form-select v-model="repeatStatus" class="mb-3" selected="Doesn't repeat">
+                <b-form-select v-model="repeatStatus" class="mb-3" selected="Doesn't repeat" @change="showCustomRepeatOptions()">
                     <b-form-select-option value="Doesn't repeat">Doesn't repeat</b-form-select-option>
                     <b-form-select-option value="Daily">Daily</b-form-select-option>
                     <b-form-select-option value="Weekly">Weekly</b-form-select-option>
@@ -218,6 +218,9 @@
                     <b-form-select-option value="Yearly">Yearly</b-form-select-option>
                     <b-form-select-option value="Custom">Custom</b-form-select-option>
                 </b-form-select>
+            </div>
+            <div v-if="customRepeatStatusShown" class="border-2 border-green-600 mb-2 p-2">
+                <p>custom repeat status block</p>
             </div>
             <p class="text-right m-0">
                 <b-button variant="primary">Save</b-button>
@@ -256,6 +259,7 @@ export default {
             pickedDate: '',
             repeatStatus: '',
             isCollaboratorsDialogVisible: false,
+            customRepeatStatusShown: false,
             isLaterTodayVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
@@ -272,6 +276,12 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        showCustomRepeatOptions() {
+            if(this.repeatStatus == 'Custom')
+                this.customRepeatStatusShown = true
+            else
+                this.customRepeatStatusShown = false;
+        },
         copy() {
             axios.post('/note/duplicate/' + this.note.id)
                 .then(res => window.duplicatedNoteId = res.data.id);
