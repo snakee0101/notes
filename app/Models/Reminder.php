@@ -56,7 +56,12 @@ class Reminder extends Model
     public function processRepeatableReminder()
     {
         $every = $this->repeat->every;
-        $this->time = $this->time->add($every->unit, $every->number);
+
+        if(property_exists($every, 'weekdays'))
+            $this->time = $this->findNearestWeekday();
+         else
+            $this->time = $this->time->add($every->unit, $every->number);
+
         $this->push();
 
         if( !property_exists($this->repeat, 'ends') || is_null($this->repeat->ends) )  //if execution never ends, then don't process counter and don't delete the reminder
@@ -81,5 +86,15 @@ class Reminder extends Model
                           ->greaterThan( $restriction_date ))
                 $this->delete();   //if the next execution date is greater than the restriction date - delete the reminder
         }
+    }
+
+    public function findNearestWeekday()
+    {
+        do {
+            $nextWeekday = $this->time->addDay();
+        } while ( array_search($nextWeekday->englishDayOfWeek, $this->repeat->every->weekdays) === false );
+        //search until the next weekday is found in the list
+
+        return $nextWeekday;
     }
 }

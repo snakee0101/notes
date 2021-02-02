@@ -310,6 +310,35 @@ class ReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
     }
 
+    public function test_when_reminder_runs_it_sets_next_execution_date_to_the_nearest_weekday()
+    {
+        Notification::fake();
+
+        $json = new class(){};
+        $json->every = new class() {
+            public $number = 1;
+            public $unit = 'week';
+            public $weekdays = ['Tuesday', 'Saturday'];
+        };
+
+        $time = now()->weekday(0);  //0 is Sunday
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => $time,
+            'repeat' => $json
+        ]);
+
+        $this->assertDatabaseCount('reminders', 1);
+
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Tuesday', $reminder->time->englishDayOfWeek);
+
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Saturday', $reminder->time->englishDayOfWeek);
+    }
+
     /*public function test_reminder_sends_a_location_notification()
     {
 
