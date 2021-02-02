@@ -221,11 +221,11 @@
             </div>
             <div v-if="customRepeatStatusShown" class="border-2 border-green-600 mb-2 p-2">
                 <div class="flex justify-content-between">
-                    <p class="font-bold">Every: </p>
+                    <p class="font-bold">Repeat every: </p>
                     <div>
                         <input type="text" size="2" class="p-1 border-b border-gray-500 focus:outline-none text-center"
                                v-model="repeat_every_value">
-                        <select>
+                        <select v-model="repeat_every_unit" @change="showWeekdays()">
                             <option value="day">Day</option>
                             <option value="week">Week</option>
                             <option value="month">Month</option>
@@ -233,6 +233,18 @@
                         </select>
                     </div>
                 </div>
+
+                <div v-if="weekdaysShown" class="weekdaysButtons mt-2">
+                    <b-form-group>
+                        <b-form-checkbox-group
+                            v-model="weekdays"
+                            :options="weekdaysOptions"
+                            buttons
+                            button-variant="success"
+                        ></b-form-checkbox-group>
+                    </b-form-group>
+                </div>
+
                 <div class="flex justify-content-between">
                     <p class="font-bold">Ends: </p>
                     <div>
@@ -311,7 +323,19 @@ export default {
             note: JSON.parse(this.$attrs.note),
             repeat_ends: 'never',
             repeat_occurrences: 1,
-            repeat_every_value: 1
+            repeat_every_value: 1,
+            repeat_every_unit: 'Day',
+            weekdaysShown: false,
+            weekdays: [],
+            weekdaysOptions: [
+                { text: 'Mon', value: 'Monday' },
+                { text: 'Tue', value: 'Tuesday' },
+                { text: 'Wed', value: 'Wednesday' },
+                { text: 'Thu', value: 'Thursday' },
+                { text: 'Fri', value: 'Friday' },
+                { text: 'Sat', value: 'Saturday' },
+                { text: 'Sun', value: 'Sunday' },
+            ]
         };
     },
     created() {
@@ -320,6 +344,9 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        showWeekdays() {
+            this.weekdaysShown = (this.repeat_every_unit === 'week');
+        },
         showCustomRepeatOptions() {
             if(this.repeatStatus == 'Custom')
                 this.customRepeatStatusShown = true

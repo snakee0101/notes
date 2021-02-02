@@ -289,3 +289,32 @@ section.search.active {
 .dateTimePicker-modal .modal-content {
     padding: 1rem;
 }
+
+.weekdaysButtons {
+    text-align: center;
+}
+
+.weekdaysButtons .btn {
+    display: inline-block!important;
+    border-radius: 50%!important;
+    padding: 7px 0!important;
+    width: 40px!important;
+    height: 40px!important;
+    margin-right: .4rem!important;
+}
+
+.weekdaysButtons .btn {
+    box-shadow: none!important;
+}
+
+.weekdaysButtons .btn:hover,
+.weekdaysButtons .btn:focus,
+.weekdaysButtons .btn.focus {
+    background: #28a745!important;
+}
+
+.weekdaysButtons .btn.active {
+    background: #1e7e34!important
+}
+
+
