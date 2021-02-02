@@ -286,6 +286,6 @@ section.search.active {
     height: 0;
 }
 
-.datetimePicker-dropdown {
-    width: 280px;
+.dateTimePicker-modal .modal-content {
+    padding: 1rem;
 }

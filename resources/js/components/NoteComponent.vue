@@ -4,13 +4,14 @@
          :class="'bg-google-' + note.color"
          v-if="shown"
          ref="note">
-        <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="pin()" v-if="!trashed">
+        <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="pin()"
+           v-if="!trashed">
             <!--TODO: there should be editing state for the note-->
-                <i class="bi bi-pin-fill icon text-black"
-                   v-b-tooltip.hover.bottom title="Unpin" v-if="note.pinned"></i>
+            <i class="bi bi-pin-fill icon text-black"
+               v-b-tooltip.hover.bottom title="Unpin" v-if="note.pinned"></i>
 
-                <i class="bi bi-pin icon text-black"
-                   v-b-tooltip.hover.bottom title="Pin" v-else></i>
+            <i class="bi bi-pin icon text-black"
+               v-b-tooltip.hover.bottom title="Pin" v-else></i>
         </a>
 
         <div class="images">
@@ -81,15 +82,6 @@
         </div>
 
         <div class="toolbar" v-else>
-            <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret ref="datepicker-dropdown" menu-class="datetimePicker-dropdown">
-                <div>
-                    <p class="text-lg p-2 pl-3 m-0 font-bold">
-                        <a href=""> <i class="bi bi-arrow-left mr-3"></i> </a>Pick date & time
-                    </p>
-                </div>
-
-            </b-dropdown>
-
             <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
                v-b-tooltip.hover.bottom
                title="Remind me"
@@ -99,19 +91,24 @@
                         <i class="bi bi-bell icon-sm p-0"></i>
                     </template>
                     <p class="text-lg p-2 pl-4 m-0 font-bold">Reminder:</p>
-                    <b-dropdown-item href="#" @click="storeReminder('later_today')" class="focus:outline-none py-2.5 hover:bg-gray-200" v-if="isLaterTodayVisible">
+                    <b-dropdown-item href="#" @click="storeReminder('later_today')"
+                                     class="focus:outline-none py-2.5 hover:bg-gray-200" v-if="isLaterTodayVisible">
                         Later today
                         <span class="text-gray-500">8:00 PM</span>
                     </b-dropdown-item>
-                    <b-dropdown-item href="#" @click="storeReminder('tomorrow')" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                    <b-dropdown-item href="#" @click="storeReminder('tomorrow')"
+                                     class="focus:outline-none py-2.5 hover:bg-gray-200">
                         Tomorrow
                         <span class="text-gray-500">8:00 AM</span>
                     </b-dropdown-item>
-                    <b-dropdown-item href="#" @click="storeReminder('next_week')" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                    <b-dropdown-item href="#" @click="storeReminder('next_week')"
+                                     class="focus:outline-none py-2.5 hover:bg-gray-200">
                         Next week
                         <span class="text-gray-500">Mon., 8:00 AM</span>
                     </b-dropdown-item>
-                    <b-dropdown-item href="#" @click="$refs['datepicker-dropdown'].show(); $refs['reminder-dropdown'].hide()" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                    <b-dropdown-item href="#"
+                                     @click="$refs['dateTimePicker-modal'].show(); $refs['reminder-dropdown'].hide()"
+                                     class="focus:outline-none py-2.5 hover:bg-gray-200">
                         <i class="bi bi-alarm-fill mr-3"></i>
                         Pick date & time
                     </b-dropdown-item>
@@ -138,17 +135,16 @@
 
                 </a>
                 <div class="vertical-tooltiptext rounded-md">
-                        <a v-for="color in colors"
-                           href=""
-                           :class="'color-circle bg-google-' + color + ' ' + isActive(color)"
-                           v-b-tooltip.hover.bottom
-                           :title="color"
-                           @click.prevent="changeColor(color)">
-                            <i class="bi bi-check icon-sm"></i>
-                        </a>
+                    <a v-for="color in colors"
+                       href=""
+                       :class="'color-circle bg-google-' + color + ' ' + isActive(color)"
+                       v-b-tooltip.hover.bottom
+                       :title="color"
+                       @click.prevent="changeColor(color)">
+                        <i class="bi bi-check icon-sm"></i>
+                    </a>
                 </div>
             </div>
-
 
             <a href="" class="hover:bg-gray-300 p-2 rounded-full"
                v-b-tooltip.hover.bottom
@@ -158,7 +154,7 @@
             </a>
 
             <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
-                       @change="handleFiles()">
+                   @change="handleFiles()">
 
 
             <a href="" class="hover:bg-gray-300 p-2 rounded-full"
@@ -181,18 +177,47 @@
                v-b-tooltip.hover.bottom
                title="More"
                @click.prevent>
-                    <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret>
-                        <template #button-content>
-                            <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
-                        </template>
-                        <b-dropdown-item href="#" @click="deleteNote()">Delete note</b-dropdown-item>
-                        <b-dropdown-item href="#">Add label</b-dropdown-item>
-                        <b-dropdown-item href="#">Add drawing</b-dropdown-item>
-                        <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
-                        <b-dropdown-item href="#">Show checkboxes</b-dropdown-item>
-                    </b-dropdown>
+                <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret>
+                    <template #button-content>
+                        <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
+                    </template>
+                    <b-dropdown-item href="#" @click="deleteNote()">Delete note</b-dropdown-item>
+                    <b-dropdown-item href="#">Add label</b-dropdown-item>
+                    <b-dropdown-item href="#">Add drawing</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
+                    <b-dropdown-item href="#">Show checkboxes</b-dropdown-item>
+                </b-dropdown>
             </a>
         </div>
+
+        <b-modal title="BootstrapVue" ref="dateTimePicker-modal"
+                 centered hide-footer modal-class="dateTimePicker-modal">
+            <p class="text-lg font-bold">
+                <a href=""> <i class="bi bi-arrow-left mr-3"></i> </a>Pick date & time
+            </p>
+            <div>
+                <p class="m-0 mb-2 font-bold">Select date</p>
+                <b-form-datepicker v-model="value"></b-form-datepicker>
+            </div>
+            <div class="mt-4">
+                <p class="mb-2 font-bold">Select time</p>
+                <b-form-timepicker v-model="pickedDate" locale="en"></b-form-timepicker>
+            </div>
+            <div class="mt-4">
+                <p class="mb-2 font-bold">Select repeat status</p>
+                <b-form-select v-model="repeatStatus" class="mb-3" selected="Doesn't repeat">
+                    <b-form-select-option value="Doesn't repeat">Doesn't repeat</b-form-select-option>
+                    <b-form-select-option value="Daily">Daily</b-form-select-option>
+                    <b-form-select-option value="Weekly">Weekly</b-form-select-option>
+                    <b-form-select-option value="Monthly">Monthly</b-form-select-option>
+                    <b-form-select-option value="Yearly">Yearly</b-form-select-option>
+                    <b-form-select-option value="Custom">Custom</b-form-select-option>
+                </b-form-select>
+            </div>
+            <p class="text-right m-0">
+                <b-button variant="primary">Save</b-button>
+            </p>
+        </b-modal>
 
         <collaborator-dialog-component :note="note"
                                        :emails="note.collaborators_json"
@@ -223,6 +248,8 @@ export default {
         return {
             editing: false,
             shown: true,
+            pickedDate: '',
+            repeatStatus: '',
             isCollaboratorsDialogVisible: false,
             isLaterTodayVisible: false,
             colors: [
@@ -235,45 +262,40 @@ export default {
         };
     },
     created() {
-        setInterval(this.checkLaterTodayVisibility,500);
+        setInterval(this.checkLaterTodayVisibility, 500);
 
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
-        copy()
-        {
+        copy() {
             axios.post('/note/duplicate/' + this.note.id)
-                 .then(res => window.duplicatedNoteId = res.data.id);
+                .then(res => window.duplicatedNoteId = res.data.id);
             window.events.$emit('show-notification', 'Note created', this.undoCopy);
         },
-        undoCopy()
-        {
+        undoCopy() {
             axios.delete('note/' + window.duplicatedNoteId);
             axios.delete('note/' + window.duplicatedNoteId); //force delete
             window.events.$emit('show-notification', 'Action undone');
         },
-        checkLaterTodayVisibility()
-        {
-          let evening = (new Date).setHours(19, 0, 0);
-          this.isLaterTodayVisible = Date.now() < evening;
+        checkLaterTodayVisibility() {
+            let evening = (new Date).setHours(19, 0, 0);
+            this.isLaterTodayVisible = Date.now() < evening;
         },
-        storeReminder(text_time)
-        {
+        storeReminder(text_time) {
             let time = {
                 'later_today': moment().set({'hour': 20}),
                 'tomorrow': moment().add(1, 'days').set({'hour': 8}),
-                'next_week': moment().add(1, 'weeks').set({'day' : 'Monday', 'hour': 8}),
+                'next_week': moment().add(1, 'weeks').set({'day': 'Monday', 'hour': 8}),
             };
 
-            let formatted_time = time[text_time].set({'minute': 0, 'second':0})
-                                                .format('YYYY-MM-DD HH:mm:ss');
+            let formatted_time = time[text_time].set({'minute': 0, 'second': 0})
+                .format('YYYY-MM-DD HH:mm:ss');
             this.hideRemindersDropdown();
 
-            axios.post('/reminder/' + this.note.id, {'time' : formatted_time} );
-            this.note.reminder_json = {'time' : formatted_time};
+            axios.post('/reminder/' + this.note.id, {'time': formatted_time});
+            this.note.reminder_json = {'time': formatted_time};
         },
-        removeReminder()
-        {
+        removeReminder() {
             axios.delete('/reminder/' + this.note.id);
 
             window.ReminderNoteId = this.note.id;
@@ -281,40 +303,35 @@ export default {
 
             this.note.reminder_json = null;
 
-            if( location.href.includes('/reminder') )
+            if (location.href.includes('/reminder'))
                 this.shown = false;
 
             window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
         },
-        undoReminderRemoval()
-        {
-            axios.post('/reminder/' + window.ReminderNoteId,  {'time' : window.ReminderTime} );
-            this.note.reminder_json = {'time' : window.ReminderTime};
+        undoReminderRemoval() {
+            axios.post('/reminder/' + window.ReminderNoteId, {'time': window.ReminderTime});
+            this.note.reminder_json = {'time': window.ReminderTime};
 
-            if( location.href.includes('/reminder') )
+            if (location.href.includes('/reminder'))
                 this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
         },
-        getReminderTime()
-        {
+        getReminderTime() {
             let reminder_date = this.note.reminder_json.time;
             if (moment(reminder_date).year() > moment().year())
                 return moment(reminder_date).format('MMM D, YYYY, H:mm A');
 
             return moment(reminder_date).format('MMM D, H:mm A');
         },
-        refreshImage(data)
-        {
-            if(Object.is(this, window.newImageComponent))
+        refreshImage(data) {
+            if (Object.is(this, window.newImageComponent))
                 this.note.images_json.push(data);
         },
-        selectImage()
-        {
+        selectImage() {
             this.$refs['image'].click();
         },
-        handleFiles()
-        {
+        handleFiles() {
             let image = this.$refs['image'].files[0];
 
             let data = new FormData();
@@ -323,21 +340,20 @@ export default {
 
             window.newImageComponent = this;
 
-            axios.post('/image', data).then(function(result) {
+            axios.post('/image', data).then(function (result) {
                 window.events.$emit('refresh_image', result.data);
             });
         },
-        openRemindersDropdown(element)
-        {
-            if(this.$refs.note.contains(element))
+        openRemindersDropdown(element) {
+            if (this.$refs.note.contains(element))
                 this.showRemindersDropdown();
         },
         pin() {
-            if(this.note.pinned) {
-                axios.put('/note/' + this.note.id, {'pinned': false} );
+            if (this.note.pinned) {
+                axios.put('/note/' + this.note.id, {'pinned': false});
                 document.querySelector('div.others').appendChild(this.$refs.note);
             } else {
-                axios.put('/note/' + this.note.id, {'pinned' : true} );
+                axios.put('/note/' + this.note.id, {'pinned': true});
                 document.querySelector('div.pinned').appendChild(this.$refs.note);
             }
 
@@ -348,7 +364,7 @@ export default {
         },
         changeColor(color) {
             this.note.color = color;
-            axios.put('/note/' + this.note.id, {'color' : color} );
+            axios.put('/note/' + this.note.id, {'color': color});
         },
         showCollaboratorsDialog() {
             window.events.$emit('show-collaborators-dialog', this.note.id);
@@ -359,44 +375,44 @@ export default {
 
             window.events.$emit('show-notification', 'Note restored', this.undoRestore);
         },
-        deleteNote(){
+        deleteNote() {
             axios.delete('note/' + this.note.id);
             this.shown = false;
 
             window.events.$emit('show-notification', 'Note deleted', this.undoDelete);
         },
-        undoDelete(){
+        undoDelete() {
             axios.post('note/restore/' + this.note.id);
             this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
         },
-        undoRestore(){
+        undoRestore() {
             axios.delete('note/' + this.note.id);
             this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
         },
         archive() {
-            axios.put('/note/' + this.note.id, {'archived' : true} );
+            axios.put('/note/' + this.note.id, {'archived': true});
 
             this.shown = false;
             window.events.$emit('show-notification', 'Note archived', this.undo_archive);
         },
         unarchive() {
-            axios.put('/note/' + this.note.id, {'archived' : false} );
+            axios.put('/note/' + this.note.id, {'archived': false});
 
             this.shown = false;
             window.events.$emit('show-notification', 'Note unarchived', this.undo_unarchive);
         },
         undo_archive() {
-            axios.put('/note/' + this.note.id, {'archived' : false} );
+            axios.put('/note/' + this.note.id, {'archived': false});
 
             this.shown = true;
             window.events.$emit('show-notification', 'Action undone');
         },
         undo_unarchive() {
-            axios.put('/note/' + this.note.id, {'archived' : true} );
+            axios.put('/note/' + this.note.id, {'archived': true});
 
             this.shown = true;
             window.events.$emit('show-notification', 'Action undone');
@@ -412,13 +428,13 @@ export default {
             element.style.height = (element.scrollHeight) + "px";
         },
         detach_tag(tag) {
-           axios.delete('/detach_tag/'+ this.note.id +'/' + tag);
-           let index = this.note.tags.indexOf(tag);
-           this.note.tags.splice(index, 1);
+            axios.delete('/detach_tag/' + this.note.id + '/' + tag);
+            let index = this.note.tags.indexOf(tag);
+            this.note.tags.splice(index, 1);
 
-           let tagsLocation = 'tag/' + encodeURIComponent(tag);
-           if( location.href.includes(tagsLocation) )
-               this.shown = false;
+            let tagsLocation = 'tag/' + encodeURIComponent(tag);
+            if (location.href.includes(tagsLocation))
+                this.shown = false;
         }
     }
 }
