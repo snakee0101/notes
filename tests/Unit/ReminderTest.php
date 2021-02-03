@@ -339,6 +339,75 @@ class ReminderTest extends TestCase
         $this->assertEquals('Saturday', $reminder->time->englishDayOfWeek);
     }
 
+    public function test_reminder_could_process_weekdays_in_a_period_that_wider_than_a_week()
+    {
+        Notification::fake();
+
+        $json = new class(){};
+        $json->every = new class() {
+            public $number = 2;
+            public $unit = 'week';
+            public $weekdays = ['Tuesday', 'Thursday'];
+        };
+
+        $time = now()->weekday(0);  //0 is Sunday
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => $time,
+            'repeat' => $json
+        ]);
+
+        $this->assertDatabaseCount('reminders', 1);
+
+
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Tuesday', $reminder->time->englishDayOfWeek);
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Thursday', $reminder->time->englishDayOfWeek);
+
+
+        $before = clone $reminder->time;
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Tuesday', $reminder->time->englishDayOfWeek);
+        $this->assertEquals(2, $before->startOfWeek()->diffInWeeks((clone $reminder->time)->startOfWeek()));
+
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Thursday', $reminder->time->englishDayOfWeek);
+    }
+
+    public function test_reminder_could_handle_special_case_with_sunday()
+    {
+        Notification::fake();
+
+        $json = new class(){};
+        $json->every = new class() {
+            public $number = 2;
+            public $unit = 'week';
+            public $weekdays = ['Sunday'];
+        };
+
+        $time = now()->weekday(1);  //1 is Monday
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => $time,
+            'repeat' => $json
+        ]);
+
+        $this->assertDatabaseCount('reminders', 1);
+
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Sunday', $reminder->time->englishDayOfWeek);
+        $before = clone $reminder->time;
+
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Sunday', $reminder->time->englishDayOfWeek);
+        $this->assertEquals(2, $before->startOfWeek()->diffInWeeks((clone $reminder->time)->startOfWeek()));
+    }
+
     /*public function test_reminder_sends_a_location_notification()
     {
 
