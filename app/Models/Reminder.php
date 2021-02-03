@@ -15,8 +15,11 @@ class Reminder extends Model
     public $timestamps = false;
     protected $guarded = [];
     protected $casts = [
-        'repeat' => 'object'
+        'repeat' => 'object',
     ];
+    protected $dates = ['time'];
+
+    //$dates ['time']
 
     public function note()
     {
