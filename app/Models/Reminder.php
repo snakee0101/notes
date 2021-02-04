@@ -85,9 +85,13 @@ class Reminder extends Model
         } else {  //if there is date restriction   //TODO: simplify with return and swapping the condition parts (-1 indent level)
             $restriction_date = Carbon::createFromTimestamp( $ends->on_date );
 
-            //TODO: There must be check for the nearest weekday
             if(property_exists($every, 'weekdays')) {
-              echo '12345';
+                $obj = clone $this;
+                $obj->findNearestWeekday();
+
+                $nearest_weekday = $obj->time;
+                if($nearest_weekday->greaterThan( $restriction_date ))
+                    $this->delete();
             } else {
                 $next_execution_date = (clone $this->time)->add($every->unit, $every->number);
                 if($next_execution_date->greaterThan( $restriction_date ))

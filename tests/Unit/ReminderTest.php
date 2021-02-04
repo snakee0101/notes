@@ -408,6 +408,49 @@ class ReminderTest extends TestCase
         $this->assertEquals(2, $before->startOfWeek()->diffInWeeks((clone $reminder->time)->startOfWeek()));
     }
 
+    public function test_reminder_should_process_nearest_weekday_as_a_restriction_date()
+    {
+        Notification::fake();
+
+        $restriction =  now()->weekday(4);  //4 is Thursday
+
+        $json = new class(){};
+        $json->every = new class() {
+            public $number = 1;
+            public $unit = 'week';
+            public $weekdays = ['Wednesday', 'Friday'];
+        };
+
+        $json->ends =  new class($restriction) {
+            public $on_date;
+            public function __construct($on_date) {
+                $this->on_date = $on_date;
+            }
+        };
+
+        $time = now()->weekday(1);  //1 is Monday
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => $time,
+            'repeat' => $json
+        ]);
+
+        $this->assertDatabaseCount('reminders', 1);
+
+        $reminder->sendTimeReminder();
+        $this->assertEquals('Wednesday', $reminder->time->englishDayOfWeek);
+
+        $reminder->sendTimeReminder();  //if next date (Friday) is unreachable, then delete the reminder
+        $this->assertDatabaseCount('reminders', 0);
+    }
+
+    public function test_findNextWeekday_function_doesnt_mutates_a_date()
+    {
+
+    }
+
     /*public function test_reminder_sends_a_location_notification()
     {
 
