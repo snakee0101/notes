@@ -446,9 +446,31 @@ class ReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
     }
 
-    public function test_findNextWeekday_function_doesnt_mutates_a_date()
+    public function test_findNextWeekday_function_doesnt_mutates_a_date_and_returns_nearest_weekday()
     {
+        Notification::fake();
 
+        $json = new class(){};
+        $json->every = new class() {
+            public $number = 1;
+            public $unit = 'week';
+            public $weekdays = ['Wednesday', 'Friday'];
+        };
+
+        $time = now()->weekday(1);  //1 is Monday
+
+        $note = Note::factory()->create();
+        $reminder = Reminder::factory()->create([
+            'note_id' => $note->id,
+            'time' => $time,
+            'repeat' => $json
+        ]);
+
+        $before = $reminder->time->timestamp;
+        $this->assertInstanceOf(Carbon::class, $reminder->findNearestWeekday());
+        $after = $reminder->fresh()->time->timestamp;
+
+        $this->assertEquals($before, $after);
     }
 
     /*public function test_reminder_sends_a_location_notification()

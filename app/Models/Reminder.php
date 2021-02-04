@@ -59,7 +59,9 @@ class Reminder extends Model
         $every = $this->repeat->every;
 
         if(property_exists($every, 'weekdays'))
-            $this->findNearestWeekday();
+            $this->update([
+                'time' => $this->findNearestWeekday()
+            ]);
          else {
              $this->update([
                  'time' => $this->time->add($every->unit, $every->number)
@@ -85,11 +87,7 @@ class Reminder extends Model
             $restriction_date = Carbon::createFromTimestamp( $ends->on_date );
 
             if(property_exists($every, 'weekdays')) {
-                $obj = clone $this;
-                $obj->findNearestWeekday();
-
-                $nearest_weekday = $obj->time;
-                if($nearest_weekday->greaterThan( $restriction_date ))
+                if($this->findNearestWeekday()->greaterThan( $restriction_date ))
                     $this->delete();
             } else {
                 $next_execution_date = (clone $this->time)->add($every->unit, $every->number);
@@ -101,19 +99,16 @@ class Reminder extends Model
 
     public function findNearestWeekday()
     {
-        $every = $this->repeat->every;
+        $time = clone $this->time;
 
-        $time = $this->time;
         do {
-            $time = $this->time;  //date is converted to Carbon only this way
             if($time->englishDayOfWeek == 'Sunday') //if sunday was not found
-                $time->add('week', $every->number - 1);
-
+                $time->add('week', $this->repeat->every->number - 1);
 
             $time->addDay();
-            $this->time = $time;
-            $this->save();
         } while ( array_search($time->englishDayOfWeek, $this->repeat->every->weekdays) === false );
         //search until the next weekday is found in the list
+
+        return $time;
     }
 }
