@@ -31,7 +31,7 @@ class ReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
         auth()->login($note->owner);
 
-        $date = now()->addDay()->format('YYYY-M-d HH:i:s');
+        $date = now()->addDay()->format('Y-m-d H:i:s');
 
         $this->post( route('reminder.store', $note), [
             'time' => $date
@@ -45,7 +45,7 @@ class ReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
         auth()->login($note->owner);
 
-        $date = now()->addDay()->format('YYYY-M-d HH:i:s');
+        $date = now()->addDay()->format('Y-m-d H:i:s');
 
         $this->post( route('reminder.store', $note), [
             'time' => $date
@@ -53,7 +53,7 @@ class ReminderTest extends TestCase
 
         $this->assertDatabaseHas('reminders', ['time' => $date]);
 
-        $rewritten = now()->addWeek()->format('YYYY-M-d HH:i:s');
+        $rewritten = now()->addWeek()->format('Y-m-d H:i:s');
         $this->post( route('reminder.store', $note), [
             'time' => $rewritten
         ]);
@@ -76,7 +76,7 @@ class ReminderTest extends TestCase
         };
 
         $this->post( route('reminder.store', $note), [
-            'time' => now()->addDay()->format('YYYY-M-d HH:i:s'),
+            'time' => now()->addDay()->format('Y-m-d H:i:s'),
             'repeat' => json_encode($obj)
         ]);
 
@@ -102,7 +102,7 @@ class ReminderTest extends TestCase
         };
 
         $this->post( route('reminder.store', $note), [
-            'time' => now()->addDay()->format('YYYY-M-d HH:i:s'),
+            'time' => now()->addDay()->format('Y-m-d H:i:s'),
             'repeat' => json_encode($obj)
         ]);
 
