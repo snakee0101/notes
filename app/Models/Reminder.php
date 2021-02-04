@@ -58,7 +58,7 @@ class Reminder extends Model
     {
         $every = $this->repeat->every;
 
-        if (property_exists($every, 'weekdays'))
+        if (@$every->weekdays)
             $newTime = $this->findNearestWeekday();
         else
             $newTime = $this->time->add($every->unit, $every->number);
