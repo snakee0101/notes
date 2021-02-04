@@ -76,7 +76,7 @@ class Reminder extends Model
         $ends = $this->repeat->ends;
         $every = $this->repeat->every;
 
-        if(property_exists($ends, 'after')) { //if there is occurrence counter
+        if(@$ends->after) { //if there is occurrence counter
             $this->update([ 'repeat->ends->after' => $ends->after - 1 ]);
             if($this->repeat->ends->after == 0)
                 $this->forceDelete();
