@@ -77,13 +77,13 @@ class Reminder extends Model
         $every = $this->repeat->every;
 
         if(property_exists($ends, 'after')) { //if there is occurrence counter
-            $this->update([ 'repeat->ends->after' => $ends->after - 1 ]);  //TODO: use ::decrement( )
+            $this->update([ 'repeat->ends->after' => $ends->after - 1 ]);
             if($this->repeat->ends->after == 0)
                 $this->forceDelete();
         } else {  //if there is date restriction   //TODO: simplify with return and swapping the condition parts (-1 indent level)
             $restriction_date = Carbon::createFromTimestamp( $ends->on_date );
 
-            if(property_exists($every, 'weekdays')) {
+            if(@$every->weekdays) {
                 if($this->findNearestWeekday()->greaterThan( $restriction_date ))
                     $this->delete();
             } else {
@@ -97,13 +97,14 @@ class Reminder extends Model
     public function findNearestWeekday()
     {
         $time = clone $this->time;
+        $every = $this->repeat->every;
 
         do {
             if($time->englishDayOfWeek == 'Sunday') //if sunday was not found
-                $time->add('week', $this->repeat->every->number - 1);
+                $time->add('week', $every->number - 1);
 
             $time->addDay();
-        } while ( array_search($time->englishDayOfWeek, $this->repeat->every->weekdays) === false );
+        } while ( array_search($time->englishDayOfWeek, $every->weekdays) === false );
         //search until the next weekday is found in the list
 
         return $time;
