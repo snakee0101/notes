@@ -58,15 +58,12 @@ class Reminder extends Model
     {
         $every = $this->repeat->every;
 
-        if(property_exists($every, 'weekdays'))
-            $this->update([
-                'time' => $this->findNearestWeekday()
-            ]);
-         else {
-             $this->update([
-                 'time' => $this->time->add($every->unit, $every->number)
-             ]);
-         }
+         if(property_exists($every, 'weekdays'))
+             $newTime = $this->findNearestWeekday();
+         else
+             $newTime = $this->time->add($every->unit, $every->number);
+
+         $this->update( ['time' => $newTime]);
 
         if( !property_exists($this->repeat, 'ends') || is_null($this->repeat->ends) )  //if execution never ends, then don't process counter and don't delete the reminder
             return;
