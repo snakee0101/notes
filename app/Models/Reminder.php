@@ -80,18 +80,21 @@ class Reminder extends Model
             $this->update([ 'repeat->ends->after' => $ends->after - 1 ]);
             if($this->repeat->ends->after == 0)
                 $this->forceDelete();
-        } else {  //if there is date restriction   //TODO: simplify with return and swapping the condition parts (-1 indent level)
-            $restriction_date = Carbon::createFromTimestamp( $ends->on_date );
-
-            if(@$every->weekdays) {
-                if($this->findNearestWeekday()->greaterThan( $restriction_date ))
-                    $this->delete();
-            } else {
-                $next_execution_date = (clone $this->time)->add($every->unit, $every->number);
-                if($next_execution_date->greaterThan( $restriction_date ))
-                    $this->delete();
-            }
+            return;
         }
+
+        //if there is date restriction
+        $restriction_date = Carbon::createFromTimestamp($ends->on_date);
+
+        if (@$every->weekdays) {
+            if ($this->findNearestWeekday()->greaterThan($restriction_date))
+                $this->delete();
+        } else {
+            $next_execution_date = (clone $this->time)->add($every->unit, $every->number);
+            if ($next_execution_date->greaterThan($restriction_date))
+                $this->delete();
+        }
+
     }
 
     public function findNearestWeekday()
