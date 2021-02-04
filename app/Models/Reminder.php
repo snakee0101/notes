@@ -48,7 +48,7 @@ class Reminder extends Model
     {
         Notification::send($this->note->owner, new TimeNotification($this->note));
 
-        if( is_null($this->repeat) )
+        if (is_null($this->repeat))
             return $this->delete();
 
         $this->processRepeatableReminder();
@@ -58,14 +58,14 @@ class Reminder extends Model
     {
         $every = $this->repeat->every;
 
-         if(property_exists($every, 'weekdays'))
-             $newTime = $this->findNearestWeekday();
-         else
-             $newTime = $this->time->add($every->unit, $every->number);
+        if (property_exists($every, 'weekdays'))
+            $newTime = $this->findNearestWeekday();
+        else
+            $newTime = $this->time->add($every->unit, $every->number);
 
-         $this->update( ['time' => $newTime]);
+        $this->update(['time' => $newTime]);
 
-        if( @!$this->repeat->ends)  //if execution never ends, then don't process counter and don't delete the reminder
+        if (@!$this->repeat->ends)  //if execution never ends, then don't process counter and don't delete the reminder
             return;
 
         $this->processRepeatsCounter();
@@ -76,9 +76,9 @@ class Reminder extends Model
         $ends = $this->repeat->ends;
         $every = $this->repeat->every;
 
-        if(@$ends->after) { //if there is occurrence counter
-            $this->update([ 'repeat->ends->after' => $ends->after - 1 ]);
-            if($this->repeat->ends->after == 0)
+        if (@$ends->after) { //if there is occurrence counter
+            $this->update(['repeat->ends->after' => $ends->after - 1]);
+            if ($this->repeat->ends->after == 0)
                 $this->forceDelete();
             return;
         }
@@ -89,12 +89,13 @@ class Reminder extends Model
         if (@$every->weekdays) {
             if ($this->findNearestWeekday()->greaterThan($restriction_date))
                 $this->delete();
-        } else {
-            $next_execution_date = (clone $this->time)->add($every->unit, $every->number);
-            if ($next_execution_date->greaterThan($restriction_date))
-                $this->delete();
+
+            return;
         }
 
+        $next_execution_date = (clone $this->time)->add($every->unit, $every->number);
+        if ($next_execution_date->greaterThan($restriction_date))
+            $this->delete();
     }
 
     public function findNearestWeekday()
@@ -103,11 +104,11 @@ class Reminder extends Model
         $every = $this->repeat->every;
 
         do {
-            if($time->englishDayOfWeek == 'Sunday') //if sunday was not found
+            if ($time->englishDayOfWeek == 'Sunday') //if sunday was not found
                 $time->add('week', $every->number - 1);
 
             $time->addDay();
-        } while ( array_search($time->englishDayOfWeek, $every->weekdays) === false );
+        } while (array_search($time->englishDayOfWeek, $every->weekdays) === false);
         //search until the next weekday is found in the list
 
         return $time;
