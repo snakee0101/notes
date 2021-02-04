@@ -199,7 +199,7 @@ class ReminderTest extends TestCase
         $this->assertEquals($time->timestamp, $reminder->time->timestamp);
 
         $reminder->sendTimeReminder();
-        $this->assertEquals($time->addDays(2)->timestamp, $reminder->time->timestamp);
+        $this->assertEquals(now()->addDays(2)->day, $reminder->time->day);
     }
 
     public function test_if_reminder_never_ends_then_repeat_status_doesnt_change()
@@ -289,7 +289,7 @@ class ReminderTest extends TestCase
             public $unit = 'day';
         };
 
-        $time = now()->addDays(2)->subHour();
+        $time = now()->addDays(1)->subHour();
 
         $json->ends = new class($time) {
             public $on_date;
