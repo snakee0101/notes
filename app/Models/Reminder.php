@@ -19,8 +19,6 @@ class Reminder extends Model
     ];
     protected $dates = ['time'];
 
-    //$dates ['time']
-
     public function note()
     {
         return $this->belongsTo(Note::class);
@@ -61,9 +59,9 @@ class Reminder extends Model
         $every = $this->repeat->every;
 
         if(property_exists($every, 'weekdays'))
-            $this->time = $this->findNearestWeekday();
+            $this->findNearestWeekday();
          else
-            $this->time = $this->time->add($every->unit, $every->number);  //TODO: add() function is a mutator (there is no need in assignment)
+            $this->time->add($every->unit, $every->number);
 
         $this->push();
 
@@ -85,6 +83,7 @@ class Reminder extends Model
         } else {  //if there is date restriction   //TODO: simplify with return and swapping the condition parts (-1 indent level)
             $restriction_date = Carbon::createFromTimestamp( $ends->on_date );
 
+            //TODO: There must be check for the nearest weekday
             if((clone $this->time)->add($every->unit, $every->number)
                           ->greaterThan( $restriction_date ))
                 $this->delete();   //if the next execution date is greater than the restriction date - delete the reminder
@@ -95,14 +94,17 @@ class Reminder extends Model
     {
         $every = $this->repeat->every;
 
+        $time = $this->time;
         do {
-            if($this->time->englishDayOfWeek == 'Sunday') //if sunday was not found
-                $this->time->add('week', $every->number - 1);
+            $time = $this->time;  //date is converted to Carbon only this way
+            if($time->englishDayOfWeek == 'Sunday') //if sunday was not found
+                $time->add('week', $every->number - 1);
 
-            $nextWeekday = $this->time->addDay();
-        } while ( array_search($nextWeekday->englishDayOfWeek, $this->repeat->every->weekdays) === false );
+
+            $time->addDay();
+            $this->time = $time;
+            $this->save();
+        } while ( array_search($time->englishDayOfWeek, $this->repeat->every->weekdays) === false );
         //search until the next weekday is found in the list
-
-        return $nextWeekday;
     }
 }

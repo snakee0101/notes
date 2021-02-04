@@ -16,7 +16,7 @@ class CreateRemindersTable extends Migration
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('note_id')->unique();
-            $table->dateTime('time')->nullable();
+            $table->timestamp('time')->nullable();
             $table->string('location')->nullable();
             $table->json('repeat')->nullable();
             /*
