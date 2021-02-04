@@ -274,7 +274,7 @@
                 </div>
             </div>
             <p class="text-right m-0">
-                <b-button variant="primary">Save</b-button>
+                <b-button variant="primary" @click="saveReminder()">Save</b-button>
             </p>
         </b-modal>
 
@@ -344,14 +344,23 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
     },
     methods: {
+        saveReminder() {
+            let repeatStatus = '';  //TODO: check repeat status
+
+            axios.post('/reminder/' + this.note.id, {
+                time : this.pickedDate + ' ' + this.pickedTime,
+                repeat: repeatStatus
+            });
+
+            this.$refs['dateTimePicker-modal'].hide();
+            //TODO: Update reminder label in realtime with event
+            //TODO: Load values from database in initial render
+        },
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');
         },
         showCustomRepeatOptions() {
-            if(this.repeatStatus == 'Custom')
-                this.customRepeatStatusShown = true
-            else
-                this.customRepeatStatusShown = false;
+            this.customRepeatStatusShown = (this.repeatStatus === 'Custom');
         },
         copy() {
             axios.post('/note/duplicate/' + this.note.id)

@@ -31,7 +31,6 @@ Route::middleware('auth')->group(function() {
     Route::post('/note/duplicate/{note}', [NoteController::class, 'duplicate'])->name('note.duplicate');
 
     Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');
-    Route::put('/reminder/{note}', [ReminderController::class, 'update'])->name('reminder.update');
     Route::delete('/reminder/{note}', [ReminderController::class, 'destroy'])->name('reminder.destroy');
     Route::get('/reminder', [ReminderController::class, 'index'])->name('reminder.index');
 
