@@ -350,12 +350,21 @@ export default {
                 this.$refs['updated_reminder_time'].innerHTML = this.getReminderTime(time);
         },
         saveReminder() {
-            let repeatStatus = '';  //TODO: check repeat status
             let time = this.pickedDate + ' ' + this.pickedTime;
+            let repeat = '';
+
+            if(this.repeatStatus !== "Doesn't repeat") {
+                repeat = {
+                    every : {
+                        number: '',
+                        unit:''
+                    }
+                };
+            }
 
             axios.post('/reminder/' + this.note.id, {
                 time : time,
-                repeat: repeatStatus
+                repeat: repeat
             });
 
             window.events.$emit('update_reminder_label', this.note.id, time);
@@ -368,6 +377,16 @@ export default {
         },
         showCustomRepeatOptions() {
             this.customRepeatStatusShown = (this.repeatStatus === 'Custom');
+            let repeat_units = {
+                'Daily': 'day',
+                'Weekly': 'week',
+                'Monthly': 'month',
+                'Yearly': 'year',
+            };
+            this.repeat_ends = 'never';
+            this.repeat_occurrences = 1;
+            this.repeat_every_value = 1;
+            this.repeat_every_unit = repeat_units[this.repeatStatus];
         },
         copy() {
             axios.post('/note/duplicate/' + this.note.id)
