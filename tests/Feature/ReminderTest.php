@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Note;
 use App\Models\Reminder;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -111,6 +112,22 @@ class ReminderTest extends TestCase
         $this->assertContains('Monday', Reminder::first()->repeat->every->weekdays);
         $this->assertContains('Tuesday', Reminder::first()->repeat->every->weekdays);
         $this->assertContains('Friday', Reminder::first()->repeat->every->weekdays);
+    }
+
+    public function test_reminder_could_be_converted_to_json()
+    {
+        $reminder = Reminder::factory()->create(['note_id' => Note::factory()]);
+        auth()->login($reminder->note->owner);
+
+        $res = $this->get( route('reminder.show', $reminder->note) );
+
+        $this->assertJson($res->content());
+        $obj = json_decode($res->content());
+
+        $this->assertEquals($reminder->id, $obj->id);
+        $this->assertEquals($reminder->note_id, $obj->note_id);
+        $this->assertEquals($reminder->location, $obj->location);
+        $this->assertEquals($reminder->repeat, $obj->repeat);
     }
 
     /*public function test_reminder_could_be_stored_for_specific_place()
