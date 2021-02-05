@@ -356,15 +356,27 @@ export default {
             if(this.repeatStatus !== "Doesn't repeat") {
                 repeat = {
                     every : {
-                        number: '',
-                        unit:''
+                        number: Number(this.repeat_every_value),
+                        unit: this.repeat_every_unit
                     }
                 };
+
+                if(this.weekdaysShown)
+                    repeat.every.weekdays = this.weekdays;
+
+                if(this.repeat_ends !== 'never')
+                    repeat.ends = {after : '', on_date : ''};
+
+                if(this.repeat_ends === "occurrences")
+                    repeat.ends.after = Number(this.repeat_occurrences);
+
+                if(this.repeat_ends === "date")
+                    repeat.ends.on_date = this.pickedRepeatsDate + ' 00:00:00';
             }
 
             axios.post('/reminder/' + this.note.id, {
                 time : time,
-                repeat: repeat
+                repeat: JSON.stringify(repeat)
             });
 
             window.events.$emit('update_reminder_label', this.note.id, time);
