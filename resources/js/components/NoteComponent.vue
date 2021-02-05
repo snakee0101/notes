@@ -47,7 +47,7 @@
                href="/reminders"
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
                 <i class="bi bi-alarm icon"></i>
-                {{ getReminderTime() }}
+                <span ref="updated_reminder_time">{{ getReminderTime() }}</span>
                 <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
                    v-b-tooltip.hover.bottom
                    title="Remove reminder"
@@ -342,16 +342,23 @@ export default {
         setInterval(this.checkLaterTodayVisibility, 500);
 
         window.events.$on('refresh_image', this.refreshImage);
+        window.events.$on('update_reminder_label', this.updateReminderLabel);
     },
     methods: {
+        updateReminderLabel(noteId, time) {
+            if(noteId == this.note.id)
+                this.$refs['updated_reminder_time'].innerHTML = this.getReminderTime(time);
+        },
         saveReminder() {
             let repeatStatus = '';  //TODO: check repeat status
+            let time = this.pickedDate + ' ' + this.pickedTime;
 
             axios.post('/reminder/' + this.note.id, {
-                time : this.pickedDate + ' ' + this.pickedTime,
+                time : time,
                 repeat: repeatStatus
             });
 
+            window.events.$emit('update_reminder_label', this.note.id, time);
             this.$refs['dateTimePicker-modal'].hide();
             //TODO: Update reminder label in realtime with event
             //TODO: Load values from database in initial render
@@ -412,8 +419,11 @@ export default {
 
             window.events.$emit('show-notification', 'Action undone');
         },
-        getReminderTime() {
+        getReminderTime(time) {
             let reminder_date = this.note.reminder_json.time;
+            if(time)
+                reminder_date = time;
+
             if (moment(reminder_date).year() > moment().year())
                 return moment(reminder_date).format('MMM D, YYYY, H:mm A');
 
