@@ -352,8 +352,30 @@ export default {
             this.initializeRepeatFields();
         },
         initializeRepeatFields() {
-            this.pickedDate = this.note.reminder_json.time ? moment(this.note.reminder_json.time).format('YYYY-MM-DD HH:mm:ss') : moment().format('YYYY-MM-DD HH:mm:ss');
-            this.pickedTime = this.note.reminder_json.time ? moment(this.note.reminder_json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
+            let repeat_statuses = {
+                'day' : 'Daily',
+                'week' : 'Weekly',
+                'month' : 'Monthly',
+                'year' : 'Yearly'
+            };
+
+            let json = this.note.reminder_json;
+
+            this.pickedDate = json.time ? moment(json.time).format('YYYY-MM-DD HH:mm:ss') : moment().format('YYYY-MM-DD HH:mm:ss');
+            this.pickedTime = json.time ? moment(json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
+
+            //initialize repeat status dropdown
+            if( json.repeat.every.number == false)
+                this.repeatStatus = "Doesn't repeat";
+
+            if( (json.repeat.every.number == 1) &&
+                (json.repeat.ends == undefined) &&
+                (json.repeat.every.weekdays == undefined)) {
+                    this.repeatStatus = repeat_statuses[json.repeat.every.unit];
+            } else {
+                    this.repeatStatus = "Custom";
+                    this.customRepeatStatusShown = true;
+            }
         },
         updateReminderLabel(noteId, time) {
             if(noteId == this.note.id)
