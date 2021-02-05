@@ -366,8 +366,10 @@ export default {
             this.pickedTime = json.time ? moment(json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
 
             //initialize repeat status dropdown
-            if( json.repeat.every.number == false)
+            if(Object.keys(json.repeat).length == 0) {  //Object.keys(obj).length == 0  - check if the object is empty
                 this.repeatStatus = "Doesn't repeat";
+                return;
+            }
 
             if( (json.repeat.every.number == 1) &&
                 (json.repeat.ends == undefined) &&
@@ -393,7 +395,7 @@ export default {
                         }
                     }
 
-                    if(json.repeat.every.weekdays != false) {
+                    if(json.repeat.every.weekdays != undefined) {
                         this.weekdays = json.repeat.every.weekdays;
                         this.weekdaysShown = true;
                     }
@@ -415,7 +417,7 @@ export default {
                     }
                 };
 
-                if(this.weekdaysShown)
+                if(this.weekdays.length > 0)
                     repeat.every.weekdays = this.weekdays;
 
                 if(this.repeat_ends !== 'never')
@@ -452,10 +454,12 @@ export default {
                 'Weekly': 'week',
                 'Monthly': 'month',
                 'Yearly': 'year',
+                'Custom': 'day'
             };
             this.repeat_ends = 'never';
             this.repeat_occurrences = 1;
             this.repeat_every_value = 1;
+            this.weekdays = [];
             this.repeat_every_unit = repeat_units[this.repeatStatus];
         },
         copy() {
