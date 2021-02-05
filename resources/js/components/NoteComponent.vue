@@ -44,6 +44,7 @@
 
         <div class="tags mb-4">
             <a v-if="note.reminder_json"
+               @click.prevent="pickDateAndTime()"
                href="/reminders"
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
                 <i class="bi bi-alarm icon"></i>
@@ -107,7 +108,7 @@
                         <span class="text-gray-500">Mon., 8:00 AM</span>
                     </b-dropdown-item>
                     <b-dropdown-item href="#"
-                                     @click="$refs['dateTimePicker-modal'].show(); $refs['reminder-dropdown'].hide()"
+                                     @click="pickDateAndTime()"
                                      class="focus:outline-none py-2.5 hover:bg-gray-200">
                         <i class="bi bi-alarm-fill mr-3"></i>
                         Pick date & time
@@ -196,7 +197,7 @@
                 <a href=""
                    v-b-tooltip.hover.bottom
                    title="Go back"
-                   @click.prevent="$refs['dateTimePicker-modal'].hide(); $refs['reminder-dropdown'].show()">
+                   @click.prevent="this.$refs['dateTimePicker-modal'].hide(); this.$refs['reminder-dropdown'].show();">
                     <i class="bi bi-arrow-left mr-3"></i>
                 </a>Pick date & time
             </p>
@@ -345,6 +346,14 @@ export default {
         window.events.$on('update_reminder_label', this.updateReminderLabel);
     },
     methods: {
+        pickDateAndTime() {
+            this.$refs['dateTimePicker-modal'].show();
+            this.$refs['reminder-dropdown'].hide()
+            this.initializeRepeatFields();
+        },
+        initializeRepeatFields() {
+            console.log(1000);
+        },
         updateReminderLabel(noteId, time) {
             if(noteId == this.note.id)
                 this.$refs['updated_reminder_time'].innerHTML = this.getReminderTime(time);
