@@ -344,6 +344,7 @@ export default {
 
         window.events.$on('refresh_image', this.refreshImage);
         window.events.$on('update_reminder_label', this.updateReminderLabel);
+        window.events.$on('reload_reminder_json', this.reload_reminder_json);
     },
     methods: {
         pickDateAndTime() {
@@ -391,6 +392,11 @@ export default {
                             this.repeat_ends = 'date';
                         }
                     }
+
+                    if(json.repeat.every.weekdays != false) {
+                        this.weekdays = json.repeat.every.weekdays;
+                        this.weekdaysShown = true;
+                    }
             }
         },
         updateReminderLabel(noteId, time) {
@@ -429,7 +435,12 @@ export default {
 
             window.events.$emit('update_reminder_label', this.note.id, time);
             this.$refs['dateTimePicker-modal'].hide();
-            //TODO: Reload reminder_json
+
+            axios.get('/reminder/' + this.note.id)
+                 .then(res => window.events.$emit('reload_reminder_json', res));
+        },
+        reload_reminder_json(res) {
+            this.note.reminder_json = res.data;
         },
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');

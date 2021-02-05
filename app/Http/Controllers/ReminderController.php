@@ -24,6 +24,12 @@ class ReminderController extends Controller
         ]);
     }
 
+    public function show(Note $note)
+    {
+        return $note->reminder;
+        //TODO: Make a test to it
+    }
+
     public function destroy(Note $note)
     {
         $note->reminder()->delete();
