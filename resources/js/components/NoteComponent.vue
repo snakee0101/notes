@@ -352,7 +352,8 @@ export default {
             this.initializeRepeatFields();
         },
         initializeRepeatFields() {
-            console.log(1000);
+            this.pickedDate = this.note.reminder_json.time ? moment(this.note.reminder_json.time).format('YYYY-MM-DD HH:mm:ss') : moment().format('YYYY-MM-DD HH:mm:ss');
+            this.pickedTime = this.note.reminder_json.time ? moment(this.note.reminder_json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
         },
         updateReminderLabel(noteId, time) {
             if(noteId == this.note.id)
