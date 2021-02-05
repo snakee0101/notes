@@ -325,7 +325,7 @@ export default {
             repeat_ends: 'never',
             repeat_occurrences: 1,
             repeat_every_value: 1,
-            repeat_every_unit: 'Day',
+            repeat_every_unit: 'day',
             weekdaysShown: false,
             weekdays: [],
             weekdaysOptions: [
@@ -361,7 +361,7 @@ export default {
 
             let json = this.note.reminder_json;
 
-            this.pickedDate = json.time ? moment(json.time).format('YYYY-MM-DD HH:mm:ss') : moment().format('YYYY-MM-DD HH:mm:ss');
+            this.pickedDate = json.time ? moment(json.time).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
             this.pickedTime = json.time ? moment(json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
 
             //initialize repeat status dropdown
@@ -373,8 +373,24 @@ export default {
                 (json.repeat.every.weekdays == undefined)) {
                     this.repeatStatus = repeat_statuses[json.repeat.every.unit];
             } else {
+                //initialize custom repeat status controls
                     this.repeatStatus = "Custom";
                     this.customRepeatStatusShown = true;
+
+                    this.repeat_every_value = json.repeat.every.number;
+                    this.repeat_every_unit = json.repeat.every.unit;
+
+                    if(json.repeat.ends != '') {
+                        if(json.repeat.ends.after != '') {
+                            this.repeat_occurrences = json.repeat.ends.after;
+                            this.repeat_ends = 'occurrences';
+                        }
+
+                        if(json.repeat.ends.on_date != '') {
+                            this.pickedRepeatsDate = moment(json.repeat.ends.on_date).format('YYYY-MM-DD');
+                            this.repeat_ends = 'date';
+                        }
+                    }
             }
         },
         updateReminderLabel(noteId, time) {
@@ -413,8 +429,7 @@ export default {
 
             window.events.$emit('update_reminder_label', this.note.id, time);
             this.$refs['dateTimePicker-modal'].hide();
-            //TODO: Update reminder label in realtime with event
-            //TODO: Load values from database in initial render
+            //TODO: Reload reminder_json
         },
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');
