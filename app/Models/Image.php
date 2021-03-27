@@ -16,6 +16,27 @@ class Image extends Model
 
     public $timestamps = false;
 
+    public function makeCopy(Note $replica)
+    {
+        $path_1 = substr($this->image_path, 9);  //offset for '/storage/' part
+        $path_2 = substr($this->thumbnail_small_path, 9);
+        $path_3 = substr($this->thumbnail_large_path, 9);
+
+        $extension = pathinfo($this->image_path)['extension'];
+        $new_filename = now()->timestamp . random_int(10000, 10000000) . '.' . $extension;
+
+        Storage::copy($path_1, 'images/' . $new_filename);
+        Storage::copy($path_2, 'thumbnails_small/' . $new_filename);
+        Storage::copy($path_3, 'thumbnails_large/' . $new_filename);
+
+        $replica->images()->create([
+            'note_id' => $replica->id,
+            'image_path' => '/storage/images/' . $new_filename,
+            'thumbnail_small_path' => '/storage/thumbnails_small/' . $new_filename,
+            'thumbnail_large_path' => '/storage/thumbnails_large/' . $new_filename,
+        ]);
+    }
+
     public static function processUpload(UploadedFile $image)
     {
         $filename = now()->timestamp . random_int(10000,10000000) . '.' . $image->getClientOriginalExtension();
