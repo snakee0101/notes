@@ -128,8 +128,7 @@ class Note extends Model
         $replica->tags()->saveMany( $this->tags()->get() );
         $replica->push();
 
-        foreach($this->images as $image)
-            $image->makeCopy($replica);
+        $this->images->each->makeCopy($replica);
 
         $replica->push();
 
