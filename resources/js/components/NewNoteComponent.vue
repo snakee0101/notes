@@ -138,6 +138,7 @@
 
         <collaborator-dialog-component v-if="isCollaboratorsDialogVisible"
                                        :emails="collaboratorEmails"
+                                       :owner="$attrs.owner"
                                        v-on:hide_dialog="hideCollaboratorsDialog()">
 
         </collaborator-dialog-component>
@@ -150,6 +151,7 @@ export default {
     data() {
         return {
             isCollaboratorsDialogVisible: false,
+            isLaterTodayVisible: false,
             changes: [
                 {'header': '', 'content': ''},
             ],
@@ -171,6 +173,7 @@ export default {
         };
     },
     created() {
+        setInterval(this.checkLaterTodayVisibility, 500);
         //Save the note when clicked outside
         /*
                 window.addEventListener("click", function (event) {
@@ -187,6 +190,10 @@ export default {
         */
     },
     methods: {
+        checkLaterTodayVisibility() {
+            let evening = (new Date).setHours(19, 0, 0);
+            this.isLaterTodayVisible = Date.now() < evening;
+        },
         delay(callback, ms) {
             if (window.noteInputTimer)
                 clearTimeout(window.noteInputTimer);
