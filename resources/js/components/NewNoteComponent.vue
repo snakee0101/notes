@@ -132,6 +132,8 @@
                @click.prevent="redo_input()">
                 <i class="bi bi-arrow-clockwise icon-sm"></i>
             </a>
+
+            <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
         </div>
 
         <collaborator-dialog-component v-if="isCollaboratorsDialogVisible"
@@ -194,7 +196,14 @@ export default {
             }, ms);
         },
         save() {
-
+            axios.post('/note/', {
+                header: this.note.header,
+                body: this.note.body,
+                pinned: this.note.pinned,
+                archived: false,
+                color: this.note.color,
+                type: this.note.type
+            });
         },
         pin() {
             this.note.pinned = !this.note.pinned;
