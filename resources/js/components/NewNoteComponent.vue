@@ -238,12 +238,6 @@ export default {
         showCollaboratorsDialog() {
             this.isCollaboratorsDialogVisible = true;
         },
-        restore() {
-            alert('note is restored');
-        },
-        delete_forever() {
-            alert('note is deleted permanently');
-        },
         setInputHeight(itemClass) {
             let element = document.getElementsByClassName(itemClass)[0];
 
