@@ -9,28 +9,26 @@
         <a class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full"
            @click.prevent="pin()"
            v-b-tooltip.hover.bottom :title="note.pinned ? 'Unpin' : 'Pin'">
-                <i class="bi bi-pin-fill icon" v-if="note.pinned"></i>
-                <i class="bi bi-pin icon" v-else></i>
+            <i class="bi bi-pin-fill icon" v-if="note.pinned"></i>
+            <i class="bi bi-pin icon" v-else></i>
         </a>
 
-        <div>
-            <textarea name="note_header" placeholder="Title"
-                      class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
-                      @input="track_fields()"
-                      v-model="note.header">
+        <textarea name="note_header" placeholder="Title"
+                  class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
+                  @input="track_fields()"
+                  v-model="note.header">
 
-            </textarea>
-        </div>
+        </textarea>
 
-        <div>
-            <textarea name="note_content"
-                      placeholder="Take a note..."
-                      class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
-                      @input="track_fields()"
-                      v-model="note.body">
 
-            </textarea>
-        </div>
+        <textarea name="note_content"
+                  placeholder="Take a note..."
+                  class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
+                  @input="track_fields()"
+                  v-model="note.body">
+
+        </textarea>
+
 
         <div class="toolbar">
             <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
@@ -172,19 +170,19 @@ export default {
     },
     created() {
         //Save the note when clicked outside
-/*
-        window.addEventListener("click", function (event) {
-            let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
-            let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
+        /*
+                window.addEventListener("click", function (event) {
+                    let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
+                    let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
 
-            //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
-            if (!(clicked_exactly_on_container || clicked_in_the_container))
-                window.events.$emit('save_new_note');
+                    //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
+                    if (!(clicked_exactly_on_container || clicked_in_the_container))
+                        window.events.$emit('save_new_note');
 
-        });
+                });
 
-        window.events.$on('save_new_note', this.save);
-*/
+                window.events.$on('save_new_note', this.save);
+        */
     },
     methods: {
         delay(callback, ms) {
