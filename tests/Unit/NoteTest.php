@@ -165,4 +165,10 @@ class NoteTest extends TestCase
             'tag_id' => $tag->id
         ]);
     }
+
+    public function test_link_in_note_body_is_wrapped_with_anchor_tag()
+    {
+        $note = Note::factory()->create();
+        $note->forceFill(['body' => 'text 1 https://www.google.com text 2']);
+    }
 }

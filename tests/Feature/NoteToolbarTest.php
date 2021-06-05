@@ -12,7 +12,8 @@ class NoteToolbarTest extends TestCase
     public function test_a_note_could_be_archived()
     {
         $note = Note::factory()->create(['archived' => false]);
-        $this->post( route('archive_note', $note) );
+        auth()->login($note->owner);
+        $this->put( route('note.update', $note), ['archived' => true] );
 
         $note->refresh();
         $this->assertTrue($note->archived);
@@ -21,7 +22,8 @@ class NoteToolbarTest extends TestCase
     public function test_a_note_could_be_unarchived()
     {
         $note = Note::factory()->create(['archived' => true]);
-        $this->delete( route('unarchive_note', $note) );
+        auth()->login($note->owner);
+        $this->put( route('note.update', $note), ['archived' => false] );
 
         $note->refresh();
         $this->assertFalse($note->archived);
