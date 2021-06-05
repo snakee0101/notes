@@ -135,13 +135,6 @@
 
             <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
         </div>
-
-        <collaborator-dialog-component v-if="isCollaboratorsDialogVisible"
-                                       :emails="collaboratorEmails"
-                                       :owner="$attrs.owner"
-                                       v-on:hide_dialog="hideCollaboratorsDialog()">
-
-        </collaborator-dialog-component>
     </div>
 </template>
 
@@ -210,7 +203,7 @@ export default {
                 archived: false,
                 color: this.note.color,
                 type: this.note.type
-            }).then( () => location.reload() );
+            }).then(() => location.reload());
         },
         pin() {
             this.note.pinned = !this.note.pinned;
@@ -220,12 +213,6 @@ export default {
         },
         changeColor(color) {
             this.note.color = color;
-        },
-        hideCollaboratorsDialog() {
-            this.isCollaboratorsDialogVisible = false;
-        },
-        showCollaboratorsDialog() {
-            this.isCollaboratorsDialogVisible = true;
         },
         setInputHeight(itemClass) {
             let element = document.getElementsByClassName(itemClass)[0];
