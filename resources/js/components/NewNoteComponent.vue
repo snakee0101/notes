@@ -150,7 +150,6 @@ export default {
     data() {
         return {
             isCollaboratorsDialogVisible: false,
-            dropdownShown: false,
             changes: [
                 {'header': '', 'content': ''},
             ],
@@ -173,6 +172,7 @@ export default {
     },
     created() {
         //Save the note when clicked outside
+/*
         window.addEventListener("click", function (event) {
             let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
             let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
@@ -184,34 +184,9 @@ export default {
         });
 
         window.events.$on('save_new_note', this.save);
-
-
-        //Close all dropdowns
-        window.addEventListener("click", function (event) {
-            window.events.$emit('close_dropdown');
-
-            let collection = document.getElementsByClassName('dropdown-tooltip');
-
-            Array.prototype.filter.call(collection, function (element) {
-                if (element.contains(event.target))
-                    window.events.$emit('open_dropdown', element);
-            });
-        });
-
-        window.events.$on('close_dropdown', this.hideDropdown);
-        window.events.$on('open_dropdown', this.openDropdown);
+*/
     },
     methods: {
-        openDropdown(element) {
-            if (this.$refs.note.contains(element))
-                this.showDropdown();
-        },
-        showDropdown() {
-            this.dropdownShown = true;
-        },
-        hideDropdown() {
-            this.dropdownShown = false;
-        },
         delay(callback, ms) {
             if (window.noteInputTimer)
                 clearTimeout(window.noteInputTimer);
