@@ -203,7 +203,7 @@ export default {
                 archived: false,
                 color: this.note.color,
                 type: this.note.type
-            });
+            }).then( () => location.reload() );
         },
         pin() {
             this.note.pinned = !this.note.pinned;
