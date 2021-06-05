@@ -107,23 +107,6 @@
             <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
                    @change="handleFiles()">
 
-
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
-               v-b-tooltip.hover.bottom
-               title="Unarchive"
-               @click.prevent="unarchive()"
-               v-if="note.archived">
-                <i class="bi bi-save2-fill icon-sm"></i>
-            </a>
-
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
-               v-b-tooltip.hover.bottom
-               title="Archive"
-               @click.prevent="archive()"
-               v-else>
-                <i class="bi bi-save2-fill icon-sm"></i>
-            </a>
-
             <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
                v-b-tooltip.hover.bottom
                title="More"
@@ -132,10 +115,8 @@
                     <template #button-content>
                         <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
                     </template>
-                    <b-dropdown-item href="#" @click="deleteNote()">Delete note</b-dropdown-item>
                     <b-dropdown-item href="#">Add label</b-dropdown-item>
                     <b-dropdown-item href="#">Add drawing</b-dropdown-item>
-                    <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
                     <b-dropdown-item href="#">Show checkboxes</b-dropdown-item>
                 </b-dropdown>
             </a>
