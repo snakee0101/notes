@@ -2,17 +2,20 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\Note;
+use Database\Factories\NoteFactory;
+use Database\Factories\UserFactory;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    public function test_user_has_notes()
     {
-        $this->assertTrue(true);
+        $user = UserFactory::times(1)->createOne();
+        NoteFactory::times(2)->for($user, 'owner')->create();
+        $user->refresh();
+
+        $this->assertEquals(2, $user->notes()->count());
+        $this->assertInstanceOf(Note::class, $user->notes()->first());
     }
 }
