@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Note;
 use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -40,10 +41,10 @@ class NoteTest extends TestCase
 
     public function test_a_note_could_be_created()
     {
-        $user = User::factory()->create();
+        $user = UserFactory::times(1)->createOne();
         auth()->login($user);
 
-        $response = $this->post(route('note.store'), $this->userData);
+        $this->post(route('note.store'), $this->userData);
         $this->assertNotNull($note = Note::first());
 
         $this->assertEquals($this->userData['header'], $note->header);
