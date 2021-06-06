@@ -135,10 +135,100 @@
 
             <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
         </div>
+
+        <b-modal title="BootstrapVue" ref="dateTimePicker-modal"
+                 centered hide-footer modal-class="dateTimePicker-modal">
+            <p class="text-lg font-bold">
+                <a href=""
+                   v-b-tooltip.hover.bottom
+                   title="Go back"
+                   @click.prevent="this.$refs['dateTimePicker-modal'].hide(); this.$refs['reminder-dropdown'].show();">
+                    <i class="bi bi-arrow-left mr-3"></i>
+                </a>Pick date & time
+            </p>
+            <div>
+                <p class="m-0 mb-2 font-bold">Select date</p>
+                <b-form-datepicker v-model="pickedDate"></b-form-datepicker>
+            </div>
+            <div class="mt-4">
+                <p class="mb-2 font-bold">Select time</p>
+                <b-form-timepicker v-model="pickedTime" locale="en"></b-form-timepicker>
+            </div>
+            <div class="mt-4">
+                <p class="mb-2 font-bold">Select repeat status</p>
+                <b-form-select v-model="repeatStatus" class="mb-3" selected="Doesn't repeat" @change="showCustomRepeatOptions()">
+                    <b-form-select-option value="Doesn't repeat">Doesn't repeat</b-form-select-option>
+                    <b-form-select-option value="Daily">Daily</b-form-select-option>
+                    <b-form-select-option value="Weekly">Weekly</b-form-select-option>
+                    <b-form-select-option value="Monthly">Monthly</b-form-select-option>
+                    <b-form-select-option value="Yearly">Yearly</b-form-select-option>
+                    <b-form-select-option value="Custom">Custom</b-form-select-option>
+                </b-form-select>
+            </div>
+            <div v-if="customRepeatStatusShown" class="border-2 border-green-600 mb-2 p-2">
+                <div class="flex justify-content-between">
+                    <p class="font-bold">Repeat every: </p>
+                    <div>
+                        <input type="text" size="2" class="p-1 border-b border-gray-500 focus:outline-none text-center"
+                               v-model="repeat_every_value">
+                        <select v-model="repeat_every_unit" @change="showWeekdays()">
+                            <option value="day">Day</option>
+                            <option value="week">Week</option>
+                            <option value="month">Month</option>
+                            <option value="Year">Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div v-if="weekdaysShown" class="weekdaysButtons mt-2">
+                    <b-form-group>
+                        <b-form-checkbox-group
+                            v-model="weekdays"
+                            :options="weekdaysOptions"
+                            buttons
+                            button-variant="success"
+                        ></b-form-checkbox-group>
+                    </b-form-group>
+                </div>
+
+                <div class="flex justify-content-between">
+                    <p class="font-bold">Ends: </p>
+                    <div>
+                        <p>
+                            <label>
+                                <input type="radio" name="repeat_ends" v-model="repeat_ends" value="never"> Never
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="repeat_ends" v-model="repeat_ends" id="occurrences" value="occurrences"
+                                       ref="occurrences_switch">
+                                After
+                                <input type="text" v-model="repeat_occurrences"
+                                       size="2" class="border-b border-gray-500 focus:outline-none text-center"
+                                       @focus="$refs['occurrences_switch'].checked = true">
+                                occurrences
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="repeat_ends" v-model="repeat_ends" value="date">
+                                On:  <b-form-datepicker v-model="pickedRepeatsDate"></b-form-datepicker>
+                            </label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-right m-0">
+                <b-button variant="primary" @click="saveReminder()">Save</b-button>
+            </p>
+        </b-modal>
     </div>
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
     name: "NewNoteComponent",
     data() {
@@ -162,7 +252,28 @@ export default {
                 archived: false,
                 color: 'white',
                 type: 'text'
-            }
+            },
+            pickedDate: '',
+            pickedTime: '',
+            pickedRepeatsDate: '',
+            repeatStatus: '',
+            reminder_json: {},
+            customRepeatStatusShown: false,
+            repeat_ends: 'never',
+            repeat_occurrences: 1,
+            repeat_every_value: 1,
+            repeat_every_unit: 'day',
+            weekdaysShown: false,
+            weekdays: [],
+            weekdaysOptions: [
+                { text: 'Mon', value: 'Monday' },
+                { text: 'Tue', value: 'Tuesday' },
+                { text: 'Wed', value: 'Wednesday' },
+                { text: 'Thu', value: 'Thursday' },
+                { text: 'Fri', value: 'Friday' },
+                { text: 'Sat', value: 'Saturday' },
+                { text: 'Sun', value: 'Sunday' },
+            ]
         };
     },
     created() {
@@ -183,6 +294,73 @@ export default {
         */
     },
     methods: {
+        showWeekdays() {
+            this.weekdaysShown = (this.repeat_every_unit === 'week');
+        },
+        showCustomRepeatOptions() {
+            this.customRepeatStatusShown = (this.repeatStatus === 'Custom');
+            let repeat_units = {
+                'Daily': 'day',
+                'Weekly': 'week',
+                'Monthly': 'month',
+                'Yearly': 'year',
+                'Custom': 'day'
+            };
+            this.repeat_ends = 'never';
+            this.repeat_occurrences = 1;
+            this.repeat_every_value = 1;
+            this.weekdays = [];
+            this.repeat_every_unit = repeat_units[this.repeatStatus];
+        },
+        pickDateAndTime() {
+            this.$refs['dateTimePicker-modal'].show();
+            this.$refs['reminder-dropdown'].hide()
+        },
+        saveReminder() {
+            let time = this.pickedDate + ' ' + this.pickedTime;
+            let repeat = '';
+
+            if(this.repeatStatus !== "Doesn't repeat") {
+                repeat = {
+                    every : {
+                        number: Number(this.repeat_every_value),
+                        unit: this.repeat_every_unit
+                    }
+                };
+
+                if(this.weekdays.length > 0)
+                    repeat.every.weekdays = this.weekdays;
+
+                if(this.repeat_ends !== 'never')
+                    repeat.ends = {after : '', on_date : ''};
+
+                if(this.repeat_ends === "occurrences")
+                    repeat.ends.after = Number(this.repeat_occurrences);
+
+                if(this.repeat_ends === "date")
+                    repeat.ends.on_date = this.pickedRepeatsDate + ' 00:00:00';
+            }
+
+            /*axios.post('/reminder/' + this.note.id, {
+                time : time,
+                repeat: JSON.stringify(repeat)
+            });*/
+
+            //window.events.$emit('update_reminder_label', this.note.id, time);
+            this.$refs['dateTimePicker-modal'].hide();
+        },
+        storeReminder(text_time) {
+            let time = {
+                'later_today': moment().set({'hour': 20}),
+                'tomorrow': moment().add(1, 'days').set({'hour': 8}),
+                'next_week': moment().add(1, 'weeks').set({'day': 'Monday', 'hour': 8}),
+            };
+
+            let formatted_time = time[text_time].set({'minute': 0, 'second': 0})
+                .format('YYYY-MM-DD HH:mm:ss');
+
+            this.reminder_json = {'time': formatted_time};
+        },
         checkLaterTodayVisibility() {
             let evening = (new Date).setHours(19, 0, 0);
             this.isLaterTodayVisible = Date.now() < evening;
@@ -248,6 +426,21 @@ export default {
         track() {
             this.changes.push({'header': this.note.header, 'content': this.note.body});
             this.currentChangeIndex = this.changes.length - 1;
+        },
+        selectImage() {
+            this.$refs['image'].click();
+        },
+        handleFiles() {
+            let image = this.$refs['image'].files[0];
+
+            let data = new FormData();
+            data.append('image', image, image.name);
+
+            //window.newImageComponent = this;
+
+            /*axios.post('/image', data).then(function (result) {
+                window.events.$emit('refresh_image', result.data);
+            });*/
         }
     }
 }
