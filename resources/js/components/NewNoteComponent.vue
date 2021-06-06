@@ -380,8 +380,9 @@ export default {
                 pinned: this.note.pinned,
                 archived: false,
                 color: this.note.color,
-                type: this.note.type
-            }).then(() => location.reload());
+                type: this.note.type,
+                reminder_json: JSON.stringify(this.reminder_json)
+            }).finally(() => location.reload());
         },
         pin() {
             this.note.pinned = !this.note.pinned;

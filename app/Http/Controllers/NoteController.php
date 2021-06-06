@@ -48,7 +48,7 @@ class NoteController extends Controller
         {
             $note->reminder()->create([
                 'time' => $reminder_json->time,
-                'repeat' => $reminder_json->repeat,
+                'repeat' => $reminder_json->repeat ?? "",
                 'location' => '',
             ]);
         }
