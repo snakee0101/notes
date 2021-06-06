@@ -31,7 +31,7 @@
 
         <div class="tags mb-4">
             <a v-if="reminder_json.time"
-               @click.prevent="pickDateAndTime()"
+               @click.self.prevent="pickDateAndTime()"
                href="/reminders"
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
                 <i class="bi bi-alarm icon"></i>
@@ -394,6 +394,9 @@ export default {
                 return moment(reminder_date).format('MMM D, YYYY, H:mm A');
 
             return moment(reminder_date).format('MMM D, H:mm A');
+        },
+        removeReminder() {
+          this.reminder_json = { };
         },
         checkLaterTodayVisibility() {
             let evening = (new Date).setHours(19, 0, 0);
