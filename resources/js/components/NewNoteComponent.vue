@@ -32,10 +32,10 @@
         <div class="tags mb-4">
             <a v-if="reminder_json.time"
                @click.self.prevent="pickDateAndTime()"
-               href="/reminders"
+               href="#"
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
-                <i class="bi bi-alarm icon"></i>
-                <span ref="updated_reminder_time">{{ getReminderTime() }}</span>
+                <i class="bi bi-alarm icon" @click.self.prevent="pickDateAndTime()"></i>
+                <span ref="updated_reminder_time" @click.self.prevent="pickDateAndTime()">{{ getReminderTime() }}</span>
                 <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
                    v-b-tooltip.hover.bottom
                    title="Remove reminder"
