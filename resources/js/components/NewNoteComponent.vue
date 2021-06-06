@@ -341,10 +341,10 @@ export default {
                     repeat.ends.on_date = this.pickedRepeatsDate + ' 00:00:00';
             }
 
-            /*axios.post('/reminder/' + this.note.id, {
+            this.reminder_json = {
                 time : time,
                 repeat: JSON.stringify(repeat)
-            });*/
+            };
 
             //window.events.$emit('update_reminder_label', this.note.id, time);
             this.$refs['dateTimePicker-modal'].hide();
