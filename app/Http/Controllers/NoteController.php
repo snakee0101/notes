@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\Reminder;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -38,7 +39,19 @@ class NoteController extends Controller
         $data = $request->only(['header', 'body', 'pinned', 'archived', 'color', 'type']);
         $data['owner_id'] = auth()->id();
 
-        Note::create($data);
+        $note = Note::create($data);
+
+        /****Set the reminder****/
+        $reminder_json = json_decode($request->reminder_json);
+
+        if( !is_null($reminder_json) )
+        {
+            $note->reminder()->create([
+                'time' => $reminder_json->time,
+                'repeat' => $reminder_json->repeat,
+                'location' => '',
+            ]);
+        }
     }
 
     /**

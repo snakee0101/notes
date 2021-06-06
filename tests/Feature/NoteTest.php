@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Note;
+use App\Models\Reminder;
 use App\Models\User;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -53,6 +54,45 @@ class NoteTest extends TestCase
         $this->assertEquals($this->userData['archived'], $note->archived);
         $this->assertEquals($this->userData['color'], $note->color);
         $this->assertEquals($this->userData['type'], $note->type);
+    }
+
+    public function test_a_note_could_be_saved_with_reminder()
+    {
+        $user = UserFactory::times(1)->createOne();
+        auth()->login($user);
+
+        $this->userData['reminder_json'] = "{
+            \"repeat\": {
+                \"every\": {
+                     \"number\":3,
+                     \"unit\":\"week\",
+                     \"weekdays\":[\"Wednesday\",\"Friday\",\"Tuesday\"]
+                },
+                \"ends\": {
+                     \"after\":\"\",
+                     \"on_date\":\"2021-06-21 00:00:00\"
+                }
+            },
+            \"time\": \"2021-06-09 17:00:00\"
+        }";
+
+        $this->post(route('note.store'), $this->userData );
+
+        $this->assertNotNull($note = Note::first());
+        $this->assertNotNull($reminder = Reminder::first());
+
+        $this->assertEquals("2021-06-09 17:00:00", $reminder->time);
+        $this->assertJson("{\"repeat\": {
+                \"every\": {
+                     \"number\":3,
+                     \"unit\":\"week\",
+                     \"weekdays\":[\"Wednesday\",\"Friday\",\"Tuesday\"]
+                },
+                \"ends\": {
+                     \"after\":\"\",
+                     \"on_date\":\"2021-06-21 00:00:00\"
+                }
+            }}", json_encode($reminder->repeat));
     }
 
      public function test_a_note_could_be_updated()
