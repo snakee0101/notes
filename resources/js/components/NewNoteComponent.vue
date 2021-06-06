@@ -29,6 +29,32 @@
 
         </textarea>
 
+        <div class="tags mb-4">
+            <a v-if="reminder_json.time"
+               @click.prevent="pickDateAndTime()"
+               href="/reminders"
+               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
+                <i class="bi bi-alarm icon"></i>
+                <span ref="updated_reminder_time">{{ getReminderTime() }}</span>
+                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
+                   v-b-tooltip.hover.bottom
+                   title="Remove reminder"
+                   @click.prevent="removeReminder()">
+                    <i class="bi bi-x icon"></i>
+                </a>
+            </a>
+<!--            <a v-for="tag in note.tags"
+               :href="'/tag/' + tag"
+               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
+                {{ tag }}
+                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
+                   v-b-tooltip.hover.bottom
+                   title="Remove label"
+                   @click.prevent="detach_tag(tag)">
+                    <i class="bi bi-x icon"></i>
+                </a>
+            </a>-->
+        </div>
 
         <div class="toolbar">
             <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
@@ -360,6 +386,14 @@ export default {
                 .format('YYYY-MM-DD HH:mm:ss');
 
             this.reminder_json = {'time': formatted_time};
+        },
+        getReminderTime() {
+            let reminder_date = this.reminder_json.time;
+
+            if (moment(reminder_date).year() > moment().year())
+                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
+
+            return moment(reminder_date).format('MMM D, H:mm A');
         },
         checkLaterTodayVisibility() {
             let evening = (new Date).setHours(19, 0, 0);
