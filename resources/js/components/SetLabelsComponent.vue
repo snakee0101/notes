@@ -15,14 +15,13 @@
                             class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200"
                             placeholder="Search for label" required v-model="searchingLabel" id="searchingLabel"
                             v-on:keyup="search()"
-                            @focus="setFocusedState(); isCancelButtonVisible = true"
+                            @focus="isCancelButtonVisible = true"
                             @blur="isCancelButtonVisible = false">
                     </div>
 
                     <div class="label flex flex-row mb-3 items-center" v-for="(label, key) in labels">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" :id="'tag-' + key"
-                                   @focus="setFocusedState('label_' + key)">
+                            <input class="form-check-input" type="checkbox" value="" :id="'tag-' + key">
                             <label class="form-check-label" :for="'tag-' + key">
                                 {{ label }}
                             </label>
@@ -75,9 +74,6 @@ export default {
         save() {
             this.addLabel(this.searchingLabel);
             this.hide();
-        },
-        setFocusedState(refName) {
-            this.isCancelButtonVisible = false;
         },
         cancel() {
             this.searchingLabel = '';
