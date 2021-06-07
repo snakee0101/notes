@@ -15,8 +15,8 @@
                             class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200"
                             placeholder="Search for label" required v-model="searchingLabel" id="searchingLabel"
                             v-on:keyup="search()"
-                            @focus="setFocusedState(); showCancelButton()"
-                            @blur="hideCancelButton()">
+                            @focus="setFocusedState(); isCancelButtonVisible = true"
+                            @blur="isCancelButtonVisible = false">
                     </div>
 
                     <p class="mb-4 text-red-700" v-if="uniqueErrorShown">Tag names must be unique</p>
@@ -129,12 +129,6 @@ export default {
         save() {
             this.addLabel(this.searchingLabel);
             this.hide();
-        },
-        showCancelButton() {
-            this.isCancelButtonVisible = true;
-        },
-        hideCancelButton() {
-            this.isCancelButtonVisible = false;
         },
         setFocusedState(refName) {
             this.isCancelButtonVisible = false;
