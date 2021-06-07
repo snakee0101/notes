@@ -27,39 +27,6 @@
                                 {{ label }}
                             </label>
                         </div>
-
-                        <!--                        <a href=""
-                           @click.prevent="showDeleteConfirmation(label)"
-                           @mouseout="hideDeleteButtonOn('label_' + key)"
-                           v-b-tooltip.hover.bottom
-                           title="Remove label"
-                           v-if="isEditing('label_' + key) || isDeleteButtonVisible('label_' + key)">
-                            <i class="bi bi-trash icon-sm"></i>
-                        </a>
-
-                        <i class="bi bi-tag-fill icon-sm"
-                           @mouseover="showDeleteButtonOn('label_' + key)"
-                           v-else></i>
-
-                        <input type="text"
-                               @focus="setFocusedState('label_' + key)"
-                               :value="label" :ref="'label_' + key"
-                               class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200">
-
-                        <a href="" class="p-1"
-                           @click.prevent="focusOnLabel('label_' + key)"
-                           v-b-tooltip.hover.bottom
-                           title="Rename label"
-                           v-if="isEditing('label_' + key) === false">
-                            <i class="bi bi-pencil-fill icon-sm"></i>
-                        </a>
-                        <a href="" class="p-1"
-                           @click.prevent="renameLabel('label_' + key, key)"
-                           v-b-tooltip.hover.bottom
-                           title="Rename label"
-                           v-else>
-                            <i class="bi bi-check icon-sm"></i>
-                        </a>-->
                     </div>
                 </div>
             </div>
@@ -104,15 +71,6 @@ export default {
         },
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
-        },
-        renameLabel(refName, key) {
-            axios.put(this.labels[key], {
-                new_name: this.$refs[refName][0].value
-            }).then(res => {
-                this.labels[key] = this.$refs[refName][0].value;
-                this.editingLabel = '';
-                location.href = '/';
-            });
         },
         save() {
             this.addLabel(this.searchingLabel);
