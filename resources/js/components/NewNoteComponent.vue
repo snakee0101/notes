@@ -162,7 +162,7 @@
             <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
         </div>
 
-        <set-labels-component :labels="['10', '20']">
+        <set-labels-component note_id="new_note" :labels="['10', '20']">
 
         </set-labels-component>
 
@@ -258,9 +258,11 @@
 
 <script>
 import moment from 'moment';
+import SetLabelsComponent from "./SetLabelsComponent";
 
 export default {
     name: "NewNoteComponent",
+    components: {SetLabelsComponent},
     data() {
         return {
             isCollaboratorsDialogVisible: false,
@@ -325,7 +327,7 @@ export default {
     },
     methods: {
         openSetLabelsDialog() {
-            alert(1234);
+            window.events.$emit('open_set_labels_dialog', 'new_note');
         },
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');

@@ -96,14 +96,13 @@
 
 
 <script>
-//$refs['labels-dialog'].show() - how to show a dialog
-
 export default {
     name: "SetLabelsComponent",
     data() {
         return {
             newLabel: '',
             labels: this.$attrs.labels,
+            note_id: this.$attrs.note_id,
             isCancelButtonVisible: false,
             editingLabel: '',
             deleteButtonOn: '',
@@ -111,7 +110,14 @@ export default {
             deletingLabel: ''
         };
     },
+    created() {
+        window.events.$on('open_set_labels_dialog', this.show);
+    },
     methods: {
+        show(event_note_id) {
+            if(this.note_id == event_note_id)
+                this.$refs['labels-dialog'].show();
+        },
         hide() {
             this.$refs['labels-dialog'].hide();
             this.clearNewLabel();
