@@ -33,7 +33,7 @@ new Vue({
 });
 
 window.onload = function() {
-    alert('loaded');
+    axios.get('/tag').then( (res) => window.tags = res.data );
 };
 
 window.events.$on('refreshLabels', function() {
