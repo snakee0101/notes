@@ -20,6 +20,7 @@ Vue.component('note-component', require('./components/NoteComponent.vue').defaul
 Vue.component('new-note-component', require('./components/NewNoteComponent.vue').default);
 Vue.component('collaborator-dialog-component', require('./components/CollaboratorDialogComponent.vue').default);
 Vue.component('edit-labels-component', require('./components/EditLabelsComponent.vue').default);
+Vue.component('edit-labels-component', require('./components/SetLabelsComponent.vue').default);
 Vue.component('empty-trash-component', require('./components/EmptyTrashComponent.vue').default);
 Vue.component('search-component', require('./components/SearchComponent.vue').default);
 Vue.component('search-controls-component', require('./components/SearchControlsComponent.vue').default);

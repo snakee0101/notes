@@ -1,4 +1,4 @@
-<template> <!--TODO: There must be UNDO and REDO buttons while editing the note-->
+<template>
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors m-auto new-note"
          :class="'bg-google-' + note.color"
@@ -161,6 +161,10 @@
 
             <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
         </div>
+
+        <set-labels-component :labels="['10', '20']">
+
+        </set-labels-component>
 
         <b-modal title="BootstrapVue" ref="dateTimePicker-modal"
                  centered hide-footer modal-class="dateTimePicker-modal">

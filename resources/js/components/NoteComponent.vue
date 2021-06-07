@@ -1,4 +1,4 @@
-<template> <!--TODO: There must be UNDO and REDO buttons while editing the note-->
+<template>
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors"
          :class="'bg-google-' + note.color"
@@ -191,6 +191,10 @@
             </a>
         </div>
 
+        <set-labels-component :labels="['10', '20']">
+
+        </set-labels-component>
+
         <b-modal title="BootstrapVue" ref="dateTimePicker-modal"
                  centered hide-footer modal-class="dateTimePicker-modal">
             <p class="text-lg font-bold">
@@ -301,9 +305,11 @@
 
 <script>
 import moment from 'moment';
+import SetLabelsComponent from "./SetLabelsComponent";
 
 export default {
     name: "NoteComponent",
+    components: {SetLabelsComponent},
     data() {
         return {
             editing: false,
