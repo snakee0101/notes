@@ -62,8 +62,8 @@ export default {
         },
         show(event_note_id) {
             if (this.note_id == event_note_id) {
-                this.$refs['labels-dialog'].show();
                 this.getTags();
+                this.$refs['labels-dialog'].show();
             }
         },
         hide() {

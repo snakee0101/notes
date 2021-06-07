@@ -112,6 +112,11 @@ export default {
             deletingLabel: ''
         };
     },
+    created() {
+        window.events.$on('refreshLabels', function(labels) {
+            window.tags_list = labels.valueOf().flat();
+        });
+    },
     methods: {
         hide() {
             this.$refs['labels-dialog'].hide();
@@ -168,9 +173,8 @@ export default {
 
             axios.post('tag', {
                 'tag_name': label
-            }).then(res => this.labels.push(label));
-
-            this.$emit('refreshLabels', this.labels);
+            }).then( (res) => this.labels.push(label) )
+              .finally( () => window.events.$emit('refreshLabels', this.labels) );
         },
         save() {
             this.addLabel(this.newLabel);
