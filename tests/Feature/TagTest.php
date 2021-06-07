@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
+use Database\Factories\TagFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,6 +15,24 @@ use Tests\TestCase;
 class TagTest extends TestCase
 {
     use DatabaseMigrations, RefreshDatabase;
+
+    public function test_tags_list_could_be_returned()
+    {
+        $user = UserFactory::times(1)->createOne();
+        auth()->login($user);
+
+        $tags = TagFactory::times(3)->for($user, 'owner')->create();
+        $tag_names = $tags->pluck('name');
+
+
+        $response = $this->get( route('tag.index') )->content();
+        dd($response);
+    }
+
+    public function test_user_could_get_only_own_tags()
+    {
+        //$this->get( action('tag.index') );
+    }
 
     public function test_user_can_create_a_tag()
     {

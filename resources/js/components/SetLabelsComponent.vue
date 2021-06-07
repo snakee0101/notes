@@ -11,12 +11,12 @@
                            v-if="isCancelButtonVisible">
                             <i class="bi bi-x icon-sm"></i>
                         </a>
-                        <input
-                            class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200"
-                            placeholder="Search for label" required v-model="searchingLabel" id="searchingLabel"
+                        <input class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200"
+                            placeholder="Search for label" required id="searchingLabel"
                             v-on:keyup="search()"
                             @focus="isCancelButtonVisible = true"
-                            @blur="isCancelButtonVisible = false">
+                            @blur="isCancelButtonVisible = false"
+                            v-model="searchingLabel">
                     </div>
 
                     <div class="form-check mb-3" v-for="(label, key) in labels">
@@ -73,7 +73,7 @@ export default {
             this.hide();
         },
         cancel() {
-            this.searchingLabel = '';
+            this.searchingLabel = "";
             this.isCancelButtonVisible = false;
         }
     }

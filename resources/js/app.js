@@ -31,3 +31,11 @@ Vue.component('notification-component', require('./components/NotificationCompon
 new Vue({
     el: '#app'
 });
+
+window.onload = function() {
+    alert('loaded');
+};
+
+window.events.$on('refreshLabels', function() {
+
+});

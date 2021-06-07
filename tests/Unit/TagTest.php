@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
+use Database\Factories\TagFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,6 +15,20 @@ use Tests\TestCase;
 class TagTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
+
+    public function test_user_has_many_tags()
+    {
+        $user = User::factory()->create();
+        $tags = TagFactory::times(3)->for($user, 'owner')->create();
+        $user->refresh();
+
+        $this->assertInstanceOf(Tag::class, $user->tags()->first());
+
+        $expected_tag_names = $tags->pluck('name')->sort();
+        $actual_tag_names = $user->tags()->pluck('name')->sort();
+
+        $this->assertEquals($expected_tag_names, $actual_tag_names);
+    }
 
     public function test_tag_has_an_owner()
     {
