@@ -19,8 +19,6 @@
                             @blur="isCancelButtonVisible = false">
                     </div>
 
-                    <p class="mb-4 text-red-700" v-if="uniqueErrorShown">Tag names must be unique</p>
-
                     <div class="label flex flex-row mb-3 items-center" v-for="(label, key) in labels">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" :id="'tag-' + key"
@@ -47,7 +45,6 @@
                                @focus="setFocusedState('label_' + key)"
                                :value="label" :ref="'label_' + key"
                                class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200">
-
 
                         <a href="" class="p-1"
                            @click.prevent="focusOnLabel('label_' + key)"
@@ -87,7 +84,6 @@ export default {
             note_id: this.$attrs.note_id,
             isCancelButtonVisible: false,
             editingLabel: '',
-            uniqueErrorShown: false,
         };
     },
     created() {
@@ -105,7 +101,7 @@ export default {
         },
         hide() {
             this.$refs['labels-dialog'].hide();
-            this.clearsearchingLabel();
+            this.searchingLabel = '';
         },
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
@@ -123,9 +119,6 @@ export default {
                 location.href = '/';
             });
         },
-        hideUniqueError() {
-            this.uniqueErrorShown = false;
-        },
         save() {
             this.addLabel(this.searchingLabel);
             this.hide();
@@ -135,11 +128,8 @@ export default {
             this.editingLabel = refName;
         },
         cancel() {
-            this.clearsearchingLabel();
-            this.hideCancelButton();
-        },
-        clearsearchingLabel() {
-            this.searchingLabel = ''
+            this.searchingLabel = '';
+            this.isCancelButtonVisible = false;
         }
     }
 }
