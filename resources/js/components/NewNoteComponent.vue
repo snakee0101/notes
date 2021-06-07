@@ -162,7 +162,7 @@
             <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
         </div>
 
-        <set-labels-component note_id="new_note" :labels="['10', '20']">
+        <set-labels-component note_id="new_note">
 
         </set-labels-component>
 

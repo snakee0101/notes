@@ -191,7 +191,7 @@
             </a>
         </div>
 
-        <set-labels-component :note_id="note.id" :labels="['10', '20']">
+        <set-labels-component :note_id="note.id">
 
         </set-labels-component>
 
