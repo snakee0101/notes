@@ -162,7 +162,7 @@
             <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
         </div>
 
-        <set-labels-component note_id="new_note">
+        <set-labels-component :note="{id: 'new_note'}">
 
         </set-labels-component>
 
@@ -327,7 +327,7 @@ export default {
     },
     methods: {
         openSetLabelsDialog() {
-            window.events.$emit('open_set_labels_dialog', 'new_note');
+            window.events.$emit('open_set_labels_dialog', 'new_note', []);
         },
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');

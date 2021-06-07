@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="form-check mb-3" v-for="(label, key) in labels">
-                        <input class="form-check-input" type="checkbox" value="" :id="'tag-' + key">
+                        <input class="form-check-input" type="checkbox" value="" :id="'tag-' + key" :checked="setCheckedState(label)">
                         <label class="form-check-label" :for="'tag-' + key">
                             {{ label }}
                         </label>
@@ -44,14 +44,21 @@ export default {
         return {
             searchingLabel: '',
             labels: this.$attrs.labels,
-            note_id: this.$attrs.note_id,
+            note: this.$attrs.note,
             isCancelButtonVisible: false,
+            attached_tags: [],
         };
     },
     created() {
         window.events.$on('open_set_labels_dialog', this.show);
     },
     methods: {
+        setCheckedState(label) {
+            if(!this.attached_tags)
+                return '';
+            else
+                return (this.attached_tags.findIndex( (item) => item === label ) !== -1) ? 'checked' : '';
+        },
         getTags() {
             this.labels = window.tags_list;
         },
@@ -60,9 +67,13 @@ export default {
             //if empty - show all the labels
             //if not empty - search for label containing specified text
         },
-        show(event_note_id) {
-            if (this.note_id == event_note_id) {
+        show(event_note_id, attached_tags) {
+            if (this.note.id == event_note_id) {
                 this.getTags();
+                if(this.note)
+                    this.attached_tags = this.note.tags;
+                else
+                    this.attached_tags = [];
                 this.$refs['labels-dialog'].show();
             }
         },

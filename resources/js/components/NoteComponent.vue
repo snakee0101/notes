@@ -191,7 +191,7 @@
             </a>
         </div>
 
-        <set-labels-component :note_id="note.id">
+        <set-labels-component :note="note">
 
         </set-labels-component>
 
@@ -354,7 +354,7 @@ export default {
     },
     methods: {
         openSetLabelsDialog() {
-            window.events.$emit('open_set_labels_dialog', this.note.id);
+            window.events.$emit('open_set_labels_dialog', this.note.id, this.note.tags);
         },
         pickDateAndTime() {
             this.$refs['dateTimePicker-modal'].show();
