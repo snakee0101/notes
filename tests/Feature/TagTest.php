@@ -22,11 +22,17 @@ class TagTest extends TestCase
         auth()->login($user);
 
         $tags = TagFactory::times(3)->for($user, 'owner')->create();
-        $tag_names = $tags->pluck('name');
+        $expected_tag_names = $tags->pluck('name')->sort()->toArray();
 
 
-        $response = $this->get( route('tag.index') )->content();
-        dd($response);
+        $json_response = $this->get( route('tag.index') )->content();
+        $actual_tags = json_decode($json_response);
+
+        sort($actual_tags);
+
+        $this->assertContains($expected_tag_names[0], $actual_tags);
+        $this->assertContains($expected_tag_names[1], $actual_tags);
+        $this->assertContains($expected_tag_names[2], $actual_tags);
     }
 
     public function test_user_could_get_only_own_tags()

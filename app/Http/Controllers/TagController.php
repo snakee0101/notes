@@ -9,7 +9,7 @@ class TagController extends Controller
 {
     public function index()
     {
-        return auth()->user()->tags;
+        return auth()->user()->tags()->pluck('name');  //returns tag names
     }
 
     public function store(Request $request)
