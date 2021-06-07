@@ -83,7 +83,6 @@ export default {
             labels: this.$attrs.labels,
             note_id: this.$attrs.note_id,
             isCancelButtonVisible: false,
-            editingLabel: '',
         };
     },
     created() {
@@ -105,10 +104,6 @@ export default {
         },
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
-            this.editingLabel = refName;
-        },
-        isEditing(refName) {
-            return this.editingLabel === refName;
         },
         renameLabel(refName, key) {
             axios.put(this.labels[key], {
@@ -125,7 +120,6 @@ export default {
         },
         setFocusedState(refName) {
             this.isCancelButtonVisible = false;
-            this.editingLabel = refName;
         },
         cancel() {
             this.searchingLabel = '';
