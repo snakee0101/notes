@@ -52,14 +52,19 @@ export default {
         window.events.$on('open_set_labels_dialog', this.show);
     },
     methods: {
+        getTags() {
+            this.labels = window.tags_list;
+        },
         search() {
             console.log('searching label on keyup');
             //if empty - show all the labels
             //if not empty - search for label containing specified text
         },
         show(event_note_id) {
-            if (this.note_id == event_note_id)
+            if (this.note_id == event_note_id) {
                 this.$refs['labels-dialog'].show();
+                this.getTags();
+            }
         },
         hide() {
             this.$refs['labels-dialog'].hide();
