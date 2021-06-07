@@ -73,10 +73,6 @@ export default {
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
         },
-        save() {
-            this.addLabel(this.searchingLabel);
-            this.hide();
-        },
         cancel() {
             this.searchingLabel = "";
             this.isCancelButtonVisible = false;
