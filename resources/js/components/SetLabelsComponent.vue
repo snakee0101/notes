@@ -2,7 +2,7 @@
     <div>
         <b-modal ref="labels-dialog" hide-footer centered class="labels-dialog">
             <div class="bg-white p-4 rounded-t-lg">
-                <h3 class="font-medium text-lg">Search label</h3>
+                <h3 class="font-medium text-lg">Set labels for the note</h3>
                 <div class="mt-3 pt-4 px-2 border-t-2 border-gray-200">
                     <div class="label flex flex-row mb-3 items-center">
                         <a href="" @click.prevent="cancel()"
@@ -19,13 +19,11 @@
                             @blur="isCancelButtonVisible = false">
                     </div>
 
-                    <div class="label flex flex-row mb-3 items-center" v-for="(label, key) in labels">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" :id="'tag-' + key">
-                            <label class="form-check-label" :for="'tag-' + key">
-                                {{ label }}
-                            </label>
-                        </div>
+                    <div class="form-check mb-3" v-for="(label, key) in labels">
+                        <input class="form-check-input" type="checkbox" value="" :id="'tag-' + key">
+                        <label class="form-check-label" :for="'tag-' + key">
+                            {{ label }}
+                        </label>
                     </div>
                 </div>
             </div>
@@ -37,7 +35,6 @@
         </b-modal>
     </div>
 </template>
-
 
 
 <script>
@@ -56,12 +53,12 @@ export default {
     },
     methods: {
         search() {
-          console.log('searching label on keyup');
-          //if empty - show all the labels
-          //if not empty - search for label containing specified text
+            console.log('searching label on keyup');
+            //if empty - show all the labels
+            //if not empty - search for label containing specified text
         },
         show(event_note_id) {
-            if(this.note_id == event_note_id)
+            if (this.note_id == event_note_id)
                 this.$refs['labels-dialog'].show();
         },
         hide() {
