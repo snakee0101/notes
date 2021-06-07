@@ -183,7 +183,7 @@
                         <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
                     </template>
                     <b-dropdown-item href="#" @click="deleteNote()">Delete note</b-dropdown-item>
-                    <b-dropdown-item href="#">Add label</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
                     <b-dropdown-item href="#">Add drawing</b-dropdown-item>
                     <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
                     <b-dropdown-item href="#">Show checkboxes</b-dropdown-item>
@@ -353,6 +353,9 @@ export default {
         window.events.$on('reload_reminder_json', this.reload_reminder_json);
     },
     methods: {
+        openSetLabelsDialog() {
+            alert(1234);
+        },
         pickDateAndTime() {
             this.$refs['dateTimePicker-modal'].show();
             this.$refs['reminder-dropdown'].hide()

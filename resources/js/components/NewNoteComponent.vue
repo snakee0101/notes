@@ -139,7 +139,7 @@
                     <template #button-content>
                         <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
                     </template>
-                    <b-dropdown-item href="#">Add label</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
                     <b-dropdown-item href="#">Add drawing</b-dropdown-item>
                     <b-dropdown-item href="#">Show checkboxes</b-dropdown-item>
                 </b-dropdown>
@@ -324,6 +324,9 @@ export default {
         */
     },
     methods: {
+        openSetLabelsDialog() {
+            alert(1234);
+        },
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');
         },
