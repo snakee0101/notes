@@ -87,10 +87,10 @@ export default {
         show(event_note_id, attached_tags) {
             if (this.note.id == event_note_id) {
                 this.getTags();
-                if(this.note)
+                if(this.note.id !== 'new_note')
                     this.attached_tags = this.note.tags;
                 else
-                    this.attached_tags = [];
+                    this.attached_tags = attached_tags;
                 this.$refs['labels-dialog'].show();
             }
         },
