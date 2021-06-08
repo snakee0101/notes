@@ -26,15 +26,7 @@ Route::middleware('auth')->group(function() {
     Route::resource('note', NoteController::class);
 
     Route::resource('tag', TagController::class);
-
-    Route::post('toggle_tag/{note}/{tag}', function($note, $tag) {
-        $tag = Tag::findOrFail($tag);
-        $note = Note::findOrFail($note);
-
-        $note->tags()->toggle($tag->id);
-        $note->push();
-    })->name('tag.toggle');
-
+    Route::post('toggle_tag/{note}/{tag}', [TagController::class, 'toggle'])->name('tag.toggle');
 
     Route::resource('image', ImageController::class);
 

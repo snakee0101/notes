@@ -40,4 +40,13 @@ class TagController extends Controller
     {
        return $tag->delete();
     }
+
+    public function toggle($note, $tag)
+    {
+        $tag = Tag::findOrFail($tag);
+        $note = Note::findOrFail($note);
+
+        $note->tags()->toggle($tag->id);
+        $note->push();
+    }
 }
