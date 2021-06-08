@@ -351,8 +351,12 @@ export default {
         window.events.$on('refresh_image', this.refreshImage);
         window.events.$on('update_reminder_label', this.updateReminderLabel);
         window.events.$on('reload_reminder_json', this.reload_reminder_json);
+        window.events.$on('reload_note_tags', this.reload_tags);
     },
     methods: {
+        reload_tags(note_id) {
+
+        },
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', this.note.id, this.note.tags);
         },

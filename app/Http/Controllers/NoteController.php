@@ -110,4 +110,9 @@ class NoteController extends Controller
     {
         return $note->makeCopy();
     }
+
+    public function get_tags(Note $note)
+    {
+        return $note->tags;
+    }
 }

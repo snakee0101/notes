@@ -17,6 +17,24 @@ class TagTest extends TestCase
 {
     use DatabaseMigrations, RefreshDatabase, WithFaker;
 
+    public function test_tags_list_could_be_returned_for_specific_note() {
+        $user = UserFactory::times(1)->createOne();
+        auth()->login($user);
+
+        $note = NoteFactory::times(1)->for($user,'owner')->createOne();
+        $tags = TagFactory::times(3)->for($user, 'owner')
+            ->create();
+        $note->tags()->attach($tags);
+
+        $initial_tags = $note->tags->toArray();
+
+        $res_tags = $this->post(route('note.get_tags', $note->id))->json();
+
+        $this->assertContains($initial_tags[0], $res_tags);
+        $this->assertContains($initial_tags[1], $res_tags);
+        $this->assertContains($initial_tags[2], $res_tags);
+    }
+
     public function test_tags_could_be_toggled()
     {
         $user = UserFactory::times(1)->createOne();

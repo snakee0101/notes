@@ -64,6 +64,7 @@ export default {
                 let note_id = this.note.id;
 
                 axios.post('/toggle_tag/' + note_id + '/' + tag_name);
+                window.events.$emit('reload_note_tags', this.note.id);
             }
         },
         setCheckedState(label) {
