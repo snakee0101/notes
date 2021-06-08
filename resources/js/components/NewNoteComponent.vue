@@ -332,7 +332,7 @@ export default {
            if(isChecked) {
                this.tags.push(tag_name);
            } else {
-               this.tags.splice(this.tags.find(tag_name), 1);
+               this.tags.splice(this.tags.indexOf(tag_name), 1);
            }
         },
         openSetLabelsDialog() {
