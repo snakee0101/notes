@@ -20,7 +20,10 @@
                     </div>
 
                     <div class="form-check mb-3" v-for="(label, key) in labels">
-                        <input class="form-check-input" type="checkbox" value="" :id="'tag-' + key" :checked="setCheckedState(label)">
+                        <input class="form-check-input" type="checkbox" :value="label"
+                               :id="'tag-' + key"
+                               :checked="setCheckedState(label)"
+                               @click="toggleLabel(label)">
                         <label class="form-check-label" :for="'tag-' + key">
                             {{ label }}
                         </label>
@@ -53,6 +56,16 @@ export default {
         window.events.$on('open_set_labels_dialog', this.show);
     },
     methods: {
+        toggleLabel(label) {
+            if (this.note.id === 'new_note') {
+
+            } else {
+                let tag_name = event.target.value;
+                let note_id = this.note.id;
+
+                axios.post('/toggle_tag/' + note_id + '/' + tag_name);
+            }
+        },
         setCheckedState(label) {
             if(!this.attached_tags)
                 return '';

@@ -43,7 +43,7 @@ class TagController extends Controller
 
     public function toggle(Note $note, Tag $tag)    //TODO: Only owner of note and tags could toggle tags
     {
-        $note->tags()->toggle($tag->id);
+        $note->tags()->toggle($tag->id); //Tag is resolved by $name property
         $note->push();
     }
 }
