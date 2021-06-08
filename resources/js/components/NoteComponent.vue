@@ -355,7 +355,10 @@ export default {
     },
     methods: {
         reload_tags(note_id) {
-
+            if(note_id == this.note.id) {
+                axios.post('/note/' + note_id + '/get_tags')
+                     .then( (res) => this.note.tags = res.data );
+            }
         },
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', this.note.id, this.note.tags);
