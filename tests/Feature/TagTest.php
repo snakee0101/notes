@@ -19,8 +19,6 @@ class TagTest extends TestCase
 
     public function test_tags_could_be_toggled()
     {
-        $this->withoutMiddleware();
-
         $user = UserFactory::times(1)->createOne();
         auth()->login($user);
 
@@ -34,16 +32,16 @@ class TagTest extends TestCase
         $note->refresh();
 
         $r = $this->post( route('tag.toggle', [ //when the tag is toggled first time
-            'tag' => $tag,
-            'note' => $note
+            'tag' => $tag->name,
+            'note' => $note->id
         ]) );
 
         $note->refresh();
         $this->assertInstanceOf(Tag::class, $note->tags()->first()); //it should be attached to the note
 
         $this->post( route('tag.toggle', [  //when the tag is toggled once again
-            'tag' => $tag,
-            'note' => $note
+            'tag' => $tag->name,
+            'note' => $note->id
         ]) );
 
         $note->refresh();

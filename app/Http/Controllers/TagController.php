@@ -41,11 +41,8 @@ class TagController extends Controller
        return $tag->delete();
     }
 
-    public function toggle($note, $tag)
+    public function toggle(Note $note, Tag $tag)    //TODO: Only owner of note and tags could toggle tags
     {
-        $tag = Tag::findOrFail($tag);
-        $note = Note::findOrFail($note);
-
         $note->tags()->toggle($tag->id);
         $note->push();
     }
