@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Note;
 use App\Models\Reminder;
 use App\Models\User;
+use Database\Factories\TagFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -56,6 +57,29 @@ class NoteTest extends TestCase
         $this->assertEquals($this->userData['type'], $note->type);
     }
 
+    public function test_a_note_could_be_saved_with_tags()
+    {
+        $user = UserFactory::times(1)->createOne();
+        auth()->login($user);
+
+        $tag_names = TagFactory::times(3)
+            ->for($user, 'owner')
+            ->create()
+            ->pluck('name')
+            ->toArray();
+
+        $this->userData['tags'] = $tag_names;
+        $this->post(route('note.store'), $this->userData);
+
+        $this->assertNotNull($note = Note::first());
+
+        $note->refresh();
+
+        $this->assertContains($tag_names[0], $note->tags->toArray());
+        $this->assertContains($tag_names[1], $note->tags->toArray());
+        $this->assertContains($tag_names[2], $note->tags->toArray());
+    }
+
     public function test_a_note_could_be_saved_with_reminder()
     {
         $user = UserFactory::times(1)->createOne();
@@ -76,7 +100,7 @@ class NoteTest extends TestCase
             \"time\": \"2021-06-09 17:00:00\"
         }";
 
-        $this->post(route('note.store'), $this->userData );
+        $this->post(route('note.store'), $this->userData);
 
         $this->assertNotNull($note = Note::first());
         $this->assertNotNull($reminder = Reminder::first());
@@ -95,8 +119,8 @@ class NoteTest extends TestCase
             }}", json_encode($reminder->repeat));
     }
 
-     public function test_a_note_could_be_updated()
-     {
+    public function test_a_note_could_be_updated()
+    {
         $note = Note::factory()->create();
         auth()->login($note->owner);
         $this->put(route('note.update', $note), $this->changes);
@@ -109,19 +133,19 @@ class NoteTest extends TestCase
         $this->assertEquals($this->changes['archived'], $note->archived);
         $this->assertEquals($this->changes['color'], $note->color);
         $this->assertEquals($this->changes['type'], $note->type);
-     }
+    }
 
-     public function test_a_note_could_be_deleted()
-     {
+    public function test_a_note_could_be_deleted()
+    {
         $note = Note::factory()->for(User::factory(), 'owner')->create();
         auth()->login($note->owner);
 
-        $this->delete( route('note.destroy', $note) );
+        $this->delete(route('note.destroy', $note));
         $this->assertSoftDeleted($note);
 
-        $this->delete( route('note.destroy',$note) );
-        $this->assertEmpty( Note::onlyTrashed()->get() );
-     }
+        $this->delete(route('note.destroy', $note));
+        $this->assertEmpty(Note::onlyTrashed()->get());
+    }
 
     public function test_a_note_could_be_restored()
     {
@@ -129,20 +153,20 @@ class NoteTest extends TestCase
         auth()->login($note->owner);
 
         $note->delete();
-        $this->assertEmpty( Note::all() );
-        $this->assertNotEmpty( Note::onlyTrashed()->get() );
+        $this->assertEmpty(Note::all());
+        $this->assertNotEmpty(Note::onlyTrashed()->get());
 
-        $this->post( route('note.restore', $note->id) );
+        $this->post(route('note.restore', $note->id));
 
-        $this->assertEmpty( Note::onlyTrashed()->get() );
-        $this->assertNotEmpty( Note::all() );
+        $this->assertEmpty(Note::onlyTrashed()->get());
+        $this->assertNotEmpty(Note::all());
     }
 
     public function test_archived_note_could_be_updated()
     {
         $note = Note::factory()->create(['archived' => true]);
         auth()->login($note->owner);
-        $this->put( route('note.destroy', $note), ['body' => 'new content'] );
+        $this->put(route('note.destroy', $note), ['body' => 'new content']);
 
         $this->assertEquals('new content', $note->fresh()->body);
     }
@@ -151,7 +175,7 @@ class NoteTest extends TestCase
     {
         $note = Note::factory()->create(['archived' => true]);
         auth()->login($note->owner);
-        $this->delete( route('note.destroy', $note) );
+        $this->delete(route('note.destroy', $note));
 
         $this->assertSoftDeleted($note->fresh());
     }
@@ -161,9 +185,9 @@ class NoteTest extends TestCase
         $note = Note::factory()->create(['deleted_at' => now(), 'archived' => true]);
         auth()->login($note->owner);
 
-        $this->post( route('note.restore', $note) );
+        $this->post(route('note.restore', $note));
 
-        $this->assertNull( $note->fresh()->deleted_at );
+        $this->assertNull($note->fresh()->deleted_at);
     }
 
     public function test_a_note_could_be_pinned_and_unpinned()
@@ -171,15 +195,15 @@ class NoteTest extends TestCase
         $note = Note::factory()->create(['pinned' => false]);
         auth()->login($note->owner);
 
-        $this->put( route('note.update', $note), [
+        $this->put(route('note.update', $note), [
             'pinned' => true
-        ] );
-        $this->assertTrue( $note->fresh()->pinned );
+        ]);
+        $this->assertTrue($note->fresh()->pinned);
 
-        $this->put( route('note.update', $note), [
+        $this->put(route('note.update', $note), [
             'pinned' => false
-        ] );
-        $this->assertFalse( $note->fresh()->pinned );
+        ]);
+        $this->assertFalse($note->fresh()->pinned);
     }
 
     public function test_a_note_could_be_duplicated()
@@ -189,7 +213,7 @@ class NoteTest extends TestCase
 
         $this->assertDatabaseCount('notes', 1);
 
-        $this->post( route('note.duplicate', $note) );
+        $this->post(route('note.duplicate', $note));
 
         $this->assertDatabaseCount('notes', 2);
     }

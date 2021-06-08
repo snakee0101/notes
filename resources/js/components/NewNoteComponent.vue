@@ -439,8 +439,9 @@ export default {
                 archived: false,
                 color: this.note.color,
                 type: this.note.type,
-                reminder_json: JSON.stringify(this.reminder_json)
-            }).finally(() => location.reload());
+                reminder_json: JSON.stringify(this.reminder_json),
+                tags: this.tags
+           }).finally(() => location.reload());
         },
         pin() {
             this.note.pinned = !this.note.pinned;

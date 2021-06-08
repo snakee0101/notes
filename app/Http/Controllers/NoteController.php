@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use App\Models\Reminder;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -42,15 +43,23 @@ class NoteController extends Controller
         $note = Note::create($data);
 
         /****Set the reminder****/
-        $reminder_json = json_decode($request->reminder_json);
+        $reminder_json = json_decode($request->reminder_json, true);
 
-        if( !is_null($reminder_json) )
+        if( !empty($reminder_json) )
         {
             $note->reminder()->create([
-                'time' => $reminder_json->time,
-                'repeat' => $reminder_json->repeat ?? "",
+                'time' => $reminder_json['time'] ?? "",
+                'repeat' => $reminder_json['repeat'] ?? "",
                 'location' => '',
             ]);
+        }
+
+        /****Set the tags****/
+        if( $request->has('tags') )
+        {
+            $note->tags()->attach(
+                Tag::whereIn('name', $request->tags)->get()
+            );
         }
     }
 
