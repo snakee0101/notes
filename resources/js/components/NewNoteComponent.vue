@@ -50,7 +50,7 @@
                 <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
                    v-b-tooltip.hover.bottom
                    title="Remove label"
-                   @click.prevent="">
+                   @click.prevent="detach_tag(tag)">
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
@@ -328,6 +328,9 @@ export default {
         */
     },
     methods: {
+        detach_tag(tag_name) {
+            this.tags.splice(this.tags.indexOf(tag_name), 1);
+        },
         reload_tags(tag_name, isChecked) {
            if(isChecked) {
                this.tags.push(tag_name);
