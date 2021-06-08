@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
+use Database\Factories\NoteFactory;
 use Database\Factories\TagFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -14,7 +15,40 @@ use Tests\TestCase;
 
 class TagTest extends TestCase
 {
-    use DatabaseMigrations, RefreshDatabase;
+    use DatabaseMigrations, RefreshDatabase, WithFaker;
+
+    public function test_tags_could_be_toggled()
+    {
+        $this->withoutMiddleware();
+
+        $user = UserFactory::times(1)->createOne();
+        auth()->login($user);
+
+        $note = NoteFactory::times(1)->for($user,'owner')->createOne();
+        $tag = TagFactory::times(1)->for($user, 'owner')
+            ->createOne();
+
+        $this->assertNull($note->tags()->first());  //initially there is no tags
+
+        $tag->refresh();
+        $note->refresh();
+
+        $r = $this->post( route('tag.toggle', [ //when the tag is toggled first time
+            'tag' => $tag,
+            'note' => $note
+        ]) );
+
+        $note->refresh();
+        $this->assertInstanceOf(Tag::class, $note->tags()->first()); //it should be attached to the note
+
+        $this->post( route('tag.toggle', [  //when the tag is toggled once again
+            'tag' => $tag,
+            'note' => $note
+        ]) );
+
+        $note->refresh();
+        $this->assertNull($note->tags()->first());  //it should be detached
+    }
 
     public function test_tags_list_could_be_returned()
     {
