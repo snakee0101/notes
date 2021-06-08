@@ -58,7 +58,10 @@ export default {
     methods: {
         toggleLabel(label) {
             if (this.note.id === 'new_note') {
+                let tag_name = event.target.value;
+                let isChecked = event.target.checked;
 
+                window.events.$emit('reload_new_note_tags', tag_name, isChecked);
             } else {
                 let tag_name = event.target.value;
                 let note_id = this.note.id;

@@ -43,17 +43,17 @@
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
-<!--            <a v-for="tag in note.tags"
+            <a v-for="tag in tags"
                :href="'/tag/' + tag"
                class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
                 {{ tag }}
                 <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
                    v-b-tooltip.hover.bottom
                    title="Remove label"
-                   @click.prevent="detach_tag(tag)">
+                   @click.prevent="">
                     <i class="bi bi-x icon"></i>
                 </a>
-            </a>-->
+            </a>
         </div>
 
         <div class="toolbar">
@@ -291,6 +291,7 @@ export default {
             repeatStatus: '',
             reminder_json: {},
             customRepeatStatusShown: false,
+            tags: [],
             repeat_ends: 'never',
             repeat_occurrences: 1,
             repeat_every_value: 1,
@@ -310,6 +311,7 @@ export default {
     },
     created() {
         setInterval(this.checkLaterTodayVisibility, 500);
+        window.events.$on('reload_new_note_tags', this.reload_tags);
         //Save the note when clicked outside
         /*
                 window.addEventListener("click", function (event) {
@@ -326,6 +328,13 @@ export default {
         */
     },
     methods: {
+        reload_tags(tag_name, isChecked) {
+           if(isChecked) {
+               this.tags.push(tag_name);
+           } else {
+               this.tags.splice(this.tags.find(tag_name), 1);
+           }
+        },
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', 'new_note', []);
         },
