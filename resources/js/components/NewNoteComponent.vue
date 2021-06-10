@@ -326,6 +326,10 @@ export default {
 
                 window.events.$on('save_new_note', this.save);
         */
+
+        //Set the tag if it exists
+        if(this.$attrs.tag_name)
+            this.tags[0] = this.$attrs.tag_name;
     },
     methods: {
         detach_tag(tag_name) {
