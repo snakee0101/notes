@@ -67,6 +67,11 @@
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
+            <a v-for="collaboratorEmail in note.collaborators_json" href="#"
+               @click.prevent="showCollaboratorsDialog()"
+               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group">
+                Shared with {{ collaboratorEmail }}
+            </a>
         </div>
 
         <div class="toolbar flex justify-between" v-if="trashed">
