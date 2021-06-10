@@ -46,10 +46,10 @@
             <a v-if="note.reminder_json"
                @click.prevent="pickDateAndTime()"
                href="/reminders"
-               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
+               class="mr-2 rounded-full px-2 py-0.5 text-sm" style="border: 1px solid black!important;">
                 <i class="bi bi-alarm icon"></i>
                 <span ref="updated_reminder_time">{{ getReminderTime() }}</span>
-                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
+                <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove reminder"
                    @click.prevent="removeReminder()">
@@ -58,9 +58,9 @@
             </a>
             <a v-for="tag in note.tags"
                :href="'/tag/' + tag"
-               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group relative">
+               class="mr-2 rounded-full px-2 py-0.5 text-sm" style="border: 1px solid black!important;">
                 {{ tag }}
-                <a class="hidden group-hover:inline absolute right-1 group-hover:bg-gray-300 rounded-full z-20"
+                <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove label"
                    @click.prevent="detach_tag(tag)">
@@ -69,7 +69,7 @@
             </a>
             <a v-for="collaboratorEmail in note.collaborators_json" href="#"
                @click.prevent="showCollaboratorsDialog()"
-               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group">
+               class="mr-2 rounded-full px-2 py-0.5 text-sm group" style="border: 1px solid black!important;">
                 Shared with {{ collaboratorEmail }}
             </a>
         </div>
