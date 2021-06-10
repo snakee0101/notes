@@ -6,9 +6,9 @@
         </a>
 
         <b-modal ref="delete-confirmation" hide-footer centered class="delete-confirmation">
-            <p class="m-2 mb-4"> We’ll delete this label and remove it from all of your notes. Your notes won’t be
+            <p class="m-3 mb-4"> We’ll delete this label and remove it from all of your notes. Your notes won’t be
                 deleted.</p>
-            <div class="bg-white rounded-b-lg text-right">
+            <div class="bg-white rounded-b-lg text-right m-2">
                 <button
                     @click="$refs['delete-confirmation'].hide()"
                     class="cancel-button">
