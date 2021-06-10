@@ -43,7 +43,7 @@
             <p v-if="errorShown" class="text-sm text-red-700">{{ errorMessage }}</p>
         </div>
         <div class="collaborators-footer">
-            <button @click="confirm()" class="collaborator-button">Done</button>
+            <button @click="hide()" class="collaborator-button">Done</button>
         </div>
     </b-modal>
 </template>
@@ -86,6 +86,8 @@ export default {
         deleteCollaborator(email) {
             let index = this.emails.indexOf(email);
             this.emails.splice(index, 1);
+
+            this.confirm();
         },
         checkCollaborator(email) {
             this.checkingEmail = email;
@@ -108,6 +110,8 @@ export default {
         addCollaborator(email) {
             this.emails.push(email);
             this.newEmail = '';
+
+            this.confirm();
         },
         resetData(res) {
             this.emails = res.data;
@@ -116,17 +120,13 @@ export default {
         confirm() {
             if(this.note.id == 'new_note') {
                 window.events.$emit('save_new_note_collaborators', this.emails);
-                this.hide();
             } else {
                 axios.post('/collaborator/' + this.note.id, {
                     emails: this.emails
                 });
 
-                this.hide();
-
-                if(this.note.id != 'new_note')
-                    axios.get('/collaborators/' + this.note.id)
-                        .then(res => this.resetData(res));
+                axios.get('/collaborators/' + this.note.id)
+                     .then(res => this.resetData(res));
             }
         },
     }
