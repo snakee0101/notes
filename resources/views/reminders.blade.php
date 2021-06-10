@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="notes-container">
-        <div class="mb-10">  <!--TODO: There should already be the reminder on the note-->
-            <new-note-component>
+        <div class="mb-10">
+            <new-note-component :has-remainder="true">
 
             </new-note-component>
         </div>

@@ -263,6 +263,9 @@ import SetLabelsComponent from "./SetLabelsComponent";
 export default {
     name: "NewNoteComponent",
     components: {SetLabelsComponent},
+    props: {
+        hasRemainder: Boolean
+    },
     data() {
         return {
             isCollaboratorsDialogVisible: false,
@@ -330,6 +333,10 @@ export default {
         //Set the tag if it exists
         if(this.$attrs.tag_name)
             this.tags[0] = this.$attrs.tag_name;
+
+        //Set the remainder if it exists
+        if(this.hasRemainder)
+            this.storeReminder('soon');
     },
     methods: {
         detach_tag(tag_name) {
@@ -405,6 +412,7 @@ export default {
                 'later_today': moment().set({'hour': 20}),
                 'tomorrow': moment().add(1, 'days').set({'hour': 8}),
                 'next_week': moment().add(1, 'weeks').set({'day': 'Monday', 'hour': 8}),
+                'soon': moment().add(3, 'hours'),
             };
 
             let formatted_time = time[text_time].set({'minute': 0, 'second': 0})
