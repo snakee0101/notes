@@ -33,7 +33,7 @@
             <a v-if="reminder_json.time"
                @click.self.prevent="pickDateAndTime()"
                href="#"
-               class="mr-2 rounded-full pl-2 pr-1 py-0.5 text-sm" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm" style="border: 1px solid black!important;">
                 <i class="bi bi-alarm icon" @click.self.prevent="pickDateAndTime()"></i>
                 <span ref="updated_reminder_time" @click.self.prevent="pickDateAndTime()">{{ getReminderTime() }}</span>
                 <a class="bg-gray-300 rounded-full"
@@ -45,7 +45,7 @@
             </a>
             <a v-for="tag in tags"
                :href="'/tag/' + tag"
-               class="mr-2 rounded-full pl-2 pr-1 py-0.5 text-sm" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm" style="border: 1px solid black!important;">
                 {{ tag }}
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
@@ -56,7 +56,7 @@
             </a>
             <a v-for="collaboratorEmail in collaboratorEmails" href="#"
                @click.prevent="showCollaboratorsDialog()"
-               class="mr-2 rounded-full px-2 py-0.5 text-sm group" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full px-2 py-0 text-sm group" style="border: 1px solid black!important;">
                 Shared with {{ collaboratorEmail }}
             </a>
         </div>
