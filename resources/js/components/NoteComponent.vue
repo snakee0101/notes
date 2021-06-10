@@ -46,7 +46,7 @@
             <a v-if="note.reminder_json"
                @click.prevent="pickDateAndTime()"
                href="/reminders"
-               class="mr-2 rounded-full px-2 py-0.5 text-sm" style="border: 1px solid black!important;">
+               class="mr-2 rounded-full pl-2 pr-1 py-0.5 text-sm" style="border: 1px solid black!important;">
                 <i class="bi bi-alarm icon"></i>
                 <span ref="updated_reminder_time">{{ getReminderTime() }}</span>
                 <a class="bg-gray-300 rounded-full"
@@ -58,7 +58,7 @@
             </a>
             <a v-for="tag in note.tags"
                :href="'/tag/' + tag"
-               class="mr-2 rounded-full px-2 py-0.5 text-sm" style="border: 1px solid black!important;">
+               class="mr-2 rounded-full pl-2 pr-1 py-0.5 text-sm" style="border: 1px solid black!important;">
                 {{ tag }}
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
