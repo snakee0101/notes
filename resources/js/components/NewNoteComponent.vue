@@ -54,6 +54,11 @@
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
+            <a v-for="collaboratorEmail in collaboratorEmails" href="#"
+               @click.prevent="showCollaboratorsDialog()"
+               class="mr-2 border border-black rounded-full px-2 py-0.5 text-sm group">
+                Shared with {{ collaboratorEmail }}
+            </a>
         </div>
 
         <div class="toolbar">
@@ -324,20 +329,7 @@ export default {
         window.events.$on('reload_new_note_tags', this.reload_tags);
         window.events.$on('save_new_note_collaborators', this.reload_collaborators);
 
-        //Save the note when clicked outside
-        /*
-                window.addEventListener("click", function (event) {
-                    let clicked_exactly_on_container = document.getElementsByClassName('new-note')[0] === event.target;
-                    let clicked_in_the_container = document.getElementsByClassName('new-note')[0].contains(event.target);
-
-                    //TODO: A bug with "delete collaborator button" - when you click it - it emits an event, that this click was outside
-                    if (!(clicked_exactly_on_container || clicked_in_the_container))
-                        window.events.$emit('save_new_note');
-
-                });
-
-                window.events.$on('save_new_note', this.save);
-        */
+        //TODO: Save the note when clicked outside feature
 
         //Set the tag if it exists
         if(this.$attrs.tag_name)
