@@ -58,7 +58,7 @@ export default {
     data() {
         return {
             newEmail: '',
-            emails: this.$attrs.emails,
+            emails: this.$attrs.emails ? this.$attrs.emails : [],
             owner: this.$attrs.owner,
             checkingEmail: '',
             note: this.$attrs.note,
@@ -98,11 +98,11 @@ export default {
             if (response.data.exists === false)
                 return this.showError("The user with requested email is not registered");
 
-            if ((this.emails.length > 0) && this.emails.includes(this.checkingEmail))
-                return this.showError("The user you want to add is already your collaborator");
-
             if (this.owner.email === this.checkingEmail)
                 return this.showError("You are already the owner of the note");
+
+            if ((this.emails.length > 0) && this.emails.includes(this.checkingEmail))
+                return this.showError("The user you want to add is already your collaborator");
 
             this.addCollaborator(this.checkingEmail);
         },
@@ -113,18 +113,24 @@ export default {
         cancel() {
             this.hide();
 
-            axios.get('/collaborators/' + this.note.id)
-                .then(res => this.resetData(res));
+            if(this.note.id != 'new_note')
+                axios.get('/collaborators/' + this.note.id)
+                    .then(res => this.resetData(res));
         },
         resetData(res) {
             this.emails = res.data;
             this.$attrs.emails = res.data;
         },
         save() {
-            axios.post('/collaborator/' + this.note.id, {
-                emails: this.emails
-            });
-            this.cancel();
+            if(this.note.id == 'new_note') {
+                window.events.$emit('save_new_note_collaborators', this.emails);
+                this.hide();
+            } else {
+                axios.post('/collaborator/' + this.note.id, {
+                    emails: this.emails
+                });
+                this.cancel();
+            }
         },
     }
 }

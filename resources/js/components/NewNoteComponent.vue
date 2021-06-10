@@ -285,7 +285,7 @@ export default {
                 'green', 'teal', 'blue', 'dark-blue',
                 'purple', 'pink', 'brown', 'grey'
             ],
-            collaboratorEmails: ['email1@gmail.com', 'email2@gmail.com'],
+            collaboratorEmails: [],
             note: {
                 header: '',
                 body: '',
@@ -322,6 +322,8 @@ export default {
     created() {
         setInterval(this.checkLaterTodayVisibility, 500);
         window.events.$on('reload_new_note_tags', this.reload_tags);
+        window.events.$on('save_new_note_collaborators', this.reload_collaborators);
+
         //Save the note when clicked outside
         /*
                 window.addEventListener("click", function (event) {
@@ -346,6 +348,9 @@ export default {
             this.storeReminder('soon');
     },
     methods: {
+        reload_collaborators(emails) {
+            this.collaboratorEmails = emails;
+        },
         showCollaboratorsDialog() {
             window.events.$emit('show-collaborators-dialog', 'new_note');
         },
