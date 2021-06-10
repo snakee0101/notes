@@ -506,7 +506,6 @@ export default {
 
             let formatted_time = time[text_time].set({'minute': 0, 'second': 0})
                 .format('YYYY-MM-DD HH:mm:ss');
-            this.hideRemindersDropdown();
 
             axios.post('/reminder/' + this.note.id, {'time': formatted_time});
             this.note.reminder_json = {'time': formatted_time};
