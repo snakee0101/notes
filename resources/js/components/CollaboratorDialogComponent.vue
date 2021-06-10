@@ -43,8 +43,7 @@
             <p v-if="errorShown" class="text-sm text-red-700">{{ errorMessage }}</p>
         </div>
         <div class="collaborators-footer">
-            <button @click="hide()" class="collaborator-button mr-2">Cancel</button>
-            <button @click="save()" class="collaborator-button">Save</button>
+            <button @click="confirm()" class="collaborator-button">Done</button>
         </div>
     </b-modal>
 </template>
@@ -110,18 +109,11 @@ export default {
             this.emails.push(email);
             this.newEmail = '';
         },
-        cancel() {
-            this.hide();
-
-            if(this.note.id != 'new_note')
-                axios.get('/collaborators/' + this.note.id)
-                    .then(res => this.resetData(res));
-        },
         resetData(res) {
             this.emails = res.data;
             this.$attrs.emails = res.data;
         },
-        save() {
+        confirm() {
             if(this.note.id == 'new_note') {
                 window.events.$emit('save_new_note_collaborators', this.emails);
                 this.hide();
@@ -129,7 +121,12 @@ export default {
                 axios.post('/collaborator/' + this.note.id, {
                     emails: this.emails
                 });
-                this.cancel();
+
+                this.hide();
+
+                if(this.note.id != 'new_note')
+                    axios.get('/collaborators/' + this.note.id)
+                        .then(res => this.resetData(res));
             }
         },
     }
