@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-    <!--TODO: There should be 2 sections of the notes: PINNED and OTHERS-->
     <div class="notes-container">
         <div class="mb-10">
             <new-note-component owner="{{ auth()->user() }}">

@@ -166,6 +166,11 @@
 
         </set-labels-component>
 
+        <collaborator-dialog-component note="new_note"
+                                       :owner="owner_object">
+
+        </collaborator-dialog-component>
+
         <b-modal title="BootstrapVue" ref="dateTimePicker-modal"
                  centered hide-footer modal-class="dateTimePicker-modal">
             <p class="text-lg font-bold">
@@ -264,7 +269,8 @@ export default {
     name: "NewNoteComponent",
     components: {SetLabelsComponent},
     props: {
-        hasRemainder: Boolean
+        hasRemainder: Boolean,
+        owner: String
     },
     data() {
         return {
@@ -293,6 +299,7 @@ export default {
             pickedRepeatsDate: '',
             repeatStatus: '',
             reminder_json: {},
+            owner_object: JSON.parse(this.owner),
             customRepeatStatusShown: false,
             tags: [],
             repeat_ends: 'never',
@@ -339,6 +346,9 @@ export default {
             this.storeReminder('soon');
     },
     methods: {
+        showCollaboratorsDialog() {
+            window.events.$emit('show-collaborators-dialog', 'new_note');
+        },
         detach_tag(tag_name) {
             this.tags.splice(this.tags.indexOf(tag_name), 1);
         },

@@ -3,7 +3,8 @@
 @section('content')
     <div class="notes-container">
         <div class="mb-10">
-            <new-note-component :has-remainder="true">
+            <new-note-component owner="{{ auth()->user() }}"
+                                :has-remainder="true">
 
             </new-note-component>
         </div>
