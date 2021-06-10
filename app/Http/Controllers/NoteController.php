@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use App\Models\Reminder;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -59,6 +60,14 @@ class NoteController extends Controller
         {
             $note->tags()->attach(
                 Tag::whereIn('name', $request->tags)->get()
+            );
+        }
+
+        /****Set the collaborators****/
+        if( $request->has('collaboratorEmails') )
+        {
+            $note->collaborators()->attach(
+                User::whereIn('email', $request->collaboratorEmails)->get()
             );
         }
     }

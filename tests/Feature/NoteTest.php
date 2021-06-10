@@ -57,6 +57,21 @@ class NoteTest extends TestCase
         $this->assertEquals($this->userData['type'], $note->type);
     }
 
+    public function test_a_note_could_be_saved_with_collaborators()
+    {
+        $owner = UserFactory::times(1)->createOne();
+        auth()->login($owner);
+
+        $collaborators = UserFactory::times(2)->create();
+        $this->userData['collaboratorEmails'] = $collaborators->pluck('email')->toArray();
+
+        $this->post(route('note.store'), $this->userData);
+        $this->assertNotNull($note = Note::first());
+
+        $this->assertContainsEquals($collaborators[0]->email, $note->collaborators->pluck('email')->toArray());
+        $this->assertContainsEquals($collaborators[1]->email, $note->collaborators->pluck('email')->toArray());
+    }
+
     public function test_a_note_could_be_saved_with_tags()
     {
         $user = UserFactory::times(1)->createOne();

@@ -459,7 +459,8 @@ export default {
                 color: this.note.color,
                 type: this.note.type,
                 reminder_json: JSON.stringify(this.reminder_json),
-                tags: this.tags
+                tags: this.tags,
+                collaboratorEmails: this.collaboratorEmails
            }).finally(() => location.reload());
         },
         pin() {
