@@ -166,7 +166,7 @@
 
         </set-labels-component>
 
-        <collaborator-dialog-component note="new_note"
+        <collaborator-dialog-component :note="{id: 'new_note'}"
                                        :owner="owner_object">
 
         </collaborator-dialog-component>
