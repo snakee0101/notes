@@ -66,10 +66,13 @@ nav a.active {
     max-height: 450px;
 }
 
+[data-trix-button-group="file-tools"] { display: none!important }
+
 .note-content a {
     color: #00f!important;
     text-decoration: underline!important;
 }
+
 .custom-tooltip, .tooltip2 {
     position: relative;
     display: inline-block;
