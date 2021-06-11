@@ -20,14 +20,7 @@
 
         </textarea>
 
-
-        <textarea name="note_content"
-                  placeholder="Take a note..."
-                  class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
-                  @input="track_fields()"
-                  v-model="note.body">
-
-        </textarea>
+        <trix-editor input="note_content" ref="new-note-editor"></trix-editor>
 
         <div class="tags mb-4">
             <a v-if="reminder_json.time"
@@ -453,7 +446,7 @@ export default {
         save() {
             axios.post('/note/', {
                 header: this.note.header,
-                body: this.note.body,
+                body: this.$refs['new-note-editor'].editor.element.innerHTML,
                 pinned: this.note.pinned,
                 archived: false,
                 color: this.note.color,
