@@ -21,7 +21,7 @@
 
         <trix-editor input="note_content" ref="new-note-editor"></trix-editor>
 
-        <div class="tags mb-4">
+        <div class="tags my-3">
             <a v-if="reminder_json.time"
                @click.self.prevent="pickDateAndTime()"
                href="#"
