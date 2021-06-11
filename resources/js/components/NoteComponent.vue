@@ -1,6 +1,6 @@
 <template>
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
-    <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors"
+    <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors mb-4"
          :class="'bg-google-' + note.color"
          v-if="shown"
          ref="note">

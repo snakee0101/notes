@@ -18,6 +18,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('trix/trix.css') }}">
     <script type="text/javascript" src="{{ asset('trix/trix.js') }}"></script>
+
+    <script src="https://unpkg.com/vue-masonry@0.11.3/dist/vue-masonry-plugin-window.js"></script>
 </head>
 <body class="h-screen antialiased leading-none font-sans flex flex-col">
 <div id="app">
