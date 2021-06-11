@@ -353,7 +353,6 @@ export default {
         },
         pickDateAndTime() {
             this.$refs['dateTimePicker-modal'].show();
-            this.$refs['reminder-dropdown'].hide()
         },
         saveReminder() {
             let time = this.pickedDate + ' ' + this.pickedTime;
