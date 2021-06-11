@@ -26,7 +26,7 @@
 
             </textarea>
         </div>
-        <h3 class="font-bold" v-else>{{ note.header }}</h3>
+        <h3 class="font-bold mr-3 break-words" v-else>{{ note.header }}</h3>
 
 
         <div v-if="editing">
