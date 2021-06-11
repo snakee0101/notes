@@ -1,9 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="notes-container">
+    <div class="notes-container" v-masonry="app" transition-duration="0.3s" item-selector=".note" gutter=".gutter">
         @forelse($notes as $note)
-            <note-component note="{{ $note }}">
+            <div class="gutter" style="width: 10px; height: 10px;"></div>
+            <note-component note="{{ $note }}" v-masonry-tile>
 
             </note-component>
         @empty
