@@ -2,7 +2,7 @@
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors m-auto new-note"
          :class="'bg-google-' + note.color"
-         style="width: 600px"
+         style="width: 630px"
          ref="note">
 
         <!--TODO: there should be editing state for the note-->
@@ -14,7 +14,7 @@
         </a>
 
         <textarea name="note_header" placeholder="Title"
-                  class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
+                  class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent text-xl"
                   v-model="note.header">
 
         </textarea>
