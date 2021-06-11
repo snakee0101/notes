@@ -15,7 +15,6 @@
 
         <textarea name="note_header" placeholder="Title"
                   class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
-                  @input="track_fields()"
                   v-model="note.header">
 
         </textarea>
@@ -143,20 +142,6 @@
                 </b-dropdown>
             </a>
 
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
-               v-b-tooltip.hover.bottom
-               title="Undo"
-               @click.prevent="undo_input()">
-                <i class="bi bi-arrow-counterclockwise icon-sm"></i>
-            </a>
-
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
-               v-b-tooltip.hover.bottom
-               title="Redo"
-               @click.prevent="redo_input()">
-                <i class="bi bi-arrow-clockwise icon-sm"></i>
-            </a>
-
             <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
         </div>
 
@@ -274,10 +259,6 @@ export default {
         return {
             isCollaboratorsDialogVisible: false,
             isLaterTodayVisible: false,
-            changes: [
-                {'header': '', 'content': ''},
-            ],
-            currentChangeIndex: 0,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -435,14 +416,6 @@ export default {
             let evening = (new Date).setHours(19, 0, 0);
             this.isLaterTodayVisible = Date.now() < evening;
         },
-        delay(callback, ms) {
-            if (window.noteInputTimer)
-                clearTimeout(window.noteInputTimer);
-
-            window.noteInputTimer = setTimeout(function () {
-                callback.apply(this);
-            }, ms);
-        },
         save() {
             axios.post('/note/', {
                 header: this.note.header,
@@ -464,41 +437,6 @@ export default {
         },
         changeColor(color) {
             this.note.color = color;
-        },
-        setInputHeight(itemClass) {
-            let element = document.getElementsByClassName(itemClass)[0];
-
-            element.style.height = "auto";
-            element.style.height = (element.scrollHeight) + "px";
-        },
-        undo_input() {
-            if (this.currentChangeIndex > 0) {
-                let change = this.changes[--this.currentChangeIndex];
-
-                this.note.header = change.header;
-                this.note.body = change.content;
-            }
-        },
-        redo_input() {
-            if (this.currentChangeIndex < (this.changes.length - 1)) {
-                this.currentChangeIndex++;
-                let change = this.changes[this.currentChangeIndex];
-
-                this.note.header = change.header;
-                this.note.body = change.content;
-            }
-        },
-        track_fields() {
-            if (this.currentChangeIndex < (this.changes.length - 1))
-                this.changes.splice(this.currentChangeIndex + 1, 100);
-
-            this.delay(this.track, 500);
-            this.setInputHeight('note-header-input');
-            this.setInputHeight('note-content-input');
-        },
-        track() {
-            this.changes.push({'header': this.note.header, 'content': this.note.body});
-            this.currentChangeIndex = this.changes.length - 1;
         },
         selectImage() {
             this.$refs['image'].click();
