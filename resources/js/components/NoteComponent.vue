@@ -38,9 +38,8 @@
 
             </textarea>
         </div>
-        <div class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px" v-else>
-            {{ note.body }}
-        </div>
+
+        <div v-html="note.body" class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px" v-else> </div>
 
         <div class="tags mb-4">
             <a v-if="note.reminder_json"
