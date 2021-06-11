@@ -177,12 +177,12 @@
         </collaborator-dialog-component>
 
         <b-modal title="BootstrapVue" ref="dateTimePicker-modal"
-                 centered hide-footer modal-class="dateTimePicker-modal">
+                 centered hide-footer modal-class="dateTimePicker-modal" id="dateTimePicker-modal">
             <p class="text-lg font-bold">
                 <a href=""
                    v-b-tooltip.hover.bottom
                    title="Go back"
-                   @click.prevent="this.$refs['dateTimePicker-modal'].hide(); this.$refs['reminder-dropdown'].show();">
+                   @click.prevent="$bvModal.hide('dateTimePicker-modal')">
                     <i class="bi bi-arrow-left mr-3"></i>
                 </a>Pick date & time
             </p>
