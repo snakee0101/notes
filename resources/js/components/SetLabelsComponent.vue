@@ -15,7 +15,6 @@
                             placeholder="Search for label" required id="searchingLabel"
                             v-on:keyup="search()"
                             @focus="isCancelButtonVisible = true"
-                            @blur="isCancelButtonVisible = false"
                             v-model="searchingLabel">
                     </div>
 
@@ -80,7 +79,6 @@ export default {
             this.labels = window.tags_list;
         },
         search() {
-            console.log('searching label on keyup');
             //if empty - show all the labels
             //if not empty - search for label containing specified text
         },
@@ -104,6 +102,8 @@ export default {
         cancel() {
             this.searchingLabel = "";
             this.isCancelButtonVisible = false;
+
+            //TODO: clear actual search
         }
     }
 }
