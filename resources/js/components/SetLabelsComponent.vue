@@ -62,7 +62,21 @@ export default {
     },
     methods: {
         createTag() {
-          alert(this.searchingLabel);
+            axios.post('tag', {
+                'tag_name': this.searchingLabel
+            }).then( res => this.addSearchingLabel() );
+        },
+        addSearchingLabel(res) {
+            this.labels.push(this.searchingLabel);
+            this.searchResults.push(this.searchingLabel);
+
+            window.events.$emit('refreshLabels', this.labels);
+
+            if (this.note.id === 'new_note') {
+                window.events.$emit('reload_new_note_tags', this.searchingLabel, true);
+            } else {
+                window.events.$emit('reload_note_tags', this.note.id);
+            }
         },
         toggleLabel(label) {
             if (this.note.id === 'new_note') {
