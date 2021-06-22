@@ -51,8 +51,13 @@ export default {
             navigation.classList.remove('z-10');
             navigation.classList.remove('fixed');
         });
+
+        window.events.$on('refreshLabels', this.refreshMenu);
     },
     methods: {
+        refreshMenu(labels) {
+            this.tag_names = labels.valueOf().flat();
+        },
         isMenuCollapsed() {
             return (window.localStorage.getItem('menu-collapsed') === 'true');
         },
