@@ -18,7 +18,7 @@
                             v-model="searchingLabel">
                     </div>
 
-                    <div class="form-check mb-3" v-for="(label, key) in labels">
+                    <div class="form-check mb-3" v-for="(label, key) in searchResults">
                         <input class="form-check-input" type="checkbox" :value="label"
                                :id="'tag-' + key"
                                :checked="setCheckedState(label)"
@@ -45,10 +45,11 @@ export default {
     data() {
         return {
             searchingLabel: '',
+            searchResults: this.$attrs.labels,
             labels: this.$attrs.labels,
             note: this.$attrs.note,
             isCancelButtonVisible: false,
-            attached_tags: [],
+            attached_tags: []
         };
     },
     created() {
@@ -77,10 +78,14 @@ export default {
         },
         getTags() {
             this.labels = window.tags_list;
+            this.searchResults = window.tags_list;
         },
         search() {
-            //if empty - show all the labels
-            //if not empty - search for label containing specified text
+            if(this.searchingLabel === '') {
+                this.searchResults = this.labels;
+            } else {
+                this.searchResults = this.labels.filter(label => label.toLowerCase().includes(this.searchingLabel.toLowerCase()) );
+            }
         },
         show(event_note_id, attached_tags) {
             if (this.note.id == event_note_id) {
@@ -103,7 +108,7 @@ export default {
             this.searchingLabel = "";
             this.isCancelButtonVisible = false;
 
-            //TODO: clear actual search
+            this.searchResults = this.labels;
         }
     }
 }
