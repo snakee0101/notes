@@ -27,6 +27,10 @@
                             {{ label }}
                         </label>
                     </div>
+
+                    <button class="btn btn-sm btn-outline-success"
+                            v-if="isNewTagButtonVisible"
+                            @click="createTag()">+ Create "{{ searchingLabel }}"</button>
                 </div>
             </div>
             <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
@@ -49,13 +53,17 @@ export default {
             labels: this.$attrs.labels,
             note: this.$attrs.note,
             isCancelButtonVisible: false,
-            attached_tags: []
+            attached_tags: [],
+            isNewTagButtonVisible: false
         };
     },
     created() {
         window.events.$on('open_set_labels_dialog', this.show);
     },
     methods: {
+        createTag() {
+          alert(this.searchingLabel);
+        },
         toggleLabel(label) {
             if (this.note.id === 'new_note') {
                 let tag_name = event.target.value;
@@ -83,8 +91,10 @@ export default {
         search() {
             if(this.searchingLabel === '') {
                 this.searchResults = this.labels;
+                this.isNewTagButtonVisible = false;
             } else {
                 this.searchResults = this.labels.filter(label => label.toLowerCase().includes(this.searchingLabel.toLowerCase()) );
+                this.isNewTagButtonVisible = (this.searchResults.length === 0);
             }
         },
         show(event_note_id, attached_tags) {
@@ -107,6 +117,7 @@ export default {
         cancel() {
             this.searchingLabel = "";
             this.isCancelButtonVisible = false;
+            this.isNewTagButtonVisible = false;
 
             this.searchResults = this.labels;
         }
