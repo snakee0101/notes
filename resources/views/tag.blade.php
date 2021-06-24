@@ -13,26 +13,16 @@
             <div class="pinned">
                 <p class="font-bold text-sm mb-2">PINNED</p>
 
-                <div v-masonry="app" transition-duration="0.3s" item-selector=".note" gutter=".gutter">
-                    <div class="gutter" style="width: 10px; height: 10px;"></div>
-                    @foreach($notes->where('pinned', true) as $note)
-                        <note-component note="{{ $note }}" v-masonry-tile>
+                <notes-container-component :notes="{{ $notes->where('pinned', true) }}">
 
-                        </note-component>
-                    @endforeach
-                </div>
+                </notes-container-component>
             </div>
 
             <div class="others">
                 <p class="font-bold text-sm mt-20 mb-2">OTHERS</p>
-                <div v-masonry="app" transition-duration="0.3s" item-selector=".note" gutter=".gutter">
-                    <div class="gutter" style="width: 10px; height: 10px;"></div>
-                    @foreach($notes->where('pinned', false) as $note)
-                        <note-component note="{{ $note }}" v-masonry-tile>
+                <notes-container-component :notes="{{ $notes->where('pinned', false) }}">
 
-                        </note-component>
-                    @endforeach
-                </div>
+                </notes-container-component>
             </div>
         @else
             <p class="text-center text-2xl mb-6 mt-20">

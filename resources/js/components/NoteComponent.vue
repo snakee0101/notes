@@ -331,7 +331,7 @@ export default {
                 'purple', 'pink', 'brown', 'grey'
             ],
             trashed: this.$attrs.istrashed,
-            note: JSON.parse(this.$attrs.note),
+            note: this.$attrs.note,
             repeat_ends: 'never',
             repeat_occurrences: 1,
             repeat_every_value: 1,
