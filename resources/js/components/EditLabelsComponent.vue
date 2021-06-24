@@ -135,7 +135,13 @@ export default {
             this.labels.splice(index, 1);
 
             axios.delete('/tag/' + this.deletingLabel)
-                .then(res => location.reload());
+                .then(this.reloadDeletingLabel);
+        },
+        reloadDeletingLabel() {
+            let is_current_label = location.href.includes( location.host + '/tag/' + encodeURI(this.deletingLabel) );
+
+            if(is_current_label)
+                location.href = '/';
         },
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
