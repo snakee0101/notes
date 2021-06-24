@@ -151,12 +151,19 @@ export default {
             return this.editingLabel === refName;
         },
         renameLabel(refName, key) {
+            let newLabelName = this.$refs[refName][0].value;
+
             axios.put('/tag/' + this.labels[key], {
-                new_name: this.$refs[refName][0].value
+                new_name: newLabelName
             }).then(res => {
-                this.labels[key] = this.$refs[refName][0].value;
-                this.editingLabel = '';
-                location.reload();
+                this.labels[key] = newLabelName;
+
+                let is_current_label = location.href.includes( 'tag/' + encodeURI(this.labels[key]) );
+
+                if(is_current_label) //if the user is on the current tag's page - got to the new tag's page
+                    location.href = '/tag/' + encodeURI(newLabelName);
+                else // if the user is not on the current tag's page - just reload the rage
+                    location.reload();
             });
         },
         hideUniqueError() {
