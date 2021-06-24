@@ -70,6 +70,8 @@ class NoteController extends Controller
                 User::whereIn('email', $request->collaboratorEmails)->get()
             );
         }
+
+        return $note->id;
     }
 
     /**

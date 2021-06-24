@@ -399,7 +399,6 @@ export default {
                 repeat: JSON.stringify(repeat)
             };
 
-            //window.events.$emit('update_reminder_label', this.note.id, time);
             this.$refs['dateTimePicker-modal'].hide();
         },
         storeReminder(text_time) {
@@ -441,7 +440,19 @@ export default {
                 reminder_json: JSON.stringify(this.reminder_json),
                 tags: this.tags,
                 collaboratorEmails: this.collaboratorEmails
-           }).finally(() => location.reload());
+            }).then(this.attach_images)
+              .finally(() => location.reload());
+        },
+        attach_images(result) {
+            let note_id = result.data;
+
+            this.images.forEach(function(image){
+                let data = new FormData();
+                data.append('image', image, image.name);
+                data.append('note_id', note_id);
+
+                axios.post('/image', data);
+            });
         },
         pin() {
             this.note.pinned = !this.note.pinned;
