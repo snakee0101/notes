@@ -13,6 +13,19 @@
             <i class="bi bi-pin icon" v-else></i>
         </a>
 
+        <div class="images">
+            <div class="inline-block relative m-2" v-for="(encoded_image, index) in encoded_images">
+                <img :src="encoded_image" style="height: 120px; width: 120px">
+                <a class="bg-gray-300 rounded-full absolute top-1 left-1"
+                   v-b-tooltip.hover.bottom
+                   title="Delete image"
+                   style="cursor: pointer"
+                   @click.prevent="delete_image(index)">
+                    <i class="bi bi-x icon"></i>
+                </a>
+            </div>
+        </div>
+
         <textarea name="note_header" placeholder="Title"
                   class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent text-xl"
                   v-model="note.header">
@@ -265,6 +278,8 @@ export default {
                 'purple', 'pink', 'brown', 'grey'
             ],
             collaboratorEmails: [],
+            images: [],
+            encoded_images: [],
             note: {
                 header: '',
                 body: '',
@@ -441,16 +456,20 @@ export default {
             this.$refs['image'].click();
         },
         handleFiles() {
-            let image = this.$refs['image'].files[0];
+            let file = this.$refs['image'].files[0];
 
-            let data = new FormData();
-            data.append('image', image, image.name);
+            this.images.push(file);
+            const reader = new FileReader();
 
-            //window.newImageComponent = this;
+            reader.onloadend = () => {
+                 this.encoded_images.push(reader.result);
+            };
 
-            /*axios.post('/image', data).then(function (result) {
-                window.events.$emit('refresh_image', result.data);
-            });*/
+            reader.readAsDataURL(file);
+        },
+        delete_image(index) {
+            this.images.splice(index, 1);
+            this.encoded_images.splice(index, 1);
         }
     }
 }
