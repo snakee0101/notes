@@ -134,8 +134,8 @@ export default {
             let index = this.labels.indexOf(this.deletingLabel);
             this.labels.splice(index, 1);
 
-            axios.delete('tag/' + this.deletingLabel)
-                .then(res => location.href = '');
+            axios.delete('/tag/' + this.deletingLabel)
+                .then(res => location.reload());
         },
         focusOnLabel(refName) {
             this.$refs[refName][0].focus();
@@ -145,12 +145,12 @@ export default {
             return this.editingLabel === refName;
         },
         renameLabel(refName, key) {
-            axios.put(this.labels[key], {
+            axios.put('/tag/' + this.labels[key], {
                 new_name: this.$refs[refName][0].value
             }).then(res => {
                 this.labels[key] = this.$refs[refName][0].value;
                 this.editingLabel = '';
-                location.href = '/';
+                location.reload();
             });
         },
         hideUniqueError() {
@@ -171,7 +171,7 @@ export default {
             this.clearNewLabel();
             this.hideCancelButton();
 
-            axios.post('tag', {
+            axios.post('/tag', {
                 'tag_name': label
             }).then( (res) => this.labels.push(label) )
               .finally( () => window.events.$emit('refreshLabels', this.labels) );
