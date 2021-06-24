@@ -339,11 +339,10 @@ export default {
             this.tags.splice(this.tags.indexOf(tag_name), 1);
         },
         reload_tags(tag_name, isChecked) {
-           if(isChecked) {
+           if(isChecked)
                this.tags.push(tag_name);
-           } else {
-               this.tags.splice(this.tags.indexOf(tag_name), 1);
-           }
+           else
+               this.detach_tag(tag_name);
         },
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', 'new_note', this.tags);
