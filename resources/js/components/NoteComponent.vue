@@ -566,15 +566,8 @@ export default {
                 this.showRemindersDropdown();
         },
         pin() {
-            if (this.note.pinned) {
-                axios.put('/note/' + this.note.id, {'pinned': false});
-                document.querySelector('div.others').appendChild(this.$refs.note);
-            } else {
-                axios.put('/note/' + this.note.id, {'pinned': true});
-                document.querySelector('div.pinned').appendChild(this.$refs.note);
-            }
-
             this.note.pinned = !this.note.pinned;
+            axios.put('/note/' + this.note.id, {'pinned': this.note.pinned});
         },
         isActive(color) {
             return (this.note.color === color) ? 'active' : '';

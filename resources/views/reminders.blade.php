@@ -10,20 +10,9 @@
         </div>
 
         @if( ! $notes->isEmpty() )
-            <div class="pinned">
-                <p class="font-bold text-sm mb-2">PINNED</p>
+            <notes-container-component :notes="{{ $notes }}">
 
-                <notes-container-component :notes="{{ $notes->where('pinned', true) }}">
-
-                </notes-container-component>
-            </div>
-
-            <div class="others">
-                <p class="font-bold text-sm mt-20 mb-2">OTHERS</p>
-                <notes-container-component :notes="{{ $notes->where('pinned', false) }}">
-
-                </notes-container-component>
-            </div>
+            </notes-container-component>
         @else
             <p class="text-center text-2xl mb-6 mt-14">
                 <i class="bi bi-bell-fill icon-xl"></i>

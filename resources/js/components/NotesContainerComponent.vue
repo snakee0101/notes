@@ -1,33 +1,63 @@
 <template>
-    <div v-masonry="app" transition-duration="0.3s" item-selector=".note" gutter=".gutter">
-        <div class="gutter"></div>
+    <div>
+        <div class="pinned">
+            <p class="font-bold text-sm mb-2">PINNED</p>
 
-        <note-component v-masonry-tile
-                        v-for="noteObject in notesCollection"
-                        :key="noteObject.id"
-                        :note="noteObject"
-                        :isTrashed="is_trashed">
+            <div v-masonry="app" transition-duration="0.3s" item-selector=".note" gutter=".gutter">
+                <div class="gutter"></div>
 
-        </note-component>
+                <note-component v-masonry-tile
+                                v-for="note in pinned_notes"
+                                :key="note.id"
+                                :note="note"
+                                :isTrashed="is_trashed">
+
+                </note-component>
+            </div>
+        </div>
+
+        <div class="others">
+            <p class="font-bold text-sm mt-20 mb-2">OTHERS</p>
+
+            <div v-masonry="app" transition-duration="0.3s" item-selector=".note" gutter=".gutter">
+                <div class="gutter"></div>
+
+                <note-component v-masonry-tile
+                                v-for="note in other_notes"
+                                :key="note.id"
+                                :note="note"
+                                :isTrashed="is_trashed">
+
+                </note-component>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    export default {
-        props: ['notes', 'isTrashed'],
-        data() {
-            return {
-                notesCollection: this.notes,
-                is_trashed: !!(this.isTrashed)
-            };
+export default {
+    name: "NotesContainerComponent",
+    props: ['notes', 'isTrashed'],
+    data() {
+        return {
+            is_trashed: !!(this.isTrashed),
+            notesCollection: this.notes
+        };
+    },
+    computed: {
+        pinned_notes() {
+            return this.notesCollection.filter( (value) => value.pinned === true );
         },
-        name: "NotesContainerComponent"
+        other_notes() {
+            return this.notesCollection.filter( (value) => value.pinned === false );
+        }
     }
+}
 </script>
 
 <style scoped>
-    .gutter {
-        width: 10px;
-        height: 10px;
-    }
+.gutter {
+    width: 10px;
+    height: 10px;
+}
 </style>
