@@ -44,12 +44,20 @@ export default {
             notesCollection: this.notes
         };
     },
+    created() {
+      window.events.$on('note_created', this.addCreatedNote);
+    },
     computed: {
         pinned_notes() {
             return this.notesCollection.filter( (value) => value.pinned === true );
         },
         other_notes() {
             return this.notesCollection.filter( (value) => value.pinned === false );
+        }
+    },
+    methods: {
+        addCreatedNote(note) {
+            this.notesCollection.unshift(note)
         }
     }
 }

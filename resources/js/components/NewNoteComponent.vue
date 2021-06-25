@@ -440,18 +440,22 @@ export default {
                 tags: this.tags,
                 collaboratorEmails: this.collaboratorEmails
             }).then(this.attach_images)
-              .finally(() => location.reload());
         },
         attach_images(result) {
-            let note_id = result.data;
+            let note = result.data;
 
             this.images.forEach(function(image){
                 let data = new FormData();
                 data.append('image', image, image.name);
-                data.append('note_id', note_id);
+                data.append('note_id', note.id);
 
                 axios.post('/image', data);
             });
+
+            this.refreshNotesContainer(note)
+        },
+        refreshNotesContainer(note) {
+            window.events.$emit('note_created', note);
         },
         pin() {
             this.note.pinned = !this.note.pinned;
