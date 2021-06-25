@@ -242,4 +242,24 @@ class NoteTest extends TestCase
 
         $this->assertDatabaseCount('notes', 2);
     }
+
+    public function test_a_note_without_remainder_could_be_duplicated()
+    {
+        $note = Note::factory()->create();
+        $note->reminder()->delete();
+        $note->push();
+
+        auth()->login($note->owner);
+        $this->post(route('note.duplicate', $note))->assertOk();
+    }
+
+    public function test_a_note_without_tags_could_be_duplicated()
+    {
+        $note = Note::factory()->create();
+        $note->tags()->delete();
+        $note->push();
+
+        auth()->login($note->owner);
+        $this->post(route('note.duplicate', $note))->assertOk();
+    }
 }

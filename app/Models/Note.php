@@ -120,15 +120,19 @@ class Note extends Model
         $replica->push();
 
         //replicate the reminder
-        $reminder = $this->reminder->replicate();
-        $reminder->note_id = $replica->id;
-        $reminder->push();
+        if($this->reminder) {
+            $reminder = $this->reminder->replicate();
+            $reminder->note_id = $replica->id;
+            $reminder->push();
+        }
 
         //replicate the tags
-        $replica->tags()->saveMany( $this->tags()->get() );
-        $replica->push();
+            $replica->tags()->saveMany( $this->tags()->get() );
+            $replica->push();
 
-        $this->images->each->makeCopy($replica);
+        //replicate the image
+        if($this->images)
+            $this->images->each->makeCopy($replica);
 
         $replica->push();
 
