@@ -71,7 +71,7 @@ class NoteController extends Controller
             );
         }
 
-        return $note->id;
+        return $note;
     }
 
     /**

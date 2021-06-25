@@ -57,6 +57,16 @@ class NoteTest extends TestCase
         $this->assertEquals($this->userData['type'], $note->type);
     }
 
+    public function test_the_note_is_returned_after_creation()
+    {
+        $user = UserFactory::times(1)->createOne();
+        auth()->login($user);
+
+        $response = $this->post(route('note.store'), $this->userData);
+
+        $this->assertEquals(Note::first()->id, json_decode($response->content())->id);
+    }
+
     public function test_a_note_could_be_saved_with_collaborators()
     {
         $owner = UserFactory::times(1)->createOne();
