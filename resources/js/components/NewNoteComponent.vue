@@ -420,6 +420,10 @@ export default {
                 .format('YYYY-MM-DD HH:mm:ss');
 
             this.reminder_json = {'time': formatted_time};
+
+            this.pickedDate = time[text_time].set({'minute': 0, 'second': 0}).format('YYYY-MM-DD');
+            this.pickedTime = time[text_time].set({'minute': 0, 'second': 0}).format('HH:mm:ss');
+            this.repeatStatus = "Doesn't repeat";
         },
         getReminderTime() {
             let reminder_date = this.reminder_json.time;
