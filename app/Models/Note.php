@@ -136,6 +136,10 @@ class Note extends Model
 
         $replica->push();
 
+        //replicate the collaborators
+        $replica->collaborators()->saveMany( $this->collaborators );
+        $replica->push();
+
         return $replica->fresh();
     }
 }

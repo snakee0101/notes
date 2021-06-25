@@ -262,4 +262,20 @@ class NoteTest extends TestCase
         auth()->login($note->owner);
         $this->post(route('note.duplicate', $note))->assertOk();
     }
+
+    public function test_a_note_could_duplicate_collaborators()
+    {
+        $note = Note::factory()->create();
+        $note->collaborators()->save( $collaborator = User::factory()->create() );
+        $note->push();
+
+        auth()->login($note->owner);
+        $response = $this->post(route('note.duplicate', $note));
+
+
+        $duplicated_note_id = $response->json('id');
+        $duplicated_note = Note::find($duplicated_note_id);
+
+        $this->assertEquals($collaborator->id, $duplicated_note->collaborators()->first()->id);
+    }
 }
