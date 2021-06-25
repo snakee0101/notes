@@ -490,11 +490,10 @@ export default {
         },
         copy() {
             axios.post('/note/duplicate/' + this.note.id)
-                .then(res => window.duplicatedNote = res.data);
-
-            console.log(window.duplicatedNote);
-
-            //window.events.$emit('note_created', window.duplicatedNote);
+                .then(this.copyCallback);
+        },
+        copyCallback(res) {
+            window.events.$emit('note_created', res.data);
             window.events.$emit('show-notification', 'Note created', this.undoCopy);
         },
         undoCopy() {

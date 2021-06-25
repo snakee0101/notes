@@ -50,15 +50,21 @@ export default {
     },
     computed: {
         pinned_notes() {
-            return this.notesCollection.filter( (value) => value.pinned === true );
+            return this.notesCollection.filter( function(value){
+                if(value !== undefined)
+                    return value.pinned === true;
+            });
         },
         other_notes() {
-            return this.notesCollection.filter( (value) => value.pinned === false );
+            return this.notesCollection.filter( function(value){
+                if(value !== undefined)
+                    return value.pinned === false;
+            });
         }
     },
     methods: {
         addNote(note) {
-            this.notesCollection.unshift(note)
+            this.notesCollection.unshift(note);
         },
         /*deleteNote(note) {
             let index = this.notesCollection.indexOf(note);
