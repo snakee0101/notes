@@ -38,7 +38,8 @@
             <a v-if="reminder_json.time"
                @click.self.prevent="pickDateAndTime()"
                href="#"
-               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2"
+               style="border: 1px solid black!important;">
                 <i class="bi bi-alarm icon" @click.self.prevent="pickDateAndTime()"></i>
                 <span ref="updated_reminder_time" @click.self.prevent="pickDateAndTime()">{{ getReminderTime() }}</span>
                 <a class="bg-gray-300 rounded-full"
@@ -50,7 +51,8 @@
             </a>
             <a v-for="tag in tags"
                :href="'/tag/' + tag"
-               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2"
+               style="border: 1px solid black!important;">
                 {{ tag }}
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
@@ -61,7 +63,8 @@
             </a>
             <a v-for="collaboratorEmail in collaboratorEmails" href="#"
                @click.prevent="showCollaboratorsDialog()"
-               class="inline-block mr-2 rounded-full px-2 py-0 text-sm group" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full px-2 py-0 text-sm group"
+               style="border: 1px solid black!important;">
                 Shared with {{ collaboratorEmail }}
             </a>
         </div>
@@ -187,7 +190,8 @@
             </div>
             <div class="mt-4">
                 <p class="mb-2 font-bold">Select repeat status</p>
-                <b-form-select v-model="repeatStatus" class="mb-3" selected="Doesn't repeat" @change="showCustomRepeatOptions()">
+                <b-form-select v-model="repeatStatus" class="mb-3" selected="Doesn't repeat"
+                               @change="showCustomRepeatOptions()">
                     <b-form-select-option value="Doesn't repeat">Doesn't repeat</b-form-select-option>
                     <b-form-select-option value="Daily">Daily</b-form-select-option>
                     <b-form-select-option value="Weekly">Weekly</b-form-select-option>
@@ -232,7 +236,8 @@
                         </p>
                         <p>
                             <label>
-                                <input type="radio" name="repeat_ends" v-model="repeat_ends" id="occurrences" value="occurrences"
+                                <input type="radio" name="repeat_ends" v-model="repeat_ends" id="occurrences"
+                                       value="occurrences"
                                        ref="occurrences_switch">
                                 After
                                 <input type="text" v-model="repeat_occurrences"
@@ -244,7 +249,8 @@
                         <p>
                             <label>
                                 <input type="radio" name="repeat_ends" v-model="repeat_ends" value="date">
-                                On:  <b-form-datepicker v-model="pickedRepeatsDate"></b-form-datepicker>
+                                On:
+                                <b-form-datepicker v-model="pickedRepeatsDate"></b-form-datepicker>
                             </label>
                         </p>
                     </div>
@@ -303,13 +309,13 @@ export default {
             weekdaysShown: false,
             weekdays: [],
             weekdaysOptions: [
-                { text: 'Mon', value: 'Monday' },
-                { text: 'Tue', value: 'Tuesday' },
-                { text: 'Wed', value: 'Wednesday' },
-                { text: 'Thu', value: 'Thursday' },
-                { text: 'Fri', value: 'Friday' },
-                { text: 'Sat', value: 'Saturday' },
-                { text: 'Sun', value: 'Sunday' },
+                {text: 'Mon', value: 'Monday'},
+                {text: 'Tue', value: 'Tuesday'},
+                {text: 'Wed', value: 'Wednesday'},
+                {text: 'Thu', value: 'Thursday'},
+                {text: 'Fri', value: 'Friday'},
+                {text: 'Sat', value: 'Saturday'},
+                {text: 'Sun', value: 'Sunday'},
             ]
         };
     },
@@ -321,11 +327,11 @@ export default {
         //TODO: Save the note when clicked outside feature
 
         //Set the tag if it exists
-        if(this.$attrs.tag_name)
+        if (this.$attrs.tag_name)
             this.tags[0] = this.$attrs.tag_name;
 
         //Set the remainder if it exists
-        if(this.hasRemainder)
+        if (this.hasRemainder)
             this.storeReminder('soon');
     },
     methods: {
@@ -339,10 +345,10 @@ export default {
             this.tags.splice(this.tags.indexOf(tag_name), 1);
         },
         reload_tags(tag_name, isChecked) {
-           if(isChecked)
-               this.tags.push(tag_name);
-           else
-               this.detach_tag(tag_name);
+            if (isChecked)
+                this.tags.push(tag_name);
+            else
+                this.detach_tag(tag_name);
         },
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', 'new_note', this.tags);
@@ -372,29 +378,29 @@ export default {
             let time = this.pickedDate + ' ' + this.pickedTime;
             let repeat = '';
 
-            if(this.repeatStatus !== "Doesn't repeat") {
+            if (this.repeatStatus !== "Doesn't repeat") {
                 repeat = {
-                    every : {
+                    every: {
                         number: Number(this.repeat_every_value),
                         unit: this.repeat_every_unit
                     }
                 };
 
-                if(this.weekdays.length > 0)
+                if (this.weekdays.length > 0)
                     repeat.every.weekdays = this.weekdays;
 
-                if(this.repeat_ends !== 'never')
-                    repeat.ends = {after : '', on_date : ''};
+                if (this.repeat_ends !== 'never')
+                    repeat.ends = {after: '', on_date: ''};
 
-                if(this.repeat_ends === "occurrences")
+                if (this.repeat_ends === "occurrences")
                     repeat.ends.after = Number(this.repeat_occurrences);
 
-                if(this.repeat_ends === "date")
+                if (this.repeat_ends === "date")
                     repeat.ends.on_date = this.pickedRepeatsDate + ' 00:00:00';
             }
 
             this.reminder_json = {
-                time : time,
+                time: time,
                 repeat: JSON.stringify(repeat)
             };
 
@@ -422,7 +428,7 @@ export default {
             return moment(reminder_date).format('MMM D, H:mm A');
         },
         removeReminder() {
-          this.reminder_json = { };
+            this.reminder_json = {};
         },
         checkLaterTodayVisibility() {
             let evening = (new Date).setHours(19, 0, 0);
@@ -444,7 +450,7 @@ export default {
         attach_images(result) {
             let note = result.data;
 
-            this.images.forEach(function(image){
+            this.images.forEach(function (image) {
                 let data = new FormData();
                 data.append('image', image, image.name);
                 data.append('note_id', note.id);
@@ -452,10 +458,41 @@ export default {
                 axios.post('/image', data);
             });
 
-            this.refreshNotesContainer(note)
+            this.refreshNotesContainer(note);
+            this.reset();
         },
         refreshNotesContainer(note) {
             window.events.$emit('note_created', note);
+        },
+        reset() {
+            this.note = {
+                header: '',
+                body: '',
+                pinned: false,
+                archived: false,
+                color: 'white',
+                type: 'text'
+            };
+            this.$refs['new-note-editor'].value = '';
+
+            this.collaboratorEmails = [];
+            this.images = [];
+            this.encoded_images = [];
+
+            this.pickedDate = '';
+            this.pickedTime = '';
+            this.pickedRepeatsDate = '';
+            this.repeatStatus = '';
+            this.reminder_json = ''; //TODO: initialize
+            this.customRepeatStatusShown = false;
+            this.tags = []; //TODO: initialize
+
+            this.repeat_ends = 'never';
+            this.repeat_occurrences = 1;
+            this.repeat_every_value = 1;
+            this.repeat_every_unit = 'day';
+            this.weekdaysShown = false;
+            this.weekdays = [];
         },
         pin() {
             this.note.pinned = !this.note.pinned;
@@ -476,7 +513,7 @@ export default {
             const reader = new FileReader();
 
             reader.onloadend = () => {
-                 this.encoded_images.push(reader.result);
+                this.encoded_images.push(reader.result);
             };
 
             reader.readAsDataURL(file);
