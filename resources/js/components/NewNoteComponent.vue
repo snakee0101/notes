@@ -485,9 +485,11 @@ export default {
             this.pickedTime = '';
             this.pickedRepeatsDate = '';
             this.repeatStatus = '';
-            this.reminder_json = ''; //TODO: initialize
             this.customRepeatStatusShown = false;
-            this.tags = []; //TODO: initialize
+
+            this.reminder_json = '';
+            this.tags = [];
+            this.initialize_dependencies();
 
             this.repeat_ends = 'never';
             this.repeat_occurrences = 1;
