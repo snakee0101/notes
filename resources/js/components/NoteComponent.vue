@@ -47,7 +47,7 @@
                href="#"
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
                 <i class="bi bi-alarm icon" @click.self.prevent="pickDateAndTime()"></i>
-                <span ref="updated_reminder_time" @click.self.prevent="pickDateAndTime()">{{ getReminderTime() }}</span>
+                <span ref="updated_reminder_time" @click.self.prevent="pickDateAndTime()">{{ this.remainder_time_formatted }}</span>
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove reminder"
@@ -353,9 +353,18 @@ export default {
         setInterval(this.checkLaterTodayVisibility, 500);
 
         window.events.$on('refresh_image', this.refreshImage);
-        window.events.$on('update_reminder_label', this.updateReminderLabel);
         window.events.$on('reload_reminder_json', this.reload_reminder_json);
         window.events.$on('reload_note_tags', this.reload_tags);
+    },
+    computed: {
+        remainder_time_formatted() {
+            let reminder_date = this.note.reminder_json.time;
+
+            if (moment(reminder_date).year() > moment().year())
+                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
+
+            return moment(reminder_date).format('MMM D, H:mm A');
+        }
     },
     methods: {
         reload_tags(note_id) {
@@ -421,10 +430,6 @@ export default {
                     }
             }
         },
-        updateReminderLabel(noteId, time) {
-            if(noteId == this.note.id)
-                this.$refs['updated_reminder_time'].innerHTML = this.getReminderTime(time);
-        },
         saveReminder() {
             let time = this.pickedDate + ' ' + this.pickedTime;
             let repeat = '';
@@ -455,14 +460,15 @@ export default {
                 repeat: JSON.stringify(repeat)
             });
 
-            window.events.$emit('update_reminder_label', this.note.id, time);
             this.$refs['dateTimePicker-modal'].hide();
 
             axios.get('/reminder/' + this.note.id)
                  .then(res => window.events.$emit('reload_reminder_json', res));
         },
         reload_reminder_json(res) {
-            this.note.reminder_json = res.data;
+            console.log(res.data);
+            if(this.note.id == res.data.note_id) //update the remainder label only if the note owns current remainder
+                this.note.reminder_json = res.data;
         },
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');
@@ -530,16 +536,6 @@ export default {
                 this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
-        },
-        getReminderTime(time) {
-            let reminder_date = this.note.reminder_json.time;
-            if(time)
-                reminder_date = time;
-
-            if (moment(reminder_date).year() > moment().year())
-                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
-
-            return moment(reminder_date).format('MMM D, H:mm A');
         },
         refreshImage(data) {
             if (Object.is(this, window.newImageComponent))
