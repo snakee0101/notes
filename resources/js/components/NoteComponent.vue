@@ -586,12 +586,14 @@ export default {
             this.shown = false;
 
             window.events.$emit('show-notification', 'Note deleted', this.undoDelete);
+            //window.events.$emit('note_deleted', this.note);
         },
         undoDelete() {
             axios.post('note/restore/' + this.note.id);
             this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
+            //window.events.$emit('note_created', this.note);
         },
         undoRestore() {
             axios.delete('note/' + this.note.id);

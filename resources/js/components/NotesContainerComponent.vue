@@ -45,7 +45,8 @@ export default {
         };
     },
     created() {
-      window.events.$on('note_created', this.addCreatedNote);
+      window.events.$on('note_created', this.addNote);
+      //window.events.$on('note_deleted', this.deleteNote);
     },
     computed: {
         pinned_notes() {
@@ -56,9 +57,13 @@ export default {
         }
     },
     methods: {
-        addCreatedNote(note) {
+        addNote(note) {
             this.notesCollection.unshift(note)
-        }
+        },
+        /*deleteNote(note) {
+            let index = this.notesCollection.indexOf(note);
+            this.notesCollection.splice(index,1);
+        }*/
     }
 }
 </script>
