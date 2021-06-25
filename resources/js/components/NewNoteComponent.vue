@@ -325,16 +325,18 @@ export default {
         window.events.$on('save_new_note_collaborators', this.reload_collaborators);
 
         //TODO: Save the note when clicked outside feature
-
-        //Set the tag if it exists
-        if (this.$attrs.tag_name)
-            this.tags[0] = this.$attrs.tag_name;
-
-        //Set the remainder if it exists
-        if (this.hasRemainder)
-            this.storeReminder('soon');
+        this.initialize_dependencies();
     },
     methods: {
+        initialize_dependencies() {
+            //Set the tag if it exists
+            if (this.$attrs.tag_name)
+                this.tags[0] = this.$attrs.tag_name;
+
+            //Set the remainder if it exists
+            if (this.hasRemainder)
+                this.storeReminder('soon');
+        },
         reload_collaborators(emails) {
             this.collaboratorEmails = emails;
         },
