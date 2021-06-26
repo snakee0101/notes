@@ -314,6 +314,7 @@ import SetLabelsComponent from "./SetLabelsComponent";
 export default {
     name: "NoteComponent",
     components: {SetLabelsComponent},
+    props: ['isTrashed'],
     data() {
         return {
             editing: false,
@@ -330,7 +331,7 @@ export default {
                 'green', 'teal', 'blue', 'dark-blue',
                 'purple', 'pink', 'brown', 'grey'
             ],
-            trashed: this.$attrs.istrashed,
+            trashed: this.isTrashed,
             note: this.$attrs.note,
             repeat_ends: 'never',
             repeat_occurrences: 1,

@@ -10,7 +10,7 @@
                                 v-for="note in pinned_notes"
                                 :key="note.id"
                                 :note="note"
-                                :isTrashed="is_trashed">
+                                :isTrashed="isTrashed">
 
                     </note-component>
             </div>
@@ -26,7 +26,7 @@
                                 v-for="note in other_notes"
                                 :key="note.id"
                                 :note="note"
-                                :isTrashed="is_trashed">
+                                :isTrashed="isTrashed">
 
                 </note-component>
             </div>
@@ -40,7 +40,6 @@ export default {
     props: ['notes', 'isTrashed'],
     data() {
         return {
-            is_trashed: !!(this.isTrashed),
             notesCollection: this.notes
         };
     },

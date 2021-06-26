@@ -4,7 +4,7 @@
     <empty-trash-component></empty-trash-component>
 
     @if( ! $notes->isEmpty() )
-        <notes-container-component :notes="{{ $notes }}" :isTrashed="true">
+        <notes-container-component :notes="{{ $notes }}" :is-trashed="true">
 
         </notes-container-component>
     @else
