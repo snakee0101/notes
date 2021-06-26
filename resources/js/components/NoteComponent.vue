@@ -352,7 +352,6 @@ export default {
         setInterval(this.checkLaterTodayVisibility, 500);
 
         window.events.$on('refresh_image', this.refreshImage);
-        window.events.$on('reload_reminder_json', this.reload_reminder_json);
         window.events.$on('reload_note_tags', this.reload_tags);
     },
     computed: {
@@ -462,12 +461,10 @@ export default {
             this.$refs['dateTimePicker-modal'].hide();
 
             axios.get('/reminder/' + this.note.id)
-                 .then(res => window.events.$emit('reload_reminder_json', res));
+                 .then(res => this.reload_reminder_json(res));
         },
         reload_reminder_json(res) {
-            console.log(res.data);
-            if(this.note.id == res.data.note_id) //update the remainder label only if the note owns current remainder
-                this.note.reminder_json = res.data;
+            this.note.reminder_json = res.data;
         },
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');
