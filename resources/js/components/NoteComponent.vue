@@ -14,10 +14,9 @@
         </a>
 
         <a href="" class="absolute bg-black rounded-full hidden group-hover:inline-block" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
-           @click.prevent=""
-           v-if="!trashed">
+           @click.prevent="toggleSelect()">
             <i class="bi bi-check icon-sm text-white"
-               v-b-tooltip.hover.bottom title="Deselect note" v-if="true"></i>
+               v-b-tooltip.hover.bottom title="Deselect note" v-if="selected"></i>
 
             <i class="bi bi-check icon-sm text-white"
                v-b-tooltip.hover.bottom title="Select note" v-else></i>
@@ -345,6 +344,7 @@ export default {
             repeat_occurrences: 1,
             repeat_every_value: 1,
             repeat_every_unit: 'day',
+            selected: false,
             weekdaysShown: false,
             weekdays: [],
             weekdaysOptions: [
@@ -374,6 +374,9 @@ export default {
         }
     },
     methods: {
+        toggleSelect() {
+            this.selected = !this.selected;
+        },
         reload_tags(note_id) {
             if(note_id == this.note.id) {
                 axios.post('/note/' + note_id + '/get_tags')
