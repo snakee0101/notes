@@ -293,6 +293,10 @@ section.search.active {
     @apply bg-gray-200 !important;
 }
 
+.dropdown-item {
+    padding: .75rem 1.5rem!important;
+}
+
 .dateTimePicker-modal .modal-content {
     padding: 1rem;
 }
