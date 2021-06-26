@@ -46,6 +46,7 @@ export default {
     created() {
       window.events.$on('note_created', this.addNote);
       window.events.$on('note_deleted', this.deleteNote);
+      window.events.$on('trash_emptied', this.clearAll);
     },
     computed: {
         pinned_notes() {
@@ -65,6 +66,9 @@ export default {
         },
         deleteNote(note) {
             this.notesCollection.splice( this.notesCollection.indexOf(note) ,1);
+        },
+        clearAll() {
+            this.notesCollection = [];
         }
     }
 }

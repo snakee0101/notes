@@ -31,7 +31,7 @@ export default {
         emptyTrash() {
             this.$refs['trash-confirmation'].hide();
             axios.delete('/trash/empty').then(
-                res => location.reload()
+                res => window.events.$emit('trash_emptied')
             );
         }
     }
