@@ -4,7 +4,7 @@
         <section class="note-actions-panel"
                  v-if="notes.length">
 
-            <div class="trashed_note_actions flex flex-row justify-between items-center py-2 pb-4 px-3 border-b-2 border-gray-300" v-if="isOnTrashedPage()">
+            <div class="trashed_note_actions flex flex-row justify-between items-center py-2 pb-4 px-3 border-b-2 border-gray-300" v-if="isOnPage('/trash')">
                 <div class="flex flex-row items-center">
                     <a href="" class="mr-2 rounded-full"
                        @click.prevent="clearSelection()"
@@ -141,8 +141,8 @@ export default {
         removeNote(note) {
             this.notes.splice( this.notes.indexOf(note) ,1);
         },
-        isOnTrashedPage() {
-            return location.href.includes('/trash');
+        isOnPage(page) {
+            return location.href.includes(page);
         },
         clearSelection() {
             //TODO: clears the selection
