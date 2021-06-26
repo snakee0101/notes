@@ -648,7 +648,7 @@ export default {
 
             let tagsLocation = 'tag/' + encodeURIComponent(tag);
             if (location.href.includes(tagsLocation))
-                this.shown = false;
+                window.events.$emit('note_deleted', this.note);
         }
     }
 }
