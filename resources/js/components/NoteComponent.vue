@@ -13,14 +13,20 @@
                v-b-tooltip.hover.bottom title="Pin" v-else></i>
         </a>
 
-        <a href="" class="absolute bg-black rounded-full hidden group-hover:inline-block" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
-           @click.prevent="toggleSelect()">
+        <a href="" class="absolute bg-black rounded-full" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
+           @click.prevent="toggleSelect()"
+           v-if="selected">
             <i class="bi bi-check icon-sm text-white"
-               v-b-tooltip.hover.bottom title="Deselect note" v-if="selected"></i>
-
-            <i class="bi bi-check icon-sm text-white"
-               v-b-tooltip.hover.bottom title="Select note" v-else></i>
+               v-b-tooltip.hover.bottom title="Deselect note"></i>
         </a>
+
+        <a href="" class="absolute bg-black rounded-full hidden group-hover:inline-block" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
+           @click.prevent="toggleSelect()"
+           v-else>
+            <i class="bi bi-check icon-sm text-white"
+               v-b-tooltip.hover.bottom title="Select note"></i>
+        </a>
+
 
         <div class="images">
             <img :src="image.thumbnail_small_path" v-for="image in note.images_json">
