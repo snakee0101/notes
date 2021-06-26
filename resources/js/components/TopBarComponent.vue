@@ -11,6 +11,7 @@
             <div class="trashed_note_actions flex flex-row justify-between items-center py-2 px-3 border-b-2 border-gray-300" v-else>
                 <div class="flex flex-row items-center">
                     <a href="" class="mr-2 rounded-full"
+                       @click.prevent="clearSelection()"
                        v-b-tooltip.hover.bottom
                        title="Clear selection">
                         <i class="bi bi-x icon-lg text-black"></i>
@@ -21,12 +22,14 @@
 
                 <div class="flex flex-row items-center">
                     <a href="" class="mr-3 rounded-full"
+                       @click.prevent="deleteForever()"
                        v-b-tooltip.hover.bottom
                        title="Delete forever">
                         <i class="bi bi-trash2 icon" style="color: rgb(26, 86, 219)"></i>
                     </a>
 
                     <a href="" class="mr-2 rounded-full mt-1"
+                       @click.prevent="restore()"
                        v-b-tooltip.hover.bottom
                        title="Restore">
                         <i class="bi bi-recycle icon-lg text-black">
@@ -84,6 +87,15 @@ export default {
         },
         removeNote(note) {
             this.notes.splice( this.notes.indexOf(note) ,1);
+        },
+        clearSelection() {
+            alert('clears the selection');
+        },
+        deleteForever() {
+            alert('deletes the note forever');
+        },
+        restore() {
+            alert('restores the note');
         }
     }
 }
