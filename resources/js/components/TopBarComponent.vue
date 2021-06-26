@@ -1,9 +1,29 @@
 <template>
     <header>
 
-        <section class="note-actions-panel flex flex-row justify-between py-2 px-3 shadow-sm items-center"
+        <section class="note-actions-panel"
                  v-if="notes.length">
-            Note actions panel
+
+            <div class="regular_note_actions flex flex-row justify-between items-center py-2 px-3" v-if="false"> <!--TODO: Check whether it is a regular note by page name-->
+
+            </div>
+
+            <div class="trashed_note_actions flex flex-row justify-between items-center py-2 px-3 border-b-2 border-gray-300" v-else>
+                <div class="flex flex-row items-center">
+                    <a href="" class="mr-2 rounded-full"
+                       v-b-tooltip.hover.bottom
+                       title="Clear selection">
+                        <i class="bi bi-x icon-lg text-black"></i>
+                    </a>
+
+                    <p class="m-0 text-xl">{{ notes.length }} selected</p>
+                </div>
+
+                <div>
+
+                </div>
+            </div>
+
         </section>
 
         <section class="flex flex-row justify-between py-2 px-3 shadow-sm items-center" v-else>
