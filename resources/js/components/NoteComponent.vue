@@ -533,7 +533,7 @@ export default {
             this.note.reminder_json = null;
 
             if (location.href.includes('/reminder'))
-                this.shown = false;
+                window.events.$emit('note_deleted', this.note);
 
             window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
         },
@@ -542,7 +542,7 @@ export default {
             this.note.reminder_json = {'time': window.ReminderTime};
 
             if (location.href.includes('/reminder'))
-                this.shown = true;
+                window.events.$emit('note_created', this.note);
 
             window.events.$emit('show-notification', 'Action undone');
         },
