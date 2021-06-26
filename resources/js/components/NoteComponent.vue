@@ -585,8 +585,6 @@ export default {
         },
         restore() {
             axios.post('note/restore/' + this.note.id);
-            this.shown = false;//TODO: There should be animation while hiding a note
-
             window.events.$emit('show-notification', 'Note restored', this.undoRestore);
         },
         deleteNote() {
@@ -609,25 +607,25 @@ export default {
         archive() {
             axios.put('/note/' + this.note.id, {'archived': true});
 
-            this.shown = false;
+            window.events.$emit('note_deleted', this.note);
             window.events.$emit('show-notification', 'Note archived', this.undo_archive);
-        },
-        unarchive() {
-            axios.put('/note/' + this.note.id, {'archived': false});
-
-            this.shown = false;
-            window.events.$emit('show-notification', 'Note unarchived', this.undo_unarchive);
         },
         undo_archive() {
             axios.put('/note/' + this.note.id, {'archived': false});
 
-            this.shown = true;
+            window.events.$emit('note_created', this.note);
             window.events.$emit('show-notification', 'Action undone');
+        },
+        unarchive() {
+            axios.put('/note/' + this.note.id, {'archived': false});
+
+            window.events.$emit('note_deleted', this.note);
+            window.events.$emit('show-notification', 'Note unarchived', this.undo_unarchive);
         },
         undo_unarchive() {
             axios.put('/note/' + this.note.id, {'archived': true});
 
-            this.shown = true;
+            window.events.$emit('note_created', this.note);
             window.events.$emit('show-notification', 'Action undone');
         },
         delete_forever() {
