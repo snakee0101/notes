@@ -24,13 +24,23 @@
 <script>
 export default {
     name: "TopBarComponent",
+    data() {
+      return {
+          notes: []
+      }
+    },
     created() {
         window.events.$on('note_selection_changed', this.registerNoteSelection);
     },
     methods: {
         registerNoteSelection(note, selected) {
-            console.log(note);
-            console.log('selected: ' + selected);
+            (selected) ? this.addNote(note) : this.removeNote(note);
+        },
+        addNote(note) {
+            this.notes.push(note);
+        },
+        removeNote(note) {
+            this.notes.splice( this.notes.indexOf(note) ,1);
         }
     }
 }
