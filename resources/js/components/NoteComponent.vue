@@ -2,7 +2,6 @@
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors mb-4"
          :class="'bg-google-' + note.color"
-         v-if="shown"
          ref="note">
         <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="pin()"
            v-if="!trashed">
@@ -318,7 +317,6 @@ export default {
     data() {
         return {
             editing: false,
-            shown: true,
             pickedDate: '',
             pickedTime: '',
             pickedRepeatsDate: '',
