@@ -367,6 +367,7 @@ export default {
         setInterval(this.checkLaterTodayVisibility, 500);
 
         window.events.$on('reload_note_tags', this.reload_tags);
+        window.events.$on('deselect_all', this.deselectAll);
     },
     computed: {
         remainder_time_formatted() {
@@ -379,6 +380,9 @@ export default {
         }
     },
     methods: {
+        deselectAll() {
+            this.selected = false;
+        },
         toggleSelect() {
             this.selected = !this.selected;
             window.events.$emit('note_selection_changed', this.note, this.selected);

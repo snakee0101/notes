@@ -7,7 +7,7 @@
             <div class="trashed_note_actions flex flex-row justify-between items-center py-2 pb-4 px-3 border-b-2 border-gray-300" v-if="isOnPage('/trash')">
                 <div class="flex flex-row items-center">
                     <a href="" class="mr-2 rounded-full"
-                       @click.prevent="clearSelection()"
+                       @click.prevent="deselectAll()"
                        v-b-tooltip.hover.bottom
                        title="Clear selection">
                         <i class="bi bi-x icon-lg text-black"></i>
@@ -40,7 +40,7 @@
             <div class="regular_note_actions flex flex-row justify-between items-center py-2 pb-4 px-3" v-else>
                 <div class="flex flex-row items-center">
                     <a href="" class="mr-2 rounded-full"
-                       @click.prevent="clearSelection()"
+                       @click.prevent="deselectAll()"
                        v-b-tooltip.hover.bottom
                        title="Clear selection">
                         <i class="bi bi-x icon-lg text-black"></i>
@@ -145,8 +145,9 @@ export default {
         isOnPage(page) {
             return location.href.includes(page);
         },
-        clearSelection() {
-            //TODO: clears the selection
+        deselectAll() {
+            window.events.$emit('deselect_all');
+            this.notes = [];
         },
         deleteForever() {
             //TODO: deletes the note forever
