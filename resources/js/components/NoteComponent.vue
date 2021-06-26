@@ -294,8 +294,8 @@
         </collaborator-dialog-component>
 
         <b-modal ref="delete-confirmation" hide-footer centered class="delete-confirmation">
-            <p class="m-2">Delete note forever?</p>
-            <div class="bg-white rounded-b-lg text-right">
+            <p class="m-3">Delete note forever?</p>
+            <div class="bg-white rounded-b-lg text-right p-2">
                 <button @click="$refs['delete-confirmation'].hide()" class="cancel-button">
                     Cancel
                 </button>
