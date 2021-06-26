@@ -351,7 +351,6 @@ export default {
     created() {
         setInterval(this.checkLaterTodayVisibility, 500);
 
-        window.events.$on('refresh_image', this.refreshImage);
         window.events.$on('reload_note_tags', this.reload_tags);
     },
     computed: {
@@ -542,8 +541,7 @@ export default {
             window.events.$emit('show-notification', 'Action undone');
         },
         refreshImage(data) {
-            if (Object.is(this, window.newImageComponent))
-                this.note.images_json.push(data);
+            this.note.images_json.push(data);
         },
         selectImage() {
             this.$refs['image'].click();
@@ -555,11 +553,7 @@ export default {
             data.append('image', image, image.name);
             data.append('note_id', this.note.id);
 
-            window.newImageComponent = this;
-
-            axios.post('/image', data).then(function (result) {
-                window.events.$emit('refresh_image', result.data);
-            });
+            axios.post('/image', data).then( (res) => this.refreshImage(res.data) );
         },
         openRemindersDropdown(element) {
             if (this.$refs.note.contains(element))
