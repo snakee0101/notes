@@ -23,7 +23,16 @@
 
 <script>
 export default {
-name: "TopBarComponent"
+    name: "TopBarComponent",
+    created() {
+        window.events.$on('note_selection_changed', this.registerNoteSelection);
+    },
+    methods: {
+        registerNoteSelection(note, selected) {
+            console.log(note);
+            console.log('selected: ' + selected);
+        }
+    }
 }
 </script>
 

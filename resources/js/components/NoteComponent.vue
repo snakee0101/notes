@@ -381,6 +381,7 @@ export default {
     methods: {
         toggleSelect() {
             this.selected = !this.selected;
+            window.events.$emit('note_selection_changed', this.note, this.selected);
         },
         reload_tags(note_id) {
             if(note_id == this.note.id) {
