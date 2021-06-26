@@ -1,6 +1,6 @@
 <template>
     <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
-    <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors mb-4"
+    <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors mb-4 group"
          :class="'bg-google-' + note.color"
          ref="note">
         <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="pin()"
@@ -11,6 +11,16 @@
 
             <i class="bi bi-pin icon text-black"
                v-b-tooltip.hover.bottom title="Pin" v-else></i>
+        </a>
+
+        <a href="" class="absolute bg-black rounded-full hidden group-hover:inline-block" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
+           @click.prevent=""
+           v-if="!trashed">
+            <i class="bi bi-check icon-sm text-white"
+               v-b-tooltip.hover.bottom title="Deselect note" v-if="true"></i>
+
+            <i class="bi bi-check icon-sm text-white"
+               v-b-tooltip.hover.bottom title="Select note" v-else></i>
         </a>
 
         <div class="images">
