@@ -586,6 +586,7 @@ export default {
         },
         restore() {
             axios.post('note/restore/' + this.note.id);
+            window.events.$emit('note_deleted', this.note);
             window.events.$emit('show-notification', 'Note restored', this.undoRestore);
         },
         deleteNote() {
@@ -604,6 +605,7 @@ export default {
             axios.delete('note/' + this.note.id);
 
             window.events.$emit('show-notification', 'Action undone');
+            window.events.$emit('note_created', this.note);
         },
         archive() {
             axios.put('/note/' + this.note.id, {'archived': true});
