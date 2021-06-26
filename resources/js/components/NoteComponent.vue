@@ -493,12 +493,17 @@ export default {
                 .then(this.copyCallback);
         },
         copyCallback(res) {
+            window.duplicatedNote = res.data;
             window.events.$emit('note_created', res.data);
             window.events.$emit('show-notification', 'Note created', this.undoCopy);
         },
         undoCopy() {
-            axios.delete('note/' + window.duplicatedNoteId);
-            axios.delete('note/' + window.duplicatedNoteId); //force delete
+            axios.delete('note/' + window.duplicatedNote.id);
+            axios.delete('note/' + window.duplicatedNote.id)//force delete
+                 .then(this.undoCopyCallback);
+        },
+        undoCopyCallback() {
+            window.events.$emit('note_deleted', window.duplicatedNote);
             window.events.$emit('show-notification', 'Action undone');
         },
         checkLaterTodayVisibility() {
@@ -586,21 +591,18 @@ export default {
         },
         deleteNote() {
             axios.delete('note/' + this.note.id);
-            this.shown = false;
 
             window.events.$emit('show-notification', 'Note deleted', this.undoDelete);
-            //window.events.$emit('note_deleted', this.note);
+            window.events.$emit('note_deleted', this.note);
         },
         undoDelete() {
             axios.post('note/restore/' + this.note.id);
-            this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
-            //window.events.$emit('note_created', this.note);
+            window.events.$emit('note_created', this.note);
         },
         undoRestore() {
             axios.delete('note/' + this.note.id);
-            this.shown = true;
 
             window.events.$emit('show-notification', 'Action undone');
         },

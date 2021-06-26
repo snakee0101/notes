@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-let VueMasonryPlugin = window["vue-masonry-plugin"].VueMasonryPlugin;
+import {VueMasonryPlugin} from 'vue-masonry';
 Vue.use(VueMasonryPlugin);
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
