@@ -4,11 +4,50 @@
         <section class="note-actions-panel"
                  v-if="notes.length">
 
-            <div class="regular_note_actions flex flex-row justify-between items-center py-2 px-3" v-if="false"> <!--TODO: Check whether it is a regular note by page name-->
+            <div class="regular_note_actions flex flex-row justify-between items-center py-2 pb-4 px-3" v-if="true"> <!--TODO: Check whether it is a regular note by page name-->
+                <div class="flex flex-row items-center">
+                    <a href="" class="mr-2 rounded-full"
+                       @click.prevent="clearSelection()"
+                       v-b-tooltip.hover.bottom
+                       title="Clear selection">
+                        <i class="bi bi-x icon-lg text-black"></i>
+                    </a>
 
+                    <p class="m-0 text-xl pt-0.5">{{ notes.length }} selected</p>
+                </div>
+
+                <div class="flex flex-row items-center">
+                    <a href="" class="mr-3 rounded-full"
+                       @click.prevent="pin()"
+                       v-b-tooltip.hover.bottom
+                       title="Pin"> <!--TODO: if only pinned notes were selected then "Unpin" should be here; if there is even one unpinned note then "Pin" should be here-->
+                        <i class="bi bi-pin-fill icon" style="color: rgb(26, 86, 219)"></i>
+                    </a>
+
+                    <a href="" class="mr-3 rounded-full"
+                       @click.prevent="remind()"
+                       v-b-tooltip.hover.bottom
+                       title="Remind me"> <!--TODO: there should be a context menu that sets the reminder at specific time regardless of the selected notes' reminders-->
+                        <i class="bi bi-bell icon" style="color: rgb(26, 86, 219)"></i>
+                    </a>
+
+                    <a href="" class="mr-3 rounded-full"
+                       @click.prevent="changeColor()"
+                       v-b-tooltip.hover.bottom
+                       title="Change color">
+                        <i class="bi bi-palette icon" style="color: rgb(26, 86, 219)"></i>
+                    </a>
+
+                    <a href="" class="mr-3 rounded-full"
+                       @click.prevent="toggleArchive()"
+                       v-b-tooltip.hover.bottom
+                       title="Archive"> <!--TODO: In Archive section it should be Unarchive-->
+                        <i class="bi bi-save2-fill icon" style="color: rgb(26, 86, 219)"></i>
+                    </a>
+                </div>
             </div>
 
-            <div class="trashed_note_actions flex flex-row justify-between items-center py-2 px-3 border-b-2 border-gray-300" v-else>
+            <div class="trashed_note_actions flex flex-row justify-between items-center py-2 pb-4 px-3 border-b-2 border-gray-300" v-else>
                 <div class="flex flex-row items-center">
                     <a href="" class="mr-2 rounded-full"
                        @click.prevent="clearSelection()"
@@ -96,6 +135,18 @@ export default {
         },
         restore() {
             alert('restores the note');
+        },
+        pin() {
+            alert('sets the specific pinned state depend on condition');
+        },
+        remind() {
+            alert('remainder of the notes');
+        },
+        changeColor() {
+            alert('sets selected color for all selected notes');
+        },
+        toggleArchive() {
+            alert('set archived state for all the notes depend on page');
         }
     }
 }
