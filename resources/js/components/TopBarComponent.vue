@@ -44,6 +44,20 @@
                        title="Archive"> <!--TODO: In Archive section it should be Unarchive-->
                         <i class="bi bi-save2-fill icon" style="color: rgb(26, 86, 219)"></i>
                     </a>
+
+                    <a href="" class="rounded-full"
+                       v-b-tooltip.hover.bottom
+                       title="More"
+                       @click.prevent>
+                        <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret right>
+                            <template #button-content>
+                                <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
+                            </template>
+                            <b-dropdown-item href="#" @click="deleteNotes()">Delete notes</b-dropdown-item>
+                            <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
+                            <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
+                        </b-dropdown>
+                    </a>
                 </div>
             </div>
 
@@ -147,6 +161,15 @@ export default {
         },
         toggleArchive() {
             alert('set archived state for all the notes depend on page');
+        },
+        deleteNotes() {
+            alert('delete');
+        },
+        openSetLabelsDialog() {
+            alert('add label');
+        },
+        copy() {
+            alert('make a copy');
         }
     }
 }
