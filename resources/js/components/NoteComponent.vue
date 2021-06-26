@@ -555,10 +555,6 @@ export default {
 
             axios.post('/image', data).then( (res) => this.refreshImage(res.data) );
         },
-        openRemindersDropdown(element) {
-            if (this.$refs.note.contains(element))
-                this.showRemindersDropdown();
-        },
         pin() {
             this.note.pinned = !this.note.pinned;
             axios.put('/note/' + this.note.id, {'pinned': this.note.pinned});
