@@ -74,8 +74,9 @@
                     <a href="" class="mr-3 rounded-full"
                        @click.prevent="toggleArchive()"
                        v-b-tooltip.hover.bottom
-                       title="Archive"> <!--TODO: In Archive section it should be Unarchive-->
-                        <i class="bi bi-save2-fill icon" style="color: rgb(26, 86, 219)"></i>
+                       :title="isOnPage('/archive') ? 'Unarchive' : 'Archive'">
+                        <i class="bi icon"
+                           :class="isOnPage('/archive') ? 'bi-arrow-up-square' : 'bi-arrow-down-square-fill'" style="color: rgb(26, 86, 219)"></i>
                     </a>
 
                     <a href="" class="rounded-full"

@@ -180,7 +180,7 @@
                title="Unarchive"
                @click.prevent="unarchive()"
                v-if="note.archived">
-                <i class="bi bi-save2-fill icon-sm"></i>
+                <i class="bi bi-arrow-up-square icon-sm"></i>
             </a>
 
             <a href="" class="hover:bg-gray-300 p-2 rounded-full"
@@ -188,7 +188,7 @@
                title="Archive"
                @click.prevent="archive()"
                v-else>
-                <i class="bi bi-save2-fill icon-sm"></i>
+                <i class="bi bi-arrow-down-square-fill icon-sm"></i>
             </a>
 
             <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
