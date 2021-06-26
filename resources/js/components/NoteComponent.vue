@@ -632,8 +632,8 @@ export default {
             window.events.$emit('show-notification', 'Action undone');
         },
         delete_forever() {
-            this.shown = false;
             axios.delete('note/' + this.note.id);
+            window.events.$emit('note_deleted', this.note);
         },
         setInputHeight(itemClass) {
             let element = document.getElementsByClassName(itemClass)[0];
