@@ -6,13 +6,13 @@
             <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true">
                 <div class="gutter"></div>
 
-<!--                <note-component v-masonry-tile
-                                v-for="note in pinned_notes"
+                <note-component v-masonry-tile
+                                v-for="note in pinned_notes_collection"
                                 :key="note.id"
                                 :note="note"
                                 :isTrashed="isTrashed">
 
-                    </note-component>-->
+                    </note-component>
             </div>
         </div>
 
@@ -22,13 +22,13 @@
             <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true">
                 <div class="gutter"></div>
 
-<!--                <note-component v-masonry-tile
-                                v-for="note in other_notes"
+                <note-component v-masonry-tile
+                                v-for="note in other_notes_collection"
                                 :key="note.id"
                                 :note="note"
                                 :isTrashed="isTrashed">
 
-                </note-component>-->
+                </note-component>
             </div>
         </div>
     </div>
