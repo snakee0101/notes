@@ -16,8 +16,8 @@
             </div>
 
             <div>
-                <button class="btn btn-primary" @click="prev_pinned_page()">< Previous page</button>
-                <button class="btn btn-primary" @click="next_pinned_page()">Next page ></button>
+                <button class="btn btn-primary" @click="prev_pinned_page()" v-if="pinned_notes_paginator.prev_page_url !== null">< Previous page</button>
+                <button class="btn btn-primary" @click="next_pinned_page()" v-if="pinned_notes_paginator.next_page_url !== null">Next page ></button>
             </div>
         </div>
 
@@ -37,8 +37,8 @@
             </div>
 
             <div>
-                <button class="btn btn-primary" @click="prev_other_page()">< Previous page</button>
-                <button class="btn btn-primary" @click="next_other_page()">Next page ></button>
+                <button class="btn btn-primary" @click="prev_other_page()" v-if="other_notes_paginator.prev_page_url !== null">< Previous page</button>
+                <button class="btn btn-primary" @click="next_other_page()" v-if="other_notes_paginator.next_page_url !== null">Next page ></button>
             </div>
         </div>
     </div>
@@ -88,20 +88,20 @@ export default {
 
         prev_pinned_page() {
             this.pinned_page--;
-            //get the data
+            //get the data and update paginator with new data
         },
         next_pinned_page() {
             this.pinned_page++;
-            //get the data
+            //get the data and update paginator with new data
         },
         prev_other_page() {
             this.other_page--;
-            //get the data
+            //get the data and update paginator with new data
         },
         next_other_page() {
             this.other_page++;
-            //get the data
-        }
+            //get the data and update paginator with new data
+        },
     }
 }
 </script>
