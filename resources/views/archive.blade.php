@@ -1,14 +1,15 @@
 @extends('layouts.main')
 
 @section('content')
-    @if( ! $notes->isEmpty() )
-        <notes-container-component :notes="{{ $notes }}">
+{{--    @if( ! $notes->isEmpty() )--}}
+        <notes-container-component :pinned_notes="{{ $pinned_notes }}"
+                                   :other_notes="{{ $other_notes }}">
 
         </notes-container-component>
-    @else
-        <p class="text-center text-2xl mb-6 mt-14">
+{{--    @else--}}
+{{--        <p class="text-center text-2xl mb-6 mt-14">
             <i class="bi bi-save2-fill icon-xl"></i>
         </p>
-        <p class="text-center text-2xl text-gray-600 font-light">Your archived notes appear here</p>
-    @endif
+        <p class="text-center text-2xl text-gray-600 font-light">Your archived notes appear here</p>--}}
+{{--    @endif--}}
 @endsection

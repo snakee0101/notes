@@ -8,7 +8,8 @@
             </new-note-component>
         </div>
 
-        <notes-container-component :notes="{{ $notes }}">
+        <notes-container-component :pinned_notes="{{ $pinned_notes }}"
+                                   :other_notes="{{ $other_notes }}">
 
         </notes-container-component>
     </div>

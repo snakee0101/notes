@@ -25,10 +25,17 @@ class TagController extends Controller
     {
         return view('tag', [
             'tag_name' => $tag->name,
-            'notes' => $tag->notes()
-                           ->where('owner_id', auth()->id())
-                           ->paginate()
-                           ->toJson()
+            'pinned_notes' => $tag->notes()
+                            ->where('owner_id', auth()->id())
+                            ->where('pinned', true)
+                            ->paginate()
+                            ->toJson(),
+
+            'other_notes' => $tag->notes()
+                                ->where('owner_id', auth()->id())
+                                ->where('pinned', false)
+                                ->paginate()
+                                ->toJson()
         ]);
     }
 

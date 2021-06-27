@@ -37,11 +37,13 @@
 <script>
 export default {
     name: "NotesContainerComponent",
-    props: ['notes', 'isTrashed'],
+    props: ['notes', 'isTrashed', 'pinned_notes', 'other_notes'],
     data() {
         return {
-            paginator: this.notes,
-            notesCollection: []
+            pinned_notes_paginator: this.pinned_notes,
+            other_notes_paginator: this.other_notes,
+            pinned_notes_collection: this.pinned_notes.data,
+            other_notes_collection: this.other_notes.data,
         };
     },
     created() {
@@ -50,7 +52,7 @@ export default {
       window.events.$on('trash_emptied', this.clearAll);
     },
     computed: {
-        pinned_notes() {
+        /*pinned_notes() {
             return this.notesCollection.filter( function(value){
                     return value.pinned === true;
             });
@@ -59,17 +61,17 @@ export default {
             return this.notesCollection.filter( function(value){
                     return value.pinned === false;
             });
-        }
+        }*/
     },
     methods: {
         addNote(note) {
-            this.notesCollection.unshift(note);
+            this.notesCollection.unshift(note); //TODO: review this method
         },
         deleteNote(note) {
-            this.notesCollection.splice( this.notesCollection.indexOf(note) ,1);
+            this.notesCollection.splice( this.notesCollection.indexOf(note) ,1); //TODO: review this method
         },
         clearAll() {
-            this.notesCollection = [];
+            this.notesCollection = []; //TODO: review this method
         }
     }
 }

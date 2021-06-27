@@ -45,13 +45,15 @@ Route::middleware('auth')->group(function() {
 
     Route::get('/', function () {
         return view('notes', [
-            'notes' => auth()->user()->notes()->paginate()->toJson()
+            'pinned_notes' => auth()->user()->notes()->where('pinned', true)->paginate()->toJson(),
+            'other_notes' => auth()->user()->notes()->where('pinned', false)->paginate()->toJson()
         ]);
     })->name('notes');
 
     Route::get('/archive', function () {
         return view('archive', [
-            "notes" => Note::onlyArchived()->paginate()->toJson() //TODO: set user restriction
+            "pinned_notes" => auth()->user()->notes()->onlyArchived()->where('pinned', true)->paginate()->toJson(), //TODO: set user restriction
+            "other_notes" =>auth()->user()->notes()->onlyArchived()->where('pinned', false)->paginate()->toJson() //TODO: set user restriction
         ]);
     })->name('archive');
 
