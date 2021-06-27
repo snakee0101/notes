@@ -10,7 +10,7 @@ class ReminderController extends Controller
     public function index()
     {
         return view('reminders', [
-            "notes" => Note::has('reminder')->get()
+            "notes" => Note::has('reminder')->paginate()->toJson()
         ]);
     }
 

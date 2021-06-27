@@ -45,13 +45,13 @@ Route::middleware('auth')->group(function() {
 
     Route::get('/', function () {
         return view('notes', [
-            'notes' => Note::where('owner_id', auth()->id())->get()
+            'notes' => auth()->user()->notes()->paginate()->toJson()
         ]);
     })->name('notes');
 
     Route::get('/archive', function () {
         return view('archive', [
-            "notes" => Note::onlyArchived()->get()
+            "notes" => Note::onlyArchived()->paginate()->toJson() //TODO: set user restriction
         ]);
     })->name('archive');
 

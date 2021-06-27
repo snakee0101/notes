@@ -27,7 +27,8 @@ class TagController extends Controller
             'tag_name' => $tag->name,
             'notes' => $tag->notes()
                            ->where('owner_id', auth()->id())
-                           ->get()
+                           ->paginate()
+                           ->toJson()
         ]);
     }
 

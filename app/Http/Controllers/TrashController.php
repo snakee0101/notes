@@ -13,7 +13,8 @@ class TrashController extends Controller
             'notes' => Note::withArchived()
                            ->onlyTrashed()
                            ->where('owner_id', auth()->id())
-                           ->get()
+                           ->paginate()
+                           ->toJson()
         ]);
     }
 
