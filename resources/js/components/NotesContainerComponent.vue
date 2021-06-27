@@ -12,7 +12,12 @@
                                 :note="note"
                                 :isTrashed="isTrashed">
 
-                    </note-component>
+                </note-component>
+            </div>
+
+            <div>
+                <button class="btn btn-primary" @click="pinned_page--">< Previous page</button>
+                <button class="btn btn-primary" @click="pinned_page++">Next page ></button>
             </div>
         </div>
 
@@ -30,6 +35,11 @@
 
                 </note-component>
             </div>
+
+            <div>
+                <button class="btn btn-primary" @click="other_page--">< Previous page</button>
+                <button class="btn btn-primary" @click="other_page++">Next page ></button>
+            </div>
         </div>
     </div>
 </template>
@@ -44,6 +54,8 @@ export default {
             other_notes_paginator: this.other_notes,
             pinned_notes_collection: this.pinned_notes.data,
             other_notes_collection: this.other_notes.data,
+            pinned_page: 1,
+            other_page: 1,
         };
     },
     created() {
