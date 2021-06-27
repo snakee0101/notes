@@ -16,8 +16,8 @@
             </div>
 
             <div>
-                <button class="btn btn-primary" @click="pinned_page--">< Previous page</button>
-                <button class="btn btn-primary" @click="pinned_page++">Next page ></button>
+                <button class="btn btn-primary" @click="prev_pinned_page()">< Previous page</button>
+                <button class="btn btn-primary" @click="next_pinned_page()">Next page ></button>
             </div>
         </div>
 
@@ -37,8 +37,8 @@
             </div>
 
             <div>
-                <button class="btn btn-primary" @click="other_page--">< Previous page</button>
-                <button class="btn btn-primary" @click="other_page++">Next page ></button>
+                <button class="btn btn-primary" @click="prev_other_page()">< Previous page</button>
+                <button class="btn btn-primary" @click="next_other_page()">Next page ></button>
             </div>
         </div>
     </div>
@@ -84,6 +84,23 @@ export default {
         },
         clearAll() {
             this.notesCollection = []; //TODO: review this method
+        },
+
+        prev_pinned_page() {
+            this.pinned_page--;
+            //get the data
+        },
+        next_pinned_page() {
+            this.pinned_page++;
+            //get the data
+        },
+        prev_other_page() {
+            this.other_page--;
+            //get the data
+        },
+        next_other_page() {
+            this.other_page++;
+            //get the data
         }
     }
 }
