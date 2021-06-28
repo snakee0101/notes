@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class Note extends Model
 {
     protected $hidden = [];
+    protected $perPage = 20;
 
     use HasFactory, SoftDeletes;
 
