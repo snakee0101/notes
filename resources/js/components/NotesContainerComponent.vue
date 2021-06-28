@@ -65,7 +65,10 @@ export default {
     },
     methods: {
         addNote(note) {
-            this.notesCollection.unshift(note); //TODO: review this method
+            if(note.pinned)
+                this.pinned_notes_collection.unshift(note);
+            else
+                this.other_notes_collection.unshift(note);
         },
         deleteNote(note) {
             this.notesCollection.splice( this.notesCollection.indexOf(note) ,1); //TODO: review this method
