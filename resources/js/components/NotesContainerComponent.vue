@@ -45,7 +45,13 @@
         </div>
 
         <div v-else>
-            <p>NO NOTES HERE</p>
+            <div v-if="isOnPage('/reminder')">
+                <p class="text-center text-2xl mb-6 mt-14">
+                    <i class="bi bi-bell-fill icon-xl"></i>
+                </p>
+                <p class="text-center text-2xl text-gray-600 font-light">Notes with upcoming reminders appear
+                    here</p>
+            </div>
         </div>
     </div>
 </template>
