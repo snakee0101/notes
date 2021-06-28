@@ -86,6 +86,8 @@ export default {
             this.notesCollection = []; //TODO: review this method
         },
 
+
+
         prev_pinned_page() {
             this.pinned_page--;
             //get the data and update paginator with new data
@@ -94,14 +96,28 @@ export default {
             this.pinned_page++;
             //get the data and update paginator with new data
         },
+
+
+
+
+
         prev_other_page() {
             this.other_page--;
-            //get the data and update paginator with new data
+
+            axios.get(this.other_notes_paginator.prev_page_url+'&notes_type=other_notes')
+                .then(this.set_other_page);
         },
         next_other_page() {
             this.other_page++;
-            //get the data and update paginator with new data
+
+            axios.get(this.other_notes_paginator.next_page_url+'&notes_type=other_notes')
+                .then(this.set_other_page);
         },
+        set_other_page(res) {
+            this.other_notes_paginator = res.data;
+
+            res.data.data.forEach( (value, index) => this.$set(this.other_notes_collection, index, value) ); //force refresh of the paginator to make it reactive
+        }
     }
 }
 </script>
