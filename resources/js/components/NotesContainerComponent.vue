@@ -63,18 +63,6 @@ export default {
       window.events.$on('note_deleted', this.deleteNote);
       window.events.$on('trash_emptied', this.clearAll);
     },
-    computed: {
-        /*pinned_notes() {
-            return this.notesCollection.filter( function(value){
-                    return value.pinned === true;
-            });
-        },
-        other_notes() {
-            return this.notesCollection.filter( function(value){
-                    return value.pinned === false;
-            });
-        }*/
-    },
     methods: {
         addNote(note) {
             this.notesCollection.unshift(note); //TODO: review this method
@@ -87,18 +75,23 @@ export default {
         },
 
 
-
         prev_pinned_page() {
             this.pinned_page--;
-            //get the data and update paginator with new data
+
+            axios.get(this.pinned_notes_paginator.prev_page_url+'&notes_type=pinned_notes')
+                .then(this.set_pinned_page);
         },
         next_pinned_page() {
             this.pinned_page++;
-            //get the data and update paginator with new data
+
+            axios.get(this.pinned_notes_paginator.next_page_url+'&notes_type=pinned_notes')
+                .then(this.set_pinned_page);
         },
+        set_pinned_page(res) {
+            this.pinned_notes_paginator = res.data;
 
-
-
+            res.data.data.forEach( (value, index) => this.$set(this.pinned_notes_collection, index, value) ); //force refresh of the paginator to make it reactive
+        },
 
 
         prev_other_page() {
