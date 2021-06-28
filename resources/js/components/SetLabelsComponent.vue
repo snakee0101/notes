@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         createTag() {
-            axios.post('tag', {
+            axios.post('/tag', {
                 'tag_name': this.searchingLabel
             }).then( res => this.addSearchingLabel() );
         },
