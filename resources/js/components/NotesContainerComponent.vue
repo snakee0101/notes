@@ -1,45 +1,51 @@
 <template>
     <div>
-        <div class="pinned">
-            <p class="font-bold text-sm mb-2">PINNED</p>
+        <div v-if="notes_count">
+            <div class="pinned">
+                <p class="font-bold text-sm mb-2">PINNED</p>
 
-            <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" id="pinned_notes_content">
-                <div class="gutter"></div>
+                <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" id="pinned_notes_content">
+                    <div class="gutter"></div>
 
-                <note-component v-masonry-tile
-                                v-for="note in pinned_notes_collection"
-                                :key="note.id"
-                                :note="note"
-                                :isTrashed="isTrashed">
+                    <note-component v-masonry-tile
+                                    v-for="note in pinned_notes_collection"
+                                    :key="note.id"
+                                    :note="note"
+                                    :isTrashed="isTrashed">
 
-                </note-component>
+                    </note-component>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary" @click="prev_pinned_page()" v-if="pinned_notes_paginator.prev_page_url !== null">< Previous page</button>
+                    <button class="btn btn-primary" @click="next_pinned_page()" v-if="pinned_notes_paginator.next_page_url !== null">Next page ></button>
+                </div>
             </div>
 
-            <div>
-                <button class="btn btn-primary" @click="prev_pinned_page()" v-if="pinned_notes_paginator.prev_page_url !== null">< Previous page</button>
-                <button class="btn btn-primary" @click="next_pinned_page()" v-if="pinned_notes_paginator.next_page_url !== null">Next page ></button>
+            <div class="others">
+                <p class="font-bold text-sm mt-20 mb-2">OTHERS</p>
+
+                <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" id="other_notes_content">
+                    <div class="gutter"></div>
+
+                    <note-component v-masonry-tile
+                                    v-for="note in other_notes_collection"
+                                    :key="note.id"
+                                    :note="note"
+                                    :isTrashed="isTrashed">
+
+                    </note-component>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary" @click="prev_other_page()" v-if="other_notes_paginator.prev_page_url !== null">< Previous page</button>
+                    <button class="btn btn-primary" @click="next_other_page()" v-if="other_notes_paginator.next_page_url !== null">Next page ></button>
+                </div>
             </div>
         </div>
 
-        <div class="others">
-            <p class="font-bold text-sm mt-20 mb-2">OTHERS</p>
-
-            <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" id="other_notes_content">
-                <div class="gutter"></div>
-
-                <note-component v-masonry-tile
-                                v-for="note in other_notes_collection"
-                                :key="note.id"
-                                :note="note"
-                                :isTrashed="isTrashed">
-
-                </note-component>
-            </div>
-
-            <div>
-                <button class="btn btn-primary" @click="prev_other_page()" v-if="other_notes_paginator.prev_page_url !== null">< Previous page</button>
-                <button class="btn btn-primary" @click="next_other_page()" v-if="other_notes_paginator.next_page_url !== null">Next page ></button>
-            </div>
+        <div v-else>
+            <p>NO NOTES HERE</p>
         </div>
     </div>
 </template>
@@ -57,6 +63,11 @@ export default {
             pinned_page: 1,
             other_page: 1,
         };
+    },
+    computed: {
+        notes_count() {
+            return this.pinned_notes_collection.length + this.other_notes_collection.length;
+        }
     },
     created() {
       window.events.$on('note_created', this.addNote);
@@ -79,6 +90,9 @@ export default {
         clearAll() {
             this.pinned_notes_collection = [];
             this.other_notes_collection = [];
+        },
+        isOnPage(page) {
+            return location.href.includes(page);
         },
 
 
