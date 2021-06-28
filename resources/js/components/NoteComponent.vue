@@ -516,8 +516,8 @@ export default {
             window.events.$emit('show-notification', 'Note created', this.undoCopy);
         },
         undoCopy() {
-            axios.delete('note/' + window.duplicatedNote.id);
-            axios.delete('note/' + window.duplicatedNote.id)//force delete
+            axios.delete('/note/' + window.duplicatedNote.id);
+            axios.delete('/note/' + window.duplicatedNote.id)//force delete
                  .then(this.undoCopyCallback);
         },
         undoCopyCallback() {
@@ -596,24 +596,24 @@ export default {
             window.events.$emit('show-collaborators-dialog', this.note.id);
         },
         restore() {
-            axios.post('note/restore/' + this.note.id);
+            axios.post('/note/restore/' + this.note.id);
             window.events.$emit('note_deleted', this.note);
             window.events.$emit('show-notification', 'Note restored', this.undoRestore);
         },
         deleteNote() {
-            axios.delete('note/' + this.note.id);
+            axios.delete('/note/' + this.note.id);
 
             window.events.$emit('show-notification', 'Note deleted', this.undoDelete);
             window.events.$emit('note_deleted', this.note);
         },
         undoDelete() {
-            axios.post('note/restore/' + this.note.id);
+            axios.post('/note/restore/' + this.note.id);
 
             window.events.$emit('show-notification', 'Action undone');
             window.events.$emit('note_created', this.note);
         },
         undoRestore() {
-            axios.delete('note/' + this.note.id);
+            axios.delete('/note/' + this.note.id);
 
             window.events.$emit('show-notification', 'Action undone');
             window.events.$emit('note_created', this.note);
@@ -643,7 +643,7 @@ export default {
             window.events.$emit('show-notification', 'Action undone');
         },
         delete_forever() {
-            axios.delete('note/' + this.note.id);
+            axios.delete('/note/' + this.note.id);
             window.events.$emit('note_deleted', this.note);
         },
         setInputHeight(itemClass) {
