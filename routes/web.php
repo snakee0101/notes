@@ -44,10 +44,19 @@ Route::middleware('auth')->group(function() {
     Route::get('/collaborators/{note}', [CollaboratorController::class, 'index'])->name('collaborators_list');
 
     Route::get('/', function () {
-        return view('notes', [
-            'pinned_notes' => auth()->user()->notes()->where('pinned', true)->paginate()->toJson(),
-            'other_notes' => auth()->user()->notes()->where('pinned', false)->paginate()->toJson()
-        ]);
+        $data = [  //get the paginators for both pinned and other notes
+            'pinned_notes' => auth()->user()->notes()->where('pinned', true)->paginate(),
+            'other_notes' => auth()->user()->notes()->where('pinned', false)->paginate()
+        ];
+
+        if(! request()->wantsJson()) { //if the request was not posted by axios - return view with the JSON, encoded to string
+            $data['pinned_notes'] = $data['pinned_notes']->toJson();
+            $data['other_notes'] = $data['other_notes']->toJson();
+
+            return view('notes', $data); //JSON string is passed to Vue component by component property
+        }
+
+        return $data[ request('notes_type') ]; //else - return the data itself (JSON Object) for axios, that automatically converts it to object literal
     })->name('notes');
 
     Route::get('/archive', function () {
