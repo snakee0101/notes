@@ -59,6 +59,13 @@
                 </p>
                 <p class="text-center text-2xl text-gray-600 font-light">No notes with this label yet</p>
             </div>
+
+            <div v-if="isOnPage('/archive')">
+                <p class="text-center text-2xl mb-6 mt-14">
+                    <i class="bi bi-save2-fill icon-xl"></i>
+                </p>
+                <p class="text-center text-2xl text-gray-600 font-light">Your archived notes appear here</p>
+            </div>
         </div>
     </div>
 </template>
