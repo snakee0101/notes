@@ -60,10 +60,19 @@ Route::middleware('auth')->group(function() {
     })->name('notes');
 
     Route::get('/archive', function () {
-        return view('archive', [
-            "pinned_notes" => auth()->user()->notes()->onlyArchived()->where('pinned', true)->paginate()->toJson(), //TODO: set user restriction
-            "other_notes" =>auth()->user()->notes()->onlyArchived()->where('pinned', false)->paginate()->toJson() //TODO: set user restriction
-        ]);
+        $data = [
+            'pinned_notes' => auth()->user()->notes()->onlyArchived()->where('pinned', true)->paginate(),
+            'other_notes' => auth()->user()->notes()->onlyArchived()->where('pinned', false)->paginate()
+        ];
+
+        if(! request()->wantsJson()) {
+            $data['pinned_notes'] = $data['pinned_notes']->toJson();
+            $data['other_notes'] = $data['other_notes']->toJson();
+
+            return view('archive', $data);
+        }
+
+        return $data[ request('notes_type') ];
     })->name('archive');
 
     Route::delete('/detach_tag/{note}/{tag}', function(Note $note, Tag $tag){
