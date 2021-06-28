@@ -23,20 +23,26 @@ class TagController extends Controller
 
     public function show(Tag $tag)
     {
-        return view('tag', [
-            'tag_name' => $tag->name,
+        $data = [
             'pinned_notes' => $tag->notes()
-                            ->where('owner_id', auth()->id())
-                            ->where('pinned', true)
-                            ->paginate()
-                            ->toJson(),
-
+                ->where('owner_id', auth()->id())
+                ->where('pinned', true)
+                ->paginate(),
             'other_notes' => $tag->notes()
-                                ->where('owner_id', auth()->id())
-                                ->where('pinned', false)
-                                ->paginate()
-                                ->toJson()
-        ]);
+                ->where('owner_id', auth()->id())
+                ->where('pinned', false)
+                ->paginate(),
+            'tag_name' => $tag->name
+        ];
+
+        if(! request()->wantsJson()) {
+            $data['pinned_notes'] = $data['pinned_notes']->toJson();
+            $data['other_notes'] = $data['other_notes']->toJson();
+
+            return view('tag', $data);
+        }
+
+        return $data[ request('notes_type') ];
     }
 
     public function update(Request $request, Tag $tag)
