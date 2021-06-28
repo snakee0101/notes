@@ -9,10 +9,19 @@ class ReminderController extends Controller
 {
     public function index()
     {
-        return view('reminders', [
-            "pinned_notes" => auth()->user()->notes()->has('reminder')->where('pinned', true)->paginate()->toJson(),
-            'other_notes' => auth()->user()->notes()->has('reminder')->where('pinned', false)->paginate()->toJson()
-        ]);
+        $data = [
+            'pinned_notes' => auth()->user()->notes()->has('reminder')->where('pinned', true)->paginate(),
+            'other_notes' => auth()->user()->notes()->has('reminder')->where('pinned', false)->paginate()
+        ];
+
+        if(! request()->wantsJson()) {
+            $data['pinned_notes'] = $data['pinned_notes']->toJson();
+            $data['other_notes'] = $data['other_notes']->toJson();
+
+            return view('reminders', $data);
+        }
+
+        return $data[ request('notes_type') ];
     }
 
     public function store(Request $request, Note $note)
