@@ -52,6 +52,13 @@
                 <p class="text-center text-2xl text-gray-600 font-light">Notes with upcoming reminders appear
                     here</p>
             </div>
+
+            <div v-if="isOnPage('/tag')">
+                <p class="text-center text-2xl mb-6 mt-20">
+                    <i class="bi bi-tag-fill icon-xl"></i>
+                </p>
+                <p class="text-center text-2xl text-gray-600 font-light">No notes with this label yet</p>
+            </div>
         </div>
     </div>
 </template>

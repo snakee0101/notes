@@ -9,16 +9,9 @@
             </new-note-component>
         </div>
 
-{{--        @if( ! $notes->isEmpty() )--}}
-            <notes-container-component :pinned_notes="{{ $pinned_notes }}"
-                                       :other_notes="{{ $other_notes }}">
+        <notes-container-component :pinned_notes="{{ $pinned_notes }}"
+                                   :other_notes="{{ $other_notes }}">
 
-            </notes-container-component>
-{{--        @else--}}
-{{--            <p class="text-center text-2xl mb-6 mt-20">--}}
-{{--                <i class="bi bi-tag-fill icon-xl"></i>--}}
-{{--            </p>--}}
-{{--            <p class="text-center text-2xl text-gray-600 font-light">No notes with this label yet</p>--}}
-{{--        @endif--}}
+        </notes-container-component>
     </div>
 @endsection
