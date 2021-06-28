@@ -71,7 +71,10 @@ export default {
                 this.other_notes_collection.unshift(note);
         },
         deleteNote(note) {
-            this.notesCollection.splice( this.notesCollection.indexOf(note) ,1); //TODO: review this method
+            if(note.pinned)
+                this.pinned_notes_collection.splice( this.pinned_notes_collection.indexOf(note) ,1);
+            else
+                this.other_notes_collection.splice( this.other_notes_collection.indexOf(note) ,1);
         },
         clearAll() {
             this.notesCollection = []; //TODO: review this method
