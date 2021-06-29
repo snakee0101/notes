@@ -46,6 +46,7 @@
 <script>
 export default {
     name: "SetLabelsComponent",
+    props: ['isGlobal'],
     data() {
         return {
             searchingLabel: '',
@@ -54,7 +55,7 @@ export default {
             note: this.$attrs.note,
             isCancelButtonVisible: false,
             attached_tags: [],
-            isNewTagButtonVisible: false
+            isNewTagButtonVisible: false,
         };
     },
     created() {
@@ -111,14 +112,19 @@ export default {
                 this.isNewTagButtonVisible = (this.searchResults.length === 0);
             }
         },
-        show(event_note_id, attached_tags) {
-            if (this.note.id == event_note_id) {
+        show(event_note_id = null , attached_tags = null) {
+            if(this.isGlobal && event_note_id == null) {
                 this.getTags();
-                if(this.note.id !== 'new_note')
-                    this.attached_tags = this.note.tags;
-                else
-                    this.attached_tags = attached_tags;
                 this.$refs['labels-dialog'].show();
+            } else {
+                if (this.note.id == event_note_id) {
+                    this.getTags();
+                    if(this.note.id !== 'new_note')
+                        this.attached_tags = this.note.tags;
+                    else
+                        this.attached_tags = attached_tags;
+                    this.$refs['labels-dialog'].show();
+                }
             }
         },
         hide() {

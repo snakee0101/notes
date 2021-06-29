@@ -1,5 +1,8 @@
 <template>
     <header>
+        <set-labels-component :is-global="true">
+
+        </set-labels-component>
 
         <section class="note-actions-panel"
                  v-if="notes.length">
@@ -144,8 +147,11 @@
 </template>
 
 <script>
+import SetLabelsComponent from "./SetLabelsComponent";
+
 export default {
     name: "TopBarComponent",
+    components: {SetLabelsComponent},
     data() {
       return {
           notes: [],
@@ -215,7 +221,7 @@ export default {
             this.deselectAll();
         },
         openSetLabelsDialog() {
-            //TODO: add label
+            window.events.$emit('open_set_labels_dialog');
         },
         copy() {
             this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'copy', ''));
