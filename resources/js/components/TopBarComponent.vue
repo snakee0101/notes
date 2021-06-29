@@ -174,8 +174,11 @@ export default {
             //TODO: add label
         },
         copy() {
-            //TODO: make a copy
+            this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'copy', ''));
+            this.deselectAll();
         }
+
+        //TODO: How to undo multiple note actions?
     }
 }
 </script>

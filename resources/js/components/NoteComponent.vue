@@ -368,6 +368,7 @@ export default {
 
         window.events.$on('reload_note_tags', this.reload_tags);
         window.events.$on('deselect_all', this.deselectAll);
+        window.events.$on('perform_note_action', this.performAction);
     },
     computed: {
         remainder_time_formatted() {
@@ -660,6 +661,15 @@ export default {
             let tagsLocation = 'tag/' + encodeURIComponent(tag);
             if (location.href.includes(tagsLocation))
                 window.events.$emit('note_deleted', this.note);
+        },
+        performAction(note, action, parameter) {
+            if(this.note.id !== note.id)
+                return;
+
+            //TODO: reminder, color, and label accept parameter and then execution is interrupted by return
+            //TODO: Example: if(action === 'changeColor') { return this.changeColor(parameter) }
+
+            this[action]();
         }
     }
 }
