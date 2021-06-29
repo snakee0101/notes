@@ -539,6 +539,9 @@ export default {
             axios.post('/reminder/' + this.note.id, {'time': formatted_time});
             this.note.reminder_json = {'time': formatted_time};
         },
+        updateReminder(json_time) {
+            this.note.reminder_json = json_time;
+        },
         removeReminder() {
             axios.delete('/reminder/' + this.note.id);
 
@@ -666,8 +669,8 @@ export default {
             if(action === 'changeColor')
                 return this.changeColor(parameter);
 
-            //TODO: reminder, color, and label accept parameter and then execution is interrupted by return
-            //TODO: Example: if(action === 'changeColor') { return this.changeColor(parameter) }
+            if(action === 'update_reminder')
+                return this.updateReminder(parameter);
 
             this[action]();
         }
