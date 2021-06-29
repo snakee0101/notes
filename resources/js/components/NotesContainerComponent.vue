@@ -138,7 +138,7 @@ export default {
         set_pinned_page(res) {
             this.pinned_notes_paginator = res.data;
 
-            res.data.data.forEach( (value, index) => this.$set(this.pinned_notes_collection, index, value) ); //force refresh of the paginator to make it reactive
+            Object.assign(this.pinned_notes_collection, res.data.data); //force refresh of the paginator to make it reactive
 
             let contentHeight = document.getElementById('pinned_notes_content').clientHeight;
             window.scrollBy(0,-contentHeight/2);
@@ -160,7 +160,7 @@ export default {
         set_other_page(res) {
             this.other_notes_paginator = res.data;
 
-            res.data.data.forEach( (value, index) => this.$set(this.other_notes_collection, index, value) ); //force refresh of the paginator to make it reactive
+            Object.assign(this.other_notes_collection, res.data.data); //force refresh of the paginator to make it reactive
 
             let contentHeight = document.getElementById('other_notes_content').clientHeight;
             window.scrollBy(0,-contentHeight/2);
