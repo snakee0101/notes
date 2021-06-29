@@ -60,4 +60,14 @@ class TagController extends Controller
         $note->tags()->toggle($tag->id); //Tag is resolved by $name property
         $note->push();
     }
+
+    public function addToNote(Note $note, Tag $tag) //TODO: for future - only owner of note and tags could add tag to the note
+    {
+        $note->tags()->attach($tag);
+    }
+
+    public function removeFromNote(Note $note, Tag $tag) //TODO: for future - only owner of note and tags could remove tag from the note
+    {
+        $note->tags()->detach($tag);
+    }
 }

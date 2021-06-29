@@ -27,6 +27,11 @@ Route::middleware('auth')->group(function() {
 
     Route::resource('tag', TagController::class);
     Route::post('/toggle_tag/{note}/{tag}', [TagController::class, 'toggle'])->name('tag.toggle');
+
+    Route::post('/tag/add/{note}/{tag}', [TagController::class, 'addToNote'])->name('tag.add_to_note');
+    Route::delete('/tag/remove/{note}/{tag}', [TagController::class, 'removeFromNote'])->name('tag.remove_from_note');
+
+
     Route::post('/note/{note}/get_tags', [NoteController::class, 'get_tags'])->name('note.get_tags');
 
     Route::resource('image', ImageController::class);

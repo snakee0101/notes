@@ -177,4 +177,40 @@ class TagTest extends TestCase
 
         $this->assertEmpty( $note->fresh()->tags );
     }
+
+    public function test_a_tag_could_be_added_to_specific_note()
+    {
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $tag = Tag::factory()->for($note->owner, 'owner')->create();
+
+        $this->assertEmpty( $note->fresh()->tags );
+
+        $this->post( route('tag.add_to_note', [
+            'note' => $note,
+            'tag' => $tag->name
+        ]) );
+
+        $this->assertNotEmpty( $note->fresh()->tags );
+    }
+
+    public function test_a_tag_could_be_removed_from_specific_note()
+    {
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $tag = Tag::factory()->for($note->owner, 'owner')
+            ->hasAttached($note)
+            ->create();
+
+        $this->assertNotEmpty( $note->fresh()->tags );
+
+        $this->delete( route('tag.remove_from_note', [
+            'note' => $note,
+            'tag' => $tag->name
+        ]) );
+
+        $this->assertEmpty( $note->fresh()->tags );
+    }
 }
