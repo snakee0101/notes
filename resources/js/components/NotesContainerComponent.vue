@@ -4,7 +4,7 @@
             <div class="pinned">
                 <p class="font-bold text-sm mb-2">PINNED</p>
 
-                <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" id="pinned_notes_content">
+                <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" ref="pinned_notes_content">
                     <div class="gutter"></div>
 
                     <note-component v-masonry-tile
@@ -25,7 +25,7 @@
             <div class="others">
                 <p class="font-bold text-sm mt-20 mb-2">OTHERS</p>
 
-                <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" id="other_notes_content">
+                <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" ref="other_notes_content">
                     <div class="gutter"></div>
 
                     <note-component v-masonry-tile
@@ -140,7 +140,7 @@ export default {
 
             Object.assign(this.pinned_notes_collection, res.data.data); //force refresh of the paginator to make it reactive
 
-            let contentHeight = document.getElementById('pinned_notes_content').clientHeight;
+            let contentHeight = this.$refs['pinned_notes_content'].clientHeight;
             window.scrollBy(0,-contentHeight/2);
         },
 
@@ -162,7 +162,7 @@ export default {
 
             Object.assign(this.other_notes_collection, res.data.data); //force refresh of the paginator to make it reactive
 
-            let contentHeight = document.getElementById('other_notes_content').clientHeight;
+            let contentHeight = this.$refs['other_notes_content'].clientHeight;
             window.scrollBy(0,-contentHeight/2);
         }
     }
