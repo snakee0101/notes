@@ -165,16 +165,18 @@ export default {
             this.notes = [];
         },
         deleteForever() {
-            //TODO: deletes the note forever
+            this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'delete_forever', ''));
+            this.deselectAll();
         },
         restore() {
-            //TODO: restores the note
+            this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'restore', ''));
+            this.deselectAll();
         },
         pin() {
-            //...
+            //TODO: pin the note
         },
         unpin() {
-            //...
+            //TODO: unpin the note
         },
         remind() {
             //TODO: remainder of the notes
