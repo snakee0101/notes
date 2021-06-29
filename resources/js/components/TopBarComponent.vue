@@ -174,7 +174,8 @@ export default {
     methods: {
         bindTags(label, action) {
             if(action === 'add')
-                this.notes.forEach((note) => axios.post('/tag/add/' + note.id + '/' + label));
+                this.notes.forEach((note) => axios.post('/tag/add/' + note.id + '/' + label)
+                                                  .then(res => window.events.$emit('reload_note_tags', note.id)));
 
             if(action === 'remove')
                 this.notes.forEach((note) => axios.delete('/tag/remove/' + note.id + '/' + label)
