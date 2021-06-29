@@ -185,7 +185,12 @@ export default {
             //TODO: sets selected color for all selected notes
         },
         toggleArchive() {
-            //TODO: set archived state for all the notes depend on page
+            if(this.isOnPage('/archive'))
+                this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'unarchive', ''));
+            else
+                this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'archive', ''));
+
+            this.deselectAll();
         },
         deleteNotes() {
             this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'deleteNote', ''));
