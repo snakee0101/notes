@@ -177,7 +177,8 @@ export default {
                 this.notes.forEach((note) => axios.post('/tag/add/' + note.id + '/' + label));
 
             if(action === 'remove')
-                this.notes.forEach((note) => axios.delete('/tag/remove/' + note.id + '/' + label));
+                this.notes.forEach((note) => axios.delete('/tag/remove/' + note.id + '/' + label)
+                                                  .then(res => window.events.$emit('reload_note_tags', note.id)));
 
             this.deselectAll();
         },
