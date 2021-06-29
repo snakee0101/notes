@@ -150,14 +150,11 @@
                    title="Change color"
                    @click.prevent>
                     <i class="bi bi-palette icon-sm"></i>
-
                 </a>
-                <div class="vertical-tooltiptext rounded-md">
+                <div class="vertical-tooltiptext ">
                     <a v-for="color in colors"
                        href=""
-                       :class="'color-circle bg-google-' + color + ' ' + isActive(color)"
-                       v-b-tooltip.hover.bottom
-                       :title="color"
+                       :class="'rounded-md color-circle bg-google-' + color + ' ' + isActive(color)"
                        @click.prevent="changeColor(color)">
                         <i class="bi bi-check icon-sm"></i>
                     </a>
