@@ -168,7 +168,8 @@ export default {
             //TODO: set archived state for all the notes depend on page
         },
         deleteNotes() {
-            //TODO: delete
+            this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'deleteNote', ''));
+            this.deselectAll();
         },
         openSetLabelsDialog() {
             //TODO: add label
