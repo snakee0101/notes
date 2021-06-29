@@ -164,6 +164,7 @@ export default {
     },
     created() {
         window.events.$on('note_selection_changed', this.registerNoteSelection);
+        window.events.$on('reload_top_bar_tags', this.bindTags);
     },
     computed: {
         isAllNotesPinned() {
@@ -171,6 +172,9 @@ export default {
         }
     },
     methods: {
+        bindTags(label, action) {
+            alert(label + '__' + action);
+        },
         registerNoteSelection(note, selected) {
             (selected) ? this.addNote(note) : this.removeNote(note);
         },
