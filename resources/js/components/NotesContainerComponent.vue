@@ -8,9 +8,9 @@
                     <div class="gutter"></div>
 
                     <note-component v-masonry-tile
-                                    v-for="note in pinned_notes_collection"
-                                    :key="note.id"
-                                    :note="note"
+                                    v-for="pinned_note in pinned_notes_collection"
+                                    :key="pinned_note.id"
+                                    :note="pinned_note"
                                     :isTrashed="isTrashed">
 
                     </note-component>
@@ -29,9 +29,9 @@
                     <div class="gutter"></div>
 
                     <note-component v-masonry-tile
-                                    v-for="note in other_notes_collection"
-                                    :key="note.id"
-                                    :note="note"
+                                    v-for="other_note in other_notes_collection"
+                                    :key="other_note.id"
+                                    :note="other_note"
                                     :isTrashed="isTrashed">
 
                     </note-component>

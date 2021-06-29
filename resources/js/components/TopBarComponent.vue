@@ -51,11 +51,21 @@
 
                 <div class="flex flex-row items-center">
                     <a href="" class="mr-3 rounded-full"
+                       @click.prevent="unpin()"
+                       v-b-tooltip.hover.bottom
+                       title="Unpin"
+                       v-if="isAllNotesPinned">
+                        <i class="bi bi-pin icon" style="color: rgb(26, 86, 219)"></i>
+                    </a>
+
+                    <a href="" class="mr-3 rounded-full"
                        @click.prevent="pin()"
                        v-b-tooltip.hover.bottom
-                       title="Pin"> <!--TODO: if only pinned notes were selected then "Unpin" should be here; if there is even one unpinned note then "Pin" should be here-->
+                       title="Pin"
+                       v-else>
                         <i class="bi bi-pin-fill icon" style="color: rgb(26, 86, 219)"></i>
                     </a>
+
 
                     <a href="" class="mr-3 rounded-full"
                        @click.prevent="remind()"
@@ -132,6 +142,11 @@ export default {
     created() {
         window.events.$on('note_selection_changed', this.registerNoteSelection);
     },
+    computed: {
+        isAllNotesPinned() {
+            return this.notes.every( (note) => note.pinned );
+        }
+    },
     methods: {
         registerNoteSelection(note, selected) {
             (selected) ? this.addNote(note) : this.removeNote(note);
@@ -156,7 +171,10 @@ export default {
             //TODO: restores the note
         },
         pin() {
-            //TODO: sets the specific pinned state depend on condition
+            //...
+        },
+        unpin() {
+            //...
         },
         remind() {
             //TODO: remainder of the notes
