@@ -1,6 +1,6 @@
 <template>
     <header>
-        <set-labels-component :is-global="true">
+        <set-labels-component :is-global="true" ref="labels-dialog">
 
         </set-labels-component>
 
@@ -181,6 +181,7 @@ export default {
                                                   .then(res => window.events.$emit('reload_note_tags', note.id)));
 
             this.deselectAll();
+            this.$refs['labels-dialog'].hide();
         },
         registerNoteSelection(note, selected) {
             (selected) ? this.addNote(note) : this.removeNote(note);
