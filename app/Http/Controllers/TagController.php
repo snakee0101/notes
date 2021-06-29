@@ -63,7 +63,7 @@ class TagController extends Controller
 
     public function addToNote(Note $note, Tag $tag) //TODO: for future - only owner of note and tags could add tag to the note
     {
-        $note->tags()->attach($tag);
+        $note->tags()->attach($tag); //TODO: prevent duplications caused by re-adding the tag
     }
 
     public function removeFromNote(Note $note, Tag $tag) //TODO: for future - only owner of note and tags could remove tag from the note

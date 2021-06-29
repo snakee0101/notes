@@ -173,7 +173,13 @@ export default {
     },
     methods: {
         bindTags(label, action) {
-            alert(label + '__' + action);
+            if(action === 'add')
+                this.notes.forEach((note) => axios.post('/tag/add/' + note.id + '/' + label));
+
+            if(action === 'remove')
+                this.notes.forEach((note) => axios.delete('/tag/remove/' + note.id + '/' + label));
+
+            this.deselectAll();
         },
         registerNoteSelection(note, selected) {
             (selected) ? this.addNote(note) : this.removeNote(note);
