@@ -666,6 +666,9 @@ export default {
             if(this.note.id !== note.id)
                 return;
 
+            if(action === 'changeColor')
+                return this.changeColor(parameter);
+
             //TODO: reminder, color, and label accept parameter and then execution is interrupted by return
             //TODO: Example: if(action === 'changeColor') { return this.changeColor(parameter) }
 

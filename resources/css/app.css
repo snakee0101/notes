@@ -118,6 +118,12 @@ nav a.active {
     transition: opacity 0.3s;
 }
 
+.topbar-vertical-tooltiptext {
+    bottom: 0;
+    left: 0;
+    top: 25px;
+}
+
 .custom-tooltip:hover .tooltiptext,
 .tooltip2:hover .tooltip2text,
 .custom-tooltip:hover .tooltip3text,

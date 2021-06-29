@@ -74,12 +74,24 @@
                         <i class="bi bi-bell icon" style="color: rgb(26, 86, 219)"></i>
                     </a>
 
-                    <a href="" class="mr-3 rounded-full"
-                       @click.prevent="changeColor()"
-                       v-b-tooltip.hover.bottom
-                       title="Change color">
-                        <i class="bi bi-palette icon" style="color: rgb(26, 86, 219)"></i>
-                    </a>
+                    <div class="custom-tooltip">
+                        <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+                           v-b-tooltip.hover.lefttop
+                           title="Change color"
+                           @click.prevent>
+                            <i class="bi bi-palette icon" style="color: rgb(26, 86, 219)"></i>
+                        </a>
+                        <div class="vertical-tooltiptext topbar-vertical-tooltiptext rounded-md"> <!--TODO: fix displaying - hides when hovered on another circle-->
+                            <a v-for="color in colors"
+                               href=""
+                               :class="'color-circle bg-google-' + color"
+                               v-b-tooltip.hover.lefttop
+                               :title="color"
+                               @click.prevent="changeColor(color)">
+                                <i class="bi bi-check icon-sm"></i>
+                            </a>
+                        </div>
+                    </div>
 
                     <a href="" class="mr-3 rounded-full"
                        @click.prevent="toggleArchive()"
@@ -136,7 +148,12 @@ export default {
     name: "TopBarComponent",
     data() {
       return {
-          notes: []
+          notes: [],
+          colors: [
+              'white', 'red', 'orange', 'yellow',
+              'green', 'teal', 'blue', 'dark-blue',
+              'purple', 'pink', 'brown', 'grey'
+          ],
       }
     },
     created() {
@@ -181,8 +198,9 @@ export default {
         remind() {
             //TODO: remainder of the notes
         },
-        changeColor() {
-            //TODO: sets selected color for all selected notes
+        changeColor(color) {
+            this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'changeColor', color));
+            this.deselectAll();
         },
         toggleArchive() {
             if(this.isOnPage('/archive'))
