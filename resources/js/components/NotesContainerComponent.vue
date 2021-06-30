@@ -104,9 +104,9 @@ export default {
     methods: {
         addNote(note) {
             if(note.pinned)
-                this.pinned_notes_collection.unshift(note);
+                this.pinned_notes_collection.push(note);
             else
-                this.other_notes_collection.unshift(note);
+                this.other_notes_collection.push(note);
         },
         deleteNote(note) {
             if(note.pinned)

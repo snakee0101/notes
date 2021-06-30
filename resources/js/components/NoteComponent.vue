@@ -593,6 +593,13 @@ export default {
             axios.put('/note/' + this.note.id, {'pinned': this.note.pinned})
                 .then(res => window.events.$emit('note_created', this.note));
         },
+        unpin() {
+            window.events.$emit('note_deleted', this.note);
+            this.note.pinned = false;
+
+            axios.put('/note/' + this.note.id, {'pinned': this.note.pinned})
+                .then(res => window.events.$emit('note_created', this.note));
+        },
         isActive(color) {
             return (this.note.color === color) ? 'active' : '';
         },

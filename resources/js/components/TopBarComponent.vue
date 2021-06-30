@@ -313,6 +313,7 @@ export default {
     },
     methods: {
         //TODO: After most action manually redraw masonry with Vuemasonry.redraw
+        //TODO: Problem - sometimes notes are duplicating (for example, with pin/unpin actions)
         bindTags(label, action) {
             if(action === 'add')
                 this.notes.forEach((note) => axios.post('/tag/add/' + note.id + '/' + label)
@@ -350,23 +351,13 @@ export default {
             this.deselectAll();
         },
         pin() {
-            //TODO: pin the note
-
-            //TODO: Plan
-            //TODO: 1. Determine exactly what notes should change their state
-            //TODO: 2. Send corresponding event foreach('pin'/'unpin', note) WITH ONLY NOTES THAT WILL CHANGE STATE (TO AVOID REDRAWING ALL THE NOTES)
-            //TODO: 3. when receiving the event, event handler MUST (separate event handlers for pin/unpin or one with pinned = true/false argument):
-            //TODO: 4. Delete the note from old container
-            //TODO: 5. send the request with new data to save pinned state
-            //TODO: 6. add note to new container
-
             let notes_to_be_pinned = this.notes.filter(note => note.pinned === false);
             notes_to_be_pinned.forEach(note => window.events.$emit('perform_note_action', note, 'pin', ''));
             this.deselectAll();
         },
         unpin() {
-            alert('should unpin');
-            //TODO: unpin the note
+            this.notes.forEach(note => window.events.$emit('perform_note_action', note, 'unpin', '')); //unpinned notes are already selected by isAllNotesPinned computed property
+            this.deselectAll();
         },
         changeColor(color) {
             this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'changeColor', color));
