@@ -350,7 +350,6 @@ export default {
             this.deselectAll();
         },
         pin() {
-            alert('should pin');
             //TODO: pin the note
 
             //TODO: Plan
@@ -361,7 +360,9 @@ export default {
             //TODO: 5. send the request with new data to save pinned state
             //TODO: 6. add note to new container
 
-
+            let notes_to_be_pinned = this.notes.filter(note => note.pinned === false);
+            notes_to_be_pinned.forEach(note => window.events.$emit('perform_note_action', note, 'pin', ''));
+            this.deselectAll();
         },
         unpin() {
             alert('should unpin');
