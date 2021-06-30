@@ -352,6 +352,16 @@ export default {
         pin() {
             alert('should pin');
             //TODO: pin the note
+
+            //TODO: Plan
+            //TODO: 1. Determine exactly what notes should change their state
+            //TODO: 2. Send corresponding event foreach('pin'/'unpin', note) WITH ONLY NOTES THAT WILL CHANGE STATE (TO AVOID REDRAWING ALL THE NOTES)
+            //TODO: 3. when receiving the event, event handler MUST (separate event handlers for pin/unpin or one with pinned = true/false argument):
+            //TODO: 4. Delete the note from old container
+            //TODO: 5. send the request with new data to save pinned state
+            //TODO: 6. add note to new container
+
+
         },
         unpin() {
             alert('should unpin');
