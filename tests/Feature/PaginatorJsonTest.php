@@ -12,8 +12,6 @@ use Tests\TestCase;
 
 class PaginatorJsonTest extends TestCase
 {
-    //TODO: there is no pinned/OTHER NOTES COLLECTION CHECK
-
     public function test_main_page_paginator()
     {
         $owner = User::factory()->create();
@@ -31,6 +29,24 @@ class PaginatorJsonTest extends TestCase
 
 
         $http_response = $this->getJson( route('notes') . '?page=2&notes_type=other_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+
+
+        //CHECK FOR PINNED NOTES
+        $notes->toQuery()->update(['pinned' => true]);
+        $notes = Note::all();
+
+        $http_response = $this->getJson( route('notes') . '?page=1&notes_type=pinned_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+
+
+        $http_response = $this->getJson( route('notes') . '?page=2&notes_type=pinned_notes' );
         $this->assertJson($http_response->content());
 
         $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
@@ -60,6 +76,23 @@ class PaginatorJsonTest extends TestCase
 
         $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
         $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+
+        //CHECK FOR PINNED NOTES
+        $notes->toQuery()->update(['pinned' => true]);
+        $notes = Note::all();
+
+        $http_response = $this->getJson( route('tag.show',$tag->name) . '?page=1&notes_type=pinned_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+
+
+        $http_response = $this->getJson( route('tag.show',$tag->name) . '?page=2&notes_type=pinned_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
     }
 
     public function test_reminder_page_paginator()
@@ -80,6 +113,24 @@ class PaginatorJsonTest extends TestCase
 
 
         $http_response = $this->getJson( route('reminder.index') . '?page=2&notes_type=other_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+
+
+        //CHECK FOR PINNED NOTES
+        $notes->toQuery()->update(['pinned' => true]);
+        $notes = Note::all();
+
+        $http_response = $this->getJson( route('reminder.index') . '?page=1&notes_type=pinned_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+
+
+        $http_response = $this->getJson( route('reminder.index') . '?page=2&notes_type=pinned_notes' );
         $this->assertJson($http_response->content());
 
         $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
@@ -107,6 +158,24 @@ class PaginatorJsonTest extends TestCase
 
         $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
         $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+
+
+        //CHECK FOR PINNED NOTES
+        $notes->toQuery()->update(['pinned' => true]);
+        $notes = Note::withArchived()->get();
+
+        $http_response = $this->getJson( route('archive') . '?page=1&notes_type=pinned_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+
+
+        $http_response = $this->getJson( route('archive') . '?page=2&notes_type=pinned_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
     }
 
     public function test_trash_paginator()
@@ -130,6 +199,24 @@ class PaginatorJsonTest extends TestCase
 
 
         $http_response = $this->getJson( route('trash') . '?page=2&notes_type=other_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+
+
+        //CHECK FOR PINNED NOTES
+        $notes->toQuery()->update(['pinned' => true]);
+        $notes = Note::onlyTrashed()->get();
+
+        $http_response = $this->getJson( route('trash') . '?page=1&notes_type=pinned_notes' );
+        $this->assertJson($http_response->content());
+
+        $this->assertStringContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+        $this->assertStringNotContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+
+
+        $http_response = $this->getJson( route('trash') . '?page=2&notes_type=pinned_notes' );
         $this->assertJson($http_response->content());
 
         $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
