@@ -4,7 +4,6 @@
          ref="note">
         <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="togglePin()"
            v-if="!trashed">
-            <!--TODO: there should be editing state for the note-->
             <i class="bi bi-pin-fill icon text-black"
                v-b-tooltip.hover.bottom title="Unpin" v-if="note.pinned"></i>
 
@@ -33,8 +32,7 @@
 
             <div v-if="editing">
                 <textarea name="note_header" placeholder="Title"
-                          class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
-                          @input="setInputHeight('note-header-input')"
+                          class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent text-xl"
                           v-model="note.header">
 
                 </textarea>
@@ -43,13 +41,8 @@
 
 
             <div v-if="editing">
-                <textarea name="note_content"
-                          placeholder="Take a note..."
-                          class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
-                          @input="setInputHeight('note-content-input')"
-                          v-model="note.body">
-
-                </textarea>
+                <input type="hidden" id="note_content" v-model="note.body">
+                <trix-editor input="note_content" ref="note-editor"></trix-editor>
             </div>
 
             <div v-html="note.body" class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px" v-else> </div>
