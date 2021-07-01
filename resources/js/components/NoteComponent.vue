@@ -13,14 +13,16 @@
 
         <a href="" class="absolute bg-black rounded-full" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
            @click.prevent="toggleSelect()"
-           v-if="selected">
+           v-if="selected"
+           v-show="editing === false">
             <i class="bi bi-check icon-sm text-white"
                v-b-tooltip.hover.bottom title="Deselect note"></i>
         </a>
 
         <a href="" class="absolute bg-black rounded-full hidden group-hover:inline-block" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
            @click.prevent="toggleSelect()"
-           v-else>
+           v-else
+           v-show="editing === false">
             <i class="bi bi-check icon-sm text-white"
                v-b-tooltip.hover.bottom title="Select note"></i>
         </a>
