@@ -1,17 +1,25 @@
 <template>
     <b-modal id="edit-note-modal" title="Edit note" ref="edit-note-modal" centered v-on:ok="applyChanges()" v-on:cancel="cancel()">
+        <note-component :note="note" :isEditing="true">
 
+        </note-component>
     </b-modal>
 </template>
 
 <script>
 export default {
     name: "edit-note-component",
+    data() {
+        return {
+            note: {}
+        };
+    },
     created() {
         window.events.$on('open_note_for_editing', this.openModal);
     },
     methods: {
-        openModal() {
+        openModal(note) {
+            this.note = note;
             this.$refs['edit-note-modal'].show();
         },
         applyChanges() {

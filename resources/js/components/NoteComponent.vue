@@ -325,10 +325,10 @@ import SetLabelsComponent from "./SetLabelsComponent";
 export default {
     name: "NoteComponent",
     components: {SetLabelsComponent},
-    props: ['isTrashed'],
+    props: ['isTrashed', 'isEditing'],
     data() {
         return {
-            editing: false,
+            editing: !!this.isEditing,
             pickedDate: '',
             pickedTime: '',
             pickedRepeatsDate: '',
