@@ -32,6 +32,7 @@ Vue.component('menu-component', require('./components/MenuComponent.vue').defaul
 Vue.component('notification-component', require('./components/NotificationComponent.vue').default);
 Vue.component('notes-container-component', require('./components/NotesContainerComponent.vue').default);
 Vue.component('top-bar-component', require('./components/TopBarComponent.vue').default);
+Vue.component('edit-note-component', require('./components/EditNoteComponent.vue').default);
 
 new Vue({
     el: '#app'

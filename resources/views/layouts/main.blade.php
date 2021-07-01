@@ -40,6 +40,7 @@
     </div>
 
     <notification-component></notification-component>
+    <edit-note-component></edit-note-component>
 </div>
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
