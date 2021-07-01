@@ -380,7 +380,7 @@ export default {
     },
     methods: {
         openForEditing() {
-          console.log('clickable area');
+            window.events.$emit('open_note_for_editing', this.note);
         },
         deselectAll() {
             this.selected = false;
