@@ -26,33 +26,34 @@
                v-b-tooltip.hover.bottom title="Select note"></i>
         </a>
 
+        <div @click="openForEditing" :style="(editing === false) ? 'cursor: pointer' : ''">
+            <div class="images">
+                <img :src="image.thumbnail_small_path" v-for="image in note.images_json">
+            </div>
 
-        <div class="images">
-            <img :src="image.thumbnail_small_path" v-for="image in note.images_json">
+            <div v-if="editing">
+                <textarea name="note_header" placeholder="Title"
+                          class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
+                          @input="setInputHeight('note-header-input')"
+                          v-model="note.header">
+
+                </textarea>
+            </div>
+            <h3 class="font-bold mr-3 break-words" v-else>{{ note.header }}</h3>
+
+
+            <div v-if="editing">
+                <textarea name="note_content"
+                          placeholder="Take a note..."
+                          class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
+                          @input="setInputHeight('note-content-input')"
+                          v-model="note.body">
+
+                </textarea>
+            </div>
+
+            <div v-html="note.body" class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px" v-else> </div>
         </div>
-
-        <div v-if="editing">
-            <textarea name="note_header" placeholder="Title"
-                      class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent"
-                      @input="setInputHeight('note-header-input')"
-                      v-model="note.header">
-
-            </textarea>
-        </div>
-        <h3 class="font-bold mr-3 break-words" v-else>{{ note.header }}</h3>
-
-
-        <div v-if="editing">
-            <textarea name="note_content"
-                      placeholder="Take a note..."
-                      class="note-content-input m-2 mb-4 mt-3 focus:outline-none h-auto resize-none bg-transparent"
-                      @input="setInputHeight('note-content-input')"
-                      v-model="note.body">
-
-            </textarea>
-        </div>
-
-        <div v-html="note.body" class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px" v-else> </div>
 
         <div class="tags mb-4">
             <a v-if="note.reminder_json"
@@ -378,6 +379,9 @@ export default {
         }
     },
     methods: {
+        openForEditing() {
+          console.log('clickable area');
+        },
         deselectAll() {
             this.selected = false;
         },
