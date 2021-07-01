@@ -35,7 +35,7 @@
             <div v-if="editing">
                 <textarea name="note_header" placeholder="Title"
                           class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent text-xl"
-                          v-model="note.header">
+                          v-model="editing_note.header">
 
                 </textarea>
             </div>
@@ -43,7 +43,7 @@
 
 
             <div v-if="editing">
-                <input type="hidden" id="note_content" v-model="note.body">
+                <input type="hidden" id="note_content" v-model="editing_note.body">
                 <trix-editor input="note_content" ref="note-editor"></trix-editor>
             </div>
 
@@ -337,7 +337,8 @@ export default {
                 'purple', 'pink', 'brown', 'grey'
             ],
             trashed: this.isTrashed,
-            note: JSON.parse(JSON.stringify(this.$attrs.note)),
+            note: this.$attrs.note,
+            editing_note: JSON.parse(JSON.stringify(this.$attrs.note)),
             repeat_ends: 'never',
             repeat_occurrences: 1,
             repeat_every_value: 1,
