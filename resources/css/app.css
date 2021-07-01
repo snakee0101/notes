@@ -19,6 +19,12 @@ html {
     fill: #707070!important;
 }
 
+header {
+    position: fixed!important;
+    width: 100%!important;
+    z-index: 2000!important;
+    background: white!important;
+}
 
 .icon-2xl {font-size: 8em}
 .icon-xl {font-size: 4em}
@@ -34,6 +40,7 @@ a:hover {text-decoration: none!important}
 
 nav {
     width: 280px!important;
+    position: fixed!important;
 }
 
 nav.collapsed {
@@ -53,10 +60,6 @@ nav.collapsed svg {
     @apply m-0;
 }
 
-nav.collapsed-in-session + main .notes-container {
-    @apply ml-8;
-}
-
 nav a.active {
     @apply bg-yellow-100;
 }
@@ -68,6 +71,8 @@ nav a.active {
 .note-content {
     max-height: 450px;
 }
+
+.notes-container { margin-left: 250px }
 
 [data-trix-button-group="file-tools"] { display: none!important }
 

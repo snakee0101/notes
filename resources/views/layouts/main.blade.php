@@ -24,7 +24,7 @@
 <body class="h-screen antialiased leading-none font-sans flex flex-col">
 <div id="app">
     <top-bar-component></top-bar-component>
-    <div class="flex flex-row justify-between">
+    <div class="flex flex-row justify-between" style="margin-top:80px">
         <menu-component current_route="{{ Route::currentRouteName() }}"
                         tag_link="{{ $tag_name ?? '' }}"
                         tag_names="{{ \App\Models\Tag::getAllNames() }}">
