@@ -1,6 +1,9 @@
 <template>
-    <b-modal id="edit-note-modal" title="Edit note" ref="edit-note-modal" centered v-on:ok="applyChanges()" v-on:cancel="cancel()">
-        <note-component :note="note" :isEditing="true">
+    <b-modal id="edit-note-modal" title="Edit note" ref="edit-note-modal" centered
+             v-on:ok="applyChanges()"
+             v-on:cancel="cancel()"
+             modal-class="edit-note-modal">
+        <note-component :note="note" :isEditing="true" style="width: 630px">
 
         </note-component>
     </b-modal>

@@ -64,6 +64,8 @@ nav a.active {
     @apply bg-yellow-100;
 }
 
+.edit-note-modal .modal-content { width: 634px!important }
+
 .note {
     width: 270px;
 }
