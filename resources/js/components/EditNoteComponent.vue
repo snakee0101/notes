@@ -47,7 +47,6 @@
 export default {
 
     //TODO: delete image
-    //TODO: add image
     //TODO: reflect these changes in NoteComponent in container
     //TODO: all actions with images are made immediately
     //TODO: image actions should be cancellable
@@ -89,9 +88,13 @@ export default {
             const reader = new FileReader();
 
             reader.onloadend = () => {
-                this.encoded_images.push(reader.result);
+                let image = this.$refs['image'].files[0];
 
-                //TODO: send file to the server (the same way as NewNoteComponent does) and show it (also push it to the note.images array - image paths there are identifiers that allow to access image)
+                let data = new FormData();
+                data.append('image', image, image.name);
+                data.append('note_id', this.note.id);
+
+                axios.post('/image', data).then( (res) => this.encoded_images.push(res.data.thumbnail_large_path) );
             };
 
             reader.readAsDataURL(file);
