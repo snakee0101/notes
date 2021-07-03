@@ -19,7 +19,7 @@ html {
     fill: #707070!important;
 }
 
-header {
+.main-page header {
     position: fixed!important;
     width: 100%!important;
     z-index: 2000!important;
