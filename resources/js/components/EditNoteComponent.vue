@@ -32,7 +32,6 @@
                         <i class="bi bi-x icon"></i>
                     </a>
                 </div>
-
             </div>
 
             <p class="mt-2">
@@ -52,6 +51,7 @@ export default {
     //TODO: reflect these changes in NoteComponent in container
     //TODO: all actions with images are made immediately
     //TODO: image actions should be cancellable
+    //TODO: image could be viewed in a full-screen mode
 
     name: "EditNoteComponent",
     data() {
