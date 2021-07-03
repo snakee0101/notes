@@ -13,41 +13,26 @@
 
         <a href="" class="absolute bg-black rounded-full" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
            @click.prevent="toggleSelect()"
-           v-if="selected"
-           v-show="editing === false">
+           v-if="selected">
             <i class="bi bi-check icon-sm text-white"
                v-b-tooltip.hover.bottom title="Deselect note"></i>
         </a>
 
         <a href="" class="absolute bg-black rounded-full hidden group-hover:inline-block" style="top: -0.5rem; left: -0.5rem; padding: 0.1rem"
            @click.prevent="toggleSelect()"
-           v-else
-           v-show="editing === false">
+           v-else>
             <i class="bi bi-check icon-sm text-white"
                v-b-tooltip.hover.bottom title="Select note"></i>
         </a>
 
-        <div @click="openForEditing" :style="(editing === false) ? 'cursor: pointer' : ''">
+        <div @click="openForEditing" style="cursor: pointer">
             <div class="images">
                 <img :src="image.thumbnail_small_path" v-for="image in note.images_json">
             </div>
 
-            <div v-if="editing">
-                <textarea name="note_header" placeholder="Title"
-                          class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent text-xl"
-                          v-model="editing_note.header">
+            <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>
 
-                </textarea>
-            </div>
-            <h3 class="font-bold mr-3 break-words" v-else>{{ note.header }}</h3>
-
-
-            <div v-if="editing">
-                <input type="hidden" id="note_content" v-model="editing_note.body">
-                <trix-editor input="note_content" ref="note-editor"></trix-editor>
-            </div>
-
-            <div v-html="note.body" class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px" v-else> </div>
+            <div v-html="note.body" class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px"> </div>
         </div>
 
         <div class="tags mb-4">
@@ -320,10 +305,9 @@ import SetLabelsComponent from "./SetLabelsComponent";
 export default {
     name: "NoteComponent",
     components: {SetLabelsComponent},
-    props: ['isTrashed', 'isEditing'],
+    props: ['isTrashed'],
     data() {
         return {
-            editing: !!this.isEditing,
             pickedDate: '',
             pickedTime: '',
             pickedRepeatsDate: '',
@@ -338,7 +322,6 @@ export default {
             ],
             trashed: this.isTrashed,
             note: this.$attrs.note,
-            editing_note: JSON.parse(JSON.stringify(this.$attrs.note)),
             repeat_ends: 'never',
             repeat_occurrences: 1,
             repeat_every_value: 1,
