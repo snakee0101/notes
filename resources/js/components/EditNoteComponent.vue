@@ -47,8 +47,6 @@
 export default {
 
     //TODO: reflect these changes in NoteComponent in container
-    //TODO: all actions with images are made immediately
-    //TODO: image actions should be cancellable
     //TODO: image could be viewed in a full-screen mode
 
     name: "EditNoteComponent",
@@ -98,10 +96,19 @@ export default {
 
             reader.readAsDataURL(file);
         },
-        delete_image(index) {
-            axios.post('/image', {
+        delete_image(index) {  //TODO: user can undo this action (with a notification)
+            axios.post('/image/delete', {
                 'thumbnail_large_path': this.encoded_images[index]
-            }).then(res => this.encoded_images.splice(index, 1));
+            }).then(res => this.deleteImageCallback(res, index));
+        },
+        deleteImageCallback(res, index) {
+            window.deleted_image_content = res.data;
+
+            this.encoded_images.splice(index, 1);
+            window.events.$emit('show-notification', 'Image deleted', this.undoImageDeletion);
+        },
+        undoImageDeletion() {
+            alert('undone');
         }
     },
 }
