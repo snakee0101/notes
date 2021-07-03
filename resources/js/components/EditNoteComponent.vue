@@ -19,18 +19,37 @@
                 <input type="hidden" id="note_content" v-model="note.body">
                 <trix-editor input="note_content" ref="note-editor" @change="note.body = $event.target.value"></trix-editor>
             </div>
+
+            <div class="images mt-4" v-if="encoded_images.length">
+                <h6 class="pb-1">Note images</h6>
+                <div class="inline-block relative m-2" v-for="(encoded_image, index) in encoded_images">
+                    <img :src="encoded_image" style="height: 120px; width: 120px">
+                    <a class="bg-gray-300 rounded-full absolute top-1 left-1"
+                       v-b-tooltip.hover.bottom
+                       title="Delete image"
+                       style="cursor: pointer"
+                       @click.prevent="delete_image(index)">
+                        <i class="bi bi-x icon"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </b-modal>
 </template>
 
 <script>
 export default {
+
+    //TODO: delete image
+    //TODO: add image
+
     name: "EditNoteComponent",
     data() {
         return {
             note: {},
             header: '',
-            body: ''
+            body: '',
+            encoded_images: []
         };
     },
     created() {
@@ -41,6 +60,7 @@ export default {
             this.note = JSON.parse(JSON.stringify(note));
             this.header = this.note.header;
             this.body = this.note.body;
+            this.encoded_images = this.note.images.map(image => image.thumbnail_large_path);
 
             this.$refs["edit-note-modal"].show();
         },
