@@ -32,12 +32,14 @@
                         <i class="bi bi-x icon"></i>
                     </a>
                 </div>
-                <p class="mt-2">
-                    <button class="btn btn-success btn-sm" @click="selectImage()">Add image</button>
-                    <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
-                           @change="handleFile()">
-                </p>
+
             </div>
+
+            <p class="mt-2">
+                <button class="btn btn-success btn-sm" @click="selectImage()">Add image</button>
+                <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
+                       @change="handleFile()">
+            </p>
         </div>
     </b-modal>
 </template>
