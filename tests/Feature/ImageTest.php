@@ -72,9 +72,9 @@ class ImageTest extends TestCase
         $note = Note::factory()->create();
         auth()->login($note->owner);
 
-        $storage->put('images/123.jpeg', 12345);
-        $storage->put('thumbnails_small/456.jpeg', 12345);
-        $storage->put('thumbnails_large/789.jpeg', 12345);
+        $storage->put('images/123.jpeg', '12345');
+        $storage->put('thumbnails_small/456.jpeg', '12345');
+        $storage->put('thumbnails_large/789.jpeg', '12345');
 
         $note->images()->create([
             'note_id' => $note->id,
@@ -91,9 +91,11 @@ class ImageTest extends TestCase
         $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
         $this->assertDatabaseCount('images', 1);
 
-        $this->post( route('image.destroy'), [
+        $image_content = $this->post( route('image.destroy'), [
             'thumbnail_large_path' => $note->images[0]->thumbnail_large_path
-        ] );
+        ] )->content();
+
+        $this->assertEquals('12345', $image_content);
 
         $this->assertFalse( $storage->exists('images/123.jpeg') );
         $this->assertFalse( $storage->exists('thumbnails_small/456.jpeg') );

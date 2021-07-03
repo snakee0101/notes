@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Image;
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -94,8 +95,12 @@ class ImageController extends Controller
      */
     public function destroy()
     {
-        Image::where('thumbnail_large_path', request('thumbnail_large_path'))
-            ->first()
-            ->delete();
+        $image = Image::where('thumbnail_large_path', request('thumbnail_large_path'))
+            ->first();
+
+        $image_content = Storage::get(substr($image->image_path, 9));
+        $image->delete();
+
+        return $image_content;
     }
 }
