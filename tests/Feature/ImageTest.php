@@ -91,7 +91,7 @@ class ImageTest extends TestCase
         $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
         $this->assertDatabaseCount('images', 1);
 
-        $this->delete( route('image.destroy'), [
+        $this->post( route('image.destroy'), [
             'thumbnail_large_path' => $note->images[0]->thumbnail_large_path
         ] );
 

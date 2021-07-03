@@ -46,7 +46,6 @@
 <script>
 export default {
 
-    //TODO: delete image
     //TODO: reflect these changes in NoteComponent in container
     //TODO: all actions with images are made immediately
     //TODO: image actions should be cancellable
@@ -100,9 +99,9 @@ export default {
             reader.readAsDataURL(file);
         },
         delete_image(index) {
-            this.encoded_images.splice(index, 1);
-
-            //TODO: actually delete image from DB
+            axios.post('/image', {
+                'thumbnail_large_path': this.encoded_images[index]
+            }).then(res => this.encoded_images.splice(index, 1));
         }
     },
 }
