@@ -216,6 +216,7 @@ section.search.active {
 
 .notification {
     width: 460px;
+    z-index: 2000;
 }
 
 .notification_undo_button {
