@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function() {
 
     Route::resource('image', ImageController::class)->except('destroy');
     Route::post('/image/delete', [ImageController::class, 'destroy'])->name('image.destroy');
+    Route::post('/image/undo_delete', [ImageController::class, 'undoDelete'])->name('image.undo_delete');
 
     Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
     Route::post('/note/duplicate/{note}', [NoteController::class, 'duplicate'])->name('note.duplicate');

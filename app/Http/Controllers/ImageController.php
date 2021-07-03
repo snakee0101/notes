@@ -103,4 +103,9 @@ class ImageController extends Controller
 
         return $image_content;
     }
+
+    public function undoDelete()
+    {
+        return 0;
+    }
 }
