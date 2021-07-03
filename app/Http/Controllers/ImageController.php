@@ -105,23 +105,11 @@ class ImageController extends Controller
         return $image_id;
     }
 
-    public function undoDelete()
+    public function restore($image_id)
     {
-      /*  $temp_name = now()->timestamp . random_int(10000,10000000) . '.jpg';
-        Storage::put("/tmp/$temp_name", request()->input('image_content'));
+        $image = Image::withTrashed()->findOrFail($image_id);
+        $image->restore();
 
-        $image = new UploadedFile(Storage::path("/tmp/$temp_name"), 'test.jpg', 'image/*', null, false);
-
-        $paths = Image::processUpload($image);
-
-        $note = Note::find( request()->input('note_id') );
-        $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => $paths['image_path'],
-            'thumbnail_small_path' => $paths['thumbnail_small_path'],
-            'thumbnail_large_path' => $paths['thumbnail_large_path'],
-        ]);
-
-        return $paths;*/
+        return $image->thumbnail_large_path;
     }
 }

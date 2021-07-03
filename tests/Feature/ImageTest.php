@@ -100,15 +100,13 @@ class ImageTest extends TestCase
 
     public function test_image_deletion_could_be_undone()
     {
-        /*$image = UploadedFIle::fake()->image('test.jpg');
-
         $storage = Storage::fake();
         $note = Note::factory()->create();
         auth()->login($note->owner);
 
-        $storage->put('images/123.jpeg', $image->get());
-        $storage->put('thumbnails_small/456.jpeg', $image->get());
-        $storage->put('thumbnails_large/789.jpeg', $image->get());
+        $storage->put('images/123.jpeg', '12345');
+        $storage->put('thumbnails_small/456.jpeg', '12345');
+        $storage->put('thumbnails_large/789.jpeg', '12345');
 
         $note->images()->create([
             'note_id' => $note->id,
@@ -117,22 +115,16 @@ class ImageTest extends TestCase
             'thumbnail_large_path' => '/storage/thumbnails_large/789' .
                 '.jpeg',
         ]);
+        $image = $note->images()->first();
 
+        $note->images()->first()->delete();
         $note->refresh();
+        $image->refresh();
 
-        $image_id = $this->post( route('image.destroy'), [
-            'thumbnail_large_path' => $note->images[0]->thumbnail_large_path
-        ] )->content();
+        $this->assertSoftDeleted('images', ['id' => $image->id]);
 
-        $this->post( route('image.undo_delete', [
-            'note_id' => $note->id,
-            'image_id' => $image_content
-        ]) );
-
-        $note->refresh();
-        $new_image_content = Storage::get(substr($note->images()->first()->image_path, 9));
-
-        $this->assertEquals($image_content, $new_image_content);*/
+        $thumbnail_large_path = $this->post("/image/restore/$image->id")->assertOk()->content();
+        $this->assertNull( Image::where('thumbnail_large_path', $thumbnail_large_path)->first()->deleted_at );
     }
 
     public function test_images_are_physically_deleted_after_five_minutes_if_deletion_is_not_undone()
