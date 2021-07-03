@@ -16,6 +16,18 @@ class Image extends Model
 
     public $timestamps = false;
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function(self $image) {
+            $path_1 = substr($image->image_path, 9);  //offset for '/storage/' part
+            $path_2 = substr($image->thumbnail_small_path, 9);
+            $path_3 = substr($image->thumbnail_large_path, 9);
+
+            Storage::delete([$path_1, $path_2, $path_3]);
+        });
+    }
+
     public function makeCopy(Note $replica)
     {
         $path_1 = substr($this->image_path, 9);  //offset for '/storage/' part

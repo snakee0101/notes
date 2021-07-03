@@ -66,6 +66,41 @@ class ImageTest extends TestCase
 
     }
 
+    public function test_an_image_could_be_deleted_by_thumbnail_large_path()
+    {
+        $storage = Storage::fake();
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $storage->put('images/123.jpeg', 12345);
+        $storage->put('thumbnails_small/456.jpeg', 12345);
+        $storage->put('thumbnails_large/789.jpeg', 12345);
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
+                '.jpeg',
+        ]);
+
+        $note->refresh();
+
+        $this->assertTrue( $storage->exists('images/123.jpeg') );
+        $this->assertTrue( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
+        $this->assertDatabaseCount('images', 1);
+
+        $this->delete( route('image.destroy'), [
+            'thumbnail_large_path' => $note->images[0]->thumbnail_large_path
+        ] );
+
+        $this->assertFalse( $storage->exists('images/123.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_large/789.jpeg') );
+        $this->assertDatabaseCount('images', 0);
+    }
+
     public function test_images_are_physically_deleted_when_deleting_the_note()
     {
         $storage = Storage::fake();

@@ -92,8 +92,10 @@ class ImageController extends Controller
      * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Image $image)
+    public function destroy()
     {
-        //
+        Image::where('thumbnail_large_path', request('thumbnail_large_path'))
+            ->first()
+            ->delete();
     }
 }
