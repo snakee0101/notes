@@ -94,6 +94,11 @@ export default {
 
             reader.readAsDataURL(file);
         },
+        delete_image(index) {
+            this.encoded_images.splice(index, 1);
+
+            //TODO: actually delete image from DB
+        }
     },
 }
 </script>
