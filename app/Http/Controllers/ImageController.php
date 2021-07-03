@@ -6,6 +6,7 @@ use App\Models\Image;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class ImageController extends Controller
 {
@@ -98,14 +99,29 @@ class ImageController extends Controller
         $image = Image::where('thumbnail_large_path', request('thumbnail_large_path'))
             ->first();
 
-        $image_content = Storage::get(substr($image->image_path, 9));
+        $image_id = $image->id;
         $image->delete();
 
-        return $image_content;
+        return $image_id;
     }
 
     public function undoDelete()
     {
-        return 0;
+      /*  $temp_name = now()->timestamp . random_int(10000,10000000) . '.jpg';
+        Storage::put("/tmp/$temp_name", request()->input('image_content'));
+
+        $image = new UploadedFile(Storage::path("/tmp/$temp_name"), 'test.jpg', 'image/*', null, false);
+
+        $paths = Image::processUpload($image);
+
+        $note = Note::find( request()->input('note_id') );
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => $paths['image_path'],
+            'thumbnail_small_path' => $paths['thumbnail_small_path'],
+            'thumbnail_large_path' => $paths['thumbnail_large_path'],
+        ]);
+
+        return $paths;*/
     }
 }

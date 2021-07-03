@@ -96,19 +96,30 @@ export default {
 
             reader.readAsDataURL(file);
         },
-        delete_image(index) {  //TODO: user can undo this action (with a notification)
+        delete_image(index) {
             axios.post('/image/delete', {
                 'thumbnail_large_path': this.encoded_images[index]
-            }).then(res => this.deleteImageCallback(res, index));
+            }).then(res => this.deleteImageCallback(res.data, index));
         },
-        deleteImageCallback(res, index) {
-            window.deleted_image_content = res.data;
+        deleteImageCallback(deleted_image_id, index) {
+            window.deleted_image_id = deleted_image_id;
 
             this.encoded_images.splice(index, 1);
             window.events.$emit('show-notification', 'Image deleted', this.undoImageDeletion);
         },
         undoImageDeletion() {
-            alert('undone');
+            //TODO: create image once again (create image file with content stored in window.deleted_image_content and post in through the route )
+            //TODO: image should appear in the list
+            //TODO: show notification "undone"
+
+            //TODO: Edit this example
+           /* let data = new FormData();
+
+            data.append('image_content', window.deleted_image_content);
+            data.append('note_id', this.note.id);
+
+            axios.post('/image/undo_delete', data).then( (res) => this.encoded_images.push(res.data.thumbnail_large_path) );
+            window.events.$emit('show-notification', 'Action undone');*/
         }
     },
 }
