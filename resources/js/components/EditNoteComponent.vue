@@ -66,7 +66,7 @@ export default {
             this.note = JSON.parse(JSON.stringify(note));
             this.header = this.note.header;
             this.body = this.note.body;
-            this.encoded_images = this.note.images.map(image => image.thumbnail_large_path);
+            this.encoded_images = this.note.images_json.map(image => image.thumbnail_large_path);
 
             this.$refs["edit-note-modal"].show();
         },
