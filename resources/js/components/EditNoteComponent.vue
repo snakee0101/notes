@@ -75,7 +75,7 @@ export default {
             console.log('apply');
         },
         cancel() {
-            console.log('cancel');
+            this.$refs["edit-note-modal"].hide();
         },
         selectImage() {
             this.$refs['image'].click();
