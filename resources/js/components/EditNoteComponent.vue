@@ -33,7 +33,9 @@
                     </a>
                 </div>
                 <p class="mt-2">
-                    <button class="btn btn-success btn-sm">Add image</button>
+                    <button class="btn btn-success btn-sm" @click="selectImage()">Add image</button>
+                    <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
+                           @change="handleFile()">
                 </p>
             </div>
         </div>
@@ -46,6 +48,8 @@ export default {
     //TODO: delete image
     //TODO: add image
     //TODO: reflect these changes in NoteComponent in container
+    //TODO: all actions with images are made immediately
+    //TODO: image actions should be cancellable
 
     name: "EditNoteComponent",
     data() {
@@ -53,7 +57,7 @@ export default {
             note: {},
             header: '',
             body: '',
-            encoded_images: []
+            encoded_images: [],
         };
     },
     created() {
@@ -74,8 +78,23 @@ export default {
         },
         cancel() {
             console.log('cancel');
-        }
-    }
+        },
+        selectImage() {
+            this.$refs['image'].click();
+        },
+        handleFile() {
+            let file = this.$refs['image'].files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                this.encoded_images.push(reader.result);
+
+                //TODO: send file to the server (the same way as NewNoteComponent does) and show it (also push it to the note.images array - image paths there are identifiers that allow to access image)
+            };
+
+            reader.readAsDataURL(file);
+        },
+    },
 }
 </script>
 
