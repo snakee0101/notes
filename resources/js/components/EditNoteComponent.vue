@@ -108,18 +108,10 @@ export default {
             window.events.$emit('show-notification', 'Image deleted', this.undoImageDeletion);
         },
         undoImageDeletion() {
-            //TODO: create image once again (create image file with content stored in window.deleted_image_content and post in through the route )
-            //TODO: image should appear in the list
-            //TODO: show notification "undone"
+            axios.put('/image/restore/' + window.deleted_image_id)
+                 .then( (res) => this.encoded_images.push(res.data) );
 
-            //TODO: Edit this example
-           /* let data = new FormData();
-
-            data.append('image_content', window.deleted_image_content);
-            data.append('note_id', this.note.id);
-
-            axios.post('/image/undo_delete', data).then( (res) => this.encoded_images.push(res.data.thumbnail_large_path) );
-            window.events.$emit('show-notification', 'Action undone');*/
+            window.events.$emit('show-notification', 'Action undone');
         }
     },
 }

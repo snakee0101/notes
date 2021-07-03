@@ -123,7 +123,7 @@ class ImageTest extends TestCase
 
         $this->assertSoftDeleted('images', ['id' => $image->id]);
 
-        $thumbnail_large_path = $this->post("/image/restore/$image->id")->assertOk()->content();
+        $thumbnail_large_path = $this->put("/image/restore/$image->id")->assertOk()->content();
         $this->assertNull( Image::where('thumbnail_large_path', $thumbnail_large_path)->first()->deleted_at );
     }
 
