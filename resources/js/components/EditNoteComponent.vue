@@ -21,7 +21,7 @@
             </div>
 
             <div class="images mt-4" v-if="encoded_images.length">
-                <h6 class="pb-1">Note images</h6>
+                <h6 class="pb-1">Note images (images are saved immediately)</h6>
                 <div class="inline-block relative m-2" v-for="(encoded_image, index) in encoded_images">
                     <img :src="encoded_image" style="height: 120px; width: 120px">
                     <a class="bg-gray-300 rounded-full absolute top-1 left-1"
@@ -32,6 +32,9 @@
                         <i class="bi bi-x icon"></i>
                     </a>
                 </div>
+                <p class="mt-2">
+                    <button class="btn btn-success btn-sm">Add image</button>
+                </p>
             </div>
         </div>
     </b-modal>
@@ -42,6 +45,7 @@ export default {
 
     //TODO: delete image
     //TODO: add image
+    //TODO: reflect these changes in NoteComponent in container
 
     name: "EditNoteComponent",
     data() {
