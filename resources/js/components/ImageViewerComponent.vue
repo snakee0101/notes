@@ -36,7 +36,14 @@ export default {
         shown: false
       };
     },
+    created() {
+        window.events.$on('open-image-viewer', this.open);
+    },
     methods: {
+        open(current_image, images) {
+            console.log(current_image);
+            console.log(images);
+        },
         zoom() {
             let image = this.$refs['image'];
 
