@@ -41,6 +41,7 @@
 
     <notification-component></notification-component>
     <edit-note-component></edit-note-component>
+    <image-viewer-component></image-viewer-component>
 </div>
     <script src="{{ asset('js/app.js') }}"></script>
     <script>

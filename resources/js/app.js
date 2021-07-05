@@ -33,6 +33,8 @@ Vue.component('notification-component', require('./components/NotificationCompon
 Vue.component('notes-container-component', require('./components/NotesContainerComponent.vue').default);
 Vue.component('top-bar-component', require('./components/TopBarComponent.vue').default);
 Vue.component('edit-note-component', require('./components/EditNoteComponent.vue').default);
+Vue.component('image-viewer-component', require('./components/ImageViewerComponent.vue').default);
+
 
 new Vue({
     el: '#app'
