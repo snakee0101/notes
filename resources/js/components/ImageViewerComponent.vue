@@ -21,7 +21,7 @@
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
             <img :src="current_image.image_path" style="width: 600px" ref="image">
-            <a href="#" @click.prevent="next()" class="absolute right-4 rounded-full">
+            <a href="#" @click.prevent="next()" class="absolute right-4 rounded-full" v-if="next_shown">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
         </div>
@@ -35,6 +35,7 @@ export default {
       return {
         shown: false,
         prev_shown: true,
+        next_shown: true,
         current_image: {},
         images: []
       };
@@ -62,6 +63,8 @@ export default {
 
             image.style.width = newWidth + 'px';
             image.style.height = newHeight + 'px';
+
+            //TODO: check for out of bounds exception ON LOAD
         },
         close() {
             this.shown = false;
@@ -72,18 +75,23 @@ export default {
         edit() {
             alert('edit');
         },
-        prev() { //when loading - width should be original or maximum allowed
+        prev() { //TODO: when loading - width should be original or maximum allowed
             let index = this.images.indexOf(this.current_image);
-            this.current_image = this.images[index - 1]; //TODO: check for out of bounds exception
+            this.current_image = this.images[index - 1];
+
+            this.next_shown = true;
 
             if(index - 2 < 0) //if it was the second image - the previous image of first image is not exists - then prev button must be hidden
                 this.prev_shown = false;
         },
         next() {
             let index = this.images.indexOf(this.current_image);
-            this.current_image = this.images[index + 1]; //TODO: check for out of bounds exception
+            this.current_image = this.images[index + 1];
 
             this.prev_shown = true;
+
+            if(index + 2 > this.images.length - 1) //next button should be hidden, if second image to current does not exists
+                this.next_shown = false;
         },
     }
 }
