@@ -33,16 +33,18 @@ export default {
     name: "ImageViewerComponent",
     methods: {
         zoom() {
-            let aspectRatio = this.$refs['image'].clientWidth/this.$refs['image'].clientHeight;
+            let image = this.$refs['image'];
 
-            let newWidth = this.$refs['image'].clientWidth - event.deltaY * aspectRatio;
-            let newHeight = this.$refs['image'].clientHeight - event.deltaY;
+            let aspectRatio = image.clientWidth/image.clientHeight;
 
-            if(newWidth < 400)
+            let newWidth = image.clientWidth - event.deltaY * aspectRatio;
+            let newHeight = image.clientHeight - event.deltaY;
+
+            if(newWidth < 400 || newWidth > image.naturalWidth)
                 return;
 
-            this.$refs['image'].style.width = newWidth + 'px';
-            this.$refs['image'].style.height = newHeight + 'px';
+            image.style.width = newWidth + 'px';
+            image.style.height = newHeight + 'px';
         }
     }
 }
