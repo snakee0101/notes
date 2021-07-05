@@ -1,5 +1,5 @@
 <template>
-    <div class="image-viewer flex flex-col">
+    <div class="image-viewer flex flex-col" @wheel="zoom()">
         <div class="top-bar flex flex-row justify-between bg-black">
             <div class="ml-3 my-3">
                 <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-800">
@@ -16,11 +16,11 @@
                 </a>
             </div>
         </div>
-        <div class="content flex-grow flex align-items-center justify-content-center bg-black opacity-95">
+        <div class="content flex-grow flex align-items-center justify-content-center bg-black">
             <a href="#" @click.prevent class="absolute left-4 rounded-full">
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
-            <p class="m-auto">content</p>
+            <img src="/storage/images/16253313246400548.png" style="width: 600px" ref="image"> <!--TODO: It is just a test image-->
             <a href="#" @click.prevent class="absolute right-4 rounded-full">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
@@ -30,7 +30,15 @@
 
 <script>
 export default {
-    name: "ImageViewerComponent"
+    name: "ImageViewerComponent",
+    methods: {
+        zoom() {
+            let aspectRatio = this.$refs['image'].clientWidth/this.$refs['image'].clientHeight;
+
+            this.$refs['image'].style.width = this.$refs['image'].clientWidth - event.deltaY * aspectRatio + 'px';
+            this.$refs['image'].style.height = this.$refs['image'].clientHeight - event.deltaY + 'px';
+        }
+    }
 }
 </script>
 
