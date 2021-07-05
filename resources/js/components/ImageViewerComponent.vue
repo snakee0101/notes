@@ -50,11 +50,8 @@ export default {
 
             let index = this.images.indexOf(current_image);
 
-            this.prev_shown = true;
+            this.prev_shown = (index - 1 >= 0); //if the previous image exists - show prev button
             this.next_shown = true;
-
-            if(index - 1 < 0) //if the previous image does not exists - hide prev button
-                this.prev_shown = false;
 
             if(index + 1 > this.images.length - 1) //if the next image does not exists - hide next button
                 this.next_shown = false;
