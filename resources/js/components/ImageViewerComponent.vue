@@ -75,10 +75,13 @@ export default {
             this.shown = false;
         },
         print() {
-            alert('printed');
+            let win = window.open(this.current_image.image_path, '__blank', 'visible=none');
+
+            win.addEventListener('afterprint', event => event.target.close() );
+            win.print();
         },
         edit() {
-            alert('edit');
+            alert('edit'); //TODO: Edit
         },
         prev() { //TODO: when loading - width should be original or maximum allowed
             let index = this.images.indexOf(this.current_image);
