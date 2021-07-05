@@ -121,8 +121,8 @@ class ImageTest extends TestCase
 
         $this->assertSoftDeleted('images', ['id' => $image->id]);
 
-        $thumbnail_large_path = $this->put("/image/restore/$image->id")->assertOk()->content();
-        $this->assertNull( Image::where('thumbnail_large_path', $thumbnail_large_path)->first()->deleted_at );
+        $image = json_decode($this->put("/image/restore/$image->id")->assertOk()->content());
+        $this->assertNull( Image::where('thumbnail_large_path', $image->thumbnail_large_path)->first()->deleted_at );
     }
 
     public function test_images_are_physically_deleted_after_five_minutes_if_deletion_is_not_undone()

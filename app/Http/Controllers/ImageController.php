@@ -106,6 +106,6 @@ class ImageController extends Controller
         $image = Image::withTrashed()->findOrFail($image_id);
         $image->restore();
 
-        return $image->thumbnail_large_path;
+        return $image->fresh();
     }
 }
