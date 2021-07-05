@@ -35,8 +35,14 @@ export default {
         zoom() {
             let aspectRatio = this.$refs['image'].clientWidth/this.$refs['image'].clientHeight;
 
-            this.$refs['image'].style.width = this.$refs['image'].clientWidth - event.deltaY * aspectRatio + 'px';
-            this.$refs['image'].style.height = this.$refs['image'].clientHeight - event.deltaY + 'px';
+            let newWidth = this.$refs['image'].clientWidth - event.deltaY * aspectRatio;
+            let newHeight = this.$refs['image'].clientHeight - event.deltaY;
+
+            if(newWidth < 400)
+                return;
+
+            this.$refs['image'].style.width = newWidth + 'px';
+            this.$refs['image'].style.height = newHeight + 'px';
         }
     }
 }
