@@ -33,7 +33,9 @@ export default {
     name: "ImageViewerComponent",
     data() {
       return {
-        shown: false
+        shown: false,
+        current_image: {},
+        images: []
       };
     },
     created() {
@@ -41,8 +43,10 @@ export default {
     },
     methods: {
         open(current_image, images) {
-            console.log(current_image);
-            console.log(images);
+            this.current_image = current_image;
+            this.images = images;
+
+            this.shown = true;
         },
         zoom() {
             let image = this.$refs['image'];
