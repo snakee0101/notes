@@ -20,7 +20,7 @@
             <a href="#" @click.prevent="prev()" class="absolute left-4 rounded-full">
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
-            <img src="/storage/images/16253313246400548.png" style="width: 600px" ref="image"> <!--TODO: It is just a test image-->
+            <img :src="current_image.image_path" style="width: 600px" ref="image">
             <a href="#" @click.prevent="next()" class="absolute right-4 rounded-full">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
