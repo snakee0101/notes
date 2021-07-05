@@ -23,7 +23,7 @@
             <div class="images mt-4" v-if="images.length">
                 <h6 class="pb-1">Note images (images are saved immediately)</h6>
                 <div class="inline-block relative m-2" v-for="(image, index) in images">
-                    <img :src="image.thumbnail_large_path" style="height: 120px; width: 120px">
+                    <img :src="image.thumbnail_large_path" style="height: 120px; width: 120px; cursor: pointer" @click="openImageViewer(image)">
                     <a class="bg-gray-300 rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
                        title="Delete image"
@@ -111,6 +111,9 @@ export default {
                  .then( (res) => this.images.push(res.data) );
 
             window.events.$emit('show-notification', 'Action undone');
+        },
+        openImageViewer(current_image) {
+            window.events.$emit('open-image-viewer', current_image, this.images);
         }
     },
 }
