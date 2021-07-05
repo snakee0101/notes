@@ -63,7 +63,7 @@ export default {
             image.style.height = newHeight + 'px';
         },
         close() {
-            alert('closed');
+            this.shown = false;
         },
         print() {
             alert('printed');
