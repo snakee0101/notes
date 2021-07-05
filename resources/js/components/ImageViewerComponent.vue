@@ -1,5 +1,5 @@
 <template>
-    <div class="image-viewer flex flex-col" @wheel="zoom()">
+    <div class="image-viewer flex flex-col" @wheel="zoom()" v-if="shown">
         <div class="top-bar flex flex-row justify-between bg-black">
             <div class="ml-3 my-3">
                 <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-800">
@@ -31,6 +31,11 @@
 <script>
 export default {
     name: "ImageViewerComponent",
+    data() {
+      return {
+        shown: false
+      };
+    },
     methods: {
         zoom() {
             let image = this.$refs['image'];
