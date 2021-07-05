@@ -44,14 +44,13 @@ class ImageController extends Controller
         $paths = Image::processUpload($image);
 
         $note = Note::find( $request->input('note_id') );
-        $note->images()->create([
+
+        return $note->images()->create([
             'note_id' => $note->id,
             'image_path' => $paths['image_path'],
             'thumbnail_small_path' => $paths['thumbnail_small_path'],
             'thumbnail_large_path' => $paths['thumbnail_large_path'],
         ]);
-
-        return $paths;
     }
 
     /**
