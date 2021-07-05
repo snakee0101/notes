@@ -23,7 +23,7 @@
             <div class="images mt-4" v-if="images.length">
                 <h6 class="pb-1">Note images (images are saved immediately)</h6>
                 <div class="inline-block relative m-2" v-for="(image, index) in images">
-                    <img :src="image" style="height: 120px; width: 120px">
+                    <img :src="image.thumbnail_large_path" style="height: 120px; width: 120px">
                     <a class="bg-gray-300 rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
                        title="Delete image"
@@ -66,7 +66,7 @@ export default {
             this.note = JSON.parse(JSON.stringify(note));
             this.header = this.note.header;
             this.body = this.note.body;
-            this.images = this.note.images_json.map(image => image.thumbnail_large_path);
+            this.images = this.note.images_json;
 
             this.$refs["edit-note-modal"].show();
         },
@@ -91,15 +91,15 @@ export default {
                 data.append('image', image, image.name);
                 data.append('note_id', this.note.id);
 
-                axios.post('/image', data).then( (res) => this.images.push(res.data.thumbnail_large_path) );
+                axios.post('/image', data).then( (res) => this.images.push(res.data) );
             };
 
             reader.readAsDataURL(file);
         },
         delete_image(index) {
             axios.post('/image/delete', {
-                'thumbnail_large_path': this.images[index]
-            }).then(res => this.deleteImageCallback(res.data, index));
+                'image': this.images[index]
+            }).then(res => this.deleteImageCallback(res.data.id, index));
         },
         deleteImageCallback(deleted_image_id, index) {
             window.deleted_image_id = deleted_image_id;
