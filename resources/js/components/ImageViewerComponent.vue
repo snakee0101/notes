@@ -48,13 +48,10 @@ export default {
             this.current_image = current_image;
             this.images = images;
 
-            let index = this.images.indexOf(current_image);
+            let index = images.indexOf(current_image);
 
             this.prev_shown = (index - 1 >= 0); //if the previous image exists - show prev button
-            this.next_shown = true;
-
-            if(index + 1 > this.images.length - 1) //if the next image does not exists - hide next button
-                this.next_shown = false;
+            this.next_shown = (index + 1 <= images.length - 1); //if the next image exists - show next button
 
             this.shown = true;
         },
@@ -71,8 +68,6 @@ export default {
 
             image.style.width = newWidth + 'px';
             image.style.height = newHeight + 'px';
-
-            //TODO: check for out of bounds exception ON LOAD
         },
         close() {
             this.shown = false;
