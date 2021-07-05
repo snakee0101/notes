@@ -20,10 +20,10 @@
                 <trix-editor input="note_content" ref="note-editor" @change="note.body = $event.target.value"></trix-editor>
             </div>
 
-            <div class="images mt-4" v-if="encoded_images.length">
+            <div class="images mt-4" v-if="images.length">
                 <h6 class="pb-1">Note images (images are saved immediately)</h6>
-                <div class="inline-block relative m-2" v-for="(encoded_image, index) in encoded_images">
-                    <img :src="encoded_image" style="height: 120px; width: 120px">
+                <div class="inline-block relative m-2" v-for="(image, index) in images">
+                    <img :src="image" style="height: 120px; width: 120px">
                     <a class="bg-gray-300 rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
                        title="Delete image"
@@ -55,7 +55,7 @@ export default {
             note: {},
             header: '',
             body: '',
-            encoded_images: [],
+            images: [],
         };
     },
     created() {
@@ -66,7 +66,7 @@ export default {
             this.note = JSON.parse(JSON.stringify(note));
             this.header = this.note.header;
             this.body = this.note.body;
-            this.encoded_images = this.note.images_json.map(image => image.thumbnail_large_path);
+            this.images = this.note.images_json.map(image => image.thumbnail_large_path);
 
             this.$refs["edit-note-modal"].show();
         },
@@ -91,25 +91,25 @@ export default {
                 data.append('image', image, image.name);
                 data.append('note_id', this.note.id);
 
-                axios.post('/image', data).then( (res) => this.encoded_images.push(res.data.thumbnail_large_path) );
+                axios.post('/image', data).then( (res) => this.images.push(res.data.thumbnail_large_path) );
             };
 
             reader.readAsDataURL(file);
         },
         delete_image(index) {
             axios.post('/image/delete', {
-                'thumbnail_large_path': this.encoded_images[index]
+                'thumbnail_large_path': this.images[index]
             }).then(res => this.deleteImageCallback(res.data, index));
         },
         deleteImageCallback(deleted_image_id, index) {
             window.deleted_image_id = deleted_image_id;
 
-            this.encoded_images.splice(index, 1);
+            this.images.splice(index, 1);
             window.events.$emit('show-notification', 'Image deleted', this.undoImageDeletion);
         },
         undoImageDeletion() {
             axios.put('/image/restore/' + window.deleted_image_id)
-                 .then( (res) => this.encoded_images.push(res.data) );
+                 .then( (res) => this.images.push(res.data) );
 
             window.events.$emit('show-notification', 'Action undone');
         }
