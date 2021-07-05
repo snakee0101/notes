@@ -71,11 +71,13 @@ export default {
         edit() {
             alert('edit');
         },
-        prev() {
-            alert('prev');
+        prev() { //when loading - width shoud be original or maximum allowed
+            let index = this.images.indexOf(this.current_image);
+            this.current_image = this.images[index - 1]; //TODO: check for out of bounds exception
         },
         next() {
-            alert('next');
+            let index = this.images.indexOf(this.current_image);
+            this.current_image = this.images[index + 1]; //TODO: check for out of bounds exception
         },
     }
 }
