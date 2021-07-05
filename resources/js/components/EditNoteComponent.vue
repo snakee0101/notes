@@ -97,9 +97,8 @@ export default {
             reader.readAsDataURL(file);
         },
         delete_image(index) {
-            axios.post('/image/delete', {
-                'image': this.images[index]
-            }).then(res => this.deleteImageCallback(res.data.id, index));
+            axios.post('/image/delete/' + this.images[index].id)
+                 .then(res => this.deleteImageCallback(res.data, index));
         },
         deleteImageCallback(deleted_image_id, index) {
             window.deleted_image_id = deleted_image_id;

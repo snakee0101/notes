@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/note/{note}/get_tags', [NoteController::class, 'get_tags'])->name('note.get_tags');
 
     Route::resource('image', ImageController::class)->except('destroy');
-    Route::post('/image/delete', [ImageController::class, 'destroy'])->name('image.destroy');
+    Route::post('/image/delete/{image}', [ImageController::class, 'destroy'])->name('image.destroy');
     Route::put('/image/restore/{image_id}', [ImageController::class, 'restore'])->name('image.restore');
 
     Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');

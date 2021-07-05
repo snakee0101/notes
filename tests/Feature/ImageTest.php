@@ -66,7 +66,7 @@ class ImageTest extends TestCase
 
     }
 
-    public function test_an_image_could_be_soft_deleted_by_thumbnail_large_path()
+    public function test_an_image_could_be_soft_deleted_by_id()
     {
         $storage = Storage::fake();
         $note = Note::factory()->create();
@@ -91,9 +91,7 @@ class ImageTest extends TestCase
         $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
         $this->assertDatabaseCount('images', 1);
 
-        $image_id = $this->post( route('image.destroy'), [
-            'thumbnail_large_path' => $note->images[0]->thumbnail_large_path
-        ] )->content();
+        $image_id = $this->post( route('image.destroy', $note->images[0]))->content();
 
         $this->assertSoftDeleted('images', ['id' => $image_id]);
     }
