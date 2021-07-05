@@ -48,6 +48,17 @@ export default {
             this.current_image = current_image;
             this.images = images;
 
+            let index = this.images.indexOf(current_image);
+
+            this.prev_shown = true;
+            this.next_shown = true;
+
+            if(index - 1 < 0) //if the previous image does not exists - hide prev button
+                this.prev_shown = false;
+
+            if(index + 1 > this.images.length - 1) //if the next image does not exists - hide next button
+                this.next_shown = false;
+
             this.shown = true;
         },
         zoom() {
