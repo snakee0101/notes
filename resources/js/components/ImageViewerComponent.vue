@@ -16,7 +16,7 @@
                 </a>
             </div>
         </div>
-        <div class="content flex-grow flex align-items-center justify-content-center bg-black overflow-hidden">
+        <div class="content flex-grow flex align-items-center justify-content-center overflow-hidden" style="background: rgba(0,0,0,0.85)">
             <a href="#" @click.prevent="prev()" class="absolute left-4 rounded-full">
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
