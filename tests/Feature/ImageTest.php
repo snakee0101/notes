@@ -101,7 +101,7 @@ class ImageTest extends TestCase
         imagejpeg($image, Storage::path('test_OCR.jpg'));
 
         $recognized_text = $this->post(route('image.recognize'), [
-            'image_path' => Storage::path('test_OCR.jpg')
+            'image_path' => '/storage/test_OCR.jpg'
         ])->content();
 
         imagedestroy($image);

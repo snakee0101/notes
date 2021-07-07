@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use thiagoalessio\TesseractOCR\TesseractOCR;
+use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
@@ -113,7 +114,7 @@ class ImageController extends Controller
 
     public function recognize(Request $request)
     {
-        $tesseract = new TesseractOCR( $request->image_path );
+        $tesseract = new TesseractOCR(storage_path() . '/app/' . Str::after($request->image_path,'/storage'));
         return $tesseract->run();
     }
 }

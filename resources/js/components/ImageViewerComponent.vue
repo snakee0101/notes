@@ -106,7 +106,14 @@ export default {
                 this.next_shown = false;
         },
         recognizeText() {
-            alert('recognize text');
+            axios.post('/image/recognize', {
+                'image_path' : this.current_image.image_path
+            }).then(function(res) {
+                console.log(res.data);
+            });
+
+            //TODO: copy it to clipboard
+            //TODO: show notification "recognized text was copied to clipboard"
         }
     }
 }
