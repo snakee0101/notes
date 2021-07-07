@@ -111,9 +111,9 @@ class ImageController extends Controller
         return $image->fresh();
     }
 
-    public function recognize()
+    public function recognize(Request $request)
     {
-        $tesseract = new TesseractOCR( Storage::path('test_OCR.jpg') );
+        $tesseract = new TesseractOCR( $request->image_path );
         return $tesseract->run();
     }
 }
