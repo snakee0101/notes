@@ -114,6 +114,11 @@ class Note extends Model
         return $this->reminder;
     }
 
+    public function checklist()
+    {
+        return $this->hasOne(Checklist::class);
+    }
+
     public function makeCopy()
     {
         //replicate the note

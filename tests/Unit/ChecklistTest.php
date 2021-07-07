@@ -10,7 +10,8 @@ class ChecklistTest extends TestCase
 {
     public function test_a_note_has_a_checklist()
     {
-
+        $note = Note::factory()->has(Checklist::factory())->create();
+        $this->assertInstanceOf(Checklist::class, $note->checklist);
     }
 
     public function test_a_checklist_belongs_to_note()
