@@ -6,24 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateChecklistsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('checklists', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreign('note_id');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('checklists');
