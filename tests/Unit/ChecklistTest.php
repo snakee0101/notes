@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Checklist;
 use App\Models\Note;
+use App\Models\Task;
 use Tests\TestCase;
 
 class ChecklistTest extends TestCase
@@ -22,11 +23,18 @@ class ChecklistTest extends TestCase
 
     public function test_a_checklist_has_many_tasks()
     {
+        $checklist = Checklist::factory()->create();
+        $tasks = Task::factory()->for($checklist)->count(3)->create();
 
+        $this->assertDatabaseCount('tasks', 3);
+        $this->assertInstanceOf(Task::class, $checklist->fresh()->tasks[0]);
     }
 
     public function test_a_task_belongs_to_a_checklist()
     {
+        $checklist = Checklist::factory()->create();
+        $tasks = Task::factory()->for($checklist)->count(3)->create();
 
+        $this->assertInstanceOf(Checklist::class, $tasks[0]->checklist);
     }
 }

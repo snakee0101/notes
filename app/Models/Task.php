@@ -10,4 +10,9 @@ class Task extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    public function checklist()
+    {
+        return $this->belongsTo(Checklist::class);
+    }
 }
