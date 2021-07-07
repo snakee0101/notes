@@ -109,11 +109,10 @@ export default {
             axios.post('/image/recognize', {
                 'image_path' : this.current_image.image_path
             }).then(function(res) {
-                console.log(res.data);
+                navigator.clipboard.writeText(res.data).then(function() {
+                    window.events.$emit('show-notification', 'Recognized text was copied to clipboard');
+                });
             });
-
-            //TODO: copy it to clipboard
-            //TODO: show notification "recognized text was copied to clipboard"
         }
     }
 }
