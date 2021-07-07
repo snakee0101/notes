@@ -5,11 +5,14 @@ namespace Tests\Feature;
 use App\Models\Image;
 use App\Models\Note;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Str;
 use \Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class ImageTest extends TestCase
 {
@@ -64,6 +67,24 @@ class ImageTest extends TestCase
     public function test_thumbnail_large_is_attached()
     {
 
+    }
+
+    public function test_tesseractOCR_service_itself()
+    {
+        $image = imagecreate(200, 200);
+        $color = imagecolorallocate($image, 255, 255, 255);
+        $text_color = imagecolorallocate($image, 0, 0, 0);
+        $font_path = 'storage/app/Roboto-Light.ttf';
+
+        imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
+        imagejpeg($image, Storage::path('test_OCR.jpg'));
+
+        $tesseract = new TesseractOCR( Storage::path('test_OCR.jpg') );
+        $recognized_text = $tesseract->run();
+
+        imagedestroy($image);
+
+        $this->assertEquals('test OCR', $recognized_text);
     }
 
     public function test_an_image_could_be_soft_deleted_by_id()
