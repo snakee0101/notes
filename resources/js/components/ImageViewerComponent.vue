@@ -7,6 +7,10 @@
                 </a>
             </div>
             <div class="mr-3 my-3">
+                <a href="#" @click.prevent="recognizeText()" class="p-2 pt-3 hover:bg-gray-800">
+                    <i class="bi bi-type text-white" style="font-size: 1.5rem"></i>
+                </a>
+
                 <a href="#" @click.prevent="print()" class="p-2 pt-3 hover:bg-gray-800">
                     <i class="bi bi-printer text-white" style="font-size: 1.5rem"></i>
                 </a>
@@ -101,6 +105,9 @@ export default {
             if(index + 2 > this.images.length - 1) //next button should be hidden, if second image to current does not exists
                 this.next_shown = false;
         },
+        recognizeText() {
+            alert('recognize text');
+        }
     }
 }
 </script>
