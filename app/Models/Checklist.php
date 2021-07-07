@@ -9,4 +9,9 @@ class Checklist extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    public function note()
+    {
+        return $this->belongsTo(Note::class);
+    }
 }
