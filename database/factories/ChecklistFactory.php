@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Checklist;
+use App\Models\Note;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ChecklistFactory extends Factory
@@ -22,7 +23,7 @@ class ChecklistFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'note_id' => Note::factory()
         ];
     }
 }

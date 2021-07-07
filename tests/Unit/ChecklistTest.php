@@ -2,7 +2,8 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\Checklist;
+use Tests\TestCase;
 
 class ChecklistTest extends TestCase
 {

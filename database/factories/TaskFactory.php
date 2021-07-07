@@ -2,11 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\Checklist;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 
 class TaskFactory extends Factory
 {
+    use WithFaker;
     /**
      * The name of the factory's corresponding model.
      *
@@ -22,7 +26,9 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'checklist_id' => Checklist::factory(),
+            'text' => $this->faker->sentence,
+            'completed' => random_int(0,1)
         ];
     }
 }

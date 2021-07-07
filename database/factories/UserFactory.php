@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+    use WithFaker;
     /**
      * The name of the factory's corresponding model.
      *
