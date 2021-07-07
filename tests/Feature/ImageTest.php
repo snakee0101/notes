@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Image;
 use App\Models\Note;
+use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Str;
 use \Illuminate\Http\UploadedFile;
@@ -81,6 +82,27 @@ class ImageTest extends TestCase
 
         $tesseract = new TesseractOCR( Storage::path('test_OCR.jpg') );
         $recognized_text = $tesseract->run();
+
+        imagedestroy($image);
+
+        $this->assertEquals('test OCR', $recognized_text);
+    }
+
+    public function test_tesseract_output_in_controller()
+    {
+        auth()->login( User::factory()->create() );
+
+        $image = imagecreate(200, 200);
+        $color = imagecolorallocate($image, 255, 255, 255);
+        $text_color = imagecolorallocate($image, 0, 0, 0);
+        $font_path = 'storage/app/Roboto-Light.ttf';
+
+        imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
+        imagejpeg($image, Storage::path('test_OCR.jpg'));
+
+        $recognized_text = $this->post(route('image.recognize'), [
+            'path' => Storage::path('test_OCR.jpg')
+        ])->content();
 
         imagedestroy($image);
 

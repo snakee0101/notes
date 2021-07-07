@@ -7,6 +7,7 @@ use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class ImageController extends Controller
 {
@@ -101,11 +102,18 @@ class ImageController extends Controller
         return $image_id;
     }
 
+
     public function restore($image_id)
     {
         $image = Image::withTrashed()->findOrFail($image_id);
         $image->restore();
 
         return $image->fresh();
+    }
+
+    public function recognize()
+    {
+        $tesseract = new TesseractOCR( Storage::path('test_OCR.jpg') );
+        return $tesseract->run();
     }
 }
