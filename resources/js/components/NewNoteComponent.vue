@@ -378,8 +378,15 @@ export default {
             this.checklist = blanks_deleted;
             this.isChecklist = true;
         },
-        convertToText() //TODO: convert to text
+        convertToText()
         {
+            let _text = this.checklist.reduce(function(accumulator, task) {
+                return accumulator + task.text + '<br>';
+            }, '');
+
+            this.$refs['new-note-editor'].value = _text;
+
+            this.checklist = {};
             this.isChecklist = false;
         },
         initialize_dependencies() {
