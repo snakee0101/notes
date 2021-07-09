@@ -510,10 +510,14 @@ export default {
         saveChecklist(result) {
             let note = result.data;
 
-            axios.post('/checklist', {
-                'checklist_data' : this.checklist,
-                'note_id' : note.id
-            }).then(res => this.attach_images(res));
+            if(this.isChecklist) {
+                axios.post('/checklist', {
+                    'checklist_data' : this.checklist,
+                    'note_id' : note.id
+                }).then(res => this.attach_images(res));
+            } else {
+               this.attach_images(result);
+            }
         },
         attach_images(result) {
             let note = result.data;
