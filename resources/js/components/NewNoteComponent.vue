@@ -361,13 +361,18 @@ export default {
         setChecklistItemState(item) {
             item.completed = event.target.checked;
         },
-        convertToChecklist() { //TODO: review this code - it eill not work - wrap with object
+        convertToChecklist() {
             let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
             let items = unformatted_text.split(/\n/m);
             let blanks_deleted = items.filter( function(item) {
                 return !(new RegExp(/^\s+$/)).test(item); //remove spaces
             }).filter(function(item) {
                 return item != ''; //remove empty lines
+            }).map(function(text) {
+                return {
+                    text : text,
+                    completed : false
+                };
             });
 
             this.checklist = blanks_deleted;
