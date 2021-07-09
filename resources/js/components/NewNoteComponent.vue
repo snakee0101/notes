@@ -41,9 +41,9 @@
                 </div>
             </div>
 
-            <div>
-                <input type="text" v-model="newChecklistItem">
+            <div class="flex flex-row">
                 <button class="btn btn-primary btn-sm" @click="addToChecklist()"> <i class="bi bi-plus"></i> </button>
+                <input type="text" v-model="newChecklistItem" placeholder="List Item" class="flex-grow ml-2 border-b-2 border-gray-300 focus:outline-none">
             </div>
         </div>
 
