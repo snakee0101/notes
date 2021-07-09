@@ -20,18 +20,13 @@ class ChecklistTest extends TestCase
 
         $this->post( route('checklist.store'), [
             'checklist_data' => [
-                new class(){
-                    public function __construct(public $text = 'some task 1',
-                                                public $completed = true){}
-                },
-                new class(){
-                    public function __construct(public $text = 'second task',
-                                                public $completed = false){}
-                },
-                new class(){
-                    public function __construct(public $text = 'another task',
-                                                public $completed = true){}
-                }],
+                ['text' => 'some task 1',
+                 'completed' => true],
+                ['text' => 'second task',
+                 'completed' => false],
+                ['text' => 'another task',
+                 'completed' => true]
+            ],
             'note_id' => $note->id
         ]);
 
