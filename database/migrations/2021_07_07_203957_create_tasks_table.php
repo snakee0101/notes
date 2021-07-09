@@ -12,6 +12,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->foreignId('checklist_id');
             $table->text('text');
+            $table->unsignedSmallInteger('position');
             $table->boolean('completed')->default(false);
         });
     }
