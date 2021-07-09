@@ -18,9 +18,9 @@ class ChecklistController extends Controller
         $checklist = $note->checklist()->create();
 
         $wrapped = $collection->map(fn($task, $index) => [ //wrap task text into array and assign it a position according to its index
-            'text' => $task->text,
+            'text' => $task['text'],
             'position' => $index + 1,
-            'completed' => $task->completed
+            'completed' => $task['completed']
         ]);
 
         $checklist->tasks()->createMany($wrapped); //Save all tasks to the checklist
