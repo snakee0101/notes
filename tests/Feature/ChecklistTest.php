@@ -18,10 +18,8 @@ class ChecklistTest extends TestCase
 
         $note = Note::factory()->for($user, 'owner')->create();
 
-        $trix_output = "<div><!--block--><b>some task 1</b><br>second task<br><i>another <b>task</b></i></div>";
-
         $this->post( route('checklist.store'), [
-            'checklist_data' => $trix_output,
+            'checklist_data' => ['some task 1', 'second task', 'another task'],
             'note_id' => $note->id
         ]);
 
