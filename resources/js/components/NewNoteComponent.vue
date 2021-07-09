@@ -287,6 +287,7 @@ export default {
             collaboratorEmails: [],
             images: [],
             isChecklist: false,
+            checklist: [],
             encoded_images: [],
             note: {
                 header: '',
@@ -331,6 +332,15 @@ export default {
     },
     methods: {
         convertToChecklist() {
+            let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
+            let items = unformatted_text.split(/\n/m);
+            let blanks_deleted = items.filter( function(item) {
+                return !(new RegExp(/^\s+$/)).test(item); //remove spaces
+            }).filter(function(item) {
+                return item != ''; //remove empty lines
+            });
+
+            this.checklist = blanks_deleted;
             this.isChecklist = true;
         },
         convertToText()
