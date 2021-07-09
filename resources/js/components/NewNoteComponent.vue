@@ -154,7 +154,8 @@
                     </template>
                     <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
                     <b-dropdown-item href="#">Add drawing</b-dropdown-item>
-                    <b-dropdown-item href="#">Show checkboxes</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="convertToText()" v-if="isChecklist">Hide checkboxes</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="convertToChecklist()" v-else>Show checkboxes</b-dropdown-item>
                 </b-dropdown>
             </a>
 
@@ -285,6 +286,7 @@ export default {
             ],
             collaboratorEmails: [],
             images: [],
+            isChecklist: false,
             encoded_images: [],
             note: {
                 header: '',
@@ -328,6 +330,13 @@ export default {
         this.initialize_dependencies();
     },
     methods: {
+        convertToChecklist() {
+            this.isChecklist = true;
+        },
+        convertToText()
+        {
+            this.isChecklist = false;
+        },
         initialize_dependencies() {
             //Set the tag if it exists
             if (this.$attrs.tag_name)
