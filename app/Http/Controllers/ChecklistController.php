@@ -12,8 +12,7 @@ class ChecklistController extends Controller
 
     public function store(Request $request) //Only converts text to a list
     {
-        $task_content_array = Checklist::parse($request->checklist_data);
-        $collection = new Collection($task_content_array);
+        $collection = new Collection($request->checklist_data);
 
         $note = Note::findOrFail($request->note_id); //Checklist could be created only for existing note
         $checklist = $note->checklist()->create();
@@ -24,6 +23,8 @@ class ChecklistController extends Controller
         ]);
 
         $checklist->tasks()->createMany($wrapped); //Save all tasks to the checklist
+
+        return $note->fresh();
     }
 
     public function update(Request $request, Checklist $checklist)

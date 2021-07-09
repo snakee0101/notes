@@ -485,7 +485,7 @@ export default {
         save() {
             axios.post('/note/', {
                 header: this.note.header,
-                body: this.$refs['new-note-editor'].editor.element.innerHTML,
+                body: this.isChecklist ? '_' : this.$refs['new-note-editor'].editor.element.innerHTML,
                 pinned: this.note.pinned,
                 archived: false,
                 color: this.note.color,
@@ -493,7 +493,15 @@ export default {
                 reminder_json: JSON.stringify(this.reminder_json),
                 tags: this.tags,
                 collaboratorEmails: this.collaboratorEmails
-            }).then(this.attach_images)
+            }).then( res => this.saveChecklist(res) );
+        },
+        saveChecklist(result) {
+            let note = result.data;
+
+            axios.post('/checklist', {
+                'checklist_data' : this.checklist,
+                'note_id' : note.id
+            }).then(res => this.attach_images(res));
         },
         attach_images(result) {
             let note = result.data;
