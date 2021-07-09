@@ -37,4 +37,15 @@ class ChecklistTest extends TestCase
 
         $this->assertInstanceOf(Checklist::class, $tasks[0]->checklist);
     }
+
+    public function test_a_checklist_could_be_parsed_to_an_array()
+    {
+        $trix_output = "<div><!--block--><b>some task 1</b><br>second task<br><i>another <b>task</b></i></div>";
+
+        $result = Checklist::parse($trix_output);
+
+        $expected = ["some task 1", "second task", "another task"];
+
+        $this->assertEquals($expected, $result);
+    }
 }

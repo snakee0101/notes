@@ -21,4 +21,13 @@ class Checklist extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public static function parse(string $input)
+    {
+        $splitted_text = preg_split("/\<br\>/", $input);
+
+        $stripped_tags = array_map(fn($item) => strip_tags($item), $splitted_text);
+
+        return $stripped_tags;
+    }
 }
