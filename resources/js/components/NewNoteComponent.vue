@@ -32,7 +32,16 @@
 
         </textarea>
 
-        <trix-editor input="note_content" ref="new-note-editor"></trix-editor>
+        <div v-show="isChecklist">
+            <div class="form-check mb-2" v-for="(item, index) in checklist">
+                <input class="form-check-input" type="checkbox" :value="item" :id="'checklist-item-' + index">
+                <input type="text" v-model="checklist[index]">
+            </div>
+        </div>
+
+        <div v-show="isChecklist === false">
+            <trix-editor input="note_content" ref="new-note-editor"></trix-editor>
+        </div>
 
         <div class="tags my-3">
             <a v-if="reminder_json.time"
