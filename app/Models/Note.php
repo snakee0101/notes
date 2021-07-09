@@ -21,6 +21,8 @@ class Note extends Model
         'archived' => 'boolean',
     ];
 
+    protected $with = ['checklist'];
+
     public function resolveRouteBinding($value, $field = null)
     {
         return static::withArchived()
