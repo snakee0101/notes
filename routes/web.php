@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\TaskController;
 use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
@@ -31,8 +33,10 @@ Route::middleware('auth')->group(function() {
     Route::post('/tag/add/{note}/{tag}', [TagController::class, 'addToNote'])->name('tag.add_to_note');
     Route::delete('/tag/remove/{note}/{tag}', [TagController::class, 'removeFromNote'])->name('tag.remove_from_note');
 
-
     Route::post('/note/{note}/get_tags', [NoteController::class, 'get_tags'])->name('note.get_tags');
+
+    Route::resource('checklist', ChecklistController::class)->only(['store', 'update', 'destroy']);
+    Route::resource('task', TaskController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('image', ImageController::class)->except('destroy');
     Route::post('/image/delete/{image}', [ImageController::class, 'destroy'])->name('image.destroy');
