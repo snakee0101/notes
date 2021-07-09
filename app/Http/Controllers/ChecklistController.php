@@ -17,9 +17,10 @@ class ChecklistController extends Controller
         $note = Note::findOrFail($request->note_id); //Checklist could be created only for existing note
         $checklist = $note->checklist()->create();
 
-        $wrapped = $collection->map(fn($item, $index) => [ //wrap task text into array and assign it a position according to its index
-            'text' => $item,
-            'position' => $index + 1
+        $wrapped = $collection->map(fn($task, $index) => [ //wrap task text into array and assign it a position according to its index
+            'text' => $task->text,
+            'position' => $index + 1,
+            'completed' => $task->completed
         ]);
 
         $checklist->tasks()->createMany($wrapped); //Save all tasks to the checklist

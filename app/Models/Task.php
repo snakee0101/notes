@@ -12,6 +12,10 @@ class Task extends Model
     public $timestamps = false;
     protected $guarded = [];
 
+    protected $casts = [
+        'completed' => 'boolean'
+    ];
+
     public function checklist()
     {
         return $this->belongsTo(Checklist::class);

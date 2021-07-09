@@ -19,7 +19,19 @@ class ChecklistTest extends TestCase
         $note = Note::factory()->for($user, 'owner')->create();
 
         $this->post( route('checklist.store'), [
-            'checklist_data' => ['some task 1', 'second task', 'another task'],
+            'checklist_data' => [
+                new class(){
+                    public function __construct(public $text = 'some task 1',
+                                                public $completed = true){}
+                },
+                new class(){
+                    public function __construct(public $text = 'second task',
+                                                public $completed = false){}
+                },
+                new class(){
+                    public function __construct(public $text = 'another task',
+                                                public $completed = true){}
+                }],
             'note_id' => $note->id
         ]);
 
@@ -30,6 +42,10 @@ class ChecklistTest extends TestCase
         $this->assertEquals('some task 1', $tasks[0]->text);
         $this->assertEquals('second task', $tasks[1]->text);
         $this->assertEquals('another task', $tasks[2]->text);
+
+        $this->assertTrue($tasks[0]->completed);
+        $this->assertFalse($tasks[1]->completed);
+        $this->assertTrue($tasks[2]->completed);
 
         $this->assertEquals(1, $tasks[0]->position);
         $this->assertEquals(2, $tasks[1]->position);
