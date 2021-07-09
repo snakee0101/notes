@@ -32,6 +32,8 @@
 
             <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>
 
+            <!--todo: Show disabled checklist if the note is a checklist-->
+
             <div v-html="note.body" class="note-content my-4 leading-6 overflow-hidden break-words" style="max-height: 300px"> </div>
         </div>
 

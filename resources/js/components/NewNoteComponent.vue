@@ -558,6 +558,9 @@ export default {
             this.repeat_every_unit = 'day';
             this.weekdaysShown = false;
             this.weekdays = [];
+
+            this.checklist = [];
+            this.newChecklistItem = '';
         },
         pin() {
             this.note.pinned = !this.note.pinned;
