@@ -34,8 +34,8 @@
 
         <div v-show="isChecklist">
             <div class="form-check mb-2" v-for="(item, index) in checklist">
-                <input class="form-check-input" type="checkbox" :value="item">
-                <input type="text" v-model="checklist[index]" :ref="'checklist-item-' + index">
+                <input class="form-check-input" type="checkbox" :value="item.completed" @click="setChecklistItemState(item)">
+                <input type="text" v-model="checklist[index].text" :ref="'checklist-item-' + index">
             </div>
 
             <div>
@@ -347,14 +347,21 @@ export default {
     },
     methods: {
         addToChecklist() {
-            if(this.checklist.indexOf(this.newChecklistItem) === -1) {
-                this.checklist.push(this.newChecklistItem);
+            if(this.checklist.indexOf({text : this.newChecklistItem}) === -1) { //TODO: fix indexOf operation
+                this.checklist.push({
+                    text : this.newChecklistItem,
+                    completed : false
+                });
+
                 this.newChecklistItem = '';
             } else {
                 alert('list items should not be duplicated');
             }
         },
-        convertToChecklist() {
+        setChecklistItemState(item) {
+            item.completed = event.target.checked;
+        },
+        convertToChecklist() { //TODO: review this code - it eill not work - wrap with object
             let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
             let items = unformatted_text.split(/\n/m);
             let blanks_deleted = items.filter( function(item) {
@@ -366,7 +373,7 @@ export default {
             this.checklist = blanks_deleted;
             this.isChecklist = true;
         },
-        convertToText()
+        convertToText() //TODO: convert to text
         {
             this.isChecklist = false;
         },
