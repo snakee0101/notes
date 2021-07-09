@@ -33,9 +33,12 @@
         </textarea>
 
         <div v-show="isChecklist">
-            <div class="form-check mb-2" v-for="(item, index) in checklist">
-                <input class="form-check-input" type="checkbox" :value="item.completed" @click="setChecklistItemState(item)">
-                <input type="text" v-model="checklist[index].text" :ref="'checklist-item-' + index">
+            <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist">
+                <div class="flex flex-row">
+                    <input class="form-check-input mt-2" type="checkbox" :value="item.completed" @click="setChecklistItemState(item)">
+                    <input type="text" class="flex-grow" v-model="checklist[index].text" :ref="'checklist-item-' + index">
+                    <a href="#" @click.prevent="removeChecklistItem(index)"> <span class="bi bi-x text-lg"></span> </a>
+                </div>
             </div>
 
             <div>
@@ -357,6 +360,9 @@ export default {
             } else {
                 alert('list items should not be duplicated');
             }
+        },
+        removeChecklistItem(index) {
+            this.checklist.splice(index, 1);
         },
         setChecklistItemState(item) {
             item.completed = event.target.checked;
