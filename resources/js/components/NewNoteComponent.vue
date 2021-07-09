@@ -34,12 +34,13 @@
 
         <div v-show="isChecklist">
             <div class="form-check mb-2" v-for="(item, index) in checklist">
-                <input class="form-check-input" type="checkbox" :value="item" :ref="'checklist-item-' + index">
-                <input type="text" v-model="checklist[index]">
+                <input class="form-check-input" type="checkbox" :value="item">
+                <input type="text" v-model="checklist[index]" :ref="'checklist-item-' + index">
             </div>
 
             <div>
-                <i class="bi bi-plus"></i> <input type="text" v-model="newChecklistItem" @input="addToChecklist()">
+                <input type="text" v-model="newChecklistItem">
+                <button class="btn btn-primary btn-sm" @click="addToChecklist()"> <i class="bi bi-plus"></i> </button>
             </div>
         </div>
 
@@ -346,9 +347,12 @@ export default {
     },
     methods: {
         addToChecklist() {
-            this.checklist.push(this.newChecklistItem); //if not duplicated
-            this.newChecklistItem = '';
-            //move focus to created field
+            if(this.checklist.indexOf(this.newChecklistItem) === -1) {
+                this.checklist.push(this.newChecklistItem);
+                this.newChecklistItem = '';
+            } else {
+                alert('list items should not be duplicated');
+            }
         },
         convertToChecklist() {
             let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
