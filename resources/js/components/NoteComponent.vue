@@ -195,8 +195,8 @@
                     <b-dropdown-item href="#">Add drawing</b-dropdown-item>
                     <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
 
-                    <b-dropdown-item href="#" v-if="note.checklist">Hide checkboxes</b-dropdown-item>
-                    <b-dropdown-item href="#" v-else>Show checkboxes</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="convertToText()" v-if="note.checklist">Hide checkboxes</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="convertToChecklist()" v-else>Show checkboxes</b-dropdown-item>
                 </b-dropdown>
             </a>
         </div>
@@ -373,6 +373,42 @@ export default {
         }
     },
     methods: {
+        convertToChecklist() {
+            let fake_HTML_Element = document.createElement('div');
+            fake_HTML_Element.innerHTML = this.note.body.replaceAll("<br>","\n");
+            let html_removed = fake_HTML_Element.innerText;
+
+            let items = html_removed.split(/\n/m);
+            let blanks_deleted = items.filter(function (item) {
+                return !(new RegExp(/^\s+$/)).test(item); //remove spaces
+            }).filter(function (item) {
+                return item != ''; //remove empty lines
+            }).map(function (text) {
+                return {
+                    text: text,
+                    completed: false
+                };
+            });
+
+            //actually convert to checklist with POST /checklist
+            axios.post('/checklist', {
+                'checklist_data': blanks_deleted,
+                'note_id': this.note.id
+            }).then(res => this.note = res.data);
+
+        },
+        convertToText() {
+            let _text = this.checklist.reduce(function (accumulator, task) {
+                return accumulator + task.text + '<br>';
+            }, '');
+
+            this.note.body = _text;
+
+            //actually covert to text with DELETE /checklist
+
+            this.checklist = {};
+            this.isChecklist = false;
+        },
         openForEditing() {
             window.events.$emit('open_note_for_editing', this.note);
         },
