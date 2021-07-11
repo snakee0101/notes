@@ -398,16 +398,8 @@ export default {
 
         },
         convertToText() {
-            let _text = this.checklist.reduce(function (accumulator, task) {
-                return accumulator + task.text + '<br>';
-            }, '');
-
-            this.note.body = _text;
-
-            //actually covert to text with DELETE /checklist
-
-            this.checklist = {};
-            this.isChecklist = false;
+            axios.delete('/checklist/' + this.note.checklist.id)
+                 .then(res => this.note = res.data);
         },
         openForEditing() {
             window.events.$emit('open_note_for_editing', this.note);
