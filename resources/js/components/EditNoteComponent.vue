@@ -130,16 +130,6 @@ export default {
             this.note.checklist = {tasks : []};
             this.isChecklist = false;
         },
-        /*saveChecklist(result) {
-            let note = result.data;
-            window.newNote = note;
-
-            if (this.isChecklist)
-                axios.post('/checklist', {
-                    'checklist_data': this.checklist,
-                    'note_id': note.id
-                }).then(res => window.newNote = res.data);
-        },*/
         openModal(note) {
             this.note = JSON.parse(JSON.stringify(note));
 
@@ -168,7 +158,10 @@ export default {
                    tasks :  this.note.checklist.tasks
                 }).then(res => this.note = res.data);
             } else { //else - create a new checklist
-
+                axios.post('/checklist', {
+                    'checklist_data': this.note.checklist.tasks,
+                    'note_id': this.note.id
+                }).then(res => this.note = res.data);
             }
 
             console.log('apply');
