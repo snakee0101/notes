@@ -194,7 +194,9 @@
                     <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
                     <b-dropdown-item href="#">Add drawing</b-dropdown-item>
                     <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
-                    <b-dropdown-item href="#">Show checkboxes</b-dropdown-item>
+
+                    <b-dropdown-item href="#" v-if="note.checklist">Hide checkboxes</b-dropdown-item>
+                    <b-dropdown-item href="#" v-else>Show checkboxes</b-dropdown-item>
                 </b-dropdown>
             </a>
         </div>
