@@ -73,6 +73,7 @@ export default {
     name: "EditNoteComponent",
     data() {
         return {
+            newChecklistItem: '',
             note: {},
             header: '',
             body: '',
@@ -83,6 +84,58 @@ export default {
         window.events.$on('open_note_for_editing', this.openModal);
     },
     methods: {
+        //apply changes to this.note.checklist.tasks object directly
+        addToChecklist() {
+            this.note.checklist.tasks.push({
+                text: this.newChecklistItem,
+                completed: false
+            });
+
+            this.newChecklistItem = '';
+        },
+        removeChecklistItem(index) {
+            this.note.checklist.tasks.splice(index, 1);
+        },
+        setChecklistItemState(item) {
+            item.completed = event.target.checked;
+        },
+        /*convertToChecklist() {
+            let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
+            let items = unformatted_text.split(/\n/m);
+            let blanks_deleted = items.filter(function (item) {
+                return !(new RegExp(/^\s+$/)).test(item); //remove spaces
+            }).filter(function (item) {
+                return item != ''; //remove empty lines
+            }).map(function (text) {
+                return {
+                    text: text,
+                    completed: false
+                };
+            });
+
+            this.checklist = blanks_deleted;
+            this.isChecklist = true;
+        },
+        convertToText() {
+            let _text = this.checklist.reduce(function (accumulator, task) {
+                return accumulator + task.text + '<br>';
+            }, '');
+
+            this.$refs['new-note-editor'].value = _text;
+
+            this.checklist = {};
+            this.isChecklist = false;
+        },*/
+        /*saveChecklist(result) {
+            let note = result.data;
+            window.newNote = note;
+
+            if (this.isChecklist)
+                axios.post('/checklist', {
+                    'checklist_data': this.checklist,
+                    'note_id': note.id
+                }).then(res => window.newNote = res.data);
+        },*/
         openModal(note) {
             this.note = JSON.parse(JSON.stringify(note));
             this.header = this.note.header;
@@ -91,8 +144,15 @@ export default {
 
             this.$refs["edit-note-modal"].show();
         },
-        applyChanges() {
-            this.body = this.$refs['note-editor'].value;
+        applyChanges() { //TODO: CHanges should be really applied to the model
+            if(! this.note.checklist) {
+                this.body = this.$refs['note-editor'].value;
+                //apply another changes, if the note doesn't have a checklist
+                return;
+            }
+
+            //if the note has checklist - replace all checklist items at once
+
             console.log('apply');
         },
         cancel() {
