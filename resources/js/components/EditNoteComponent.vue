@@ -119,17 +119,17 @@ export default {
 
             this.checklist = blanks_deleted;
             this.isChecklist = true;
-        },
+        },*/
         convertToText() {
-            let _text = this.checklist.reduce(function (accumulator, task) {
+            let _text = this.note.checklist.tasks.reduce(function (accumulator, task) {
                 return accumulator + task.text + '<br>';
             }, '');
 
-            this.$refs['new-note-editor'].value = _text;
+            this.note.body = _text;
 
-            this.checklist = {};
+            this.note.checklist = {tasks : []};
             this.isChecklist = false;
-        },*/
+        },
         /*saveChecklist(result) {
             let note = result.data;
             window.newNote = note;
