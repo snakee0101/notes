@@ -1,11 +1,9 @@
 <template>
-    <!--TODO: a note or a group of notes could be selected and actions panel should appear instead of top bar-->
     <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors m-auto new-note"
          :class="'bg-google-' + note.color"
          style="width: 630px"
          ref="note">
 
-        <!--TODO: there should be editing state for the note-->
         <a class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full"
            @click.prevent="pin()"
            v-b-tooltip.hover.bottom :title="note.pinned ? 'Unpin' : 'Pin'">
@@ -350,7 +348,7 @@ export default {
     },
     methods: {
         addToChecklist() {
-            if(this.checklist.indexOf({text : this.newChecklistItem}) === -1) { //TODO: fix indexOf operation
+            if(this.checklist.filter(item => item.text == this.newChecklistItem).length === 0) {
                 this.checklist.push({
                     text : this.newChecklistItem,
                     completed : false
