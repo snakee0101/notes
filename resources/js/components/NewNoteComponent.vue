@@ -33,15 +33,18 @@
         <div v-show="isChecklist">
             <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist">
                 <div class="flex flex-row">
-                    <input class="form-check-input mt-2" type="checkbox" :value="item.completed" @click="setChecklistItemState(item)">
-                    <input type="text" class="flex-grow" v-model="checklist[index].text" :ref="'checklist-item-' + index">
+                    <input class="form-check-input mt-2" type="checkbox" :value="item.completed"
+                           @click="setChecklistItemState(item)">
+                    <input type="text" class="flex-grow" v-model="checklist[index].text"
+                           :ref="'checklist-item-' + index">
                     <a href="#" @click.prevent="removeChecklistItem(index)"> <span class="bi bi-x text-lg"></span> </a>
                 </div>
             </div>
 
             <div class="flex flex-row">
-                <button class="btn btn-primary btn-sm" @click="addToChecklist()"> <i class="bi bi-plus"></i> </button>
-                <input type="text" v-model="newChecklistItem" placeholder="List Item" class="flex-grow ml-2 border-b-2 border-gray-300 focus:outline-none">
+                <button class="btn btn-primary btn-sm" @click="addToChecklist()"><i class="bi bi-plus"></i></button>
+                <input type="text" v-model="newChecklistItem" placeholder="List Item"
+                       class="flex-grow ml-2 border-b-2 border-gray-300 focus:outline-none">
             </div>
         </div>
 
@@ -169,7 +172,8 @@
                     </template>
                     <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
                     <b-dropdown-item href="#">Add drawing</b-dropdown-item>
-                    <b-dropdown-item href="#" @click="convertToText()" v-if="isChecklist">Hide checkboxes</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="convertToText()" v-if="isChecklist">Hide checkboxes
+                    </b-dropdown-item>
                     <b-dropdown-item href="#" @click="convertToChecklist()" v-else>Show checkboxes</b-dropdown-item>
                 </b-dropdown>
             </a>
@@ -346,18 +350,15 @@ export default {
         //TODO: Save the note when clicked outside feature
         this.initialize_dependencies();
     },
+    watch: {},
     methods: {
         addToChecklist() {
-            if(this.checklist.filter(item => item.text == this.newChecklistItem).length === 0) {
-                this.checklist.push({
-                    text : this.newChecklistItem,
-                    completed : false
-                });
+            this.checklist.push({
+                text: this.newChecklistItem,
+                completed: false
+            });
 
-                this.newChecklistItem = '';
-            } else {
-                alert('list items should not be duplicated');
-            }
+            this.newChecklistItem = '';
         },
         removeChecklistItem(index) {
             this.checklist.splice(index, 1);
@@ -368,23 +369,22 @@ export default {
         convertToChecklist() {
             let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
             let items = unformatted_text.split(/\n/m);
-            let blanks_deleted = items.filter( function(item) {
+            let blanks_deleted = items.filter(function (item) {
                 return !(new RegExp(/^\s+$/)).test(item); //remove spaces
-            }).filter(function(item) {
+            }).filter(function (item) {
                 return item != ''; //remove empty lines
-            }).map(function(text) {
+            }).map(function (text) {
                 return {
-                    text : text,
-                    completed : false
+                    text: text,
+                    completed: false
                 };
             });
 
             this.checklist = blanks_deleted;
             this.isChecklist = true;
         },
-        convertToText()
-        {
-            let _text = this.checklist.reduce(function(accumulator, task) {
+        convertToText() {
+            let _text = this.checklist.reduce(function (accumulator, task) {
                 return accumulator + task.text + '<br>';
             }, '');
 
@@ -516,18 +516,18 @@ export default {
                 reminder_json: JSON.stringify(this.reminder_json),
                 tags: this.tags,
                 collaboratorEmails: this.collaboratorEmails
-            }).then( res => this.saveChecklist(res) );
+            }).then(res => this.saveChecklist(res));
         },
         saveChecklist(result) {
             let note = result.data;
 
-            if(this.isChecklist) {
+            if (this.isChecklist) {
                 axios.post('/checklist', {
-                    'checklist_data' : this.checklist,
-                    'note_id' : note.id
+                    'checklist_data': this.checklist,
+                    'note_id': note.id
                 }).then(res => this.attach_images(res));
             } else {
-               this.attach_images(result);
+                this.attach_images(result);
             }
         },
         attach_images(result) {
