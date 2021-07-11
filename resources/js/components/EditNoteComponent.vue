@@ -103,8 +103,8 @@ export default {
         setChecklistItemState(item) {
             item.completed = event.target.checked;
         },
-        /*convertToChecklist() {
-            let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
+        convertToChecklist() {
+            let unformatted_text = this.$refs['note-editor'].editor.element.innerText;
             let items = unformatted_text.split(/\n/m);
             let blanks_deleted = items.filter(function (item) {
                 return !(new RegExp(/^\s+$/)).test(item); //remove spaces
@@ -117,9 +117,9 @@ export default {
                 };
             });
 
-            this.checklist = blanks_deleted;
+            this.note.checklist.tasks = blanks_deleted;
             this.isChecklist = true;
-        },*/
+        },
         convertToText() {
             let _text = this.note.checklist.tasks.reduce(function (accumulator, task) {
                 return accumulator + task.text + '<br>';
