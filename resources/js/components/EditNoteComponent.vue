@@ -14,7 +14,7 @@
 
             </textarea>
 
-            <div v-if="note.checklist" class="mb-2">
+            <div v-if="isChecklist" class="mb-2">
                 <h6 class="pb-1">Note content</h6>
                 <div class="form-check mb-2 flex flex-col" v-for="(item, index) in note.checklist.tasks">
                     <div class="flex flex-row">
@@ -73,6 +73,7 @@ export default {
     name: "EditNoteComponent",
     data() {
         return {
+            isChecklist: false,
             newChecklistItem: '',
             note: {},
             header: '',
@@ -138,6 +139,14 @@ export default {
         },*/
         openModal(note) {
             this.note = JSON.parse(JSON.stringify(note));
+
+            if(this.note.checklist) {
+                this.isChecklist = true;
+            } else {
+                this.note.checklist = {tasks : []};
+                this.isChecklist = false;
+            }
+
             this.header = this.note.header;
             this.body = this.note.body;
             this.images = this.note.images_json;
@@ -145,7 +154,7 @@ export default {
             this.$refs["edit-note-modal"].show();
         },
         applyChanges() { //TODO: CHanges should be really applied to the model
-            if(! this.note.checklist) {
+            if(this.note.checklist.tasks.length === 0) {
                 this.body = this.$refs['note-editor'].value;
                 //apply another changes, if the note doesn't have a checklist
                 return;
