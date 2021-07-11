@@ -38,6 +38,12 @@ class ChecklistController extends Controller
     {
         $note_id = $checklist->note->id;
 
+        $text = $checklist->tasks->reduce(function ($accumulator, $task) {
+            return $accumulator . $task->text . '<br>';
+        }, '');
+
+        $checklist->note->update(['body' => $text]);
+
         $checklist->tasks->each->delete();
         $checklist->delete();
 

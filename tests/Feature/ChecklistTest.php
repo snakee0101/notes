@@ -68,4 +68,19 @@ class ChecklistTest extends TestCase
         $this->assertDatabaseCount('checklists', 0);
         $this->assertDatabaseCount('tasks', 0);
     }
+
+    public function test_when_checklist_is_deleted_original_note_content_is_restored()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+        $checklist = Checklist::factory()->for($note, 'note')->create();
+        $tasks = Task::factory()->for($checklist)->count(3)->create();
+
+        auth()->login($owner);
+
+        $expected = $tasks[0]->text . '<br>' . $tasks[1]->text . '<br>' . $tasks[2]->text . '<br>';
+        $this->delete(route('checklist.destroy', $checklist));
+
+        $this->assertEquals($expected, $note->fresh()->body);
+    }
 }
