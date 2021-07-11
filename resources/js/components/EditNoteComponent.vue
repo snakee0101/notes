@@ -151,7 +151,13 @@ export default {
                 return;
             }
 
-            //if the note has checklist - replace all checklist items at once
+            if(this.note.checklist.id) {//if the note has already had checklist - replace all checklist items at once
+                axios.put('/checklist/' + this.note.checklist.id, {
+                   tasks :  this.note.checklist.tasks
+                }).then(res => this.note = res.data);
+            } else { //else - create a new checklist
+
+            }
 
             console.log('apply');
         },
