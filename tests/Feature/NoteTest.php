@@ -278,4 +278,15 @@ class NoteTest extends TestCase
 
         $this->assertEquals($collaborator->id, $duplicated_note->collaborators()->first()->id);
     }
+
+    public function test_a_note_json_could_be_returnewd_from_show_controller_action()
+    {
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $this->get(route('note.show', $note))
+             ->assertJson([
+            'header' => $note->header
+        ]);
+    }
 }
