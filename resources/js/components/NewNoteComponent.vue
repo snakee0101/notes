@@ -516,22 +516,21 @@ export default {
                 reminder_json: JSON.stringify(this.reminder_json),
                 tags: this.tags,
                 collaboratorEmails: this.collaboratorEmails
-            }).then(res => this.saveChecklist(res));
+            }).then(res => this.saveChecklist(res))
+              .then(res => this.attach_images());
         },
         saveChecklist(result) {
             let note = result.data;
+            window.newNote = note;
 
-            if (this.isChecklist) {
+            if (this.isChecklist)
                 axios.post('/checklist', {
                     'checklist_data': this.checklist,
                     'note_id': note.id
-                }).then(res => this.attach_images(res));
-            } else {
-                this.attach_images(result);
-            }
+                }).then(res => window.newNote = res.data);
         },
-        attach_images(result) {
-            let note = result.data;
+        attach_images() {
+            let note = window.newNote;
 
             this.images.forEach(function (image) {
                 let data = new FormData();
