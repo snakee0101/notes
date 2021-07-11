@@ -32,29 +32,19 @@
 
             <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>
 
-            <div v-show="note.checklist">
-                it's a checklist
-<!--                <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist">
+            <div v-if="note.checklist">
+                <div class="form-check mb-2 flex flex-col" v-for="(task, index) in note.checklist.tasks">
                     <div class="flex flex-row">
-                        <input class="form-check-input mt-2" type="checkbox" :value="item.completed"
-                               @click="setChecklistItemState(item)">
-                        <input type="text" class="flex-grow" v-model="checklist[index].text"
-                               :ref="'checklist-item-' + index">
-                        <a href="#" @click.prevent="removeChecklistItem(index)"> <span class="bi bi-x text-lg"></span> </a>
+                        <input class="form-check-input mt-2" type="checkbox" :checked="task.completed" disabled>
+                        {{ task.text }}
                     </div>
                 </div>
-
-                <div class="flex flex-row">
-                    <button class="btn btn-primary btn-sm" @click="addToChecklist()"><i class="bi bi-plus"></i></button>
-                    <input type="text" v-model="newChecklistItem" placeholder="List Item"
-                           class="flex-grow ml-2 border-b-2 border-gray-300 focus:outline-none">
-                </div>-->
             </div>
 
             <div v-html="note.body"
                  class="note-content my-4 leading-6 overflow-hidden break-words"
                  style="max-height: 300px"
-                 v-show="note.checklist == null">
+                 v-else>
             </div>
         </div>
 
