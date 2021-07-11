@@ -517,7 +517,9 @@ export default {
                 tags: this.tags,
                 collaboratorEmails: this.collaboratorEmails
             }).then(res => this.saveChecklist(res))
-              .then(res => this.attach_images());
+              .then(res => this.attach_images())
+              .then(res => this.refreshNotesContainer(window.newNote))
+              .then(res => this.reset());
         },
         saveChecklist(result) {
             let note = result.data;
@@ -540,8 +542,8 @@ export default {
                 axios.post('/image', data);
             });
 
-            this.refreshNotesContainer(note);
-            this.reset();
+            axios.get('/note')
+                 .then(res => window.newNote = res.data);
         },
         refreshNotesContainer(note) {
             window.events.$emit('note_created', note);
