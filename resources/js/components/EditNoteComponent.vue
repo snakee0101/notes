@@ -59,6 +59,9 @@
                 <button class="btn btn-success btn-sm" @click="selectImage()">Add image</button>
                 <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
                        @change="handleFile()">
+
+                <button class="btn btn-warning btn-sm" @click="convertToText()" v-if="isChecklist">Hide checkboxes</button>
+                <button class="btn btn-primary btn-sm" @click="convertToChecklist()" v-else>Show checkboxes</button>
             </p>
         </div>
     </b-modal>
