@@ -14,10 +14,31 @@
 
             </textarea>
 
-            <h6 class="pb-1">Note content</h6>
-            <div>
-                <input type="hidden" id="note_content" v-model="note.body">
-                <trix-editor input="note_content" ref="note-editor" @change="note.body = $event.target.value"></trix-editor>
+            <div v-if="note.checklist" class="mb-2">
+                <h6 class="pb-1">Note content</h6>
+                <div class="form-check mb-2 flex flex-col" v-for="(item, index) in note.checklist.tasks">
+                    <div class="flex flex-row">
+                        <input class="form-check-input mt-2" type="checkbox" v-model="item.completed"
+                               @click="setChecklistItemState(item)">
+                        <input type="text" class="flex-grow" v-model="note.checklist.tasks[index].text"
+                               :ref="'checklist-item-' + index">
+                        <a href="#" @click.prevent="removeChecklistItem(index)"> <span class="bi bi-x text-lg"></span> </a>
+                    </div>
+                </div>
+
+                <div class="flex flex-row">
+                    <button class="btn btn-primary btn-sm" @click="addToChecklist()"><i class="bi bi-plus"></i></button>
+                    <input type="text" v-model="newChecklistItem" placeholder="List Item"
+                           class="flex-grow ml-2 border-b-2 border-gray-300 focus:outline-none">
+                </div>
+            </div>
+
+            <div v-else>
+                <h6 class="pb-1">Note content</h6>
+                <div>
+                    <input type="hidden" id="note_content" v-model="note.body">
+                    <trix-editor input="note_content" ref="note-editor" @change="note.body = $event.target.value"></trix-editor>
+                </div>
             </div>
 
             <div class="images mt-4" v-if="images.length">
