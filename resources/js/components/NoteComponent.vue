@@ -33,10 +33,12 @@
             <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>
 
             <div v-if="note.checklist">
-                <div class="form-check mb-2 flex flex-row" v-for="(task, index) in note.checklist.tasks">
+                <div class="form-check mb-2 flex flex-row" v-for="(task, index) in note.checklist.tasks.slice(0,4)">
                     <input class="form-check-input mt-2" type="checkbox" :checked="task.completed" disabled>
                     {{ task.text }}
                 </div>
+
+                <p v-if="note.checklist.tasks.length > 4">...</p>
             </div>
 
             <div v-html="note.body"
