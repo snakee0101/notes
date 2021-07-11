@@ -127,7 +127,7 @@ export default {
 
             this.note.body = _text;
 
-            this.note.checklist = {tasks : []};
+            this.note.checklist.tasks = [];
             this.isChecklist = false;
         },
         openModal(note) {
@@ -147,9 +147,11 @@ export default {
             this.$refs["edit-note-modal"].show();
         },
         applyChanges() { //TODO: CHanges should be really applied to the model
-            if(this.note.checklist.tasks.length === 0) {
+            if(this.isChecklist === false) {
                 this.body = this.$refs['note-editor'].value;
-                //apply another changes, if the note doesn't have a checklist
+                //TODO: apply another changes
+
+                axios.delete('/checklist/' + this.note.checklist.id);
                 return;
             }
 
