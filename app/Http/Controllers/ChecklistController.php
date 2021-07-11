@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Checklist;
 use App\Models\Note;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -35,6 +36,11 @@ class ChecklistController extends Controller
 
     public function destroy(Checklist $checklist)
     {
+        $note_id = $checklist->note->id;
 
+        $checklist->tasks->each->delete();
+        $checklist->delete();
+
+        return Note::find($note_id);
     }
 }

@@ -28,7 +28,8 @@ class TaskFactory extends Factory
         return [
             'checklist_id' => Checklist::factory(),
             'text' => $this->faker->sentence,
-            'completed' => random_int(0,1)
+            'completed' => random_int(0,1),
+            'position' => 1
         ];
     }
 }

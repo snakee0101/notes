@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\Checklist;
 use App\Models\Note;
+use App\Models\Task;
 use App\Models\User;
+use Database\Factories\NoteFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -45,5 +47,25 @@ class ChecklistTest extends TestCase
         $this->assertEquals(1, $tasks[0]->position);
         $this->assertEquals(2, $tasks[1]->position);
         $this->assertEquals(3, $tasks[2]->position);
+    }
+
+    public function test_checklist_and_all_its_tasks_could_be_deleted()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+        $checklist = Checklist::factory()->for($note, 'note')->create();
+        $tasks = Task::factory()->for($checklist)->count(3)->create();
+
+        auth()->login($owner);
+
+        $this->assertDatabaseCount('checklists', 1);
+        $this->assertDatabaseCount('tasks', 3);
+
+        $this->delete(route('checklist.destroy', $checklist))->assertJson([
+            'header' => $note->header
+        ]);
+
+        $this->assertDatabaseCount('checklists', 0);
+        $this->assertDatabaseCount('tasks', 0);
     }
 }
