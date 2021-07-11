@@ -83,4 +83,46 @@ class ChecklistTest extends TestCase
 
         $this->assertEquals($expected, $note->fresh()->body);
     }
+
+    public function test_checklist_is_updated_by_rewriting_tasks()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+        $checklist = Checklist::factory()->for($note, 'note')->create();
+        $tasks = Task::factory()->for($checklist)->count(5)->create();
+
+        auth()->login($owner);
+
+        $this->assertDatabaseCount('tasks', 5);
+
+        $this->put( route('checklist.update', $checklist->id), [
+            'tasks' => [
+                ['text' => 'some task 1',
+                    'completed' => true],
+                ['text' => 'second task',
+                    'completed' => false],
+                ['text' => 'another task',
+                    'completed' => true]
+            ]
+        ] )->assertJsonFragment(['text' => 'some task 1',
+            'completed' => true])
+           ->assertJsonFragment(['text' => 'second task',
+                'completed' => false])
+           ->assertJsonFragment(['text' => 'another task',
+               'completed' => true]);
+
+        $tasks = $note->fresh()->checklist->tasks;
+
+        $this->assertEquals('some task 1', $tasks[0]->text);
+        $this->assertEquals('second task', $tasks[1]->text);
+        $this->assertEquals('another task', $tasks[2]->text);
+
+        $this->assertTrue($tasks[0]->completed);
+        $this->assertFalse($tasks[1]->completed);
+        $this->assertTrue($tasks[2]->completed);
+
+        $this->assertEquals(1, $tasks[0]->position);
+        $this->assertEquals(2, $tasks[1]->position);
+        $this->assertEquals(3, $tasks[2]->position);
+    }
 }
