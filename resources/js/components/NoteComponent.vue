@@ -342,16 +342,6 @@ export default {
         window.events.$on('deselect_all', this.deselectAll);
         window.events.$on('perform_note_action', this.performAction);
     },
-    computed: {
-        remainder_time_formatted() {
-            let reminder_date = this.note.reminder_json.time;
-
-            if (moment(reminder_date).year() > moment().year())
-                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
-
-            return moment(reminder_date).format('MMM D, H:mm A');
-        }
-    },
     methods: {
         convertToChecklist() {
             let fake_HTML_Element = document.createElement('div');

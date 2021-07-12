@@ -26,6 +26,16 @@ module.exports = {
             ]
         }
     },
+    computed: {
+        remainder_time_formatted() {
+            let reminder_date = this.note.reminder_json.time;
+
+            if (moment(reminder_date).year() > moment().year())
+                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
+
+            return moment(reminder_date).format('MMM D, H:mm A');
+        }
+    },
     created() {
         setInterval(this.checkLaterTodayVisibility, 500);
     },
