@@ -54,12 +54,12 @@
 
         <div class="tags my-3">
             <a v-if="reminder_json.time"
-               @click.self.prevent="pickDateAndTime()"
+               @click.self.prevent="$refs['dateTimePicker-modal'].show()"
                href="#"
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2"
                style="border: 1px solid black!important;">
-                <i class="bi bi-alarm icon" @click.self.prevent="pickDateAndTime()"></i>
-                <span ref="updated_reminder_time" @click.self.prevent="pickDateAndTime()">{{ getReminderTime() }}</span>
+                <i class="bi bi-alarm icon" @click.self.prevent="$refs['dateTimePicker-modal'].show()"></i>
+                <span ref="updated_reminder_time" @click.self.prevent="$refs['dateTimePicker-modal'].show()">{{ getReminderTime() }}</span>
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove reminder"
@@ -113,7 +113,7 @@
                         <span class="text-gray-500">Mon., 8:00 AM</span>
                     </b-dropdown-item>
                     <b-dropdown-item href="#"
-                                     @click="pickDateAndTime()"
+                                     @click="$refs['dateTimePicker-modal'].show()"
                                      class="focus:outline-none py-2.5 hover:bg-gray-200">
                         <i class="bi bi-alarm-fill mr-3"></i>
                         Pick date & time
@@ -400,9 +400,6 @@ export default {
         },
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', 'new_note', this.tags);
-        },
-        pickDateAndTime() {
-            this.$refs['dateTimePicker-modal'].show();
         },
         saveReminder() {
             let time = this.pickedDate + ' ' + this.pickedTime;

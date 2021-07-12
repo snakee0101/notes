@@ -78,5 +78,10 @@ module.exports = {
         reload_reminder_json(res) {
             this.note.reminder_json = res.data;
         },
+        pickDateAndTime() {
+            this.$refs['dateTimePicker-modal'].show();
+            this.$refs['reminder-dropdown'].hide()
+            this.initializeRepeatFields();
+        },
     }
 };

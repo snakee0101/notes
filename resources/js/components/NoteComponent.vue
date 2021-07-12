@@ -400,11 +400,6 @@ export default {
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', this.note.id, this.note.tags);
         },
-        pickDateAndTime() {
-            this.$refs['dateTimePicker-modal'].show();
-            this.$refs['reminder-dropdown'].hide()
-            this.initializeRepeatFields();
-        },
         initializeRepeatFields() {
             let repeat_statuses = {
                 'day' : 'Daily',
