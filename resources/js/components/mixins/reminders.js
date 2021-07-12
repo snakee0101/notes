@@ -35,5 +35,20 @@ module.exports = {
         showWeekdays() {
             this.weekdaysShown = (this.repeat_every_unit === 'week');
         },
+        showCustomRepeatOptions() {
+            this.customRepeatStatusShown = (this.repeatStatus === 'Custom');
+            let repeat_units = {
+                'Daily': 'day',
+                'Weekly': 'week',
+                'Monthly': 'month',
+                'Yearly': 'year',
+                'Custom': 'day'
+            };
+            this.repeat_ends = 'never';
+            this.repeat_occurrences = 1;
+            this.repeat_every_value = 1;
+            this.weekdays = [];
+            this.repeat_every_unit = repeat_units[this.repeatStatus];
+        },
     }
 };

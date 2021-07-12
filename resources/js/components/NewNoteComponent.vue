@@ -401,21 +401,6 @@ export default {
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', 'new_note', this.tags);
         },
-        showCustomRepeatOptions() {
-            this.customRepeatStatusShown = (this.repeatStatus === 'Custom');
-            let repeat_units = {
-                'Daily': 'day',
-                'Weekly': 'week',
-                'Monthly': 'month',
-                'Yearly': 'year',
-                'Custom': 'day'
-            };
-            this.repeat_ends = 'never';
-            this.repeat_occurrences = 1;
-            this.repeat_every_value = 1;
-            this.weekdays = [];
-            this.repeat_every_unit = repeat_units[this.repeatStatus];
-        },
         pickDateAndTime() {
             this.$refs['dateTimePicker-modal'].show();
         },
