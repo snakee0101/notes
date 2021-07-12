@@ -63,7 +63,7 @@
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove reminder"
-                   @click.prevent="removeReminder()">
+                   @click.prevent="reminder_json = {}">
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
@@ -460,9 +460,6 @@ export default {
                 return moment(reminder_date).format('MMM D, YYYY, H:mm A');
 
             return moment(reminder_date).format('MMM D, H:mm A');
-        },
-        removeReminder() {
-            this.reminder_json = {};
         },
         save() {
             axios.post('/note/', {

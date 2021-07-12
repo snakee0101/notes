@@ -50,5 +50,18 @@ module.exports = {
             this.weekdays = [];
             this.repeat_every_unit = repeat_units[this.repeatStatus];
         },
+        removeReminder() {
+            axios.delete('/reminder/' + this.note.id);
+
+            window.ReminderNoteId = this.note.id;
+            window.ReminderTime = this.note.reminder_json.time;
+
+            this.note.reminder_json = null;
+
+            if (location.href.includes('/reminder'))
+                window.events.$emit('note_deleted', this.note);
+
+            window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
+        },
     }
 };

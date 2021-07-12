@@ -526,19 +526,6 @@ export default {
         updateReminder(json_time) {
             this.note.reminder_json = json_time;
         },
-        removeReminder() {
-            axios.delete('/reminder/' + this.note.id);
-
-            window.ReminderNoteId = this.note.id;
-            window.ReminderTime = this.note.reminder_json.time;
-
-            this.note.reminder_json = null;
-
-            if (location.href.includes('/reminder'))
-                window.events.$emit('note_deleted', this.note);
-
-            window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
-        },
         undoReminderRemoval() {
             axios.post('/reminder/' + window.ReminderNoteId, {'time': window.ReminderTime});
             this.note.reminder_json = {'time': window.ReminderTime};
