@@ -102,6 +102,55 @@ module.exports = {
             };
 
             return time[text_time];
-        }
+        },
+        initializeRepeatFields() {
+            let repeat_statuses = {
+                'day' : 'Daily',
+                'week' : 'Weekly',
+                'month' : 'Monthly',
+                'year' : 'Yearly'
+            };
+
+            let json = this.note.reminder_json;
+
+            this.pickedDate = json.time ? moment(json.time).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
+            this.pickedTime = json.time ? moment(json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
+
+            //initialize repeat status dropdown
+            if(Object.keys(json.repeat).length == 0) {  //Object.keys(obj).length == 0  - check if the object is empty
+                this.repeatStatus = "Doesn't repeat";
+                return;
+            }
+
+            if( (json.repeat.every.number == 1) &&
+                (json.repeat.ends == undefined) &&
+                (json.repeat.every.weekdays == undefined)) {
+                this.repeatStatus = repeat_statuses[json.repeat.every.unit];
+            } else {
+                //initialize custom repeat status controls
+                this.repeatStatus = "Custom";
+                this.customRepeatStatusShown = true;
+
+                this.repeat_every_value = json.repeat.every.number;
+                this.repeat_every_unit = json.repeat.every.unit;
+
+                if(json.repeat.ends != '') {
+                    if(json.repeat.ends.after != '') {
+                        this.repeat_occurrences = json.repeat.ends.after;
+                        this.repeat_ends = 'occurrences';
+                    }
+
+                    if(json.repeat.ends.on_date != '') {
+                        this.pickedRepeatsDate = moment(json.repeat.ends.on_date).format('YYYY-MM-DD');
+                        this.repeat_ends = 'date';
+                    }
+                }
+
+                if(json.repeat.every.weekdays != undefined) {
+                    this.weekdays = json.repeat.every.weekdays;
+                    this.weekdaysShown = true;
+                }
+            }
+        },
     }
 };
