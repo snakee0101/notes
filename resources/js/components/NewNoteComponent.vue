@@ -287,8 +287,11 @@
 import moment from 'moment';
 import SetLabelsComponent from "./SetLabelsComponent";
 
+let reminders = require('./mixins/reminders.js');
+
 export default {
     name: "NewNoteComponent",
+    mixins: [reminders],
     components: {SetLabelsComponent},
     props: {
         hasRemainder: Boolean,
@@ -297,7 +300,6 @@ export default {
     data() {
         return {
             isCollaboratorsDialogVisible: false,
-            isLaterTodayVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -317,29 +319,9 @@ export default {
                 color: 'white',
                 type: 'text'
             },
-            pickedDate: '',
-            pickedTime: '',
-            pickedRepeatsDate: '',
-            repeatStatus: '',
             reminder_json: {},
             owner_object: JSON.parse(this.owner),
-            customRepeatStatusShown: false,
             tags: [],
-            repeat_ends: 'never',
-            repeat_occurrences: 1,
-            repeat_every_value: 1,
-            repeat_every_unit: 'day',
-            weekdaysShown: false,
-            weekdays: [],
-            weekdaysOptions: [
-                {text: 'Mon', value: 'Monday'},
-                {text: 'Tue', value: 'Tuesday'},
-                {text: 'Wed', value: 'Wednesday'},
-                {text: 'Thu', value: 'Thursday'},
-                {text: 'Fri', value: 'Friday'},
-                {text: 'Sat', value: 'Saturday'},
-                {text: 'Sun', value: 'Sunday'},
-            ]
         };
     },
     created() {
