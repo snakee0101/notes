@@ -403,28 +403,7 @@ export default {
         },
         saveReminder() {
             let time = this.pickedDate + ' ' + this.pickedTime;
-            let repeat = '';
-
-            if (this.repeatStatus !== "Doesn't repeat") {
-                repeat = {
-                    every: {
-                        number: Number(this.repeat_every_value),
-                        unit: this.repeat_every_unit
-                    }
-                };
-
-                if (this.weekdays.length > 0)
-                    repeat.every.weekdays = this.weekdays;
-
-                if (this.repeat_ends !== 'never')
-                    repeat.ends = {after: '', on_date: ''};
-
-                if (this.repeat_ends === "occurrences")
-                    repeat.ends.after = Number(this.repeat_occurrences);
-
-                if (this.repeat_ends === "date")
-                    repeat.ends.on_date = this.pickedRepeatsDate + ' 00:00:00';
-            }
+            let repeat = this.buildRepeatObjectFromData();
 
             this.reminder_json = {
                 time: time,
