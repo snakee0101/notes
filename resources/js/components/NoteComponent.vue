@@ -503,13 +503,7 @@ export default {
             window.events.$emit('show-notification', 'Action undone');
         },
         storeReminder(text_time) {
-            let time = {
-                'later_today': moment().set({'hour': 20}),
-                'tomorrow': moment().add(1, 'days').set({'hour': 8}),
-                'next_week': moment().add(1, 'weeks').set({'day': 'Monday', 'hour': 8}),
-            };
-
-            let formatted_time = time[text_time].set({'minute': 0, 'second': 0})
+            let formatted_time = this.formatDate(text_time).set({'minute': 0, 'second': 0})
                 .format('YYYY-MM-DD HH:mm:ss');
 
             axios.post('/reminder/' + this.note.id, {'time': formatted_time});

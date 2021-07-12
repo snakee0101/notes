@@ -434,20 +434,13 @@ export default {
             this.$refs['dateTimePicker-modal'].hide();
         },
         storeReminder(text_time) {
-            let time = {
-                'later_today': moment().set({'hour': 20}),
-                'tomorrow': moment().add(1, 'days').set({'hour': 8}),
-                'next_week': moment().add(1, 'weeks').set({'day': 'Monday', 'hour': 8}),
-                'soon': moment().add(3, 'hours'),
-            };
-
-            let formatted_time = time[text_time].set({'minute': 0, 'second': 0})
+            let formatted_time = this.formatDate(text_time).set({'minute': 0, 'second': 0})
                 .format('YYYY-MM-DD HH:mm:ss');
 
             this.reminder_json = {'time': formatted_time};
 
-            this.pickedDate = time[text_time].set({'minute': 0, 'second': 0}).format('YYYY-MM-DD');
-            this.pickedTime = time[text_time].set({'minute': 0, 'second': 0}).format('HH:mm:ss');
+            this.pickedDate = this.formatDate(text_time).set({'minute': 0, 'second': 0}).format('YYYY-MM-DD');
+            this.pickedTime = this.formatDate(text_time).set({'minute': 0, 'second': 0}).format('HH:mm:ss');
             this.repeatStatus = "Doesn't repeat";
         },
         save() {

@@ -93,5 +93,15 @@ module.exports = {
 
             return moment(reminder_date).format('MMM D, H:mm A');
         },
+        formatDate(text_time) {
+            let time = {
+                'later_today': moment().set({'hour': 20}),
+                'tomorrow': moment().add(1, 'days').set({'hour': 8}),
+                'next_week': moment().add(1, 'weeks').set({'day': 'Monday', 'hour': 8}),
+                'soon': moment().add(3, 'hours'),
+            };
+
+            return time[text_time];
+        }
     }
 };
