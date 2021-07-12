@@ -32,5 +32,8 @@ module.exports = {
             let evening = (new Date).setHours(19, 0, 0);
             this.isLaterTodayVisible = Date.now() < evening;
         },
+        showWeekdays() {
+            this.weekdaysShown = (this.repeat_every_unit === 'week');
+        },
     }
 };

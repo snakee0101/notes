@@ -401,9 +401,6 @@ export default {
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', 'new_note', this.tags);
         },
-        showWeekdays() {
-            this.weekdaysShown = (this.repeat_every_unit === 'week');
-        },
         showCustomRepeatOptions() {
             this.customRepeatStatusShown = (this.repeatStatus === 'Custom');
             let repeat_units = {

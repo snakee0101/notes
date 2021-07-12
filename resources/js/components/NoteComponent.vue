@@ -492,9 +492,6 @@ export default {
         reload_reminder_json(res) {
             this.note.reminder_json = res.data;
         },
-        showWeekdays() {
-            this.weekdaysShown = (this.repeat_every_unit === 'week');
-        },
         showCustomRepeatOptions() {
             this.customRepeatStatusShown = (this.repeatStatus === 'Custom');
             let repeat_units = {
