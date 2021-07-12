@@ -526,15 +526,6 @@ export default {
         updateReminder(json_time) {
             this.note.reminder_json = json_time;
         },
-        undoReminderRemoval() {
-            axios.post('/reminder/' + window.ReminderNoteId, {'time': window.ReminderTime});
-            this.note.reminder_json = {'time': window.ReminderTime};
-
-            if (location.href.includes('/reminder'))
-                window.events.$emit('note_created', this.note);
-
-            window.events.$emit('show-notification', 'Action undone');
-        },
         refreshImage(data) {
             this.note.images_json.push(data);
         },

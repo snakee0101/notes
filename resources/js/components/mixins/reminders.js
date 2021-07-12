@@ -63,5 +63,14 @@ module.exports = {
 
             window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
         },
+        undoReminderRemoval() {
+            axios.post('/reminder/' + window.ReminderNoteId, {'time': window.ReminderTime});
+            this.note.reminder_json = {'time': window.ReminderTime};
+
+            if (location.href.includes('/reminder'))
+                window.events.$emit('note_created', this.note);
+
+            window.events.$emit('show-notification', 'Action undone');
+        },
     }
 };
