@@ -450,14 +450,6 @@ export default {
             this.pickedTime = time[text_time].set({'minute': 0, 'second': 0}).format('HH:mm:ss');
             this.repeatStatus = "Doesn't repeat";
         },
-        getReminderTime() {
-            let reminder_date = this.reminder_json.time;
-
-            if (moment(reminder_date).year() > moment().year())
-                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
-
-            return moment(reminder_date).format('MMM D, H:mm A');
-        },
         save() {
             axios.post('/note/', {
                 header: this.note.header,
