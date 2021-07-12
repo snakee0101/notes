@@ -75,5 +75,8 @@ module.exports = {
         updateReminder(json_time) {
             this.note.reminder_json = json_time;
         },
+        reload_reminder_json(res) {
+            this.note.reminder_json = res.data;
+        },
     }
 };

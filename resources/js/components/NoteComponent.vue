@@ -489,9 +489,6 @@ export default {
             axios.get('/reminder/' + this.note.id)
                  .then(res => this.reload_reminder_json(res));
         },
-        reload_reminder_json(res) {
-            this.note.reminder_json = res.data;
-        },
         copy() {
             axios.post('/note/duplicate/' + this.note.id)
                 .then(this.copyCallback);
