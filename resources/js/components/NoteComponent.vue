@@ -523,9 +523,6 @@ export default {
             axios.post('/reminder/' + this.note.id, {'time': formatted_time});
             this.note.reminder_json = {'time': formatted_time};
         },
-        updateReminder(json_time) {
-            this.note.reminder_json = json_time;
-        },
         refreshImage(data) {
             this.note.images_json.push(data);
         },

@@ -72,5 +72,8 @@ module.exports = {
 
             window.events.$emit('show-notification', 'Action undone');
         },
+        updateReminder(json_time) {
+            this.note.reminder_json = json_time;
+        },
     }
 };
