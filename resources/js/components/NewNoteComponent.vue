@@ -325,7 +325,6 @@ export default {
         };
     },
     created() {
-        setInterval(this.checkLaterTodayVisibility, 500);
         window.events.$on('reload_new_note_tags', this.reload_tags);
         window.events.$on('save_new_note_collaborators', this.reload_collaborators);
 
@@ -482,10 +481,6 @@ export default {
         },
         removeReminder() {
             this.reminder_json = {};
-        },
-        checkLaterTodayVisibility() {
-            let evening = (new Date).setHours(19, 0, 0);
-            this.isLaterTodayVisible = Date.now() < evening;
         },
         save() {
             axios.post('/note/', {

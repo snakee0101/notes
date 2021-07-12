@@ -338,8 +338,6 @@ export default {
         };
     },
     created() {
-        setInterval(this.checkLaterTodayVisibility, 500);
-
         window.events.$on('reload_note_tags', this.reload_tags);
         window.events.$on('deselect_all', this.deselectAll);
         window.events.$on('perform_note_action', this.performAction);
@@ -529,10 +527,6 @@ export default {
         undoCopyCallback() {
             window.events.$emit('note_deleted', window.duplicatedNote);
             window.events.$emit('show-notification', 'Action undone');
-        },
-        checkLaterTodayVisibility() {
-            let evening = (new Date).setHours(19, 0, 0);
-            this.isLaterTodayVisible = Date.now() < evening;
         },
         storeReminder(text_time) {
             let time = {

@@ -23,5 +23,14 @@ module.exports = {
                 {text: 'Sun', value: 'Sunday'},
             ]
         }
+    },
+    created() {
+        setInterval(this.checkLaterTodayVisibility, 500);
+    },
+    methods: {
+        checkLaterTodayVisibility() { //TODO: Fix issue - this method is called 100 times per second - because each NoteComponent calls it every 500ms - it must only be called if the context menu was opened
+            let evening = (new Date).setHours(19, 0, 0);
+            this.isLaterTodayVisible = Date.now() < evening;
+        },
     }
 };
