@@ -111,7 +111,7 @@ module.exports = {
                 'soon': moment().add(3, 'hours'),
             };
 
-            return time[text_time];
+            return time[text_time].set({'minute': 0, 'second': 0});
         },
         initializeRepeatFields() {
             let repeat_statuses = {
