@@ -38,7 +38,6 @@ module.exports = {
     },
     methods: {
         checkLaterTodayVisibility() {
-            console.log('called');
             let evening = (new Date).setHours(19, 0, 0);
             this.isLaterTodayVisible = Date.now() < evening;
         },
@@ -92,14 +91,6 @@ module.exports = {
             this.$refs['dateTimePicker-modal'].show();
             this.$refs['reminder-dropdown'].hide()
             this.initializeRepeatFields();
-        },
-        getReminderTime() {
-            let reminder_date = this.reminder_json.time;
-
-            if (moment(reminder_date).year() > moment().year())
-                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
-
-            return moment(reminder_date).format('MMM D, H:mm A');
         },
         formatDate(text_time, format) {
             let time = {
