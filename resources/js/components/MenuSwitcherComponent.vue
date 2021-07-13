@@ -21,14 +21,8 @@ export default {
     },
     methods: {
         toggle() {
-            if(this.menuCollapsed === 'true') {
-                this.menuCollapsed = 'false';
-                window.events.$emit('menu-expanded');
-            }
-            else {
-                this.menuCollapsed = 'true';
-                window.events.$emit('menu-collapsed');
-            }
+            this.menuCollapsed = !this.menuCollapsed;
+            window.events.$emit('menu-change-state', this.menuCollapsed);
         }
     }
 }

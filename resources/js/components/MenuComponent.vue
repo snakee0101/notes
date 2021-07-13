@@ -34,15 +34,16 @@ export default {
         };
     },
     created() {
-        window.events.$on('menu-collapsed', function () {
-            localStorage.setItem('menu-collapsed', true);
+        window.events.$on('menu-change-state', function (collapsed) {
+            if(collapsed){
+                localStorage.setItem('menu-collapsed', true);
 
-            let navigation = document.getElementsByTagName('nav')[0];
-            navigation.classList.add('collapsed');
-            navigation.classList.add('collapsed-in-session');
-        });
+                let navigation = document.getElementsByTagName('nav')[0];
+                navigation.classList.add('collapsed');
+                navigation.classList.add('collapsed-in-session');
+                return;
+            }
 
-        window.events.$on('menu-expanded', function () {
             localStorage.setItem('menu-collapsed', false);
 
             let navigation = document.getElementsByTagName('nav')[0];
