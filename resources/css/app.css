@@ -38,14 +38,15 @@ html {
 a {color: #000!important}
 a:hover {text-decoration: none!important}
 
-nav {
-    width: 280px!important;
-    position: fixed!important;
-}
 
 nav.collapsed {
     @apply fixed z-10;
     width: auto!important;
+}
+
+nav, nav:hover{
+     width: 280px!important;
+     position: fixed!important;
 }
 
 nav.collapsed a span {
