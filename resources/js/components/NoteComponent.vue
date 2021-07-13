@@ -320,10 +320,11 @@ import SetLabelsComponent from "./SetLabelsComponent";
 let reminders = require('./mixins/reminders');
 let note_deletion = require('./mixins/note_deletion');
 let note_archiving = require('./mixins/note_archiving');
+let note_duplication = require('./mixins/note_duplication');
 
 export default {
     name: "NoteComponent",
-    mixins: [reminders, note_deletion, note_archiving],
+    mixins: [reminders, note_deletion, note_archiving, note_duplication],
     components: {SetLabelsComponent},
     props: ['isTrashed'],
     data() {
@@ -405,24 +406,6 @@ export default {
                  .then(res => this.reload_reminder_json(res));
 
             this.$refs['dateTimePicker-modal'].hide();
-        },
-        copy() {
-            axios.post('/note/duplicate/' + this.note.id)
-                .then(this.copyCallback);
-        },
-        copyCallback(res) {
-            window.duplicatedNote = res.data;
-            window.events.$emit('note_created', res.data);
-            window.events.$emit('show-notification', 'Note created', this.undoCopy);
-        },
-        undoCopy() {
-            axios.delete('/note/' + window.duplicatedNote.id);
-            axios.delete('/note/' + window.duplicatedNote.id)//force delete
-                 .then(this.undoCopyCallback);
-        },
-        undoCopyCallback() {
-            window.events.$emit('note_deleted', window.duplicatedNote);
-            window.events.$emit('show-notification', 'Action undone');
         },
         storeReminder(text_time) {
             let formatted_time = this.formatDate(text_time).set({'minute': 0, 'second': 0})
