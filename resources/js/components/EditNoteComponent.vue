@@ -130,7 +130,7 @@ export default {
         openModal(note) {
             this.note = JSON.parse(JSON.stringify(note));
 
-            if(this.note.checklist) {
+            if(this.note.checklist && this.note.checklist.tasks.length > 0) {
                 this.isChecklist = true;
             } else {
                 this.note.checklist = {tasks : []};
@@ -140,27 +140,31 @@ export default {
             this.$refs["edit-note-modal"].show();
         },
         applyChanges() {
-            this.note.body = this.$refs['note-editor'].value;
+            if(!this.isChecklist)
+                this.note.body = this.$refs['note-editor'].value;
 
             axios.put('/note/' + this.note.id, {
                 header: this.note.header,
                 body: this.note.body
             });
 
-           /* axios.delete('/checklist/' + this.note.checklist.id).catch();
+            if(this.isChecklist){
+                if(this.note.checklist.id) {//if the note has already had checklist - replace all checklist items at once
+                    axios.put('/checklist/' + this.note.checklist.id, {
+                       tasks :  this.note.checklist.tasks
+                    }).then(res => this.note = res.data);
+                } else { //else - create a new checklist
+                    axios.post('/checklist', {
+                        'checklist_data': this.note.checklist.tasks,
+                        'note_id': this.note.id
+                    }).then(res => this.note = res.data);
+                }
+            } else {
+                axios.delete('/checklist/' + this.note.checklist.id) //TODO: Maybe, update with note model, not with note->checklist model (because it could be unaccessible)
+                     .then(res => this.note = res.data);
+            }
 
-            if(this.note.checklist.id) {//if the note has already had checklist - replace all checklist items at once
-                axios.put('/checklist/' + this.note.checklist.id, {
-                   tasks :  this.note.checklist.tasks
-                }).then(res => this.note = res.data);
-            } else { //else - create a new checklist
-                axios.post('/checklist', {
-                    'checklist_data': this.note.checklist.tasks,
-                    'note_id': this.note.id
-                }).then(res => this.note = res.data);
-            }*/
-
-            window.events.$emit('reload_note', this.note);       //TODO: AND POST THEM BACK TO THE NOTECOMPONENT
+            window.events.$emit('reload_note', this.note);
         },
         cancel() {
             this.$refs["edit-note-modal"].hide();

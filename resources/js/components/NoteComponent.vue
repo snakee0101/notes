@@ -32,7 +32,7 @@
 
             <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>
 
-            <div v-if="note.checklist">
+            <div v-if="note.checklist && note.checklist.tasks.length > 0">
                 <div class="form-check mb-2 flex flex-row" v-for="(task, index) in note.checklist.tasks.slice(0,4)">
                     <input class="form-check-input mt-2" type="checkbox" :checked="task.completed" disabled>
                     {{ task.text }}
@@ -399,10 +399,10 @@ export default {
             if(note.id == this.note.id) {
                 this.note.header = note.header;
                 this.note.body = note.body;
-                this.note.images = note.images;
-                this.note.images_json = note.images;
+                this.note.images = note.images ? note.images : {};
+                this.note.images_json = note.images ? note.images : {};
 
-                //TODO: update with checklist
+                this.note.checklist = note.checklist;
             }
         },
         openSetLabelsDialog() {
