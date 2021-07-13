@@ -173,16 +173,14 @@ export default {
             if (label === '')
                 return false;
 
+            this.clearNewLabel();
+            this.hideCancelButton();
+
             if (this.labels.includes(label)) {
                 this.uniqueErrorShown = true;
-                this.clearNewLabel();
-                this.hideCancelButton();
                 setTimeout(this.hideUniqueError, 2000);
                 return false;
             }
-
-            this.clearNewLabel();
-            this.hideCancelButton();
 
             axios.post('/tag', {
                 'tag_name': label
