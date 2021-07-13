@@ -142,14 +142,17 @@ export default {
 
             this.$refs["edit-note-modal"].show();
         },
-        applyChanges() { //TODO: CHanges should be really applied to the model
-            //Warning!  this.note.body & this.note.header,  NOT this.body & this.header,  because the whole note will be posted back
-            if(this.isChecklist === false) {
-                this.note.body = this.$refs['note-editor'].value;
-                //TODO: apply another changes
+        applyChanges() {
+            this.note.body = this.$refs['note-editor'].value; //TODO: apply another changes
 
-                axios.delete('/checklist/' + this.note.checklist.id);
-                return;
+            axios.put('/note/' + this.note.id, {
+                header: this.note.header,
+                body: this.note.body
+            });
+
+            if(this.isChecklist === false) {
+                axios.delete('/checklist/' + this.note.checklist.id).catch();
+                //return window.events.$emit();
             }
 
             if(this.note.checklist.id) {//if the note has already had checklist - replace all checklist items at once
@@ -162,8 +165,7 @@ export default {
                     'note_id': this.note.id
                 }).then(res => this.note = res.data);
             }
-
-            console.log('apply');
+            //TODO: AND POST THEM BACK TO THE NOTECOMPONENT
         },
         cancel() {
             this.$refs["edit-note-modal"].hide();
