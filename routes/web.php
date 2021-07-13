@@ -53,7 +53,6 @@ Route::middleware('auth')->group(function() {
 
     Route::post('/collaborator/{note}', [CollaboratorController::class, 'sync'])->name('sync_collaborator');
     Route::get('/collaborator/{email}', [CollaboratorController::class, 'check'])->name('check_user_existence');
-    Route::get('/collaborators/{note}', [CollaboratorController::class, 'index'])->name('collaborators_list');
 
     Route::get('/', function () {
         $data = [  //get the paginators for both pinned and other notes

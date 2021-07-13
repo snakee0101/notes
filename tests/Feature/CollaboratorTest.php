@@ -54,13 +54,15 @@ class CollaboratorTest extends TestCase
 
     public function test_note_can_restore_collaborator_emails()
     {
-        $note = Note::factory()->create();
-        auth()->login($note->owner);
+        $owner = User::factory()->create();
+        $user = User::factory()->create();
+        $user2 = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
 
-        $users = User::factory()->count(3)->create();
-        $note->collaborators()->sync($users->pluck('id'));
+        auth()->login($owner);
 
-        $response = $this->get( route('collaborators_list', $note->fresh()) );
-        $response->assertJson( $users->pluck('email')->toArray() );
+        $this->post(route('sync_collaborator', $note), [
+            'emails' => [$user->email, $user2->email]
+        ])->assertJson([$user->email, $user2->email]);
     }
 }

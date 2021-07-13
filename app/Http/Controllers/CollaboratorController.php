@@ -8,12 +8,6 @@ use Illuminate\Http\Request;
 
 class CollaboratorController extends Controller
 {
-    public function index(Note $note)
-    {
-        $emails = $note->collaborators->pluck('email');
-        return response()->json($emails);
-    }
-
     public function sync(Note $note)
     {
         $emails = request('emails');
@@ -21,6 +15,8 @@ class CollaboratorController extends Controller
         $note->collaborators()->sync(
             User::whereIn('email', $emails)->pluck('id')
         );
+
+        return $note->collaborators->pluck('email');
         //TODO: Send mail to the user when it is added or deleted from collaborators
     }
 
