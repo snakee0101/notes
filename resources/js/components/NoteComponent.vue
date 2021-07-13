@@ -399,6 +399,9 @@ export default {
             if(note.id == this.note.id) {
                 this.note.header = note.header;
                 this.note.body = note.body;
+
+                //TODO: update with images
+                //TODO: update with checklist
             }
         },
         openSetLabelsDialog() {

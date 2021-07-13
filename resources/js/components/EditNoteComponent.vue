@@ -41,9 +41,9 @@
                 </div>
             </div>
 
-            <div class="images mt-4" v-if="images.length">
+            <div class="images mt-4" v-if="note.images.length">
                 <h6 class="pb-1">Note images (images are saved immediately)</h6>
-                <div class="inline-block relative m-2" v-for="(image, index) in images">
+                <div class="inline-block relative m-2" v-for="(image, index) in note.images">
                     <img :src="image.thumbnail_large_path" style="height: 120px; width: 120px; cursor: pointer" @click="openImageViewer(image)">
                     <a class="bg-gray-300 rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
@@ -79,7 +79,6 @@ export default {
             isChecklist: false,
             newChecklistItem: '',
             note: {},
-            images: [],
         };
     },
     created() {
@@ -138,8 +137,6 @@ export default {
                 this.isChecklist = false;
             }
 
-            this.images = this.note.images_json;
-
             this.$refs["edit-note-modal"].show();
         },
         applyChanges() {
@@ -182,29 +179,29 @@ export default {
                 data.append('image', image, image.name);
                 data.append('note_id', this.note.id);
 
-                axios.post('/image', data).then( (res) => this.images.push(res.data) );
+                axios.post('/image', data).then( (res) => this.note.images.push(res.data) );
             };
 
             reader.readAsDataURL(file);
         },
         delete_image(index) {
-            axios.post('/image/delete/' + this.images[index].id)
+            axios.post('/image/delete/' + this.note.images[index].id)
                  .then(res => this.deleteImageCallback(res.data, index));
         },
         deleteImageCallback(deleted_image_id, index) {
             window.deleted_image_id = deleted_image_id;
 
-            this.images.splice(index, 1);
+            this.note.images.splice(index, 1);
             window.events.$emit('show-notification', 'Image deleted', this.undoImageDeletion);
         },
         undoImageDeletion() {
             axios.put('/image/restore/' + window.deleted_image_id)
-                 .then( (res) => this.images.push(res.data) );
+                 .then( (res) => this.note.images.push(res.data) );
 
             window.events.$emit('show-notification', 'Action undone');
         },
         openImageViewer(current_image) {
-            window.events.$emit('open-image-viewer', current_image, this.images);
+            window.events.$emit('open-image-viewer', current_image, this.note.images);
         }
     },
 }
