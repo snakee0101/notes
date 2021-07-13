@@ -319,10 +319,11 @@ import SetLabelsComponent from "./SetLabelsComponent";
 
 let reminders = require('./mixins/reminders');
 let note_deletion = require('./mixins/note_deletion');
+let note_archiving = require('./mixins/note_archiving');
 
 export default {
     name: "NoteComponent",
-    mixins: [reminders, note_deletion],
+    mixins: [reminders, note_deletion, note_archiving],
     components: {SetLabelsComponent},
     props: ['isTrashed'],
     data() {
@@ -475,30 +476,6 @@ export default {
         },
         showCollaboratorsDialog() {
             window.events.$emit('show-collaborators-dialog', this.note.id);
-        },
-        archive() {
-            axios.put('/note/' + this.note.id, {'archived': true});
-
-            window.events.$emit('note_deleted', this.note);
-            window.events.$emit('show-notification', 'Note archived', this.undo_archive);
-        },
-        undo_archive() {
-            axios.put('/note/' + this.note.id, {'archived': false});
-
-            window.events.$emit('note_created', this.note);
-            window.events.$emit('show-notification', 'Action undone');
-        },
-        unarchive() {
-            axios.put('/note/' + this.note.id, {'archived': false});
-
-            window.events.$emit('note_deleted', this.note);
-            window.events.$emit('show-notification', 'Note unarchived', this.undo_unarchive);
-        },
-        undo_unarchive() {
-            axios.put('/note/' + this.note.id, {'archived': true});
-
-            window.events.$emit('note_created', this.note);
-            window.events.$emit('show-notification', 'Action undone');
         },
         setInputHeight(itemClass) {
             let element = document.getElementsByClassName(itemClass)[0];
