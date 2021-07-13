@@ -346,6 +346,7 @@ export default {
     },
     created() {
         window.events.$on('reload_note_tags', this.reload_tags);
+        window.events.$on('reload_note', this.reload_note);
         window.events.$on('deselect_all', this.deselectAll);
         window.events.$on('perform_note_action', this.performAction);
     },
@@ -392,6 +393,12 @@ export default {
             if(note_id == this.note.id) {
                 axios.post('/note/' + note_id + '/get_tags')
                      .then( (res) => this.note.tags = res.data );
+            }
+        },
+        reload_note(note) {
+            if(note.id == this.note.id) {
+                this.note.header = note.header;
+                this.note.body = note.body;
             }
         },
         openSetLabelsDialog() {
