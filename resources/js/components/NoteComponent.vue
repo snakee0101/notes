@@ -317,11 +317,12 @@
 import moment from 'moment';
 import SetLabelsComponent from "./SetLabelsComponent";
 
-let reminders = require('./mixins/reminders.js');
+let reminders = require('./mixins/reminders');
+let note_deletion = require('./mixins/note_deletion');
 
 export default {
     name: "NoteComponent",
-    mixins: [reminders],
+    mixins: [reminders, note_deletion],
     components: {SetLabelsComponent},
     props: ['isTrashed'],
     data() {
@@ -475,29 +476,6 @@ export default {
         showCollaboratorsDialog() {
             window.events.$emit('show-collaborators-dialog', this.note.id);
         },
-        restore() {
-            axios.post('/note/restore/' + this.note.id);
-            window.events.$emit('note_deleted', this.note);
-            window.events.$emit('show-notification', 'Note restored', this.undoRestore);
-        },
-        deleteNote() {
-            axios.delete('/note/' + this.note.id);
-
-            window.events.$emit('show-notification', 'Note deleted', this.undoDelete);
-            window.events.$emit('note_deleted', this.note);
-        },
-        undoDelete() {
-            axios.post('/note/restore/' + this.note.id);
-
-            window.events.$emit('show-notification', 'Action undone');
-            window.events.$emit('note_created', this.note);
-        },
-        undoRestore() {
-            axios.delete('/note/' + this.note.id);
-
-            window.events.$emit('show-notification', 'Action undone');
-            window.events.$emit('note_created', this.note);
-        },
         archive() {
             axios.put('/note/' + this.note.id, {'archived': true});
 
@@ -521,10 +499,6 @@ export default {
 
             window.events.$emit('note_created', this.note);
             window.events.$emit('show-notification', 'Action undone');
-        },
-        delete_forever() {
-            axios.delete('/note/' + this.note.id);
-            window.events.$emit('note_deleted', this.note);
         },
         setInputHeight(itemClass) {
             let element = document.getElementsByClassName(itemClass)[0];
