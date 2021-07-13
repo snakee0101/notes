@@ -113,20 +113,13 @@ export default {
 
             this.confirm();
         },
-        resetData(res) {
-            this.emails = res.data;
-            this.$attrs.emails = res.data;
-        },
         confirm() {
             if(this.note.id == 'new_note') {
                 window.events.$emit('save_new_note_collaborators', this.emails);
             } else {
                 axios.post('/collaborator/' + this.note.id, {
                     emails: this.emails
-                });
-
-                axios.get('/collaborators/' + this.note.id)
-                     .then(res => this.resetData(res));
+                }).then(res => this.emails = res.data);
             }
         },
     }
