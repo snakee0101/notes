@@ -178,8 +178,7 @@ export default {
 
             if (this.labels.includes(label)) {
                 this.uniqueErrorShown = true;
-                setTimeout(this.hideUniqueError, 2000);
-                return false;
+                return setTimeout(this.hideUniqueError, 2000);
             }
 
             axios.post('/tag', {
