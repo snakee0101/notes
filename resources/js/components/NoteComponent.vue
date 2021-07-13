@@ -399,8 +399,9 @@ export default {
             if(note.id == this.note.id) {
                 this.note.header = note.header;
                 this.note.body = note.body;
+                this.note.images = note.images;
+                this.note.images_json = note.images;
 
-                //TODO: update with images
                 //TODO: update with checklist
             }
         },
