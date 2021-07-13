@@ -148,7 +148,7 @@
                 <div class="vertical-tooltiptext ">
                     <a v-for="color in colors"
                        href=""
-                       :class="'rounded-md color-circle bg-google-' + color + ' ' + isActive(color)"
+                       :class="'rounded-md color-circle bg-google-' + color + ' ' + isColorActive(color)"
                        @click.prevent="changeColor(color)">
                         <i class="bi bi-check icon-sm"></i>
                     </a>
@@ -449,7 +449,7 @@ export default {
             axios.put('/note/' + this.note.id, {'pinned': this.note.pinned})
                 .then(res => window.events.$emit('note_created', this.note));
         },
-        isActive(color) {
+        isColorActive(color) {
             return (this.note.color === color) ? 'active' : '';
         },
         changeColor(color) {

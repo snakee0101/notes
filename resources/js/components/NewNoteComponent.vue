@@ -143,7 +143,7 @@
                 <div class="vertical-tooltiptext rounded-md">
                     <a v-for="color in colors"
                        href=""
-                       :class="'color-circle bg-google-' + color + ' ' + isActive(color)"
+                       :class="'color-circle bg-google-' + color + ' ' + isColorActive(color)"
                        v-b-tooltip.hover.bottom
                        :title="color"
                        @click.prevent="changeColor(color)">
@@ -502,7 +502,7 @@ export default {
         pin() {
             this.note.pinned = !this.note.pinned;
         },
-        isActive(color) {
+        isColorActive(color) {
             return (this.note.color === color) ? 'active' : '';
         },
         changeColor(color) {
