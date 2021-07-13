@@ -143,17 +143,14 @@ export default {
             this.$refs["edit-note-modal"].show();
         },
         applyChanges() {
-            this.note.body = this.$refs['note-editor'].value; //TODO: apply another changes
+            this.note.body = this.$refs['note-editor'].value;
 
             axios.put('/note/' + this.note.id, {
                 header: this.note.header,
                 body: this.note.body
             });
 
-            if(this.isChecklist === false) {
-                axios.delete('/checklist/' + this.note.checklist.id).catch();
-                //return window.events.$emit();
-            }
+           /* axios.delete('/checklist/' + this.note.checklist.id).catch();
 
             if(this.note.checklist.id) {//if the note has already had checklist - replace all checklist items at once
                 axios.put('/checklist/' + this.note.checklist.id, {
@@ -164,8 +161,9 @@ export default {
                     'checklist_data': this.note.checklist.tasks,
                     'note_id': this.note.id
                 }).then(res => this.note = res.data);
-            }
-            //TODO: AND POST THEM BACK TO THE NOTECOMPONENT
+            }*/
+
+            window.events.$emit('reload_note', this.note);       //TODO: AND POST THEM BACK TO THE NOTECOMPONENT
         },
         cancel() {
             this.$refs["edit-note-modal"].hide();
