@@ -322,6 +322,10 @@ let note_deletion = require('./mixins/note_deletion');
 let note_archiving = require('./mixins/note_archiving');
 let note_duplication = require('./mixins/note_duplication');
 
+let _ = {
+    without : require('lodash/without')
+};
+
 export default {
     name: "NoteComponent",
     mixins: [reminders, note_deletion, note_archiving, note_duplication],
@@ -467,8 +471,8 @@ export default {
         },
         detach_tag(tag) {
             axios.delete('/detach_tag/' + this.note.id + '/' + tag);
-            let index = this.note.tags.indexOf(tag);
-            this.note.tags.splice(index, 1);
+
+            this.note.tags = _.without(this.note.tags, tag);
 
             let tagsLocation = 'tag/' + encodeURIComponent(tag);
             if (location.href.includes(tagsLocation))
