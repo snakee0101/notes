@@ -98,7 +98,7 @@
                v-b-tooltip.hover.bottom
                title="Remind me"
                @click.prevent>
-                <b-dropdown size="sm" variant="link" toggle-class="" no-caret ref="reminder-dropdown">
+                <b-dropdown size="sm" variant="link" toggle-class="" no-caret ref="reminder-dropdown" v-on:show="checkLaterTodayVisibility()">
                     <template #button-content>
                         <i class="bi bi-bell icon-sm p-0"></i>
                     </template>
