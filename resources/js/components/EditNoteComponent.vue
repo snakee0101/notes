@@ -10,7 +10,7 @@
             <h6 class="pb-1">Header</h6>
             <textarea name="note_header" placeholder="Title"
                       class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent text-xl"
-                      v-model="header">
+                      v-model="note.header">
 
             </textarea>
 
@@ -79,8 +79,6 @@ export default {
             isChecklist: false,
             newChecklistItem: '',
             note: {},
-            header: '',
-            body: '',
             images: [],
         };
     },
@@ -140,15 +138,14 @@ export default {
                 this.isChecklist = false;
             }
 
-            this.header = this.note.header;
-            this.body = this.note.body;
             this.images = this.note.images_json;
 
             this.$refs["edit-note-modal"].show();
         },
         applyChanges() { //TODO: CHanges should be really applied to the model
+            //Warning!  this.note.body & this.note.header,  NOT this.body & this.header,  because the whole note will be posted back
             if(this.isChecklist === false) {
-                this.body = this.$refs['note-editor'].value;
+                this.note.body = this.$refs['note-editor'].value;
                 //TODO: apply another changes
 
                 axios.delete('/checklist/' + this.note.checklist.id);
