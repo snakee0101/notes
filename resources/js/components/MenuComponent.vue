@@ -1,7 +1,7 @@
 <template>
-    <nav class="flex flex-col bg-white" :class="setCollapsedState() + ' ' +  setCollapsedSessionState()" ref="menu"
-         @mouseover="temporaryExpand()"
-         @mouseout="temporaryCollapse()">
+    <nav class="flex flex-col bg-white"
+         :class="isCollapsed ? 'collapsed' : ''"
+         ref="menu">
         <a href="/" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveLink('notes')">
             <i class="bi bi-lightbulb icon-lg mr-3 text-black"></i> Notes
         </a>
@@ -30,37 +30,20 @@ export default {
     name: "MenuComponent",
     data() {
         return {
-            'tag_names': JSON.parse(this.$attrs.tag_names)
+            tag_names: JSON.parse(this.$attrs.tag_names),
+            isCollapsed: (localStorage.getItem('menu-collapsed') === 'true')
         };
     },
     created() {
-        window.events.$on('menu-change-state', function (collapsed) {
-            if(collapsed){
-                localStorage.setItem('menu-collapsed', true);
-
-                let navigation = document.getElementsByTagName('nav')[0];
-                navigation.classList.add('collapsed');
-                navigation.classList.add('collapsed-in-session');
-                return;
-            }
-
-            localStorage.setItem('menu-collapsed', false);
-
-            let navigation = document.getElementsByTagName('nav')[0];
-            navigation.classList.remove('collapsed');
-            navigation.classList.remove('collapsed-in-session');
-            navigation.classList.remove('z-10');
-            navigation.classList.remove('fixed');
-        });
-
+        window.events.$on('menu-change-state', this.setCollapsedState);
         window.events.$on('refreshLabels', this.refreshMenu);
     },
     methods: {
+        setCollapsedState(collapsed) {
+            this.isCollapsed = collapsed;
+        },
         refreshMenu(labels) {
             this.tag_names = labels.valueOf().flat();
-        },
-        isMenuCollapsed() {
-            return (window.localStorage.getItem('menu-collapsed') === 'true');
         },
         setActiveLink(route) {
             return (this.$attrs.current_route === route) ? 'active' : '';
@@ -68,26 +51,6 @@ export default {
         setActiveTagLink(tag) {
             return (this.$attrs.tag_link === tag) ? 'active' : '';
         },
-        setCollapsedState() {
-            return this.isMenuCollapsed() ? 'collapsed' : '';
-        },
-        setCollapsedSessionState() {
-            return this.isMenuCollapsed() ? 'collapsed-in-session' : '';
-        },
-        temporaryExpand() {
-            if(this.isMenuCollapsed()) {
-                this.$refs.menu.classList.remove('collapsed');
-                this.$refs.menu.classList.add('fixed');
-                this.$refs.menu.classList.add('z-10');
-            }
-        },
-        temporaryCollapse() {
-            if(this.isMenuCollapsed()) {
-                this.$refs.menu.classList.add('collapsed');
-                this.$refs.menu.classList.add('fixed');
-                this.$refs.menu.classList.add('z-10');
-            }
-        }
     }
 }
 </script>
