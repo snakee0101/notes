@@ -35,7 +35,9 @@ Route::middleware('auth')->group(function() {
 
     Route::post('/note/{note}/get_tags', [NoteController::class, 'get_tags'])->name('note.get_tags');
 
-    Route::resource('checklist', ChecklistController::class)->only(['store', 'update', 'destroy']);
+    Route::resource('checklist', ChecklistController::class)->only(['store', 'update']);
+    Route::post('/checklist/delete/{note}', [ChecklistController::class, 'destroy'])->name('checklist.destroy');
+
     Route::resource('task', TaskController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('image', ImageController::class)->except('destroy');

@@ -376,7 +376,7 @@ export default {
 
         },
         convertToText() {
-            axios.delete('/checklist/' + this.note.checklist.id)
+            axios.post('/checklist/delete/' + this.note.id)
                  .then(res => this.note = res.data);
         },
         openForEditing() {

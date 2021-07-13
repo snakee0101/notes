@@ -44,19 +44,17 @@ class ChecklistController extends Controller
         return $checklist->note->fresh();
     }
 
-    public function destroy(Checklist $checklist)
+    public function destroy(Note $note)
     {
-        $note_id = $checklist->note->id;
-
-        $text = $checklist->tasks->reduce(function ($accumulator, $task) {
+        $text = $note->checklist->tasks->reduce(function ($accumulator, $task) {
             return $accumulator . $task->text . '<br>';
         }, '');
 
-        $checklist->note->update(['body' => $text]);
+        $note->update(['body' => $text]);
 
-        $checklist->tasks->each->delete();
-        $checklist->delete();
+        $note->checklist->tasks()->delete();
+        $note->checklist()->delete(); //TODO: tasks should be deleted with onDelete(cascade)
 
-        return Note::find($note_id);
+        return $note->fresh();
     }
 }

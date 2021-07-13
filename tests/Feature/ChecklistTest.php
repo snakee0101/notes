@@ -61,7 +61,7 @@ class ChecklistTest extends TestCase
         $this->assertDatabaseCount('checklists', 1);
         $this->assertDatabaseCount('tasks', 3);
 
-        $this->delete(route('checklist.destroy', $checklist))->assertJson([
+        $this->delete(route('checklist.destroy', $note->fresh()))->assertJson([
             'header' => $note->header
         ]);
 
@@ -79,7 +79,7 @@ class ChecklistTest extends TestCase
         auth()->login($owner);
 
         $expected = $tasks[0]->text . '<br>' . $tasks[1]->text . '<br>' . $tasks[2]->text . '<br>';
-        $this->delete(route('checklist.destroy', $checklist));
+        $this->post(route('checklist.destroy', $note->fresh()));
 
         $this->assertEquals($expected, $note->fresh()->body);
     }

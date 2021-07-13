@@ -160,7 +160,7 @@ export default {
                     }).then(res => this.note = res.data);
                 }
             } else {
-                axios.delete('/checklist/' + this.note.checklist.id) //TODO: Maybe, update with note model, not with note->checklist model (because it could be unaccessible)
+                axios.post('/checklist/delete/' + this.note.id)
                      .then(res => this.note = res.data);
             }
 
