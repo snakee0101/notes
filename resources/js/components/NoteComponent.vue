@@ -408,8 +408,7 @@ export default {
             this.$refs['dateTimePicker-modal'].hide();
         },
         storeReminder(text_time) {
-            let formatted_time = this.formatDate(text_time)
-                .format('YYYY-MM-DD HH:mm:ss');
+            let formatted_time = this.formatDate(text_time, 'YYYY-MM-DD HH:mm:ss');
 
             axios.post('/reminder/' + this.note.id, {'time': formatted_time});
             this.note.reminder_json = {'time': formatted_time};

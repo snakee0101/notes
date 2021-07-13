@@ -413,13 +413,12 @@ export default {
             this.$refs['dateTimePicker-modal'].hide();
         },
         storeReminder(text_time) {
-            let formatted_time = this.formatDate(text_time)
-                .format('YYYY-MM-DD HH:mm:ss');
+            let formatted_time = this.formatDate(text_time, 'YYYY-MM-DD HH:mm:ss');
 
             this.reminder_json = {'time': formatted_time};
 
-            this.pickedDate = this.formatDate(text_time).format('YYYY-MM-DD');
-            this.pickedTime = this.formatDate(text_time).format('HH:mm:ss');
+            this.pickedDate = this.formatDate(text_time, 'YYYY-MM-DD');
+            this.pickedTime = this.formatDate(text_time, 'HH:mm:ss');
             this.repeatStatus = "Doesn't repeat";
         },
         save() {

@@ -103,7 +103,7 @@ module.exports = {
 
             return moment(reminder_date).format('MMM D, H:mm A');
         },
-        formatDate(text_time) {
+        formatDate(text_time, format) {
             let time = {
                 'later_today': moment().set({'hour': 20}),
                 'tomorrow': moment().add(1, 'days').set({'hour': 8}),
@@ -111,7 +111,8 @@ module.exports = {
                 'soon': moment().add(3, 'hours'),
             };
 
-            return time[text_time].set({'minute': 0, 'second': 0});
+            return time[text_time].set({'minute': 0, 'second': 0})
+                                  .format(format);
         },
         initializeRepeatFields() {
             let repeat_statuses = {
