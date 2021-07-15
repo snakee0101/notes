@@ -62,6 +62,7 @@
 
                 <button class="btn btn-danger btn-sm" @click="convertToText()" v-if="isChecklist">Hide checkboxes</button>
                 <button class="btn btn-warning btn-sm" @click="uncheckAll()" v-if="isChecklist">Uncheck all</button>
+                <button class="btn btn-danger btn-sm" @click="removeCompleted()" v-if="isChecklist">Remove completed</button>
                 <button class="btn btn-primary btn-sm" @click="convertToChecklist()" v-else>Show checkboxes</button>
             </p>
         </div>
@@ -100,6 +101,13 @@ export default {
 
             if(this.note.checklist.id != null)
                 axios.post('/checklist/uncheck_all/' + this.note.checklist.id)
+                    .then(res => this.updateNote(res.data));
+        },
+        removeCompleted() {
+            this.note.checklist.tasks = this.note.checklist.tasks.filter( task => task.completed == false );
+
+            if(this.note.checklist.id != null)
+                axios.post('/checklist/remove_completed/' + this.note.checklist.id)
                     .then(res => this.updateNote(res.data));
         },
         updateNote(note) {

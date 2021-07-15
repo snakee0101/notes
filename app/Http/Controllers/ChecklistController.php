@@ -67,6 +67,6 @@ class ChecklistController extends Controller
     public function remove_completed(Checklist $checklist)
     {
         $checklist->removeCompleted();
-        return $checklist->note;
+        return Note::find($checklist->note->id);
     }
 }
