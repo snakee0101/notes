@@ -46,8 +46,7 @@ class ChecklistController extends Controller
 
     public function destroy(Note $note)
     {
-        $text = $note->checklist->toHTML();
-        $note->update(['body' => $text]);
+        $note->update(['body' => $note->checklist->toHTML()]);
 
         $note->checklist->tasks()->delete();
         $note->checklist()->delete(); //TODO: tasks should be deleted with onDelete(cascade)
