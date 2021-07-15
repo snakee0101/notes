@@ -63,4 +63,10 @@ class ChecklistController extends Controller
         $checklist->uncheckAll();
         return $checklist->note;
     }
+
+    public function remove_completed(Checklist $checklist)
+    {
+        $checklist->removeCompleted();
+        return $checklist->note;
+    }
 }

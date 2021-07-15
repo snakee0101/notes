@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function() {
     Route::resource('checklist', ChecklistController::class)->only(['store', 'update']);
     Route::post('/checklist/delete/{note}', [ChecklistController::class, 'destroy'])->name('checklist.destroy');
     Route::post('/checklist/uncheck_all/{checklist}', [ChecklistController::class, 'uncheck_all'])->name('checklist.uncheck_all');
+    Route::post('/checklist/remove_completed/{checklist}', [ChecklistController::class, 'remove_completed'])->name('checklist.remove_completed');
+
 
     Route::resource('task', TaskController::class)->only(['store', 'update', 'destroy']);
 

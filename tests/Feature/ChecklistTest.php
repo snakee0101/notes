@@ -137,8 +137,24 @@ class ChecklistTest extends TestCase
         $note = $this->post(route('checklist.uncheck_all', $checklist))
                      ->json();
 
-        $this->assertEquals(1, $note['checklist']['id']);
+        $this->assertEquals($checklist->id, $note['checklist']['id']);
 
         $this->assertCount(6, Task::where('completed', false)->get());
+    }
+
+    public function test_all_completed_tasks_could_be_removed()
+    {
+        auth()->login(User::factory()->create());
+        $checklist = Checklist::factory()->create();
+
+        Task::factory()->for($checklist)->count(3)->create([ 'completed' => false ]);
+        Task::factory()->for($checklist)->count(5)->create([ 'completed' => true  ]);
+
+        $note = $this->post(route('checklist.remove_completed', $checklist))
+            ->json();
+
+        $this->assertEquals($checklist->id, $note['checklist']['id']);
+
+        $this->assertDatabaseCount('tasks', 3);
     }
 }

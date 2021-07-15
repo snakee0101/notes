@@ -50,7 +50,7 @@ class ChecklistTest extends TestCase
         $this->assertCount(6, Task::where('completed', false)->get());
     }
 
-    public function test_all_checked_tasks_could_be_removed()
+    public function test_all_completed_tasks_could_be_removed()
     {
         $checklist = Checklist::factory()->create();
 
