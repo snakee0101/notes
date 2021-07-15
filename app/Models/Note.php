@@ -52,7 +52,7 @@ class Note extends Model
                 Storage::delete($path_3);
             }
 
-            $object->images()->delete();
+            $object->images()->forceDelete();
         });
     }
 
