@@ -32,14 +32,7 @@ class ChecklistController extends Controller
     public function update(Request $request, Checklist $checklist) //updates tasks in checklist (in fact - it just replaces them)
     {
         $checklist->tasks()->delete();
-
-        $wrapped = (new Collection($request->tasks))->map(fn($task, $index) => [ //wrap task text into array and assign it a position according to its index
-            'text' => $task['text'],
-            'position' => $index + 1,
-            'completed' => $task['completed']
-        ]);
-
-        $checklist->tasks()->createMany($wrapped);
+        $checklist->tasks()->createMany( Checklist::wrap($request->tasks) );
 
         return $checklist->note->fresh();
     }
