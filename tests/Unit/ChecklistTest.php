@@ -61,4 +61,15 @@ class ChecklistTest extends TestCase
 
         $this->assertDatabaseCount('tasks', 3);
     }
+
+    public function test_checklist_could_be_converted_to_HTML()
+    {
+        $checklist = Checklist::factory()->create();
+        $tasks = Task::factory()->for($checklist)->count(3)->create();
+
+        $parsed = $checklist->toHTML();
+
+        $expected = $tasks[0]->text . '<br>' . $tasks[1]->text . '<br>' . $tasks[2]->text . '<br>';
+        $this->assertEquals($expected, $parsed);
+    }
 }

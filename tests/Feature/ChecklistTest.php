@@ -61,7 +61,7 @@ class ChecklistTest extends TestCase
         $this->assertDatabaseCount('checklists', 1);
         $this->assertDatabaseCount('tasks', 3);
 
-        $this->delete(route('checklist.destroy', $note->fresh()))->assertJson([
+        $this->post(route('checklist.destroy', $note->fresh()))->assertJson([
             'header' => $note->header
         ]);
 

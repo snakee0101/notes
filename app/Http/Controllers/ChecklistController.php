@@ -46,10 +46,7 @@ class ChecklistController extends Controller
 
     public function destroy(Note $note)
     {
-        $text = $note->checklist->tasks->reduce(function ($accumulator, $task) {
-            return $accumulator . $task->text . '<br>';
-        }, '');
-
+        $text = $note->checklist->toHTML();
         $note->update(['body' => $text]);
 
         $note->checklist->tasks()->delete();

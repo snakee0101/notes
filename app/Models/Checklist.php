@@ -31,4 +31,11 @@ class Checklist extends Model
     {
         $this->tasks()->where('completed', true)->delete();
     }
+
+    public function toHTML()
+    {
+        return $this->tasks->reduce(function ($accumulator, $task) {
+            return $accumulator . $task->text . '<br>';
+        }, '');
+    }
 }
