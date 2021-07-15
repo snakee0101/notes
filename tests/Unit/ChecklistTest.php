@@ -95,4 +95,16 @@ class ChecklistTest extends TestCase
         $this->assertEquals(2, $wrapped[1]['position']);
         $this->assertEquals(3, $wrapped[2]['position']);
     }
+
+    public function test_checklist_tasks_are_automatically_deleted_when_checklist_is_deleted()
+    {
+        $checklist = Checklist::factory()->create();
+        Task::factory()->for($checklist)->create();
+
+        $this->assertDatabaseCount('tasks', 1);
+
+        $checklist->delete();
+
+        $this->assertDatabaseCount('tasks', 0);
+    }
 }
