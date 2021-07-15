@@ -84,9 +84,7 @@ export default {
             this.errorShown = false;
         },
         deleteCollaborator(email) {
-            let index = this.emails.indexOf(email);
-            this.emails.splice(index, 1);
-
+            this.emails = _.without(this.emails, email);
             this.confirm();
         },
         checkCollaborator(email) {
