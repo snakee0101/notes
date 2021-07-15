@@ -2,10 +2,12 @@
 
 namespace Tests\Unit;
 
+use App\Models\Checklist;
 use App\Models\Image;
 use App\Models\Note;
 use App\Models\Reminder;
 use App\Models\Tag;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -170,5 +172,82 @@ class NoteTest extends TestCase
     {
         $note = Note::factory()->create();
         $note->forceFill(['body' => 'text 1 https://www.google.com text 2']);
+    }
+
+
+    //note deletion tests
+
+    public function test_image_record_is_deleted_when_the_note_is_deleted()
+    {
+        $storage = Storage::fake();
+        $storage->put('images/123.jpeg', 12345);
+        $storage->put('thumbnails_small/456.jpeg', 12345);
+        $storage->put('thumbnails_large/789.jpeg', 12345);
+
+        $owner = User::factory()->create();
+        $note = Note::factory()->create([ 'owner_id' => $owner->id ]);
+
+        $image = Image::factory()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789' . '.jpeg',
+        ]);
+
+        $note->refresh();
+
+        $this->assertDatabaseCount('images', 1);
+        $note->forceDelete();
+        $this->assertDatabaseCount('images', 0);
+    }
+
+    public function test_reminder_is_deleted_when_the_note_is_deleted()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->create([ 'owner_id' => $owner->id ]);
+        $reminder = Reminder::factory()->create([ 'note_id' => $note->id ]);
+
+        $note->refresh();
+
+        $this->assertDatabaseCount('reminders', 1);
+        $note->forceDelete();
+        $this->assertDatabaseCount('reminders', 0);
+    }
+
+    public function test_checklist_is_automatically_deleted_when_then_note_is_deleted()
+    {
+        $note = Note::factory()->create();
+
+        $checklist = Checklist::factory()->for($note, 'note')->create();
+        Task::factory()->for($checklist)->create();
+
+        $this->assertDatabaseCount('checklists', 1);
+        $note->forceDelete();
+        $this->assertDatabaseCount('checklists', 0);
+    }
+
+    public function test_tags_are_automatically_detached_when_the_note_is_deleted()
+    {
+        $note = Note::factory()->for(
+            User::factory()->create(), 'owner'
+        )->hasAttached(Tag::factory()->count(3))
+            ->create();
+
+        $this->assertDatabaseCount('note_tag', 3);
+        $note->forceDelete();
+        $this->assertDatabaseCount('note_tag', 0);
+    }
+
+    public function test_collaborators_are_automatically_detached_when_the_note_is_deleted()
+    {
+        $owner = User::factory()->create();
+        $users = User::factory()->count(3);
+        $note = Note::factory()->for($owner, 'owner')
+            ->hasAttached($users, [], 'collaborators')
+            ->create();
+
+        $this->assertDatabaseCount('note_user', 3);
+        $note->forceDelete();
+        $this->assertDatabaseCount('note_user', 0);
     }
 }

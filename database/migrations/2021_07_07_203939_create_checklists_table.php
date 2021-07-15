@@ -10,7 +10,10 @@ class CreateChecklistsTable extends Migration
     {
         Schema::create('checklists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('note_id');
+            $table->foreignId('note_id')
+                  ->references('id')
+                  ->on('notes')
+                  ->cascadeOnDelete();
         });
     }
 
