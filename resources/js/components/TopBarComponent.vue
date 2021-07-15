@@ -364,10 +364,8 @@ export default {
             this.deselectAll();
         },
         toggleArchive() {
-            if(this.isOnPage('/archive'))
-                this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'unarchive', ''));
-            else
-                this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'archive', ''));
+            let action = this.isOnPage('/archive') ? 'unarchive' : 'archive';
+            this.notes.forEach((note) => window.events.$emit('perform_note_action', note, action, ''));
 
             this.deselectAll();
         },
