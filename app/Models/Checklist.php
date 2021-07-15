@@ -38,4 +38,14 @@ class Checklist extends Model
             return $accumulator . $task->text . '<br>';
         }, '');
     }
+
+    //wraps task text into array and assigns it a position according to its index
+    public static function wrap(array $checklist_data)
+    {
+        return collect($checklist_data)->map(fn($task, $index) => [
+            'text' => $task['text'],
+            'position' => $index + 1,
+            'completed' => $task['completed']
+        ]);
+    }
 }

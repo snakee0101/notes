@@ -72,4 +72,27 @@ class ChecklistTest extends TestCase
         $expected = $tasks[0]->text . '<br>' . $tasks[1]->text . '<br>' . $tasks[2]->text . '<br>';
         $this->assertEquals($expected, $parsed);
     }
+
+    public function test_checklist_could_wrap_tasks_data_into_collection()
+    {
+        $checklist = Checklist::factory()->create();
+
+        $tasks_data = [ ['text' => 'some task 1', 'completed' => true],
+                   ['text' => 'second task', 'completed' => false],
+                   ['text' => 'another task', 'completed' => true] ];
+
+        $wrapped = Checklist::wrap($tasks_data);
+
+        $this->assertEquals('some task 1', $wrapped[0]['text']);
+        $this->assertEquals('second task', $wrapped[1]['text']);
+        $this->assertEquals('another task', $wrapped[2]['text']);
+
+        $this->assertTrue($wrapped[0]['completed']);
+        $this->assertFalse($wrapped[1]['completed']);
+        $this->assertTrue($wrapped[2]['completed']);
+
+        $this->assertEquals(1, $wrapped[0]['position']);
+        $this->assertEquals(2, $wrapped[1]['position']);
+        $this->assertEquals(3, $wrapped[2]['position']);
+    }
 }
