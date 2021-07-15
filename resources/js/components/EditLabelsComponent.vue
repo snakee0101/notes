@@ -131,8 +131,7 @@ export default {
             this.deletingLabel = '';
         },
         deleteLabel() {
-            let index = this.labels.indexOf(this.deletingLabel);
-            this.labels.splice(index, 1);
+            this.labels = _.without(this.labels, this.deletingLabel);
 
             axios.delete('/tag/' + this.deletingLabel)
                 .then(this.reloadDeletingLabel);
