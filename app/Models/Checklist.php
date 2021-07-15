@@ -26,4 +26,9 @@ class Checklist extends Model
     {
         $this->tasks()->update(['completed' => false]);
     }
+
+    public function removeCompleted()
+    {
+        $this->tasks()->where('completed', true)->delete();
+    }
 }
