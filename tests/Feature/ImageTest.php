@@ -168,6 +168,31 @@ class ImageTest extends TestCase
         $this->assertNull( Image::where('thumbnail_large_path', $image->thumbnail_large_path)->first()->deleted_at );
     }
 
+    public function test_images_are_physically_deleted_after_note_force_deleting()
+    {
+        $storage = Storage::fake();
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $storage->put('images/123.jpeg', '12345');
+        $storage->put('thumbnails_small/456.jpeg', '12345');
+        $storage->put('thumbnails_large/789.jpeg', '12345');
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
+                '.jpeg',
+        ]);
+
+        $note->forceDelete();
+
+        $this->assertFalse( $storage->exists('images/123.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_small/456.jpeg') );
+        $this->assertFalse( $storage->exists('thumbnails_large/789.jpeg') );
+    }
+
     public function test_images_are_physically_deleted_after_five_minutes_if_deletion_is_not_undone()
     {
 
