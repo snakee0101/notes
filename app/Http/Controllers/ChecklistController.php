@@ -57,4 +57,9 @@ class ChecklistController extends Controller
 
         return $note->fresh();
     }
+
+    public function uncheck_all(Checklist $checklist)
+    {
+        $checklist->uncheckAll();
+    }
 }

@@ -125,4 +125,18 @@ class ChecklistTest extends TestCase
         $this->assertEquals(2, $tasks[1]->position);
         $this->assertEquals(3, $tasks[2]->position);
     }
+
+    public function test_all_tasks_could_be_unchecked()
+    {
+        auth()->login(User::factory()->create());
+        $checklist = Checklist::factory()->create();
+
+        Task::factory()->for($checklist)->count(3)->create([ 'completed' => false ]);
+        Task::factory()->for($checklist)->count(3)->create([ 'completed' => true  ]);
+
+        $this->post(route('checklist.uncheck_all', $checklist))
+             ->assertOk();
+
+        $this->assertCount(6, Task::where('completed', false)->get());
+    }
 }
