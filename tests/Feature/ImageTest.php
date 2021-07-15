@@ -129,9 +129,10 @@ class ImageTest extends TestCase
 
         $note->refresh();
 
-        $this->assertTrue( $storage->exists('images/123.jpeg') );
-        $this->assertTrue( $storage->exists('thumbnails_small/456.jpeg') );
-        $this->assertTrue( $storage->exists('thumbnails_large/789.jpeg') );
+        Storage::assertExists('images/123.jpeg');
+        Storage::assertExists('thumbnails_small/456.jpeg');
+        Storage::assertExists('thumbnails_large/789.jpeg');
+
         $this->assertDatabaseCount('images', 1);
 
         $image_id = $this->post( route('image.destroy', $note->images[0]))->content();
@@ -188,9 +189,9 @@ class ImageTest extends TestCase
 
         $note->forceDelete();
 
-        $this->assertFalse( $storage->exists('images/123.jpeg') );
-        $this->assertFalse( $storage->exists('thumbnails_small/456.jpeg') );
-        $this->assertFalse( $storage->exists('thumbnails_large/789.jpeg') );
+        Storage::assertMissing('images/123.jpeg');
+        Storage::assertMissing('thumbnails_small/456.jpeg');
+        Storage::assertMissing('thumbnails_large/789.jpeg');
     }
 
     public function test_images_are_physically_deleted_after_five_minutes_if_deletion_is_not_undone()
