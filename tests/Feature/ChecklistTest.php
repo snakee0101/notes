@@ -134,8 +134,10 @@ class ChecklistTest extends TestCase
         Task::factory()->for($checklist)->count(3)->create([ 'completed' => false ]);
         Task::factory()->for($checklist)->count(3)->create([ 'completed' => true  ]);
 
-        $this->post(route('checklist.uncheck_all', $checklist))
-             ->assertOk();
+        $note = $this->post(route('checklist.uncheck_all', $checklist))
+                     ->json();
+
+        $this->assertEquals(1, $note['checklist']['id']);
 
         $this->assertCount(6, Task::where('completed', false)->get());
     }

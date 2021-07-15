@@ -61,5 +61,6 @@ class ChecklistController extends Controller
     public function uncheck_all(Checklist $checklist)
     {
         $checklist->uncheckAll();
+        return $checklist->note;
     }
 }
