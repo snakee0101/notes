@@ -116,18 +116,17 @@ class ReminderTest extends TestCase
 
     public function test_reminder_could_be_converted_to_json()
     {
-        $reminder = Reminder::factory()->create(['note_id' => Note::factory()]);
-        auth()->login($reminder->note->owner);
+        $note = Note::factory()->create();
+        $this->assertDatabaseCount('reminders', 0);
+        auth()->login($note->owner);
 
-        $res = $this->get( route('reminder.show', $reminder->note) );
+        $date = now()->addDay();
 
-        $this->assertJson($res->content());
-        $obj = json_decode($res->content());
+        $reminder = $this->post( route('reminder.store', $note), [
+            'time' => $date->format('Y-m-d H:i:s')
+        ])->json();
 
-        $this->assertEquals($reminder->id, $obj->id);
-        $this->assertEquals($reminder->note_id, $obj->note_id);
-        $this->assertEquals($reminder->location, $obj->location);
-        $this->assertEquals($reminder->repeat, $obj->repeat);
+        $this->assertEquals($note->id, $reminder['note_id']);
     }
 
     /*public function test_reminder_could_be_stored_for_specific_place()

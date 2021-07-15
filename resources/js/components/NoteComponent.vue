@@ -415,10 +415,7 @@ export default {
             axios.post('/reminder/' + this.note.id, {
                 time : time,
                 repeat: JSON.stringify(repeat)
-            });
-
-            axios.get('/reminder/' + this.note.id)
-                 .then(res => this.reload_reminder_json(res));
+            }).then(res => this.reload_reminder_json(res));
 
             this.$refs['dateTimePicker-modal'].hide();
         },

@@ -54,7 +54,6 @@ Route::middleware('auth')->group(function() {
     Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');
     Route::delete('/reminder/{note}', [ReminderController::class, 'destroy'])->name('reminder.destroy');
     Route::get('/reminder', [ReminderController::class, 'index'])->name('reminder.index');
-    Route::get('/reminder/{note}', [ReminderController::class, 'show'])->name('reminder.show');
 
     Route::post('/collaborator/{note}', [CollaboratorController::class, 'sync'])->name('sync_collaborator');
     Route::get('/collaborator/{email}', [CollaboratorController::class, 'check'])->name('check_user_existence');
