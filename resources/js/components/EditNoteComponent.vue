@@ -60,7 +60,8 @@
                 <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
                        @change="handleFile()">
 
-                <button class="btn btn-warning btn-sm" @click="convertToText()" v-if="isChecklist">Hide checkboxes</button>
+                <button class="btn btn-danger btn-sm" @click="convertToText()" v-if="isChecklist">Hide checkboxes</button>
+                <button class="btn btn-warning btn-sm" @click="uncheckAll()" v-if="isChecklist">Uncheck all</button>
                 <button class="btn btn-primary btn-sm" @click="convertToChecklist()" v-else>Show checkboxes</button>
             </p>
         </div>
@@ -93,6 +94,17 @@ export default {
             });
 
             this.newChecklistItem = '';
+        },
+        uncheckAll() { //operation is immediate
+            this.note.checklist.tasks = this.note.checklist.tasks.map( task => task.completed = false );
+
+            if(this.note.checklist.id != null)
+                axios.post('/checklist/uncheck_all/' + this.note.checklist.id)
+                    .then(res => this.updateNote(res.data));
+        },
+        updateNote(note) {
+            this.note = note;
+            window.events.$emit('reload_note', this.note);
         },
         removeChecklistItem(index) {
             this.note.checklist.tasks.splice(index, 1);
@@ -149,7 +161,7 @@ export default {
             });
 
             if(this.isChecklist){
-                if(this.note.checklist.id) {//if the note has already had checklist - replace all checklist items at once
+                 if(this.note.checklist.id) {//if the note has already had checklist - replace all checklist items at once
                     axios.put('/checklist/' + this.note.checklist.id, {
                        tasks :  this.note.checklist.tasks
                     }).then(res => this.note = res.data);
