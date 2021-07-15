@@ -21,4 +21,9 @@ class Checklist extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function uncheckAll()
+    {
+        $this->tasks()->update(['completed' => false]);
+    }
 }

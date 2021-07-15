@@ -37,4 +37,16 @@ class ChecklistTest extends TestCase
 
         $this->assertInstanceOf(Checklist::class, $tasks[0]->checklist);
     }
+
+    public function test_all_tasks_could_be_unchecked()
+    {
+        $checklist = Checklist::factory()->create();
+
+        Task::factory()->for($checklist)->count(3)->create([ 'completed' => false ]);
+        Task::factory()->for($checklist)->count(3)->create([ 'completed' => true  ]);
+
+        $checklist->uncheckAll();
+
+        $this->assertCount(6, Task::where('completed', false)->get());
+    }
 }
