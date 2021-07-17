@@ -31,7 +31,7 @@
         </textarea>
 
         <div v-show="isChecklist">
-            <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist">
+            <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist" :key="item.key">
                 <div class="flex flex-row">
                     <a href="#" @click.prevent="moveItem(item, index, 'up')">
                         <i class="bi bi-arrow-up text-green-700"></i>
@@ -346,7 +346,8 @@ export default {
         addToChecklist() {
             this.checklist.push({
                 text: this.newChecklistItem,
-                completed: false
+                completed: false,
+                key: new Date().getTime()
             });
 
             this.newChecklistItem = '';
