@@ -30,6 +30,23 @@
             <a href="#" @click.prevent="next()" class="absolute right-4 rounded-full" v-if="next_shown">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
+
+        </div>
+
+        <div class="flex flex-row bg-black justify-center absolute bottom-6 left-1/2">
+            <div class="inline bg-black flex flex-row align-items-stretch">
+                <a href="#" @click.prevent="zoomIn()" class="hover:bg-gray-800 p-1">
+                    <i class="bi bi-zoom-in text-white" style="font-size: 1.5rem"></i>
+                </a>
+
+                <a href="#" @click.prevent="resetZoom()" class="hover:bg-gray-800 text-white pt-2">
+                    100%
+                </a>
+
+                <a href="#" @click.prevent="zoomOut()" class="hover:bg-gray-800 p-1">
+                    <i class="bi bi-zoom-out text-white" style="font-size: 1.5rem"></i>
+                </a>
+            </div>
         </div>
     </div>
 </template>
@@ -50,6 +67,15 @@ export default {
         window.events.$on('open-image-viewer', this.open);
     },
     methods: {
+        zoomIn() {
+
+        },
+        zoomOut() {
+
+        },
+        resetZoom() {
+
+        },
         open(current_image, images) {
             this.current_image = current_image;
             this.images = images;
