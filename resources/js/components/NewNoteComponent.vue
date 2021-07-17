@@ -31,10 +31,10 @@
         </textarea>
 
         <div v-show="isChecklist">
-            <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist">
+            <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist" :key="index + '_' + item.completed">
                 <div class="flex flex-row">
                     <input class="form-check-input mt-2" type="checkbox" :value="item.completed"
-                           @click="setChecklistItemState(item)">
+                           @click="setChecklistItemState(item, index)">
                     <input type="text" class="flex-grow" v-model="checklist[index].text"
                            :ref="'checklist-item-' + index">
                     <a href="#" @click.prevent="removeChecklistItem(index)"> <span class="bi bi-x text-lg"></span> </a>
@@ -173,6 +173,8 @@
                     <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
                     <b-dropdown-item href="#">Add drawing</b-dropdown-item>
                     <b-dropdown-item href="#" @click="convertToText()" v-if="isChecklist">Hide checkboxes
+                    </b-dropdown-item>
+                    <b-dropdown-item href="#" @click="uncheckAll()" v-if="isChecklist">Uncheck all
                     </b-dropdown-item>
                     <b-dropdown-item href="#" @click="convertToChecklist()" v-else>Show checkboxes</b-dropdown-item>
                 </b-dropdown>
@@ -340,6 +342,9 @@ export default {
             });
 
             this.newChecklistItem = '';
+        },
+        uncheckAll() { //operation is immediate
+            this.checklist.forEach((item, index) => this.$set(this.checklist[index], 'completed', false));
         },
         removeChecklistItem(index) {
             this.checklist.splice(index, 1);
