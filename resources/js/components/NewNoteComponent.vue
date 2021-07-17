@@ -176,6 +176,8 @@
                     </b-dropdown-item>
                     <b-dropdown-item href="#" @click="uncheckAll()" v-if="isChecklist">Uncheck all
                     </b-dropdown-item>
+                    <b-dropdown-item href="#" @click="removeCompleted()" v-if="isChecklist">Remove completed
+                    </b-dropdown-item>
                     <b-dropdown-item href="#" @click="convertToChecklist()" v-else>Show checkboxes</b-dropdown-item>
                 </b-dropdown>
             </a>
@@ -345,6 +347,9 @@ export default {
         },
         uncheckAll() { //operation is immediate
             this.checklist.forEach((item, index) => this.$set(this.checklist[index], 'completed', false));
+        },
+        removeCompleted() {
+            this.checklist = this.checklist.filter( task => task.completed == false );
         },
         removeChecklistItem(index) {
             this.checklist.splice(index, 1);
