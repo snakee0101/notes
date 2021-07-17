@@ -114,8 +114,7 @@ export default {
             this.note.checklist.tasks = this.note.checklist.tasks.filter( task => task.completed == false );
 
             if(this.note.checklist.id != null)
-                axios.post('/checklist/remove_completed/' + this.note.checklist.id)
-                    .then(res => this.updateNote(res.data));
+                axios.post('/checklist/remove_completed/' + this.note.checklist.id);
         },
         updateNote(note) {
             this.note = note;
