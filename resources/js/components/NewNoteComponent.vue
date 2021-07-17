@@ -33,6 +33,12 @@
         <div v-show="isChecklist">
             <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist">
                 <div class="flex flex-row">
+                    <a href="#" @click.prevent="moveItem(item, index, 'up')">
+                        <i class="bi bi-arrow-up text-green-700"></i>
+                    </a>
+                    <a href="#" @click.prevent="moveItem(item, index, 'down')">
+                        <i class="bi bi-arrow-down text-red-700"></i>
+                    </a>
                     <input class="form-check-input mt-2" type="checkbox" :value="item.completed"
                            @click="setChecklistItemState(item, index)">
                     <input type="text" class="flex-grow" v-model="checklist[index].text"
@@ -356,6 +362,21 @@ export default {
         },
         setChecklistItemState(item, index) {
             item.completed = event.target.checked;
+        },
+        moveItem(item, index, direction) {
+            if((index === 0) && direction === 'up')
+                return;
+
+            if((index === this.checklist.length - 1) && direction === 'down')
+                return;
+
+            let increment = (direction === 'up') ? -1 : +1;
+
+            let item_1 = this.checklist[index];
+            let item_2 = this.checklist[index + increment];
+
+            this.$set(this.checklist, index, item_2);
+            this.$set(this.checklist, index + increment, item_1);
         },
         convertToChecklist() {
             let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
