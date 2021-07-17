@@ -74,7 +74,11 @@ export default {
             this.zoom(+100);
         },
         resetZoom() {
+            let image = this.$refs['image'];
+            let aspectRatio = image.clientWidth/image.clientHeight;
 
+            image.style.width = 600 + 'px';
+            image.style.height = 600/aspectRatio + 'px';
         },
         open(current_image, images) {
             this.current_image = current_image;
