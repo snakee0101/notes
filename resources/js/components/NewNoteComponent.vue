@@ -31,7 +31,7 @@
         </textarea>
 
         <div v-show="isChecklist">
-            <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist" :key="index + '_' + item.completed">
+            <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist">
                 <div class="flex flex-row">
                     <input class="form-check-input mt-2" type="checkbox" :value="item.completed"
                            @click="setChecklistItemState(item, index)">
@@ -354,7 +354,7 @@ export default {
         removeChecklistItem(index) {
             this.checklist.splice(index, 1);
         },
-        setChecklistItemState(item) {
+        setChecklistItemState(item, index) {
             item.completed = event.target.checked;
         },
         convertToChecklist() {
