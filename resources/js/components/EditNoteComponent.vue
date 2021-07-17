@@ -18,10 +18,10 @@
                 <h6 class="pb-1">Note content</h6>
                 <div class="form-check mb-2 flex flex-col" v-for="(item, index) in note.checklist.tasks">
                     <div class="flex flex-row">
-                        <a href="#" @click.prevent="moveUp(item, index)">
+                        <a href="#" @click.prevent="moveItem(item, index, 'up')">
                             <i class="bi bi-arrow-up text-green-700"></i>
                         </a>
-                        <a href="#" @click.prevent="moveDown(item, index)">
+                        <a href="#" @click.prevent="moveItem(item, index, 'down')">
                             <i class="bi bi-arrow-down text-red-700"></i>
                         </a>
                         <input class="form-check-input mt-2" type="checkbox" v-model="item.completed"
@@ -233,26 +233,21 @@ export default {
         openImageViewer(current_image) {
             window.events.$emit('open-image-viewer', current_image, this.note.images);
         },
-        moveUp(item, index) {
-            if(index === 0)
+        moveItem(item, index, direction) {
+            if((index === 0) && direction === 'up')
                 return;
 
+            if((index === this.note.checklist.tasks.length - 1) && direction === 'down')
+                return;
+
+            let increment = (direction === 'up') ? -1 : +1;
+
             let item_1 = this.note.checklist.tasks[index];
-            let item_2 = this.note.checklist.tasks[index - 1];
+            let item_2 = this.note.checklist.tasks[index + increment];
 
             this.$set(this.note.checklist.tasks, index, item_2);
-            this.$set(this.note.checklist.tasks, index - 1, item_1);
+            this.$set(this.note.checklist.tasks, index + increment, item_1);
         },
-        moveDown(item, index) {
-            if(index === this.note.checklist.tasks.length - 1)
-                return;
-
-            let item_1 = this.note.checklist.tasks[index];
-            let item_2 = this.note.checklist.tasks[index + 1];
-
-            this.$set(this.note.checklist.tasks, index, item_2);
-            this.$set(this.note.checklist.tasks, index + 1, item_1);
-        }
     },
 }
 </script>
