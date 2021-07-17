@@ -12,34 +12,6 @@ use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param Note $note
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
-     */
     public function store(Request $request)
     {
         $image = $request->file('image');
@@ -48,53 +20,12 @@ class ImageController extends Controller
         $note = Note::find( $request->input('note_id') );
 
         return $note->images()->create([
-            'note_id' => $note->id,
             'image_path' => $paths['image_path'],
             'thumbnail_small_path' => $paths['thumbnail_small_path'],
             'thumbnail_large_path' => $paths['thumbnail_large_path'],
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Image $image)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Image $image)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Image $image)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Image $image)
     {
         $image_id = $image->id;
@@ -102,7 +33,6 @@ class ImageController extends Controller
 
         return $image_id;
     }
-
 
     public function restore($image_id)
     {

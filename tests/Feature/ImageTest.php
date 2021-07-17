@@ -19,14 +19,14 @@ class ImageTest extends TestCase
 {
     public function generate_image() : File
     {
-        /*Storage::fake();
+        Storage::fake();
         return UploadedFile::fake()
-               ->image('test.jpg', 1000, 1000);*/
+               ->image('test.jpg', 1000, 1000);
     }
 
     public function test_an_image_could_be_uploaded()
     {
-       /*$note = Note::factory()->create();
+       $note = Note::factory()->create();
        auth()->login($note->owner);
 
        $image = $this->generate_image();
@@ -41,23 +41,23 @@ class ImageTest extends TestCase
 
        $this->assertTrue(
             Storage::exists('/images/' . $filename)
-       );*/
+       );
     }
 
     public function test_an_image_is_attached_to_the_note()
     {
-        /*$note = Note::factory()->create();
+        Storage::makeDirectory('thumbnails_large');
+
+        $note = Note::factory()->create();
         auth()->login($note->owner);
 
-        $image = $this->generate_image();
-
         $this->post( route('image.store'), [
-            'image' => $image,
+            'image' => $this->generate_image(),
             'note_id' => $note->id
-        ]);
+        ])->dump();
 
         $this->assertCount(1, $note->fresh()->images);
-        $this->assertInstanceOf(Image::class, $note->fresh()->images()->first());*/
+        $this->assertInstanceOf(Image::class, $note->images[0]);
     }
 
     public function test_thumbnail_small_is_attached()
