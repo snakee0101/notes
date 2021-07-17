@@ -1,5 +1,5 @@
 <template>
-    <div class="image-viewer flex flex-col" @wheel="zoom()" v-if="shown">
+    <div class="image-viewer flex flex-col" @wheel="zoom($event.deltaY)" v-if="shown">
         <div class="top-bar flex flex-row justify-between bg-black">
             <div class="ml-3 my-3">
                 <a href="#" @click.prevent="close()" class="p-2 pt-3 hover:bg-gray-800">
@@ -68,10 +68,10 @@ export default {
     },
     methods: {
         zoomIn() {
-
+            this.zoom(-100);
         },
         zoomOut() {
-
+            this.zoom(+100);
         },
         resetZoom() {
 
@@ -87,13 +87,13 @@ export default {
 
             this.shown = true;
         },
-        zoom() {
+        zoom(delta) {
             let image = this.$refs['image'];
 
             let aspectRatio = image.clientWidth/image.clientHeight;
 
-            let newWidth = image.clientWidth - event.deltaY * aspectRatio;
-            let newHeight = image.clientHeight - event.deltaY;
+            let newWidth = image.clientWidth - delta * aspectRatio;
+            let newHeight = image.clientHeight - delta;
 
             if(newWidth < 400 || newWidth > image.naturalWidth)
                 return;
