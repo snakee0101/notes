@@ -39,8 +39,8 @@
                     <a href="#" @click.prevent="moveItem(item, index, 'down')">
                         <i class="bi bi-arrow-down text-red-700"></i>
                     </a>
-                    <input class="form-check-input mt-2" type="checkbox" :value="item.completed"
-                           @click="setChecklistItemState(item, index)">
+                    <input class="form-check-input mt-2" type="checkbox"
+                           @click="setChecklistItemState(item, index)" :checked="checklist[index].completed">
                     <input type="text" class="flex-grow" v-model="checklist[index].text"
                            :ref="'checklist-item-' + index">
                     <a href="#" @click.prevent="removeChecklistItem(index)"> <span class="bi bi-x text-lg"></span> </a>
@@ -353,7 +353,14 @@ export default {
             this.newChecklistItem = '';
         },
         uncheckAll() { //operation is immediate
-            this.checklist.forEach((item, index) => this.$set(this.checklist[index], 'completed', false));
+            this.checklist.forEach(this.uncheckItem);
+        },
+        uncheckItem(item, index) {
+            this.$set(this.checklist, index, {
+                text: item.text,
+                completed: false,
+                key: item.key
+            });
         },
         removeCompleted() {
             this.checklist = this.checklist.filter( task => task.completed == false );
