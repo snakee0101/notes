@@ -396,6 +396,7 @@ export default {
             }).map(function (text) {
                 return {
                     text: text,
+                    key: text + '_' + Math.random(),
                     completed: false
                 };
             });
