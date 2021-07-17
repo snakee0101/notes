@@ -102,12 +102,13 @@ export default {
 
             this.newChecklistItem = '';
         },
-        uncheckAll() { //operation is immediate
-            this.note.checklist.tasks = this.note.checklist.tasks.map( task => task.completed = false );
-
-            if(this.note.checklist.id != null)
-                axios.post('/checklist/uncheck_all/' + this.note.checklist.id)
-                    .then(res => this.updateNote(res.data));
+        uncheckAll() {
+            this.note.checklist.tasks = this.note.checklist.tasks.map( function(task) {
+                return {
+                    text : task.text,
+                    completed: false
+                };
+            } );
         },
         removeCompleted() {
             this.note.checklist.tasks = this.note.checklist.tasks.filter( task => task.completed == false );
