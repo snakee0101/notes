@@ -62,4 +62,29 @@ class SearchTest extends TestCase
         $this->assertArrayHasKey('color', $serialized_note);
         $this->assertEquals('orange', $serialized_note['color']);
     }
+
+    public function test_a_note_could_be_filtered_by_color()
+    {
+        $note = Note::factory()->create([
+            'body' => 'note body',
+            'color' => 'orange'
+        ]);
+
+        $note2 = Note::factory()->create([
+            'body' => 'note body',
+            'color' => 'black'
+        ]);
+
+        auth()->login($note->owner);
+
+        $json = $this->post(route('search'), [
+            'query' => 'note',
+            'filterBy' => 'color',
+            'filterValue' => 'orange'
+        ])->assertOk()->content();
+
+        $data = json_decode($json);
+        $this->assertCount(1, $data->data);
+        $this->assertEquals('orange', $data->data[0]->color);
+    }
 }

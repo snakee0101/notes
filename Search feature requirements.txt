@@ -6,7 +6,7 @@
     - body (OK)
     - all images recognized text
 
-    - color
+    - color (OK)
     - tags custom attribute, that contains comma-separated labels, e.g. "label 1,label 2,label 3"
     - types custom attribute, that contains comma-separated values, indicating note type, e.g. "images,lists,drawings,urls"
 
