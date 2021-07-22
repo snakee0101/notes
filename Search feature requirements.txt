@@ -2,7 +2,9 @@
 * archived and deleted notes are always excluded from search
 * what should be searchable
     - header (OK)
-    - body (tags stripped)
+    - body must have tags stripped (OK)
+    - body
+    - all images recognized text
 
     - color
     - tags custom attribute, that contains comma-separated labels, e.g. "label 1,label 2,label 3"
@@ -12,4 +14,4 @@
     not be searchable by &type=some_type - they are received from request
 
 * result is a collection of models
-* results should be paginated
+* results should be paginated (OK)

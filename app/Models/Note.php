@@ -28,7 +28,8 @@ class Note extends Model
     {
         return [
             'id' => $this->id,
-            'header' => $this->header
+            'header' => $this->header,
+            'body' => \strip_tags($this->body)
         ];
     }
 
