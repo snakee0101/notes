@@ -3,7 +3,7 @@
 * what should be searchable
     - header (OK)
     - body must have tags stripped (OK)
-    - body
+    - body (OK)
     - all images recognized text
 
     - color

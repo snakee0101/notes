@@ -53,4 +53,13 @@ class SearchTest extends TestCase
         $this->assertCount(1, $data->data);
         $this->assertStringContainsString('note', $data->data[0]->body);
     }
+
+    public function test_serialized_note_must_include_its_color()
+    {
+        $note = Note::factory()->create(['color' => 'orange']);
+        $serialized_note = $note->toSearchableArray();
+
+        $this->assertArrayHasKey('color', $serialized_note);
+        $this->assertEquals('orange', $serialized_note['color']);
+    }
 }
