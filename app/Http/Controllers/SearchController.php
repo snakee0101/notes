@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function __invoke(Request $request) : Collection
+    public function __invoke(Request $request)
     {
         $searchQuery = $request->input('query');
-        return Note::search($searchQuery)->get();
+        return Note::search($searchQuery)->paginate();
     }
 }

@@ -23,7 +23,8 @@ class SearchTest extends TestCase
 
         $data = json_decode($json);
 
-        $this->assertCount(1, $data);
-        $this->assertStringContainsString('test', $data[0]->header);
+        $this->assertEquals(1, $data->current_page);
+        $this->assertCount(1, $data->data);
+        $this->assertStringContainsString('test', $data->data[0]->header);
     }
 }
