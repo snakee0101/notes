@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
 
 class Note extends Model
 {
     protected $hidden = [];
     protected $perPage = 20;
 
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $appends = ['tags', 'collaborators_json', 'owner_json', 'images_json', 'reminder_json'];
     protected $guarded = [];
