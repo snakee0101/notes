@@ -1,0 +1,15 @@
+* search is made everywhere despite current page
+* archived and deleted notes are always excluded from search
+* what should be searchable
+    - header
+    - body (tags stripped)
+
+    - color
+    - tags custom attribute, that contains comma-separated labels, e.g. "label 1,label 2,label 3"
+    - types custom attribute, that contains comma-separated values, indicating note type, e.g. "images,lists,drawings,urls"
+
+    Attention! create *_filter attributes for color, tags, types (color_filter, tags_filter, types_filter) - they should
+    not be searchable by &type=some_type - they are received from request
+
+* result is a collection of models
+* results should be paginated
