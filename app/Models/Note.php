@@ -24,9 +24,12 @@ class Note extends Model
 
     protected $with = ['checklist'];
 
-    public function toSearchableArray() //TODO: figure out what should be added to search index
+    public function toSearchableArray()
     {
-
+        return [
+            'id' => $this->id,
+            'header' => $this->header
+        ];
     }
 
     public function resolveRouteBinding($value, $field = null)

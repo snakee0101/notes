@@ -5,6 +5,7 @@ use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Models\Note;
@@ -25,6 +26,8 @@ use App\Http\Controllers\TrashController;
 */
 
 Route::middleware('auth')->group(function() {
+    Route::post('search', SearchController::class)->name('search');
+
     Route::resource('note', NoteController::class);
 
     Route::resource('tag', TagController::class);

@@ -1,7 +1,7 @@
 * search is made everywhere despite current page
 * archived and deleted notes are always excluded from search
 * what should be searchable
-    - header
+    - header (OK)
     - body (tags stripped)
 
     - color
