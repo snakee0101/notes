@@ -30,7 +30,8 @@ class Note extends Model
             'id' => $this->id,
             'header' => $this->header,
             'body' => \strip_tags($this->body),
-            'color' => $this->color
+            'color' => $this->color,
+            'tags' => implode(',', $this->tags()->pluck('name')->toArray())
         ];
     }
 
