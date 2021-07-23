@@ -7,9 +7,9 @@
    $domain (site domain, displayed in preview box)
    $note_id (each link belongs to a note - it's a relationship)
 
-- NO - Set up the relationships:
-  - NO - Note hasMany Links
-  - NO - Link belongsTo a Note
+- OK - Set up the relationships:
+  - OK - Note hasMany Links
+  - OK - Link belongsTo a Note
 
 - NO - Set up DB CONSTRAINTS
   - NO - When the note is deleted - all associated links are automatically removed (ON DELETE CASCADE)

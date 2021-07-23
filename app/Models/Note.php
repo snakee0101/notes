@@ -133,6 +133,11 @@ class Note extends Model
         return $this->hasOne(Checklist::class);
     }
 
+    public function links()
+    {
+        return $this->hasMany(Link::class);
+    }
+
     public function makeCopy()
     {
         //replicate the note

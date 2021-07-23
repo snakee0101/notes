@@ -10,7 +10,12 @@ class LinkTest extends TestCase
 {
     public function test_a_note_has_many_links()
     {
+        $note = Note::factory()->create();
+        Link::factory()->count(3)->create(['note_id' => $note->id]);
+        $note->refresh();
 
+        $this->assertInstanceOf(Link::class, $note->links()->first());
+        $this->assertCount(3, $note->links);
     }
 
     public function test_a_link_belongs_to_the_note()
