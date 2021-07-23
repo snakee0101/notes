@@ -1,2 +1,73 @@
 - OK - Link is a separate entity, so it requires a separate model, factory, migration
 - OK - Link requires two types of tests - feature and unit
+- OK - Link table structure
+   $name (displayed in preview box)
+   $url (exact location the link points to)
+   $favicon_url (path to icon, that this link is identified by)
+   $domain (site domain, displayed in preview box)
+   $note_id (each link belongs to a note - it's a relationship)
+
+- NO - Set up the relationships:
+  - NO - Note hasMany Links
+  - NO - Link belongsTo a Note
+
+- NO - Set up DB CONSTRAINTS
+  - NO - When the note is deleted - all associated links are automatically removed (ON DELETE CASCADE)
+  - NO - UNIQUE check: links with the same url in the same note are not allowed (it shouldn't raise an
+         exception, because other links must be added despite constraint violation - the exception
+         must be intercepted by try-catch and ignored)
+
+- NO - Link actions
+   - NO - Copy URL.  Performed by:  Vue
+   - NO - Remove. Performed by:
+     - NO - Vue
+     - NO - PHP
+
+- NO - Link should have a resource controller with one action - DESTROY
+
+WHEN the Note-Link relations and Link models must be checked for CHANGES:
+- NO - Note is CREATED
+- NO - Note is UPDATED
+- NO - Note is DELETED
+
+ACTIONS
+- NO - REMOVE. The link card (actually the link model) is removed only when the user clicked "Remove" button,
+       when the link is deleted from the note's body, it's model remains untouched (soft deletes).
+- NO - It requires a DESTROY controller action
+
+- NO - link could be RESTORED (requires RESTORE action)
+- NO - link could be restored by Vue (it means that DESTROY action could be undone with Vue Notification)
+
+- NO - CREATE. The link model is created only after the new note is saved to DB.
+- NO - CREATE (Vue). After the new note is created - the link card is automatically displayed on the note
+
+- NO - Before creation, all links must be found. It's accomplished by parsing note's body for links.
+  IMPLEMENTATION:
+  Link::parseNote($note) {
+     //parse note body for <a> tags  (<a href="LINK URL">LINK NAME (WAS SET IN WYSIWYG EDITOR)</a>)
+     //extract urls and link names from these tags
+     //return array [ ['name' => link_name, 'url' => link_url], ... ]
+  }
+
+- NO - IMPLEMENTATION of CREATE on the model:
+  Link::make($url, $name) {
+     Http::get(); //extract favicon from the request
+     regex() //extract domain from link URL
+
+     //set the link name and url from arguments
+     save model();
+  }
+
+- NO - IMPLEMENTATION of CREATE in controller:
+  foreach Link::parseNote($note) as $link
+      Link::make($link['url'], $link['name']);
+
+
+- NO - SYNC. When the note is edited - the new links are added to db, but the old ones are not deleted,
+       even if they don't exists in the note's body now, until the user manually deletes them with the button
+
+- NO - SYNC. However, if the old link's name is changed - it must be reflected in the table.
+
+RELATIONS
+- NO - Note::copy() action must now copy the Note->URLS relationship
+- NO - Hide checkboxes action restores all the links into <a> tags
