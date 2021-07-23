@@ -1,1 +1,2 @@
 - OK - Link is a separate entity, so it requires a separate model, factory, migration
+- OK - Link requires two types of tests - feature and unit
