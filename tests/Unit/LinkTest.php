@@ -25,4 +25,17 @@ class LinkTest extends TestCase
 
         $this->assertInstanceOf(Note::class, $link->note);
     }
+
+    public function test_a_the_links_are_automatically_deleted_when_the_note_is_force_deleted()
+    {
+        $note = Note::factory()->create();
+        Link::factory()->count(3)->create(['note_id' => $note->id]);
+        $note->refresh();
+
+        $this->assertDatabaseCount('links', 3);
+
+        $note->forceDelete();
+
+        $this->assertDatabaseCount('links', 0);
+    }
 }
