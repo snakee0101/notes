@@ -6,6 +6,7 @@ use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 
@@ -98,6 +99,8 @@ class SearchTest extends TestCase
 
         $this->assertArrayHasKey('tags', $serialized_note);
 
+        dd($serialized_note);
+
         $this->assertStringContainsString($tags[0]->name, $serialized_note['tags']);
         $this->assertStringContainsString($tags[1]->name, $serialized_note['tags']);
         $this->assertStringContainsString($tags[2]->name, $serialized_note['tags']);
@@ -105,11 +108,6 @@ class SearchTest extends TestCase
 
     public function test_a_note_could_be_filtered_by_tags()
     {
-        $tag_1 = Tag::factory()->create();
-        $tag_2 = Tag::factory()->create();
-        $note_1 = Note::factory()->hasAttached($tag_1)->create();
-        $note_2 = Note::factory()->hasAttached($tag_2)->create();
-
 
     }
 }
