@@ -38,4 +38,24 @@ class LinkTest extends TestCase
 
         $this->assertDatabaseCount('links', 0);
     }
+
+    public function test_a_specific_note_cant_have_duplicated_urls()
+    {
+        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+        $note_1 = Note::factory()->create();
+
+        Link::factory()->for($note_1, 'note')->create(['url' => 'http://www.google.com']);
+        Link::factory()->for($note_1, 'note')->create(['url' => 'http://www.google.com']);
+    }
+
+    public function test_different_notes_could_have_the_same_urls()
+    {
+        $note_1 = Note::factory()->create();
+        $note_2 = Note::factory()->create();
+
+        Link::factory()->for($note_1, 'note')->create(['url' => 'http://www.google.com']);
+        Link::factory()->for($note_2, 'note')->create(['url' => 'http://www.google.com']);
+
+        $this->assertDatabaseCount('links', 2);
+    }
 }

@@ -11,10 +11,10 @@
   - OK - Note hasMany Links
   - OK - Link belongsTo a Note
 
-- NO - Set up DB CONSTRAINTS
+- OK - Set up DB CONSTRAINTS
   - OK - When the note is deleted - all associated links are automatically removed (ON DELETE CASCADE)
-  - NO - UNIQUE check: links with the same url in the same note are not allowed (it shouldn't raise an
-         exception, because other links must be added despite constraint violation - the exception
+  - OK - UNIQUE check: links with the same url in the same note are not allowed
+  - NO - it shouldn't raise an exception, because other links must be added despite constraint violation - the exception
          must be intercepted by try-catch and ignored)
 
 - NO - Link actions
