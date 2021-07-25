@@ -11,6 +11,8 @@ class Link extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public $timestamps = false;
 
     public function note()
@@ -51,7 +53,7 @@ class Link extends Model
     public static function extractFaviconURL($page_url)
     {
         //get the page's html
-        $httpResponseBody = Http::get($url)->body();
+        $httpResponseBody = Http::get($page_url)->body();
 
         //clear new lines and spaces
         $new_lines_cleared = preg_replace('/\n/','', $httpResponseBody);
@@ -78,5 +80,16 @@ class Link extends Model
         } else {
             return $largest_icon_path;
         }
+    }
+
+    public static function persist($url, $name, Note $note) : self
+    {
+        return self::create([
+            'name' => $name,
+            'url' => $url,
+            'favicon_path' => self::extractFaviconURL($url),
+            'domain' => self::extractHost($url),
+            'note_id'  => $note->id
+        ]);
     }
 }

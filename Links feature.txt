@@ -49,7 +49,7 @@ ACTIONS
      //return array [ ['name' => link_name, 'url' => link_url], ... ]
   }
 
-- NO - IMPLEMENTATION of CREATE on the model:
+- OK - IMPLEMENTATION of CREATE on the model:
   Link::make($url, $name) {
 - OK - Separate method: (Link::extractFavicon($url))  Http::get(); //extract favicon from the request
 - OK - Separate method: (Link::extractHost($url))   regex() //extract domain from link URL

@@ -95,4 +95,21 @@ class LinkTest extends TestCase
         $this->assertEquals('https://laravel.com/img/favicon/favicon-32x32.png', $url_2);
         $this->assertEquals('https://regexr.com/assets/icons/favicon-32x32.png?1', $url_3);
     }
+
+    public function test_link_could_be_persisted_to_DB()
+    {
+        $note = Note::factory()->create();
+        $url = 'https://habr.com/ru/all/';
+        $name = 'habr main page';
+
+        $link = Link::persist($url, $name, $note);
+
+        $this->assertDatabaseCount('links',1);
+
+        $this->assertEquals('habr main page', $link->name);
+        $this->assertEquals('https://habr.com/ru/all/', $link->url);
+        $this->assertEquals('https://assets.habr.com/habr-web/img/favicons/favicon-32.png', $link->favicon_path);
+        $this->assertEquals('habr.com', $link->domain);
+        $this->assertEquals($note->id, $link->note_id);
+    }
 }
