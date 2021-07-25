@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Link;
 use App\Models\Note;
 use App\Models\Reminder;
 use App\Models\Tag;
@@ -70,6 +71,13 @@ class NoteController extends Controller
                 User::whereIn('email', $request->collaboratorEmails)->get()
             );
         }
+
+        /**Persist the links**/
+        $links = Link::parseNote($note);
+
+        foreach($links as $link)
+            Link::persist($link['url'], $link['name'], $note);
+
 
         return $note;
     }

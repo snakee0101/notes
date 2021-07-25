@@ -59,7 +59,7 @@ ACTIONS
   }
 
 
-- NO - IMPLEMENTATION of CREATE in controller:
+- OK - IMPLEMENTATION of CREATE in controller:
   foreach Link::parseNote($note) as $link
       Link::make($link['url'], $link['name']);
 
