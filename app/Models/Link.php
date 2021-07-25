@@ -76,7 +76,7 @@ class Link extends Model
 
         //transform icon path into absolute
         if(Str::of($largest_icon_path)->startsWith('/')) { //path is relative
-            return parse_url($url, PHP_URL_SCHEME) . "://" . parse_url($url, PHP_URL_HOST) . $largest_icon_path;
+            return parse_url($page_url, PHP_URL_SCHEME) . "://" . parse_url($page_url, PHP_URL_HOST) . $largest_icon_path;
         } else {
             return $largest_icon_path;
         }
