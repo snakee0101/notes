@@ -87,17 +87,12 @@ class LinkTest extends TestCase
 
     public function test_favicon_could_be_extracted_from_url()
     {
-        $http_response_1 = Http::get('https://habr.com/ru/all/')->body();
-        $http_response_2 = Http::get('https://laravel.com/docs/8.x/http-client#request-data')->body();
-        $http_response_3 = Http::get('https://regexr.com/')->body();
-
-
-        $this->assertNotFalse( $url_1 = Link::extractFaviconURL($http_response_1, 'https://habr.com/ru/all/') );
-        $this->assertNotFalse( $url_2 = Link::extractFaviconURL($http_response_2, 'https://laravel.com/docs/8.x/http-client#request-data') );
-        $this->assertNotFalse( $url_3 = Link::extractFaviconURL($http_response_2, 'https://regexr.com/') );
+        $this->assertNotFalse( $url_1 = Link::extractFaviconURL('https://habr.com/ru/all/') );
+        $this->assertNotFalse( $url_2 = Link::extractFaviconURL('https://laravel.com/docs/8.x/http-client#request-data') );
+        $this->assertNotFalse( $url_3 = Link::extractFaviconURL('https://regexr.com/') );
 
         $this->assertEquals('https://assets.habr.com/habr-web/img/favicons/favicon-32.png', $url_1);
         $this->assertEquals('https://laravel.com/img/favicon/favicon-32x32.png', $url_2);
-        $this->assertEquals('https://regexr.com/img/favicon/favicon-32x32.png', $url_3);
+        $this->assertEquals('https://regexr.com/assets/icons/favicon-32x32.png?1', $url_3);
     }
 }

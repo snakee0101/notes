@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class Link extends Model
@@ -47,8 +48,11 @@ class Link extends Model
         return parse_url($url, PHP_URL_HOST);
     }
 
-    public static function extractFaviconURL(string $httpResponseBody, $url)
+    public static function extractFaviconURL($page_url)
     {
+        //get the page's html
+        $httpResponseBody = Http::get($url)->body();
+
         //clear new lines and spaces
         $new_lines_cleared = preg_replace('/\n/','', $httpResponseBody);
         $spaces_collapsed = preg_replace('/\s+/'," ", $new_lines_cleared);
