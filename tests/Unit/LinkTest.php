@@ -27,6 +27,24 @@ class LinkTest extends TestCase
         $this->assertInstanceOf(Note::class, $link->note);
     }
 
+    public function test_note_can_copy_links_relation()
+    {
+        $note = Note::factory()->create();
+        $link = Link::factory()->create(['note_id' => $note->id]);
+
+        $copy = $note->makeCopy();
+
+        $this->assertInstanceOf(Link::class, $copy->links()->first());
+        $this->assertDatabaseCount('links',2);
+
+        $link_of_copy = $copy->links()->first();
+        $this->assertEquals($link->name, $link_of_copy->name);
+        $this->assertEquals($link->url, $link_of_copy->url);
+        $this->assertEquals($link->favicon_path, $link_of_copy->favicon_path);
+        $this->assertEquals($link->domain, $link_of_copy->domain);
+        $this->assertEquals($copy->id, $link_of_copy->note_id);
+    }
+
     public function test_a_the_links_are_automatically_deleted_when_the_note_is_force_deleted()
     {
         $note = Note::factory()->create();

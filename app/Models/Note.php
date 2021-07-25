@@ -165,6 +165,14 @@ class Note extends Model
         $replica->collaborators()->saveMany( $this->collaborators );
         $replica->push();
 
+        //replicate the links
+        $modified_links = $this->links->map(function($link) {
+            return array_diff_assoc($link->toArray(), ['id' => $link->id]);
+        });
+
+        $replica->links()->createMany($modified_links);
+        $replica->push();
+
         return $replica->fresh();
     }
 }

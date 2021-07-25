@@ -70,5 +70,5 @@ ACTIONS
 - NO - SYNC. However, if the old link's name is changed - it must be reflected in the table.
 
 RELATIONS
-- NO - Note::copy() action must now copy the Note->URLS relationship
+- OK - Note::copy() action must now copy the Note->URLS relationship
 - NO - Hide checkboxes action restores all the links into <a> tags
