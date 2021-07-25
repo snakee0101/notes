@@ -41,4 +41,9 @@ class Link extends Model
             ];
         })->toArray();
     }
+
+    public static function extractHost($url)
+    {
+        return parse_url($url, PHP_URL_HOST);
+    }
 }

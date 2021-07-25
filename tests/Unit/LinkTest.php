@@ -74,4 +74,13 @@ class LinkTest extends TestCase
         $this->assertEquals('http://www.google.com', $result[0]['url']);
         $this->assertEquals('http://www.gismeteo.ua', $result[1]['url']);
     }
+
+    public function test_link_domain_could_be_extracted_from_url()
+    {
+        $result = Link::extractHost('http://www.gismeteo.ua/page/147?param=44');
+        $result2 = Link::extractHost('http://gismeteo.ua/page/147?param=44');
+
+        $this->assertEquals('www.gismeteo.ua', $result);
+        $this->assertEquals('gismeteo.ua', $result2);
+    }
 }

@@ -51,12 +51,13 @@ ACTIONS
 
 - NO - IMPLEMENTATION of CREATE on the model:
   Link::make($url, $name) {
-     Http::get(); //extract favicon from the request
-     regex() //extract domain from link URL
+- NO - Separate method: (Link::extractFavicon($url))  Http::get(); //extract favicon from the request
+- OK - Separate method: (Link::extractHost($url))   regex() //extract domain from link URL
 
      //set the link name and url from arguments
-     save model();
+     save model($url, $name, $favicon, $domain);
   }
+
 
 - NO - IMPLEMENTATION of CREATE in controller:
   foreach Link::parseNote($note) as $link
