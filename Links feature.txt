@@ -11,7 +11,7 @@
   - OK - Note hasMany Links
   - OK - Link belongsTo a Note
 
-- OK - Set up DB CONSTRAINTS
+- NO - Set up DB CONSTRAINTS
   - OK - When the note is deleted - all associated links are automatically removed (ON DELETE CASCADE)
   - OK - UNIQUE check: links with the same url in the same note are not allowed
   - NO - it shouldn't raise an exception, because other links must be added despite constraint violation - the exception
@@ -41,7 +41,7 @@ ACTIONS
 - NO - CREATE. The link model is created only after the new note is saved to DB.
 - NO - CREATE (Vue). After the new note is created - the link card is automatically displayed on the note
 
-- NO - Before creation, all links must be found. It's accomplished by parsing note's body for links.
+- OK - Before creation, all links must be found. It's accomplished by parsing note's body for links.
   IMPLEMENTATION:
   Link::parseNote($note) {
      //parse note body for <a> tags  (<a href="LINK URL">LINK NAME (WAS SET IN WYSIWYG EDITOR)</a>)

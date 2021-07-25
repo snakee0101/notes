@@ -58,4 +58,20 @@ class LinkTest extends TestCase
 
         $this->assertDatabaseCount('links', 2);
     }
+
+    public function test_links_could_be_found_inside_note_body()
+    {
+        $note = Note::factory()->create([
+            'body' => '<div><a href="http://www.google.com">link 1</a><br><br>normal text <a href="http://www.gismeteo.ua">other link</a><br><br>other normal text</div>'
+        ]);
+
+        $result = Link::parseNote($note);
+
+        $this->assertIsArray($result);
+        $this->assertEquals('link 1', $result[0]['name']);
+        $this->assertEquals('other link', $result[1]['name']);
+
+        $this->assertEquals('http://www.google.com', $result[0]['url']);
+        $this->assertEquals('http://www.gismeteo.ua', $result[1]['url']);
+    }
 }
