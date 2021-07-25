@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Link;
 use App\Models\Note;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class LinkTest extends TestCase
@@ -82,5 +83,28 @@ class LinkTest extends TestCase
 
         $this->assertEquals('www.gismeteo.ua', $result);
         $this->assertEquals('gismeteo.ua', $result2);
+    }
+
+    public function test_favicon_could_be_extracted_from_url()
+    {
+        $http_response_1 = Http::get('https://habr.com/ru/all/')->body();
+        $http_response_2 = Http::get('https://laravel.com/docs/8.x/http-client#request-data')->body();
+        $http_response_3 = Http::get('https://regexr.com/')->body();
+
+        dd( Link::extractFaviconURL($http_response_2, 'https://laravel.com/docs/8.x/http-client#request-data') );
+
+        //Http::get('https://habr.com/ru/all/')->body()
+        /*<link\n
+        rel="shortcut icon"\n
+        type="image/png"\n
+        sizes="16x16"\n
+        href="https://assets.habr.com/habr-web/img/favicons/favicon-16.png"\n
+        >\n*/
+
+        //Http::get("https://laravel.com/docs/8.x/http-client#request-data")->body()
+        //<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">\n
+
+        //Http::get("https://regexr.com/")->body()
+        //<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png?1">
     }
 }
