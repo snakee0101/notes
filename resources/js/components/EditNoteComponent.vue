@@ -125,7 +125,8 @@ export default {
     },
     methods: {
         removeLink(link) {
-
+            axios.delete('/link/' + link.id);
+            //window.events.$emit('show-notification', 'Image deleted', this.undoImageDeletion);
         },
         copyLinkURL(link) {
             navigator.clipboard.writeText(link.url);
