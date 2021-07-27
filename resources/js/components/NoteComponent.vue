@@ -201,6 +201,23 @@
             </a>
         </div>
 
+        <div v-for="link in [1,2,3]" class="mt-1">
+            <div class="flex flex-row mt-2 items-center">
+                <img style="height: 40px; width: 40px" src="https://images.unsplash.com/photo-1550853024-fae8cd4be47f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGJpcmR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80" alt="">
+                <div class="ml-2 flex-grow">
+                    <h5 class="m-0">site name</h5>
+                    <p class="text-sm m-0 text-gray-600">site domain</p>
+                </div>
+                <div>
+                    <a href=""
+                       v-b-tooltip.hover.bottom
+                       title="Go to link">
+                        <i class="bi bi-box-arrow-up-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <set-labels-component :note="note">
 
         </set-labels-component>
