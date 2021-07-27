@@ -21,7 +21,10 @@
    - NO - Copy URL.  Performed by:  Vue
    - NO - Remove. Performed by:
      - NO - Vue
+     - OK - PHP
+   - NO - Restore. Performed by:
      - NO - PHP
+     - NO - Vue
 
 - NO - Link should have a resource controller with one action - DESTROY
 
@@ -33,7 +36,7 @@ WHEN the Note-Link relations and Link models must be checked for CHANGES:
 ACTIONS
 - NO - REMOVE. The link card (actually the link model) is removed only when the user clicked "Remove" button,
 - NO - when the link is deleted from the note's body, it's model remains untouched (soft deletes).
-- NO - It requires a DESTROY controller action
+- OK - It requires a DESTROY controller action
 
 - NO - link could be RESTORED (requires RESTORE action)
 - NO - link could be restored by Vue (it means that DESTROY action could be undone with Vue Notification)

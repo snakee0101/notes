@@ -17,6 +17,7 @@ class CreateLinksTable extends Migration
             $table->foreignId('note_id')->constrained()->cascadeOnDelete();
 
             $table->unique(['url', 'note_id']);
+            $table->softDeletes();
         });
     }
 
