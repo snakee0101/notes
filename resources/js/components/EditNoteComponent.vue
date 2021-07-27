@@ -132,7 +132,9 @@ export default {
             window.events.$emit('show-notification', 'Link preview was removed', this.restoreLink);
         },
         restoreLink() {
-            axios.post('/link/' + window.linkToRestore.id + '/restore');
+            axios.post('/link/' + window.linkToRestore.id + '/restore')
+                 .then( res => this.note.links.push(res.data) );
+
             window.events.$emit('show-notification', 'Link preview was restored');
         },
         copyLinkURL(link) {
