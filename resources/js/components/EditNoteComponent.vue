@@ -124,9 +124,11 @@ export default {
         window.events.$on('open_note_for_editing', this.openModal);
     },
     methods: {
-        removeLink(link) {
-            window.linkToRestore = link;
-            axios.delete('/link/' + link.id);
+        removeLink(deleted_link) {
+            window.linkToRestore = deleted_link;
+            axios.delete('/link/' + deleted_link.id);
+
+            this.note.links = this.note.links.filter( link => link.id !== deleted_link.id);
             window.events.$emit('show-notification', 'Link preview was removed', this.restoreLink);
         },
         restoreLink() {
