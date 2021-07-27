@@ -129,13 +129,16 @@ export default {
             axios.delete('/link/' + deleted_link.id);
 
             this.note.links = this.note.links.filter( link => link.id !== deleted_link.id);
+
             window.events.$emit('show-notification', 'Link preview was removed', this.restoreLink);
+            window.events.$emit('note-links-updated', this.note);
         },
         restoreLink() {
             axios.post('/link/' + window.linkToRestore.id + '/restore')
                  .then( res => this.note.links.push(res.data) );
 
             window.events.$emit('show-notification', 'Link preview was restored');
+            window.events.$emit('note-links-updated', this.note);
         },
         copyLinkURL(link) {
             navigator.clipboard.writeText(link.url);

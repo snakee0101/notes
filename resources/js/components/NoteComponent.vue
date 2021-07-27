@@ -369,8 +369,13 @@ export default {
         window.events.$on('reload_note', this.reload_note);
         window.events.$on('deselect_all', this.deselectAll);
         window.events.$on('perform_note_action', this.performAction);
+        window.events.$on('note-links-updated', this.reloadLinks);
     },
     methods: {
+        reloadLinks(note) {
+            if(this.note.id === note.id)
+                this.note.links = note.links;
+        },
         convertToChecklist() {
             let fake_HTML_Element = document.createElement('div');
             fake_HTML_Element.innerHTML = this.note.body.replaceAll("<br>","\n");
