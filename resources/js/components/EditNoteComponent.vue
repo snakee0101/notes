@@ -71,6 +71,37 @@
                 <button class="btn btn-danger btn-sm" @click="removeCompleted()" v-if="isChecklist">Remove completed</button>
                 <button class="btn btn-primary btn-sm" @click="convertToChecklist()" v-else>Show checkboxes</button>
             </p>
+
+            <div v-for="link in note.links" class="mt-1">
+                <div class="flex flex-row mt-2 items-center">
+                    <img style="height: 40px; width: 40px"
+                         :src="link.favicon_path" alt="" v-if="link.favicon_path">
+                    <i class="bi bi-globe text-3xl text-center mt-1" style="height: 40px; width: 40px" v-else></i>
+                    <div class="ml-2 flex-grow">
+                        <h5 class="m-0 text-blue-400">
+                            <a :href="link.url"
+                               target="_blank"">
+                                {{ link.name }}
+                            </a>
+                        </h5>
+                        <p class="text-sm m-0 text-gray-600">{{ link.domain }}</p>
+                    </div>
+                    <div>
+                        <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
+                           v-b-tooltip.hover.top
+                           title="More"
+                           @click.prevent>
+                            <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret>
+                                <template #button-content>
+                                    <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
+                                </template>
+                                <b-dropdown-item href="#" @click="removeLink(link)">Remove</b-dropdown-item>
+                                <b-dropdown-item href="#" @click="copyLinkURL(link)">Copy URL</b-dropdown-item>
+                            </b-dropdown>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </b-modal>
 </template>
@@ -93,6 +124,12 @@ export default {
         window.events.$on('open_note_for_editing', this.openModal);
     },
     methods: {
+        removeLink(link) {
+
+        },
+        copyLinkURL(link) {
+
+        },
         //apply changes to this.note.checklist.tasks object directly
         addToChecklist() {
             this.note.checklist.tasks.push({

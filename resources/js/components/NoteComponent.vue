@@ -204,7 +204,8 @@
         <div v-for="link in note.links" class="mt-1">
             <div class="flex flex-row mt-2 items-center">
                 <img style="height: 40px; width: 40px"
-                     :src="link.favicon_path" alt="">
+                     :src="link.favicon_path" alt="" v-if="link.favicon_path">
+                <i class="bi bi-globe text-3xl text-center mt-1" style="height: 40px; width: 40px" v-else></i>
                 <div class="ml-2 flex-grow">
                     <h5 class="m-0">{{ link.name }}</h5>
                     <p class="text-sm m-0 text-gray-600">{{ link.domain }}</p>
