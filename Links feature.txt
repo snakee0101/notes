@@ -23,13 +23,13 @@
      - NO - Vue
      - OK - PHP
    - NO - Restore. Performed by:
-     - NO - PHP
+     - OK - PHP
      - NO - Vue
 
-- NO - Link should have a resource controller with one action - DESTROY
+- OK - Link should have a resource controller with one action - DESTROY
 
 WHEN the Note-Link relations and Link models must be checked for CHANGES:
-- NO - Note is CREATED
+- OK - Note is CREATED
 - NO - Note is UPDATED
 - NO - Note is DELETED
 
@@ -38,10 +38,10 @@ ACTIONS
 - NO - when the link is deleted from the note's body, it's model remains untouched (soft deletes).
 - OK - It requires a DESTROY controller action
 
-- NO - link could be RESTORED (requires RESTORE action)
+- OK - link could be RESTORED (requires RESTORE action)
 - NO - link could be restored by Vue (it means that DESTROY action could be undone with Vue Notification)
 
-- NO - CREATE. The link model is created only after the new note is saved to DB.
+- OK - CREATE. The link model is created only after the new note is saved to DB.
 - NO - CREATE (Vue). After the new note is created - the link card is automatically displayed on the note
 
 - OK - Before creation, all links must be found. It's accomplished by parsing note's body for links.

@@ -62,4 +62,21 @@ class LinkTest extends TestCase
 
         $this->assertSoftDeleted($link);
     }
+
+    public function test_the_link_could_be_restored()
+    {
+        $note = Note::factory()->create();
+        $url = 'https://habr.com/ru/all/';
+        $name = 'habr main page';
+
+        auth()->login($note->owner);
+
+        $link = Link::persist($url, $name, $note);
+        $link->delete();
+        $this->assertSoftDeleted($link);
+
+        $this->post( route('link.restore', $link->id) );
+
+        $this->assertDatabaseHas('links', ['deleted_at' => null]);
+    }
 }
