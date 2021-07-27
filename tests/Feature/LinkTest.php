@@ -46,4 +46,20 @@ class LinkTest extends TestCase
         $this->assertEquals('habr.com', $links[0]->domain);
         $this->assertEquals('regexr.com', $links[1]->domain);
     }
+
+    public function test_the_link_could_be_soft_deleted()
+    {
+        $note = Note::factory()->create();
+        $url = 'https://habr.com/ru/all/';
+        $name = 'habr main page';
+
+        auth()->login($note->owner);
+
+        $link = Link::persist($url, $name, $note);
+        $this->assertDatabaseCount('links',1);
+
+        $this->delete( route('link.destroy', $link) );
+
+        $this->assertSoftDeleted($link);
+    }
 }
