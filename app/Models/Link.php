@@ -92,6 +92,15 @@ class Link extends Model
                 'favicon_path' => self::extractFaviconURL($url),
                 'domain' => self::extractHost($url),
             ]);
+        } catch (\Exception $e) { //the user needs to update the link's name...
+            $duplicated_link = self::where([
+                ['url', $url],
+                ['note_id', $note->id]
+            ])->first();
+
+            if($duplicated_link->name !== $name) { //...when the link with specified name, url, and note_id is not found
+                $duplicated_link->update(['name' => $name]);
+            }
         } finally {
             return $res;
         }
