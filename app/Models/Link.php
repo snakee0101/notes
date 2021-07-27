@@ -85,11 +85,15 @@ class Link extends Model
 
     public static function persist($url, $name, Note $note)
     {
-        return $note->links()->create([
-            'name' => $name,
-            'url' => $url,
-            'favicon_path' => self::extractFaviconURL($url),
-            'domain' => self::extractHost($url),
-        ]);
+        try {
+            $res = $note->links()->create([
+                'name' => $name,
+                'url' => $url,
+                'favicon_path' => self::extractFaviconURL($url),
+                'domain' => self::extractHost($url),
+            ]);
+        } finally {
+            return $res;
+        }
     }
 }

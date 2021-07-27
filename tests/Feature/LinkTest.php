@@ -7,6 +7,7 @@ use App\Models\Note;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use phpDocumentor\Reflection\Types\False_;
 use Tests\TestCase;
 
 class LinkTest extends TestCase
@@ -78,5 +79,46 @@ class LinkTest extends TestCase
         $this->post( route('link.restore', $link->id) );
 
         $this->assertDatabaseHas('links', ['deleted_at' => null]);
+    }
+
+    public function test_when_the_note_is_updated_new_links_are_added_to_db()
+    {
+        $note = Note::factory()->create([
+            'body' => '<div><a href="https://habr.com/ru/all/">link 1</a><br><br>normal text</div>',
+        ]);
+
+        auth()->login($note->owner);
+
+        $note->links()->create([
+            'name' => 'link 1',
+            'url' => 'https://habr.com/ru/all/',
+            'favicon_path' => 'str',
+            'domain' => 'habr.com'
+        ]);
+
+        $this->put( route('note.update', $note), [
+            'header' => 'header',
+            'pinned' => false,
+            'archived' => false,
+            'color' => 'yellow',
+            'type' => 'text',
+            'body' => '<div><a href="https://habr.com/ru/all/">link 1</a><br><br>normal text <a href="https://regexr.com/">other link</a><br><br>other normal text</div>'
+        ]);
+
+        $note->refresh();
+
+        $this->assertDatabaseCount('links', 2);
+        $this->assertEquals('https://regexr.com/', $note->links[1]->url);
+        $this->assertEquals('other link', $note->links[1]->name);
+    }
+
+    public function test_when_the_note_is_updated_links_deleted_from_the_note_body_are_preserved()
+    {
+
+    }
+
+    public function test_if_old_links_name_is_changed_it_is_persisted_to_DB()
+    {
+
     }
 }
