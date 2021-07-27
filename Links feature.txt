@@ -32,7 +32,7 @@ WHEN the Note-Link relations and Link models must be checked for CHANGES:
 
 ACTIONS
 - NO - REMOVE. The link card (actually the link model) is removed only when the user clicked "Remove" button,
-       when the link is deleted from the note's body, it's model remains untouched (soft deletes).
+- NO - when the link is deleted from the note's body, it's model remains untouched (soft deletes).
 - NO - It requires a DESTROY controller action
 
 - NO - link could be RESTORED (requires RESTORE action)

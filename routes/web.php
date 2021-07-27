@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\SearchController;
@@ -60,6 +61,9 @@ Route::middleware('auth')->group(function() {
 
     Route::post('/collaborator/{note}', [CollaboratorController::class, 'sync'])->name('sync_collaborator');
     Route::get('/collaborator/{email}', [CollaboratorController::class, 'check'])->name('check_user_existence');
+
+    Route::delete('/link/{link}', [LinkController::class, 'destroy'])->name('link.destroy');
+    Route::post('/link/{link_id}/restore', [LinkController::class, 'restore'])->name('link.restore');
 
     Route::get('/', function () {
         $data = [  //get the paginators for both pinned and other notes
