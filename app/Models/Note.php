@@ -22,7 +22,7 @@ class Note extends Model
         'archived' => 'boolean',
     ];
 
-    protected $with = ['checklist'];
+    protected $with = ['checklist', 'links'];
 
     public function toSearchableArray()
     {
