@@ -18,7 +18,7 @@
          must be intercepted by try-catch and ignored)
 
 - NO - Link actions
-   - NO - Copy URL.  Performed by:  Vue
+   - OK - Copy URL.  Performed by:  Vue
    - NO - Remove. Performed by:
      - NO - Vue
      - OK - PHP

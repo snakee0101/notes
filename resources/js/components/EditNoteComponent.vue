@@ -128,7 +128,7 @@ export default {
 
         },
         copyLinkURL(link) {
-
+            navigator.clipboard.writeText(link.url);
         },
         //apply changes to this.note.checklist.tasks object directly
         addToChecklist() {
