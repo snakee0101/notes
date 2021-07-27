@@ -67,8 +67,8 @@ ACTIONS
       Link::make($link['url'], $link['name']);
 
 
-- NO - SYNC. When the note is edited - the new links are added to db,
-- NO - but the SOFT DELETED links are not deleted, until the user manually deletes them with the button
+- OK - SYNC. When the note is edited - the new links are added to db,
+- OK - but the SOFT DELETED links are not deleted, until the user manually deletes them with the button
 
 - NO - SYNC. However, if the old link's name is changed - it must be reflected in the table.
 
