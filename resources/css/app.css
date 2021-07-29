@@ -365,5 +365,13 @@ section.search.active {
     text-decoration: none!important;
 }
 
+.drawer svg {
+    fill: transparent!important;
+}
+
+.drawer svg * {
+    stroke: #000!important;
+}
+
 
 

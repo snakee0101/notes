@@ -6,7 +6,8 @@
                     <i class="bi bi-arrow-left text-gray-800" style="font-size: 1.5rem"></i>
                 </a>
 
-                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret class="p-0 mr-3">
+                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
+                            class="p-0 mr-3">
                     <template #button-content>
                         <i class="bi bi-eraser-fill text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
@@ -14,7 +15,8 @@
                     <b-dropdown-item href="#">Clear page</b-dropdown-item>
                 </b-dropdown>
 
-                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret class="p-0 mr-3">
+                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
+                            class="p-0 mr-3">
                     <template #button-content>
                         <i class="bi bi-brush text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
@@ -24,7 +26,8 @@
                     <b-dropdown-item href="#">Something else here...</b-dropdown-item>
                 </b-dropdown>
 
-                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret class="p-0 mr-3">
+                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
+                            class="p-0 mr-3">
                     <template #button-content>
                         <i class="bi bi-vector-pen text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
@@ -32,7 +35,8 @@
                     <b-dropdown-item>Action</b-dropdown-item>
                 </b-dropdown>
 
-                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret class="p-0 mr-3">
+                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
+                            class="p-0 mr-3">
                     <template #button-content>
                         <i class="bi bi-pen-fill text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
@@ -46,10 +50,33 @@
                     <template #button-content>
                         <i class="bi bi-grid-3x3 text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
-
-                    <b-dropdown-item href="#">Action</b-dropdown-item>
-                    <b-dropdown-item href="#">Another action</b-dropdown-item>
-                    <b-dropdown-item href="#">Something else here...</b-dropdown-item>
+                    <div class="flex flex-row">
+                        <b-dropdown-item href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_5" data-name="Layer 5" viewBox="0 0 48 48"
+                                 style="user-select: none;">
+                                <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
+                                        style="user-select: none;"></circle>
+                                <g class="rTEl-NkY1gc" style="user-select: none;">
+                                    <line x1="12.33" y1="44.59" x2="12.33" y2="3.41" style="user-select: none;"></line>
+                                    <line x1="24" y1="48" x2="24" style="user-select: none;"></line>
+                                    <line x1="35.67" y1="44.59" x2="35.67" y2="3.41" style="user-select: none;"></line>
+                                    <line x1="3.56" y1="12.33" x2="44.44" y2="12.33" style="user-select: none;"></line>
+                                    <line y1="24" x2="48" y2="24" style="user-select: none;"></line>
+                                    <line x1="3.56" y1="35.67" x2="44.44" y2="35.67" style="user-select: none;"></line>
+                                </g>
+                            </svg>
+                            <br>Square
+                        </b-dropdown-item>
+                        <b-dropdown-item href="#">
+                            <br>Dots
+                        </b-dropdown-item>
+                        <b-dropdown-item href="#">
+                            <br>Rules
+                        </b-dropdown-item>
+                        <b-dropdown-item href="#">
+                            <br>None
+                        </b-dropdown-item>
+                    </div>
                 </b-dropdown>
             </div>
             <div class="mr-3 my-3 flex flex-row items-center">
@@ -71,7 +98,7 @@
                 </b-dropdown>
             </div>
         </div>
-        <canvas class="flex-grow" ref="drawing_area" id="canvas"> </canvas>
+        <canvas class="flex-grow" ref="drawing_area" id="canvas"></canvas>
     </div>
 </template>
 
@@ -79,10 +106,10 @@
 export default {
     name: "DrawingDialogComponent",
     data() {
-      return {
-        shown: false,
-        canvas: {}
-      };
+        return {
+            shown: false,
+            canvas: {}
+        };
     },
     created() {
         window.events.$on('show_drawing_dialog', this.open);
