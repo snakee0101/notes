@@ -51,8 +51,8 @@
                         <i class="bi bi-grid-3x3 text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
                     <div class="flex flex-row text-center">
-                        <b-dropdown-item href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_5" data-name="Layer 5" viewBox="0 0 48 48"
+                        <b-dropdown-item href="#" class="grid-dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
                                         style="user-select: none;"></circle>
@@ -67,8 +67,8 @@
                             </svg>
                             <br>Square
                         </b-dropdown-item>
-                        <b-dropdown-item href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_5" data-name="Layer 5" viewBox="0 0 48 48"
+                        <b-dropdown-item href="#" class="grid-dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
                                         style="user-select: none;"></circle>
@@ -86,8 +86,8 @@
                             </svg>
                             <br>Dots
                         </b-dropdown-item>
-                        <b-dropdown-item href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_5" data-name="Layer 5" viewBox="0 0 48 48"
+                        <b-dropdown-item href="#" class="grid-dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
                                         style="user-select: none;"></circle>
@@ -99,8 +99,8 @@
                             </svg>
                             <br>Rules
                         </b-dropdown-item>
-                        <b-dropdown-item href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_5" data-name="Layer 5" viewBox="0 0 48 48"
+                        <b-dropdown-item href="#" class="grid-dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
                                         style="user-select: none;"></circle>

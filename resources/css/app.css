@@ -374,5 +374,11 @@ section.search.active {
     stroke: #6f6f6f!important;
 }
 
+.drawer .grid-dropdown-item:hover svg circle {
+    stroke: #4081f5!important;
+}
+
+
+
 
 
