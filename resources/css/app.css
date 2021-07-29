@@ -393,5 +393,6 @@ section.search.active {
 }
 
 .drawer .color-circle { @apply border border-gray-600 m-1 inline-block rounded-full mr-3 p-2 transition; }
-.drawer .color-circle:hover { @apply p-3 mr-1; }
+.drawer .color-circle:hover,
+.drawer .color-circle.active { @apply p-3 mr-1; }
 
