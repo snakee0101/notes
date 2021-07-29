@@ -176,21 +176,14 @@ export default {
         setGrid(grid_type) {
             this.grid = grid_type;
 
-            if(grid_type === 'Square') {
-                this.grid_style = 'background-image: linear-gradient(rgb(221 221 221) .1em, transparent .1em), linear-gradient(90deg, rgb(221 221 221) .1em, transparent .1em); background-size: 5em 5em;';
-            }
+            let grid_styles = {
+                'Square' : 'background-image: linear-gradient(rgb(221 221 221) .1em, transparent .1em), linear-gradient(90deg, rgb(221 221 221) .1em, transparent .1em); background-size: 5em 5em;',
+                'Rules' : 'background-image: linear-gradient(rgb(170 202 237) .1em, transparent .1em), linear-gradient(rgb(170 202 237) .1em, transparent .1em); background-size: 5em 5em;',
+                'None' : '',
+                'Dots' : 'background-image: radial-gradient(circle at center, rgb(204,204,204) 0, rgb(204,204,204) 5px, #f7f7f7 5px, #f7f7f7 100%); background-repeat: repeat; background-position: left center; background-size: 5rem 5rem;'
+            };
 
-            if(grid_type === 'Rules') {
-                this.grid_style = 'background-image: linear-gradient(rgb(170 202 237) .1em, transparent .1em), linear-gradient(rgb(170 202 237) .1em, transparent .1em); background-size: 5em 5em;';
-            }
-
-            if(grid_type === 'None') {
-                this.grid_style = '';
-            }
-
-            if(grid_type === 'Dots') {
-                this.grid_style = 'background-image: radial-gradient(circle at center, rgb(204,204,204) 0, rgb(204,204,204) 5px, #f7f7f7 5px, #f7f7f7 100%); background-repeat: repeat; background-position: left center; background-size: 5rem 5rem;';
-            }
+            this.grid_style = grid_styles[grid_type];
         },
         open() {
             this.shown = true;
