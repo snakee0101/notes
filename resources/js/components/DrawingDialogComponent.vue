@@ -21,17 +21,17 @@
                         <i class="bi bi-brush text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
 
-                    <div class="p-2 flex flex-row">
-                        <a href="#" v-for="color in brush_colors[0]" class="color-circle p-2" :style="'background:' + color" @click="selected_brush_color = color"></a>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color in brush_colors[0]" class="color-circle" :style="'background:' + color" @click="selected_brush_color = color"></a>
                     </div>
-                    <div class="p-2 flex flex-row">
-                        <a href="#" v-for="color in brush_colors[1]" class="color-circle p-2" :style="'background:' + color" @click="selected_brush_color = color"></a>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color in brush_colors[1]" class="color-circle" :style="'background:' + color" @click="selected_brush_color = color"></a>
                     </div>
-                    <div class="p-2 flex flex-row">
-                        <a href="#" v-for="color in brush_colors[2]" class="color-circle p-2" :style="'background:' + color" @click="selected_brush_color = color"></a>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color in brush_colors[2]" class="color-circle" :style="'background:' + color" @click="selected_brush_color = color"></a>
                     </div>
-                    <div class="p-2 flex flex-row">
-                        <a href="#" v-for="color in brush_colors[3]" class="color-circle p-2" :style="'background:' + color" @click="selected_brush_color = color"></a>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color in brush_colors[3]" class="color-circle" :style="'background:' + color" @click="selected_brush_color = color"></a>
                     </div>
                 </b-dropdown>
 

@@ -392,6 +392,6 @@ section.search.active {
     stroke: #fff!important;
 }
 
-.drawer .color-circle { @apply border border-gray-600 m-1 inline-block rounded-full mr-3; }
-
+.drawer .color-circle { @apply border border-gray-600 m-1 inline-block rounded-full mr-3 p-2 transition; }
+.drawer .color-circle:hover { @apply p-3 mr-1; }
 
