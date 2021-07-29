@@ -183,6 +183,10 @@ export default {
             if(grid_type === 'Rules') {
                 this.grid_style = 'background-image: linear-gradient(rgb(170 202 237) .1em, transparent .1em), linear-gradient(rgb(170 202 237) .1em, transparent .1em); background-size: 5em 5em;';
             }
+
+            if(grid_type === 'None') {
+                this.grid_style = '';
+            }
         },
         open() {
             this.shown = true;
