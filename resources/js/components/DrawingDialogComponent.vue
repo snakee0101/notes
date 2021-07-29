@@ -44,7 +44,21 @@
                         <i class="bi bi-vector-pen text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
 
-                    <b-dropdown-item>Action</b-dropdown-item>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color_5 in brush_colors[0]" class="color-circle" :class="(selected_pen_color === color_5) ? 'active' : ''" :style="'background:' + color_5" @click="selected_pen_color = color_5"></a>
+                    </div>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color_6 in brush_colors[1]" class="color-circle" :class="(selected_pen_color === color_6) ? 'active' : ''" :style="'background:' + color_6" @click="selected_pen_color = color_6"></a>
+                    </div>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color_7 in brush_colors[2]" class="color-circle" :class="(selected_pen_color === color_7) ? 'active' : ''" :style="'background:' + color_7" @click="selected_pen_color = color_7"></a>
+                    </div>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color_8 in brush_colors[3]" class="color-circle" :class="(selected_pen_color === color_8) ? 'active' : ''" :style="'background:' + color_8" @click="selected_pen_color = color_8"></a>
+                    </div>
+                    <div class="p-2 flex flex-row items-center border-t-2 border-gray-200 justify-center">
+                        <a href="#" v-for="pen_size in brush_sizes" class="size-circle" :class="(selected_pen_size === pen_size) ? 'active' : ''" :style="'padding:' + pen_size + 'px'" @click="selected_pen_size = pen_size"></a>
+                    </div>
                 </b-dropdown>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
