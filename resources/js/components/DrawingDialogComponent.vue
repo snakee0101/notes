@@ -52,14 +52,23 @@
                     <b-dropdown-item href="#">Something else here...</b-dropdown-item>
                 </b-dropdown>
             </div>
-            <div class="mr-3 my-3">
-                <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-100">
+            <div class="mr-3 my-3 flex flex-row items-center">
+                <a href="#" @click.prevent class="p-2 hover:bg-gray-100">
                     <i class="bi bi-arrow-counterclockwise text-gray-800" style="font-size: 1.5rem"></i>
                 </a>
 
-                <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-100">
+                <a href="#" @click.prevent class="p-2 hover:bg-gray-100">
                     <i class="bi bi-arrow-clockwise text-gray-800" style="font-size: 1.5rem"></i>
                 </a>
+
+                <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret>
+                    <template #button-content>
+                        <i class="bi bi-three-dots-vertical icon-sm p-2 hover:bg-gray-100"></i>
+                    </template>
+                    <b-dropdown-item href="#">New drawing</b-dropdown-item>
+                    <b-dropdown-item href="#">Export as image</b-dropdown-item>
+                    <b-dropdown-item href="#">Delete current drawing</b-dropdown-item>
+                </b-dropdown>
             </div>
         </div>
         <canvas class="flex-grow" ref="drawing_area" id="canvas"> </canvas>
