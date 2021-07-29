@@ -154,7 +154,7 @@
                 </b-dropdown>
             </div>
         </div>
-        <canvas class="flex-grow" ref="drawing_area" id="canvas"></canvas>
+        <canvas class="flex-grow" ref="drawing_area" id="canvas" :style="grid_style"></canvas>
     </div>
 </template>
 
@@ -165,7 +165,8 @@ export default {
         return {
             shown: false,
             canvas: {},
-            grid: 'None'
+            grid: 'None',
+            grid_style: ''
         };
     },
     created() {
@@ -174,17 +175,14 @@ export default {
     methods: {
         setGrid(grid_type) {
             this.grid = grid_type;
-        },
-        initializeCanvas() {
-            this.canvas = this.$refs['drawing_area'].getContext('2d');
 
-            this.canvas.fillStyle = "#eee";
-            this.canvas.rect(0, 0, window.innerWidth, this.$refs['drawing_area'].height);
-            this.canvas.fill();
+            if(grid_type === 'Square') {
+                this.grid_style = 'background-image: linear-gradient(rgb(221 221 221) .1em, transparent .1em), linear-gradient(90deg, rgb(221 221 221) .1em, transparent .1em);background-size: 5em 5em;';
+            }
         },
         open() {
             this.shown = true;
-            this.initializeCanvas();
+            this.canvas = this.$refs['drawing_area'].getContext('2d');
         },
         close() {
             this.shown = false;

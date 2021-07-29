@@ -355,6 +355,10 @@ section.search.active {
     right: 0;
 }
 
+.drawer canvas {
+    background: #f7f7f7;
+}
+
 .drawer .btn-link {
     padding: 0 0.2rem!important;
 }
