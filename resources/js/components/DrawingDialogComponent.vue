@@ -20,7 +20,7 @@
                 </a>
             </div>
         </div>
-        <canvas class="flex-grow" ref="drawing_area"> </canvas>
+        <canvas class="flex-grow" ref="drawing_area" id="canvas"> </canvas>
     </div>
 </template>
 
@@ -38,12 +38,11 @@ export default {
     },
     methods: {
         initializeCanvas() {
-            let canvas = this.$refs['drawing_area'];
-            console.log(canvas);
+            this.canvas = this.$refs['drawing_area'].getContext('2d');
 
-            /*this.canvas.rect(20, 20, 150, 100);
-            this.canvas.fillStyle = "red";
-            this.canvas.fill();*/
+            this.canvas.fillStyle = "white";
+            this.canvas.rect(0, 0, window.innerWidth, this.$refs['drawing_area'].height);
+            this.canvas.fill();
         },
         open() {
             this.shown = true;
