@@ -187,6 +187,10 @@ export default {
             if(grid_type === 'None') {
                 this.grid_style = '';
             }
+
+            if(grid_type === 'Dots') {
+                this.grid_style = 'background-image: radial-gradient(circle at center, rgb(204,204,204) 0, rgb(204,204,204) 5px, #f7f7f7 5px, #f7f7f7 100%); background-repeat: repeat; background-position: left center; background-size: 5rem 5rem;';
+            }
         },
         open() {
             this.shown = true;
