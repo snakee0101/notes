@@ -393,7 +393,7 @@ section.search.active {
 }
 
 .drawer .color-circle,
-.drawer .size-circle { @apply border border-gray-600 m-1 inline-block rounded-full mr-3 p-2 transition; }
+.drawer .size-circle { @apply m-1 inline-block rounded-full mr-3 p-2 transition; }
 
 .drawer .size-circle { @apply bg-black; }
 

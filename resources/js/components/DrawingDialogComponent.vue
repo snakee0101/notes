@@ -33,7 +33,7 @@
                     <div class="p-2 flex flex-row items-center">
                         <a href="#" v-for="color_4 in brush_colors[3]" class="color-circle" :class="(selected_brush_color === color_4) ? 'active' : ''" :style="'background:' + color_4" @click="selected_brush_color = color_4"></a>
                     </div>
-                    <div class="p-2 flex flex-row items-center border-t-2 border-gray-200">
+                    <div class="p-2 flex flex-row items-center border-t-2 border-gray-200 justify-center">
                         <a href="#" v-for="brush_size in brush_sizes" class="size-circle" :class="(selected_brush_size === brush_size) ? 'active' : ''" :style="'padding:' + brush_size + 'px'" @click="selected_brush_size = brush_size"></a>
                     </div>
                 </b-dropdown>
@@ -180,10 +180,10 @@ export default {
             grid: 'None',
             grid_style: '',
             brush_colors: [
-                ['#f00', '#111', '#222', '#333', '#444', '#555', '#666'],
-                ['#0ff', '#111', '#222', '#333', '#444', '#555', '#666'],
-                ['#00f', '#111', '#222', '#333', '#444', '#555', '#666'],
-                ['#0f0', '#111', '#222', '#333', '#444', '#555', '#666'],
+                ['#000', '#ff5252', '#ffbc00', '#00c853', '#00b0ff', '#d500f9', '#8d6e63'],
+                ['#fafafa', '#a52714', '#ee8100', '#558b2f', '#01579b', '#8e24aa', '#4e342e'],
+                ['#90a4ae', '#ff4081', '#ff6e40', '#aeea00', '#304ffe', '#7c4dff', '#1de9b6'],
+                ['#cfd8dc', '#f8bbd0', '#ffccbc', '#f0f4c3', '#9fa8da', '#d1c4e9', '#b2dfdb'],
             ],
             brush_sizes: [2, 4, 6, 8, 10, 12, 14],
             selected_brush_color: '#000',
