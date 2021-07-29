@@ -355,4 +355,15 @@ section.search.active {
     right: 0;
 }
 
+.drawer .btn-link {
+    padding: 0 0.2rem!important;
+}
+
+.drawer .btn-link:hover,
+.drawer .btn-link:active,
+.drawer .btn-link:focus {
+    text-decoration: none!important;
+}
+
+
 
