@@ -21,9 +21,18 @@
                         <i class="bi bi-brush text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
 
-                    <b-dropdown-item href="#">Action</b-dropdown-item>
-                    <b-dropdown-item href="#">Another action</b-dropdown-item>
-                    <b-dropdown-item href="#">Something else here...</b-dropdown-item>
+                    <div class="p-2 flex flex-row">
+                        <a href="#" v-for="color in brush_colors[0]" class="color-circle p-2" :style="'background:' + color" @click="selected_brush_color = color"></a>
+                    </div>
+                    <div class="p-2 flex flex-row">
+                        <a href="#" v-for="color in brush_colors[1]" class="color-circle p-2" :style="'background:' + color" @click="selected_brush_color = color"></a>
+                    </div>
+                    <div class="p-2 flex flex-row">
+                        <a href="#" v-for="color in brush_colors[2]" class="color-circle p-2" :style="'background:' + color" @click="selected_brush_color = color"></a>
+                    </div>
+                    <div class="p-2 flex flex-row">
+                        <a href="#" v-for="color in brush_colors[3]" class="color-circle p-2" :style="'background:' + color" @click="selected_brush_color = color"></a>
+                    </div>
                 </b-dropdown>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
@@ -166,7 +175,17 @@ export default {
             shown: false,
             canvas: {},
             grid: 'None',
-            grid_style: ''
+            grid_style: '',
+            brush_colors: [
+                ['#f00', '#111', '#222', '#333', '#444', '#555', '#666'],
+                ['#0ff', '#111', '#222', '#333', '#444', '#555', '#666'],
+                ['#00f', '#111', '#222', '#333', '#444', '#555', '#666'],
+                ['#0f0', '#111', '#222', '#333', '#444', '#555', '#666'],
+            ],
+            brush_sizes: [2, 4, 6, 8, 10, 12, 14],
+            selected_brush_color: '#000',
+            selected_pen_color: '#000',
+            selected_marker_color: '#000',
         };
     },
     created() {
