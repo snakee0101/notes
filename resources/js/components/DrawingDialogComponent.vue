@@ -67,9 +67,21 @@
                         <i class="bi bi-pen-fill text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
 
-                    <b-dropdown-item href="#">Action</b-dropdown-item>
-                    <b-dropdown-item href="#">Another action</b-dropdown-item>
-                    <b-dropdown-item href="#">Something else here...</b-dropdown-item>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color_9 in brush_colors[0]" class="color-circle" :class="(selected_marker_color === color_9) ? 'active' : ''" :style="'background:' + color_9" @click="selected_marker_color = color_9"></a>
+                    </div>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color_10 in brush_colors[1]" class="color-circle" :class="(selected_marker_color === color_10) ? 'active' : ''" :style="'background:' + color_10" @click="selected_marker_color = color_10"></a>
+                    </div>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color_11 in brush_colors[2]" class="color-circle" :class="(selected_marker_color === color_11) ? 'active' : ''" :style="'background:' + color_11" @click="selected_marker_color = color_11"></a>
+                    </div>
+                    <div class="p-2 flex flex-row items-center">
+                        <a href="#" v-for="color_12 in brush_colors[3]" class="color-circle" :class="(selected_marker_color === color_12) ? 'active' : ''" :style="'background:' + color_12" @click="selected_marker_color = color_12"></a>
+                    </div>
+                    <div class="p-2 flex flex-row items-center border-t-2 border-gray-200 justify-center">
+                        <a href="#" v-for="marker_size in brush_sizes" class="size-circle" :class="(selected_marker_size === marker_size) ? 'active' : ''" :style="'padding:' + marker_size + 'px'" @click="selected_marker_size = marker_size"></a>
+                    </div>
                 </b-dropdown>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret class="p-0">
