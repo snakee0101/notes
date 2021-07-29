@@ -367,10 +367,11 @@ section.search.active {
 
 .drawer svg {
     fill: transparent!important;
+    width: 50px;
 }
 
 .drawer svg * {
-    stroke: #000!important;
+    stroke: #6f6f6f!important;
 }
 
 
