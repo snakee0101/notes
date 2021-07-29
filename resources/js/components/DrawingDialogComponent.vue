@@ -54,8 +54,8 @@
                         <b-dropdown-item href="#" class="grid-dropdown-item" @click="setGrid('Square')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
-                                <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
-                                        style="user-select: none;"></circle>
+                                <circle :class="(grid === 'Square') ? 'grid-item-active' : ''" cx="24" cy="24" r="23.5"
+                                        style="user-select: none"></circle>
                                 <g class="rTEl-NkY1gc" style="user-select: none;">
                                     <line x1="12.33" y1="44.59" x2="12.33" y2="3.41" style="user-select: none;"></line>
                                     <line x1="24" y1="48" x2="24" style="user-select: none;"></line>
@@ -64,7 +64,7 @@
                                     <line y1="24" x2="48" y2="24" style="user-select: none;"></line>
                                     <line x1="3.56" y1="35.67" x2="44.44" y2="35.67" style="user-select: none;"></line>
                                 </g>
-                                <g class="check" style="user-select: none;">
+                                <g class="check" style="user-select: none;" v-if="grid === 'Square'">
                                     <circle cx="8" cy="8" r="6.33" style="user-select: none;"></circle>
                                     <path
                                         d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM6.4,12l-4-4L3.53,6.87,6.4,9.74l6.07-6.08L13.6,4.8Z"
@@ -76,8 +76,8 @@
                         <b-dropdown-item href="#" class="grid-dropdown-item" @click="setGrid('Dots')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
-                                <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
-                                        style="user-select: none;"></circle>
+                                <circle :class="(grid === 'Dots') ? 'grid-item-active' : ''" cx="24" cy="24" r="23.5"
+                                        style="user-select: none"></circle>
                                 <g class="rTEl-NkY1gc" style="user-select: none;">
                                     <circle cx="11.37" cy="11.49" r="1.08" style="user-select: none;"></circle>
                                     <circle cx="24" cy="11.49" r="1.08" style="user-select: none;"></circle>
@@ -89,7 +89,7 @@
                                     <circle cx="11.37" cy="36.51" r="1.08" style="user-select: none;"></circle>
                                     <circle cx="36.63" cy="36.51" r="1.08" style="user-select: none;"></circle>
                                 </g>
-                                <g class="check" style="user-select: none;">
+                                <g class="check" style="user-select: none;" v-if="grid === 'Dots'">
                                     <circle cx="8" cy="8" r="6.33" style="user-select: none;"></circle>
                                     <path
                                         d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM6.4,12l-4-4L3.53,6.87,6.4,9.74l6.07-6.08L13.6,4.8Z"
@@ -101,14 +101,14 @@
                         <b-dropdown-item href="#" class="grid-dropdown-item" @click="setGrid('Rules')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
-                                <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
-                                        style="user-select: none;"></circle>
+                                <circle :class="(grid === 'Rules') ? 'grid-item-active' : ''" cx="24" cy="24" r="23.5"
+                                        style="user-select: none"></circle>
                                 <g class="rTEl-NkY1gc" style="user-select: none;">
                                     <line x1="3.56" y1="12.33" x2="44.44" y2="12.33" style="user-select: none;"></line>
                                     <line y1="24" x2="48" y2="24" style="user-select: none;"></line>
                                     <line x1="3.56" y1="35.67" x2="44.44" y2="35.67" style="user-select: none;"></line>
                                 </g>
-                                <g class="check" style="user-select: none;">
+                                <g class="check" style="user-select: none;" v-if="grid === 'Rules'">
                                     <circle cx="8" cy="8" r="6.33" style="user-select: none;"></circle>
                                     <path
                                         d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM6.4,12l-4-4L3.53,6.87,6.4,9.74l6.07-6.08L13.6,4.8Z"
@@ -120,10 +120,10 @@
                         <b-dropdown-item href="#" class="grid-dropdown-item" @click="setGrid('None')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
-                                <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
-                                        style="user-select: none;"></circle>
-                                <g class="rTEl-NkY1gc" style="user-select: none;"></g>
-                                <g class="check" style="user-select: none;">
+                                <circle :class="(grid === 'None') ? 'grid-item-active' : ''" cx="24" cy="24" r="23.5"
+                                        style="user-select: none"></circle>
+                                <g class="rTEl-NkY1gc" style="user-select: none"></g>
+                                <g class="check" style="user-select: none;" v-if="grid === 'None'">
                                     <circle cx="8" cy="8" r="6.33" style="user-select: none;"></circle>
                                     <path
                                         d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM6.4,12l-4-4L3.53,6.87,6.4,9.74l6.07-6.08L13.6,4.8Z"

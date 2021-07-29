@@ -371,10 +371,11 @@ section.search.active {
 }
 
 .drawer svg * {
-    stroke: #6f6f6f!important;
+    stroke: #6f6f6f;
 }
 
-.drawer .grid-dropdown-item:hover svg circle {
+.drawer .grid-dropdown-item:hover svg circle,
+.grid-item-active {
     stroke: #4081f5!important;
 }
 
