@@ -57,16 +57,12 @@
                 </b-dropdown>
             </div>
             <div class="mr-3 my-3">
-                <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-800">
-                    <i class="bi bi-type text-white" style="font-size: 1.5rem"></i>
+                <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-100">
+                    <i class="bi bi-arrow-counterclockwise text-gray-800" style="font-size: 1.5rem"></i>
                 </a>
 
-                <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-800">
-                    <i class="bi bi-printer text-white" style="font-size: 1.5rem"></i>
-                </a>
-
-                <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-800">
-                    <i class="bi bi-pen text-white" style="font-size: 1.5rem"></i>
+                <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-100">
+                    <i class="bi bi-arrow-clockwise text-gray-800" style="font-size: 1.5rem"></i>
                 </a>
             </div>
         </div>
