@@ -18,7 +18,7 @@
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
                             class="p-0 mr-3">
                     <template #button-content>
-                        <i class="bi bi-brush text-gray-800" style="font-size: 1.5rem"></i>
+                        <i class="bi bi-brush-fill text-gray-800" style="font-size: 1.5rem" :style="'color:' + selected_brush_color"></i>
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
@@ -41,7 +41,7 @@
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
                             class="p-0 mr-3">
                     <template #button-content>
-                        <i class="bi bi-vector-pen text-gray-800" style="font-size: 1.5rem"></i>
+                        <i class="bi bi-vector-pen text-gray-800" style="font-size: 1.5rem" :style="'color:' + selected_pen_color"></i>
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
@@ -64,7 +64,7 @@
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
                             class="p-0 mr-3">
                     <template #button-content>
-                        <i class="bi bi-pen-fill text-gray-800" style="font-size: 1.5rem"></i>
+                        <i class="bi bi-pen-fill" style="font-size: 1.5rem" :style="'color:' + selected_marker_color"></i>
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
