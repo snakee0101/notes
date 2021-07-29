@@ -177,7 +177,11 @@ export default {
             this.grid = grid_type;
 
             if(grid_type === 'Square') {
-                this.grid_style = 'background-image: linear-gradient(rgb(221 221 221) .1em, transparent .1em), linear-gradient(90deg, rgb(221 221 221) .1em, transparent .1em);background-size: 5em 5em;';
+                this.grid_style = 'background-image: linear-gradient(rgb(221 221 221) .1em, transparent .1em), linear-gradient(90deg, rgb(221 221 221) .1em, transparent .1em); background-size: 5em 5em;';
+            }
+
+            if(grid_type === 'Rules') {
+                this.grid_style = 'background-image: linear-gradient(rgb(170 202 237) .1em, transparent .1em), linear-gradient(rgb(170 202 237) .1em, transparent .1em); background-size: 5em 5em;';
             }
         },
         open() {
