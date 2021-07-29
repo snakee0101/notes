@@ -154,6 +154,7 @@
 
         <section class="flex flex-row justify-between py-2 px-3 shadow-sm items-center" v-else>
             <menu-switcher-component></menu-switcher-component>
+            <button @click="showDrawingDialog()" class="btn btn-primary">Show drawing dialog</button>
             <search-component></search-component>
 
             <section class="flex flex-row items-center">
@@ -261,6 +262,7 @@
             </p>
         </b-modal>
 
+        <drawing-dialog-component></drawing-dialog-component>
     </header>
 </template>
 
@@ -451,9 +453,12 @@ export default {
             this.repeat_every_value = 1;
             this.weekdays = [];
             this.repeat_every_unit = repeat_units[this.repeatStatus];
-        }
-
+        },
         //TODO: How to undo multiple note actions?
+
+        showDrawingDialog() {
+            window.events.$emit('show_drawing_dialog');
+        }
     }
 }
 </script>

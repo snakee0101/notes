@@ -346,7 +346,7 @@ section.search.active {
     background: #1e7e34!important
 }
 
-.image-viewer {
+.image-viewer, .drawer {
     position: fixed;
     z-index: 4000;
     top: 0;

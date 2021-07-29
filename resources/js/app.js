@@ -34,6 +34,7 @@ Vue.component('notes-container-component', require('./components/NotesContainerC
 Vue.component('top-bar-component', require('./components/TopBarComponent.vue').default);
 Vue.component('edit-note-component', require('./components/EditNoteComponent.vue').default);
 Vue.component('image-viewer-component', require('./components/ImageViewerComponent.vue').default);
+Vue.component('drawing-dialog-component', require('./components/DrawingDialogComponent.vue').default);
 
 
 new Vue({
