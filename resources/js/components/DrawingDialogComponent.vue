@@ -33,6 +33,9 @@
                     <div class="p-2 flex flex-row items-center">
                         <a href="#" v-for="color_4 in brush_colors[3]" class="color-circle" :class="(selected_brush_color === color_4) ? 'active' : ''" :style="'background:' + color_4" @click="selected_brush_color = color_4"></a>
                     </div>
+                    <div class="p-2 flex flex-row items-center border-t-2 border-gray-200">
+                        <a href="#" v-for="brush_size in brush_sizes" class="size-circle" :class="(selected_brush_size === brush_size) ? 'active' : ''" :style="'padding:' + brush_size + 'px'" @click="selected_brush_size = brush_size"></a>
+                    </div>
                 </b-dropdown>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
@@ -186,6 +189,9 @@ export default {
             selected_brush_color: '#000',
             selected_pen_color: '#000',
             selected_marker_color: '#000',
+            selected_brush_size: 2,
+            selected_pen_size: 2,
+            selected_marker_size: 2,
         };
     },
     created() {

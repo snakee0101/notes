@@ -392,7 +392,12 @@ section.search.active {
     stroke: #fff!important;
 }
 
-.drawer .color-circle { @apply border border-gray-600 m-1 inline-block rounded-full mr-3 p-2 transition; }
+.drawer .color-circle,
+.drawer .size-circle { @apply border border-gray-600 m-1 inline-block rounded-full mr-3 p-2 transition; }
+
+.drawer .size-circle { @apply bg-black; }
+
 .drawer .color-circle:hover,
 .drawer .color-circle.active { @apply p-3 mr-1; }
 
+.drawer .size-circle.active { @apply border-2 border-red-600; }
