@@ -64,6 +64,12 @@
                                     <line y1="24" x2="48" y2="24" style="user-select: none;"></line>
                                     <line x1="3.56" y1="35.67" x2="44.44" y2="35.67" style="user-select: none;"></line>
                                 </g>
+                                <g class="check" style="user-select: none;">
+                                    <circle cx="8" cy="8" r="6.33" style="user-select: none;"></circle>
+                                    <path
+                                        d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM6.4,12l-4-4L3.53,6.87,6.4,9.74l6.07-6.08L13.6,4.8Z"
+                                        style="user-select: none;"></path>
+                                </g>
                             </svg>
                             <br>Square
                         </b-dropdown-item>
@@ -83,6 +89,12 @@
                                     <circle cx="11.37" cy="36.51" r="1.08" style="user-select: none;"></circle>
                                     <circle cx="36.63" cy="36.51" r="1.08" style="user-select: none;"></circle>
                                 </g>
+                                <g class="check" style="user-select: none;">
+                                    <circle cx="8" cy="8" r="6.33" style="user-select: none;"></circle>
+                                    <path
+                                        d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM6.4,12l-4-4L3.53,6.87,6.4,9.74l6.07-6.08L13.6,4.8Z"
+                                        style="user-select: none;"></path>
+                                </g>
                             </svg>
                             <br>Dots
                         </b-dropdown-item>
@@ -96,6 +108,12 @@
                                     <line y1="24" x2="48" y2="24" style="user-select: none;"></line>
                                     <line x1="3.56" y1="35.67" x2="44.44" y2="35.67" style="user-select: none;"></line>
                                 </g>
+                                <g class="check" style="user-select: none;">
+                                    <circle cx="8" cy="8" r="6.33" style="user-select: none;"></circle>
+                                    <path
+                                        d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM6.4,12l-4-4L3.53,6.87,6.4,9.74l6.07-6.08L13.6,4.8Z"
+                                        style="user-select: none;"></path>
+                                </g>
                             </svg>
                             <br>Rules
                         </b-dropdown-item>
@@ -105,6 +123,12 @@
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
                                         style="user-select: none;"></circle>
                                 <g class="rTEl-NkY1gc" style="user-select: none;"></g>
+                                <g class="check" style="user-select: none;">
+                                    <circle cx="8" cy="8" r="6.33" style="user-select: none;"></circle>
+                                    <path
+                                        d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM6.4,12l-4-4L3.53,6.87,6.4,9.74l6.07-6.08L13.6,4.8Z"
+                                        style="user-select: none;"></path>
+                                </g>
                             </svg>
                             <br>None
                         </b-dropdown-item>

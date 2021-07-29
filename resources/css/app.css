@@ -378,7 +378,13 @@ section.search.active {
     stroke: #4081f5!important;
 }
 
+.drawer svg .check circle,
+.drawer svg .check path {
+    fill: #4081f5!important;
+}
 
-
+.drawer svg .check path {
+    stroke: #fff!important;
+}
 
 
