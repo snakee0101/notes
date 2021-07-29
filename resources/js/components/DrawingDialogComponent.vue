@@ -51,7 +51,7 @@
                         <i class="bi bi-grid-3x3 text-gray-800" style="font-size: 1.5rem"></i>
                     </template>
                     <div class="flex flex-row text-center">
-                        <b-dropdown-item href="#" class="grid-dropdown-item">
+                        <b-dropdown-item href="#" class="grid-dropdown-item" @click="setGrid('Square')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
@@ -67,7 +67,7 @@
                             </svg>
                             <br>Square
                         </b-dropdown-item>
-                        <b-dropdown-item href="#" class="grid-dropdown-item">
+                        <b-dropdown-item href="#" class="grid-dropdown-item" @click="setGrid('Dots')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
@@ -86,7 +86,7 @@
                             </svg>
                             <br>Dots
                         </b-dropdown-item>
-                        <b-dropdown-item href="#" class="grid-dropdown-item">
+                        <b-dropdown-item href="#" class="grid-dropdown-item" @click="setGrid('Rules')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
@@ -99,7 +99,7 @@
                             </svg>
                             <br>Rules
                         </b-dropdown-item>
-                        <b-dropdown-item href="#" class="grid-dropdown-item">
+                        <b-dropdown-item href="#" class="grid-dropdown-item" @click="setGrid('None')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  style="user-select: none;">
                                 <circle class="n0tgWb-LkdAo" cx="24" cy="24" r="23.5"
@@ -140,13 +140,17 @@ export default {
     data() {
         return {
             shown: false,
-            canvas: {}
+            canvas: {},
+            grid: 'None'
         };
     },
     created() {
         window.events.$on('show_drawing_dialog', this.open);
     },
     methods: {
+        setGrid(grid_type) {
+            this.grid = grid_type;
+        },
         initializeCanvas() {
             this.canvas = this.$refs['drawing_area'].getContext('2d');
 
