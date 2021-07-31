@@ -24,19 +24,19 @@
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_1 in brush_colors[0]" class="color-circle" :class="(selected_brush_color === color_1) ? 'active' : ''" :style="'background:' + color_1" @click="selected_brush_color = color_1"></a>
+                        <a href="#" v-for="color_1 in brush_colors[0]" class="color-circle" :class="(selected_brush_color === color_1) ? 'active' : ''" :style="'background:' + color_1" @click="setToolByOption('brush', 'color', color_1)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_2 in brush_colors[1]" class="color-circle" :class="(selected_brush_color === color_2) ? 'active' : ''" :style="'background:' + color_2" @click="selected_brush_color = color_2"></a>
+                        <a href="#" v-for="color_2 in brush_colors[1]" class="color-circle" :class="(selected_brush_color === color_2) ? 'active' : ''" :style="'background:' + color_2" @click="setToolByOption('brush', 'color', color_2)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_3 in brush_colors[2]" class="color-circle" :class="(selected_brush_color === color_3) ? 'active' : ''" :style="'background:' + color_3" @click="selected_brush_color = color_3"></a>
+                        <a href="#" v-for="color_3 in brush_colors[2]" class="color-circle" :class="(selected_brush_color === color_3) ? 'active' : ''" :style="'background:' + color_3" @click="setToolByOption('brush', 'color', color_3)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_4 in brush_colors[3]" class="color-circle" :class="(selected_brush_color === color_4) ? 'active' : ''" :style="'background:' + color_4" @click="selected_brush_color = color_4"></a>
+                        <a href="#" v-for="color_4 in brush_colors[3]" class="color-circle" :class="(selected_brush_color === color_4) ? 'active' : ''" :style="'background:' + color_4" @click="setToolByOption('brush', 'color', color_4)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center border-t-2 border-gray-200 justify-center">
-                        <a href="#" v-for="brush_size in brush_sizes" class="size-circle" :class="(selected_brush_size === brush_size) ? 'active' : ''" :style="'padding:' + brush_size + 'px'" @click="selected_brush_size = brush_size"></a>
+                        <a href="#" v-for="brush_size in brush_sizes" class="size-circle" :class="(selected_brush_size === brush_size) ? 'active' : ''" :style="'padding:' + brush_size + 'px'" @click="setToolByOption('brush', 'size', brush_size)"></a>
                     </div>
                 </b-dropdown>
 
@@ -48,19 +48,19 @@
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_5 in brush_colors[0]" class="color-circle" :class="(selected_pen_color === color_5) ? 'active' : ''" :style="'background:' + color_5" @click="selected_pen_color = color_5"></a>
+                        <a href="#" v-for="color_5 in brush_colors[0]" class="color-circle" :class="(selected_pen_color === color_5) ? 'active' : ''" :style="'background:' + color_5" @click="setToolByOption('pen', 'color', color_5)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_6 in brush_colors[1]" class="color-circle" :class="(selected_pen_color === color_6) ? 'active' : ''" :style="'background:' + color_6" @click="selected_pen_color = color_6"></a>
+                        <a href="#" v-for="color_6 in brush_colors[1]" class="color-circle" :class="(selected_pen_color === color_6) ? 'active' : ''" :style="'background:' + color_6" @click="setToolByOption('pen', 'color', color_6)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_7 in brush_colors[2]" class="color-circle" :class="(selected_pen_color === color_7) ? 'active' : ''" :style="'background:' + color_7" @click="selected_pen_color = color_7"></a>
+                        <a href="#" v-for="color_7 in brush_colors[2]" class="color-circle" :class="(selected_pen_color === color_7) ? 'active' : ''" :style="'background:' + color_7" @click="setToolByOption('pen', 'color', color_7)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_8 in brush_colors[3]" class="color-circle" :class="(selected_pen_color === color_8) ? 'active' : ''" :style="'background:' + color_8" @click="selected_pen_color = color_8"></a>
+                        <a href="#" v-for="color_8 in brush_colors[3]" class="color-circle" :class="(selected_pen_color === color_8) ? 'active' : ''" :style="'background:' + color_8" @click="setToolByOption('pen', 'color', color_8)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center border-t-2 border-gray-200 justify-center">
-                        <a href="#" v-for="pen_size in brush_sizes" class="size-circle" :class="(selected_pen_size === pen_size) ? 'active' : ''" :style="'padding:' + pen_size + 'px'" @click="selected_pen_size = pen_size"></a>
+                        <a href="#" v-for="pen_size in brush_sizes" class="size-circle" :class="(selected_pen_size === pen_size) ? 'active' : ''" :style="'padding:' + pen_size + 'px'" @click="setToolByOption('pen', 'size', pen_size)"></a>
                     </div>
                 </b-dropdown>
 
@@ -72,19 +72,19 @@
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_9 in brush_colors[0]" class="color-circle" :class="(selected_marker_color === color_9) ? 'active' : ''" :style="'background:' + color_9" @click="selected_marker_color = color_9"></a>
+                        <a href="#" v-for="color_9 in brush_colors[0]" class="color-circle" :class="(selected_marker_color === color_9) ? 'active' : ''" :style="'background:' + color_9" @click="setToolByOption('marker', 'color', color_9)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_10 in brush_colors[1]" class="color-circle" :class="(selected_marker_color === color_10) ? 'active' : ''" :style="'background:' + color_10" @click="selected_marker_color = color_10"></a>
+                        <a href="#" v-for="color_10 in brush_colors[1]" class="color-circle" :class="(selected_marker_color === color_10) ? 'active' : ''" :style="'background:' + color_10" @click="setToolByOption('marker', 'color', color_10)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_11 in brush_colors[2]" class="color-circle" :class="(selected_marker_color === color_11) ? 'active' : ''" :style="'background:' + color_11" @click="selected_marker_color = color_11"></a>
+                        <a href="#" v-for="color_11 in brush_colors[2]" class="color-circle" :class="(selected_marker_color === color_11) ? 'active' : ''" :style="'background:' + color_11" @click="setToolByOption('marker', 'color', color_11)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_12 in brush_colors[3]" class="color-circle" :class="(selected_marker_color === color_12) ? 'active' : ''" :style="'background:' + color_12" @click="selected_marker_color = color_12"></a>
+                        <a href="#" v-for="color_12 in brush_colors[3]" class="color-circle" :class="(selected_marker_color === color_12) ? 'active' : ''" :style="'background:' + color_12" @click="setToolByOption('marker', 'color', color_12)"></a>
                     </div>
                     <div class="p-2 flex flex-row items-center border-t-2 border-gray-200 justify-center">
-                        <a href="#" v-for="marker_size in brush_sizes" class="size-circle" :class="(selected_marker_size === marker_size) ? 'active' : ''" :style="'padding:' + marker_size + 'px'" @click="selected_marker_size = marker_size"></a>
+                        <a href="#" v-for="marker_size in brush_sizes" class="size-circle" :class="(selected_marker_size === marker_size) ? 'active' : ''" :style="'padding:' + marker_size + 'px'" @click="setToolByOption('marker', 'size', marker_size)"></a>
                     </div>
                 </b-dropdown>
 
@@ -245,6 +245,10 @@ export default {
     methods: {
         setTool(tool) {
             this.tool = tool;
+        },
+        setToolByOption(tool, option, option_value) {
+            this.tool = tool;
+            this['selected_' + tool + '_' + option] = option_value;
         },
         setGrid(grid_type) {
             this.grid = grid_type;
