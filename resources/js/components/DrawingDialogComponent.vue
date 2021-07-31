@@ -7,16 +7,17 @@
                 </a>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
-                            class="p-0 mr-3">
+                            class="p-0 mr-3" @click="setTool('eraser')">
                     <template #button-content>
-                        <i class="bi bi-eraser-fill text-gray-800" style="font-size: 1.5rem"></i>
+                        <i class="bi bi-eraser-fill text-gray-800" style="font-size: 1.5rem"
+                           :style="'color:' + displayed_eraser_color"></i>
                     </template>
 
                     <b-dropdown-item href="#">Clear page</b-dropdown-item>
                 </b-dropdown>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
-                            class="p-0 mr-3">
+                            class="p-0 mr-3" @click="setTool('brush')">
                     <template #button-content>
                         <i class="bi bi-brush-fill text-gray-800" style="font-size: 1.5rem"
                            :style="'color:' + displayed_brush_color"></i>
@@ -40,7 +41,7 @@
                 </b-dropdown>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
-                            class="p-0 mr-3">
+                            class="p-0 mr-3" @click="setTool('pen')">
                     <template #button-content>
                         <i class="bi bi-vector-pen text-gray-800" style="font-size: 1.5rem"
                            :style="'color:' + displayed_pen_color"></i>
@@ -64,7 +65,7 @@
                 </b-dropdown>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
-                            class="p-0 mr-3">
+                            class="p-0 mr-3" @click="setTool('marker')">
                     <template #button-content>
                         <i class="bi bi-pen-fill" style="font-size: 1.5rem"
                            :style="'color:' + displayed_marker_color"></i>
@@ -225,6 +226,9 @@ export default {
         };
     },
     computed: {
+        displayed_eraser_color() {
+            return (this.tool === 'eraser') ? '#000' : '#90a4ae';
+        },
         displayed_brush_color() {
             return (this.tool === 'brush') ? this.selected_brush_color : '#90a4ae';
         },
@@ -239,6 +243,9 @@ export default {
         window.events.$on('show_drawing_dialog', this.open);
     },
     methods: {
+        setTool(tool) {
+            this.tool = tool;
+        },
         setGrid(grid_type) {
             this.grid = grid_type;
 
