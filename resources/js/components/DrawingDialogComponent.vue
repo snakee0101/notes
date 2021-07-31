@@ -18,7 +18,8 @@
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
                             class="p-0 mr-3">
                     <template #button-content>
-                        <i class="bi bi-brush-fill text-gray-800" style="font-size: 1.5rem" :style="'color:' + selected_brush_color"></i>
+                        <i class="bi bi-brush-fill text-gray-800" style="font-size: 1.5rem"
+                           :style="'color:' + displayed_brush_color"></i>
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
@@ -41,7 +42,8 @@
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
                             class="p-0 mr-3">
                     <template #button-content>
-                        <i class="bi bi-vector-pen text-gray-800" style="font-size: 1.5rem" :style="'color:' + selected_pen_color"></i>
+                        <i class="bi bi-vector-pen text-gray-800" style="font-size: 1.5rem"
+                           :style="'color:' + displayed_pen_color"></i>
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
@@ -64,7 +66,8 @@
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
                             class="p-0 mr-3">
                     <template #button-content>
-                        <i class="bi bi-pen-fill" style="font-size: 1.5rem" :style="'color:' + selected_marker_color"></i>
+                        <i class="bi bi-pen-fill" style="font-size: 1.5rem"
+                           :style="'color:' + displayed_marker_color"></i>
                     </template>
 
                     <div class="p-2 flex flex-row items-center">
@@ -218,7 +221,19 @@ export default {
             selected_brush_size: 2,
             selected_pen_size: 2,
             selected_marker_size: 2,
+            tool: 'brush'
         };
+    },
+    computed: {
+        displayed_brush_color() {
+            return (this.tool === 'brush') ? this.selected_brush_color : '#90a4ae';
+        },
+        displayed_pen_color() {
+            return (this.tool === 'pen') ? this.selected_pen_color : '#90a4ae';
+        },
+        displayed_marker_color() {
+            return (this.tool === 'marker') ? this.selected_marker_color : '#90a4ae';
+        },
     },
     created() {
         window.events.$on('show_drawing_dialog', this.open);
