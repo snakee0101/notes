@@ -37,8 +37,6 @@ class ImageTest extends TestCase
        ]);
        $filename = $response->content();
 
-       dd($response->content());
-
        $this->assertTrue(
             Storage::exists('/images/' . $filename)
        );
@@ -54,7 +52,7 @@ class ImageTest extends TestCase
         $this->post( route('image.store'), [
             'image' => $this->generate_image(),
             'note_id' => $note->id
-        ])->dump();
+        ]);
 
         $this->assertCount(1, $note->fresh()->images);
         $this->assertInstanceOf(Image::class, $note->images[0]);

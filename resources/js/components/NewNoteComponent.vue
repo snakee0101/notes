@@ -474,7 +474,7 @@ export default {
                 collaboratorEmails: this.collaboratorEmails
             }).then(res => this.saveChecklist(res))
               .then(res => this.attach_images())
-              .then(res => this.refreshNotesContainer(window.newNote))
+              .then(res => this.refreshNotesContainer())
               .then(res => this.reset());
         },
         saveChecklist(result) {
@@ -490,19 +490,25 @@ export default {
         attach_images() {
             let note = window.newNote;
 
+            if(this.images.length > 0) {
+                window.newNote.images = [];
+                window.newNote.images_json = [];
+            }
+
             this.images.forEach(function (image) {
                 let data = new FormData();
                 data.append('image', image, image.name);
                 data.append('note_id', note.id);
 
-                axios.post('/image', data);
+                axios.post('/image', data)
+                     .then(res => window.newNote.images.push(res.data));
             });
 
-            axios.get('/note')
-                 .then(res => window.newNote = res.data);
+            window.newNote.images_json = window.newNote.images;
         },
-        refreshNotesContainer(note) {
-            window.events.$emit('note_created', note);
+        refreshNotesContainer() {
+            console.log(window.newNote.images);
+            window.events.$emit('note_created', window.newNote);
         },
         reset() {
             this.note = {
