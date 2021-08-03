@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -44,6 +45,13 @@ class User extends Authenticatable
     public function notes()
     {
         return $this->hasMany(Note::class, 'owner_id');
+    }
+
+    public function collaboratorNotes() //return the notes, that other collaborators shared with this user
+    {
+        return Note::whereHas('collaborators', function(Builder $query) {
+            $query->where('users.id', $this->id);
+        });
     }
 
     public function tags()

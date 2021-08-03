@@ -8,6 +8,28 @@ use Tests\TestCase;
 
 class CollaboratorTest extends TestCase
 {
+    public function test_collaborator_notes_could_be_retrieved()
+    {
+        $owner = User::factory()->create();
+        $user = User::factory()->create();
+        $note = Note::factory()->for($user, 'owner') //collaborator has notes
+            ->hasAttached($owner, [], 'collaborators')
+            ->create();
+
+        $user2 = User::factory()->create();
+        $note = Note::factory()->for($user, 'owner')
+            ->hasAttached($user2, [], 'collaborators')
+            ->create();
+
+        auth()->login($owner);
+
+        $this->assertCount(1, auth()->user()->collaboratorNotes()->get() );
+        $this->assertInstanceOf(Note::class, auth()->user()->collaboratorNotes()->first() );
+        $this->assertEquals($user->id, auth()->user()->collaboratorNotes()->first()->owner->id );
+
+        //auth()->user()->notes()->where('pinned', true)->paginate();
+    }
+
     public function test_a_note_knows_collaborators()
     {
         $owner = User::factory()->create();
