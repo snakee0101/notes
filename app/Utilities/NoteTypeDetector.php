@@ -42,7 +42,6 @@ class NoteTypeDetector
         $this->detectImages();
         $this->detectChecklist();
         $this->detectLinks();
-
         return $this->types;
     }
 }
