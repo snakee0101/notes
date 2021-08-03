@@ -8,6 +8,10 @@
         <a href="/reminder" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveLink('reminder.index')">
             <i class="bi bi-bell icon-lg mr-3 text-black"></i> Reminders
         </a>
+        <a href="/collaborator" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveLink('collaborator.index')">
+            <i class="bi bi-people icon-lg mr-3 text-black"></i> Collaborator notes
+        </a>
+
         <a :href="'/tag/' + tag_name" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveTagLink(tag_name)" v-for="tag_name in tag_names">
             <i class="bi bi-tag-fill icon-lg mr-3 text-black"></i> {{ tag_name }}
         </a>
