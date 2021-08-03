@@ -26,6 +26,12 @@ class NoteTypeDetector
             $this->types[] = 'checklist';
     }
 
+    private function detectLinks()
+    {
+        if($this->note->links()->exists())
+            $this->types[] = 'links';
+    }
+
     public static function select(Note $note) : static
     {
         return new static($note);
@@ -35,6 +41,8 @@ class NoteTypeDetector
     {
         $this->detectImages();
         $this->detectChecklist();
+        $this->detectLinks();
+
         return $this->types;
     }
 }
