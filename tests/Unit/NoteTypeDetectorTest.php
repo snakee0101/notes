@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class NoteTypeDetectorTest extends TestCase
 {
-    public $empty_note, $note_with_images;
+    public Note $empty_note, $note_with_images;
 
     protected function setUp(): void
     {
@@ -23,8 +23,19 @@ class NoteTypeDetectorTest extends TestCase
         $this->assertInstanceOf(NoteTypeDetector::class, NoteTypeDetector::select($this->empty_note));
     }
 
-    /*public function test_note_type_detector_detects_images()
+    public function test_note_type_detector_detects_images()
     {
+        $result = NoteTypeDetector::select($this->note_with_images)->detectTypes();
 
-    }*/
+        $this->assertIsArray($result);
+        $this->assertContains('image', $result);
+    }
+
+    public function test_if_there_is_no_images_note_type_detector_returns_empty_array()
+    {
+        $result = NoteTypeDetector::select($this->empty_note)->detectTypes();
+
+        $this->assertIsArray($result);
+        $this->assertEmpty($result);
+    }
 }
