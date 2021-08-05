@@ -102,6 +102,10 @@
                     </div>
                 </div>
             </div>
+
+            <p class="text-right text-gray-600 text-sm m-0">
+                Edited {{ lastEditDate }}
+            </p>
         </div>
     </b-modal>
 </template>
@@ -122,6 +126,11 @@ export default {
     },
     created() {
         window.events.$on('open_note_for_editing', this.openModal);
+    },
+    computed: {
+        lastEditDate() {
+            return 'date of last edit';
+        }
     },
     methods: {
         removeLink(deleted_link) {
