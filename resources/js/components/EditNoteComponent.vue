@@ -111,6 +111,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
 
     //TODO: reflect these changes in NoteComponent in container
@@ -129,7 +131,15 @@ export default {
     },
     computed: {
         lastEditDate() {
-            return 'date of last edit';
+            let date = moment(this.note.updated_at);
+            let edited_days_ago = Math.abs( date.diff(new Date, 'days', true) );
+            let edited_years_ago = Math.abs( date.diff(new Date, 'years', true) );
+
+            if(edited_years_ago > 1)
+                return date.format('MMM DD, YYYY');
+
+            return (edited_days_ago > 1) ? date.format('MMM DD')  //date earlier than today is displayed as month and day
+                                         : date.format('HH:mm'); //date within today is displayed as hours
         }
     },
     methods: {
