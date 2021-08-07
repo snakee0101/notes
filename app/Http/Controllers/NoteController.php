@@ -11,32 +11,16 @@ use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->only(['header', 'body', 'pinned', 'archived', 'color', 'type']);
@@ -82,35 +66,17 @@ class NoteController extends Controller
         return $note;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
     public function show(Note $note)
     {
+        $this->authorize('view', $note);
         return $note;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Note $note)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Note $note)
     {
         $note->update(
@@ -123,12 +89,6 @@ class NoteController extends Controller
             @Link::persist($link['url'], $link['name'], $note);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Note $note)
     {
         $this->authorize('delete', $note);

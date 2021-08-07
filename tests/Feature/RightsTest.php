@@ -61,4 +61,21 @@ class RightsTest extends TestCase
         auth()->login($collaborator);
         $this->post( route('note.restore', $note) )->assertForbidden();
     }
+
+    public function test_note_could_be_returned_to_owner_and_collaborator()
+    {
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+        $note->refresh();
+
+        auth()->login($note->owner);
+        $this->get( route('note.show', $note) )->assertOk();
+
+        auth()->login($collaborator);
+        $this->get( route('note.show', $note) )->assertOk();
+
+        auth()->login( User::factory()->create() );
+        $this->get( route('note.show', $note) )->assertForbidden();
+    }
 }

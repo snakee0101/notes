@@ -8,8 +8,8 @@ Rights are set by policies in the controller.
 ENTITIES RIGHTS LIST (Items that were done are marked with +):
 
 Note:
-   (-) store => any user
-   (-) show => owner + collaborators
+   (+) store => any user
+   (+) show => owner + collaborators
    (-) update => depends on WHAT should be updated
             archived state => owner
             other properties => owner + collaborators
