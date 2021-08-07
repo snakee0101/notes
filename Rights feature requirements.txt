@@ -1,0 +1,6 @@
+There are several entities: Checklist, Image, Link, Note, Reminder, Tag, Task.
+
+Each of them could be manipulated by a certain users.
+Also, each entity ACTION (CRUD-actions) could be executed by a specific user group only.
+
+Rights are set by policies in the controller.

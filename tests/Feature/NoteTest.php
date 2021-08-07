@@ -289,4 +289,29 @@ class NoteTest extends TestCase
             'header' => $note->header
         ]);
     }
+
+    public function test_notes_updated_at_timestamp_is_changed_after_checklist_operations()
+    {
+        $note = Note::factory()->create([
+            'created_at' => now()->subDays(3),
+            'updated_at' => now()->subDays(2),
+        ]);
+
+        auth()->login($note->owner);
+
+        $this->post( route('checklist.store'), [
+            'checklist_data' => [
+                ['text' => 'some task 1',
+                    'completed' => true],
+                ['text' => 'second task',
+                    'completed' => false],
+                ['text' => 'another task',
+                    'completed' => true]
+            ],
+            'note_id' => $note->id
+        ]);
+
+        $diff_in_days = $note->fresh()->updated_at->diff(now(), 'days')->d;
+        $this->assertEquals(0, $diff_in_days);
+    }
 }
