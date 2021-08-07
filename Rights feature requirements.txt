@@ -4,3 +4,42 @@ Each of them could be manipulated by a certain users.
 Also, each entity ACTION (CRUD-actions) could be executed by a specific user group only.
 
 Rights are set by policies in the controller.
+
+ENTITIES RIGHTS LIST (Items that were done are marked with +):
+
+Note:
+   (-) store => any user
+   (-) show => owner + collaborators
+   (-) update => depends on WHAT should be updated
+            archived state => owner
+            other properties => owner + collaborators
+   (-) destroy => owner
+   (-) restore => owner
+   (+) duplicate => owner
+
+Collaborator:
+   (-) index => owner + collaborators
+   (-) sync, check => owner
+
+Reminder:
+   (-) index => owner + collaborators
+   (-) store, destroy => owner + collaborators (HOWEVER, each user must have their own notification => Reminder-User is Many-To-Many relation; and also, Note-Reminder is One-To-Many relation)
+
+Image:
+   (-) all actions => owner + collaborators
+
+Link:
+   (-) all actions => owner + collaborators
+
+Checklist:
+   (-) all actions => owner + collaborators
+
+Tag:
+    (-) index, show => owner + collaborators
+    (-) other actions => owner
+
+Task:
+   (-) all actions => owner + collaborators
+
+
+IN THE FUTURE: owner can ASSIGN rights to specific collaborators

@@ -141,6 +141,7 @@ class NoteController extends Controller
 
     public function duplicate(Note $note)
     {
+        $this->authorize('duplicate', $note);
         return $note->makeCopy();
     }
 
