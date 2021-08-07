@@ -78,4 +78,38 @@ class RightsTest extends TestCase
         auth()->login( User::factory()->create() );
         $this->get( route('note.show', $note) )->assertForbidden();
     }
+
+    public function test_notes_archived_state_could_be_updated_by_owner_only()
+    {
+        $note = Note::factory()->create( ['archived' => false] );
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+        $note->refresh();
+
+        auth()->login($collaborator);
+        $this->put( route('note.update', $note), ['archived' => true] )->assertForbidden();
+
+        auth()->login( User::factory()->create() );
+        $this->put( route('note.update', $note), ['archived' => true] )->assertForbidden();
+
+        auth()->login($note->owner);
+        $this->put( route('note.update', $note), ['archived' => true] )->assertOk();
+    }
+
+    public function test_other_note_properties_could_be_updated_by_owner_and_collaborators()
+    {
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+        $note->refresh();
+
+        auth()->login($collaborator);
+        $this->put( route('note.update', $note), ['header' => 'new header'] )->assertOK();
+
+        auth()->login( User::factory()->create() );
+        $this->put( route('note.update', $note), ['header' => 'new header 2'] )->assertForbidden();
+
+        auth()->login($note->owner);
+        $this->put( route('note.update', $note), ['header' => 'new header 3'] )->assertOk();
+    }
 }

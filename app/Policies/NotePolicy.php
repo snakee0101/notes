@@ -15,14 +15,19 @@ class NotePolicy
         //
     }
 
-    public function view(User $user, Note $note)
+    public function view(User $user, Note $note) //owner and collaborators are allowed
     {
         return $user->is($note->owner) || $note->collaborators()->where('users.id', $user->id)->exists();
     }
 
-    public function update(User $user, Note $note)
+    public function update(User $user, Note $note) //owner and collaborators are allowed
     {
-        //
+        return $user->is($note->owner) || $note->collaborators()->where('users.id', $user->id)->exists();
+    }
+
+    public function updateArchived(User $user, Note $note)
+    {
+        return $user->is($note->owner);
     }
 
     public function delete(User $user, Note $note)
