@@ -131,6 +131,7 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
+        $this->authorize('delete', $note);
         ($note->deleted_at) ? $note->forceDelete() : $note->delete();
     }
 

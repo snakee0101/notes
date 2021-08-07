@@ -27,15 +27,10 @@ class NotePolicy
 
     public function delete(User $user, Note $note)
     {
-        //
+        return $user->is($note->owner);
     }
 
     public function restore(User $user, Note $note)
-    {
-        //
-    }
-
-    public function forceDelete(User $user, Note $note)
     {
         //
     }
