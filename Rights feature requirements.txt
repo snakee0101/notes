@@ -14,7 +14,7 @@ Note:
             archived state => owner
             other properties => owner + collaborators
    (+) destroy => owner
-   (-) restore => owner
+   (+) restore => owner
    (+) duplicate => owner
 
 Collaborator:

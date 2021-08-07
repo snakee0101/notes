@@ -32,7 +32,7 @@ class NotePolicy
 
     public function restore(User $user, Note $note)
     {
-        //
+        return $user->is($note->owner);
     }
 
     public function duplicate(User $user, Note $note)

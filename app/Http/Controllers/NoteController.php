@@ -137,6 +137,7 @@ class NoteController extends Controller
 
     public function restore(Note $note)
     {
+        $this->authorize('restore', $note);
         $note->restore();
     }
 
