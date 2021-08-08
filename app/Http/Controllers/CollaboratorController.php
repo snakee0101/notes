@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 class CollaboratorController extends Controller
@@ -27,6 +28,9 @@ class CollaboratorController extends Controller
 
     public function sync(Note $note)
     {
+        if(Gate::denies('sync_collaborator', $note))
+            return response('Only owner of the note may update collaborators', 403);
+
         $emails = request('emails');
 
         $note->collaborators()->sync(

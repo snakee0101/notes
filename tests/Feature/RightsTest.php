@@ -10,6 +10,9 @@ use Tests\TestCase;
 
 class RightsTest extends TestCase
 {
+    /**
+     * Note rights
+     */
     public function test_note_could_be_duplicated_by_owner_only()
     {
         $note = Note::factory()->create();
@@ -111,5 +114,21 @@ class RightsTest extends TestCase
 
         auth()->login($note->owner);
         $this->put( route('note.update', $note), ['header' => 'new header 3'] )->assertOk();
+    }
+
+    /**
+     * Collaborator rights
+     */
+    public function test_only_note_owner_can_synchronize_the_collaborators()
+    {
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $collaborator2 = User::factory()->create();
+
+        auth()->login($collaborator);
+        $this->post( route('sync_collaborator', $note), ['emails' => [$collaborator2->email]] )->assertForbidden();
+
+        auth()->login($note->owner);
+        $this->post( route('sync_collaborator', $note), ['emails' => [$collaborator2->email]] )->assertOk();
     }
 }

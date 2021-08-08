@@ -17,6 +17,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('sync_collaborator', fn($user, Note $note) => $user->is($note->owner) );
     }
 }
