@@ -18,11 +18,13 @@ class LinkController extends Controller
 
     public function restore($link_id)
     {
-        if(Gate::denies('link_manipulation', Link::withTrashed()->find($link_id)->note))
+        $link = Link::onlyTrashed()->find($link_id);
+
+        if(Gate::denies('link_manipulation', $link->note))
             return response('Only owner and collaborators can manipulate links', 403);
 
-        Link::onlyTrashed()->find($link_id)->restore();
+        $link->restore();
 
-        return Link::find($link_id);
+        return $link->fresh();
     }
 }
