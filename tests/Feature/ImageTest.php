@@ -54,15 +54,17 @@ class ImageTest extends TestCase
        auth()->login($note->owner);
 
        $image = $this->generate_image();
+       Storage::makeDirectory('thumbnails_small');
+       Storage::makeDirectory('thumbnails_large');
+       Storage::makeDirectory('images');
 
        $response = $this->post( route('image.store'), [
            'image' => $image,
            'note_id' => $note->id
        ]);
        $filename = $response->content();
-
        $this->assertTrue(
-            Storage::exists('/images/' . $filename)
+            Storage::exists('images/' . $filename)
        );
     }
 
