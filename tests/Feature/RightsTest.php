@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Link;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -313,5 +314,34 @@ class RightsTest extends TestCase
         ])->assertForbidden();
 
         imagedestroy($image);
+    }
+
+    /**
+     * Link rights
+     */
+    public function test_link_could_be_deleted_by_owner_and_collaborators()
+    {
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        $link_1 = Link::persist('https://habr.com/ru/all/', 'link 1', $note);
+        $link_2 = Link::persist('https://regexr.com/', 'other link', $note);
+        $link_3 = Link::persist('https://www.google.com/', 'google', $note);
+
+        $note->refresh();
+
+        auth()->login( $note->owner );
+        $this->delete( route('link.destroy', $link_1) );
+        $this->assertSoftDeleted($link_1);
+
+        auth()->login( $collaborator );
+        $this->delete( route('link.destroy', $link_2) );
+        $this->assertSoftDeleted($link_2);
+
+        auth()->login( User::factory()->create() );
+        $this->delete( route('link.destroy', $link_3) );
+        $this->assertNull( $link_3->fresh()->deleted_at );
+
     }
 }

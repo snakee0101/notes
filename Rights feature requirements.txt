@@ -28,7 +28,8 @@ Image:
    (+) recognize => owner + collaborators
 
 Link:
-   (-) all actions => owner + collaborators
+   (+) destroy => owner + collaborators
+   (-) restore => owner + collaborators
 
 Checklist:
    (-) all actions => owner + collaborators

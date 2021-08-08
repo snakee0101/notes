@@ -85,6 +85,8 @@ class Link extends Model
 
     public static function persist($url, $name, Note $note)
     {
+        $res = null;
+
         try {
             $res = $note->links()->create([
                 'name' => $name,
