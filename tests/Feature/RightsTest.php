@@ -472,4 +472,40 @@ class RightsTest extends TestCase
         $this->assertCount(3, Task::where('completed', true)->get() );
     }
 
+    public function test_completed_tasks_could_be_removed_by_owner_and_collaborator()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        $checklist = Checklist::factory()->for($note, 'note')->create();
+        Task::factory()->for($checklist)->count(3)->create([ 'completed' => false ]);
+        Task::factory()->for($checklist)->count(5)->create([ 'completed' => true  ]);
+
+        $note->refresh();
+
+        auth()->login($owner);
+        $this->post(route('checklist.remove_completed', $checklist))
+                     ->assertOk();
+        $this->assertDatabaseCount('tasks', 3);
+
+        Task::factory()->for($checklist)->count(5)->create([ 'completed' => true  ]);
+        $this->assertDatabaseCount('tasks', 8);
+
+        auth()->login($collaborator);
+        $this->post(route('checklist.remove_completed', $checklist))
+            ->assertOk();
+        $this->assertDatabaseCount('tasks', 3);
+
+        Task::factory()->for($checklist)->count(5)->create([ 'completed' => true  ]);
+        $this->assertDatabaseCount('tasks', 8);
+
+        auth()->login( User::factory()->create() );
+        $this->post(route('checklist.remove_completed', $checklist))
+            ->assertForbidden();
+        $this->assertDatabaseCount('tasks', 8);
+    }
+
 }

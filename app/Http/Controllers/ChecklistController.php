@@ -51,6 +51,9 @@ class ChecklistController extends Controller
 
     public function remove_completed(Checklist $checklist)
     {
+        if(Gate::denies('checklist', $checklist->note))
+            return response('Only owner and collaborators can manipulate checklists', 403);
+
         $checklist->removeCompleted();
         return Note::find($checklist->note->id);
     }

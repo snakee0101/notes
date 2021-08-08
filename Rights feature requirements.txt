@@ -36,7 +36,7 @@ Checklist:
    (-) update => owner + collaborators
    (-) destroy => owner + collaborators
    (+) uncheck_all => owner + collaborators
-   (-) remove_completed => owner + collaborators
+   (+) remove_completed => owner + collaborators
 
 Tag:
     (-) index, show => owner + collaborators
