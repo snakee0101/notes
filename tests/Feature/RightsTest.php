@@ -223,4 +223,59 @@ class RightsTest extends TestCase
         auth()->login( User::factory()->create() );
         $this->post( route('image.destroy', $note->images[2]))->assertForbidden();
     }
+
+    public function test_an_image_could_be_restored_by_owner_and_collaborators()
+    {
+        $storage = Storage::fake();
+        Storage::makeDirectory('thumbnails_large');
+        Storage::makeDirectory('thumbnails_small');
+
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+        $note->refresh();
+
+        $storage->put('images/123.jpeg', '12345');
+        $storage->put('thumbnails_small/456.jpeg', '12345');
+        $storage->put('thumbnails_large/789.jpeg', '12345');
+
+        $image_1 = $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789.jpeg',
+        ]);
+
+        $image_2 = $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/1234.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/4567.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/78910.jpeg',
+        ]);
+
+        $image_3 = $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/12345.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/45678.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/7891011.jpeg',
+        ]);
+        $note->refresh();
+        $image_1->delete();
+        $image_2->delete();
+        $image_3->delete();
+
+        $this->assertSoftDeleted('images', ['id' => $image_1->id]);
+        $this->assertSoftDeleted('images', ['id' => $image_2->id]);
+        $this->assertSoftDeleted('images', ['id' => $image_2->id]);
+
+
+        auth()->login($note->owner);
+        $this->put("/image/restore/$image_1->id")->assertOk();
+
+        auth()->login($collaborator);
+        $this->put("/image/restore/$image_2->id")->assertOk();
+
+        auth()->login( User::factory()->create() );
+        $this->put("/image/restore/$image_3->id")->assertForbidden();
+    }
 }

@@ -51,6 +51,10 @@ class ImageController extends Controller
     public function restore($image_id)
     {
         $image = Image::withTrashed()->findOrFail($image_id);
+
+        if(Gate::denies('image_manipulation', $image->note))
+            return response('Only owner and collaborators can manipulate images', 403);
+
         $image->restore();
 
         return $image->fresh();

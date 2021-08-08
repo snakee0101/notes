@@ -24,7 +24,7 @@ Collaborator:
 Image:
    (+) store => owner + collaborators
    (+) destroy => owner + collaborators
-   (-) restore => owner + collaborators
+   (+) restore => owner + collaborators
    (-) recognize => owner + collaborators
 
 Link:
