@@ -43,8 +43,6 @@ class CollaboratorController extends Controller
 
     public function check($email)
     {
-        return response()->json([
-            'exists' => User::whereEmail($email)->exists()
-        ]);
+        return [ 'exists' => User::whereEmail($email)->exists() ];
     }
 }
