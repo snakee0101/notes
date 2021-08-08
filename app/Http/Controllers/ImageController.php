@@ -14,12 +14,6 @@ use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
-    public function __construct(Request $request)
-    {
-
-
-    }
-
     public function store(Request $request)
     {
         $note = Note::find( $request->input('note_id') );
@@ -62,6 +56,10 @@ class ImageController extends Controller
 
     public function recognize(Request $request)
     {
+        $image = Image::where('image_path', $request->image_path)->first();
+        if(Gate::denies('image_manipulation', $image->note))
+            return response('Only owner and collaborators can manipulate images', 403);
+
         $tesseract = new TesseractOCR(storage_path() . '/app/' . Str::after($request->image_path,'/storage'));
         return $tesseract->run();
     }
