@@ -377,6 +377,62 @@ class RightsTest extends TestCase
         auth()->login( User::factory()->create() );
         $this->post( route('link.restore', $link_3->id) );
         $this->assertDatabaseMissing('links', ['id' => $link_3->id, 'deleted_at' => null]);
-
     }
+
+    /**
+     * Checklist tests
+     */
+    public function test_checklist_could_be_created_by_note_owner_or_collaborator()
+    {
+        $note = Note::factory()->create();
+
+        $note2 = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note2->collaborators()->attach($collaborator);
+
+        $note2->refresh();
+
+        auth()->login($note->owner);
+        $this->post( route('checklist.store'), [
+            'checklist_data' => [
+                ['text' => 'some task 1',
+                    'completed' => true],
+                ['text' => 'second task',
+                    'completed' => false],
+                ['text' => 'another task',
+                    'completed' => true]
+            ],
+            'note_id' => $note->id
+        ])->assertOk();
+        $this->assertDatabaseCount('tasks',3);
+
+        auth()->login($collaborator);
+        $this->post( route('checklist.store'), [
+            'checklist_data' => [
+                ['text' => 'task 3',
+                    'completed' => true],
+                ['text' => 'task 4',
+                    'completed' => false],
+                ['text' => 'task 5',
+                    'completed' => true]
+            ],
+            'note_id' => $note2->id
+        ])->assertOk();
+        $this->assertDatabaseCount('tasks',6);
+
+        auth()->login( User::factory()->create() );
+        $this->post( route('checklist.store'), [
+            'checklist_data' => [
+                ['text' => 'task 6',
+                    'completed' => true],
+                ['text' => 'task 7',
+                    'completed' => false],
+                ['text' => 'task 8',
+                    'completed' => true]
+            ],
+            'note_id' => $note2->id
+        ])->assertForbidden();
+        $this->assertDatabaseCount('tasks',6);
+    }
+
 }
