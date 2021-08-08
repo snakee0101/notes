@@ -6,6 +6,9 @@ use App\Models\Note;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Testing\File;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class RightsTest extends TestCase
@@ -124,11 +127,52 @@ class RightsTest extends TestCase
         $note = Note::factory()->create();
         $collaborator = User::factory()->create();
         $collaborator2 = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+        $note->refresh();
 
         auth()->login($collaborator);
         $this->post( route('sync_collaborator', $note), ['emails' => [$collaborator2->email]] )->assertForbidden();
 
         auth()->login($note->owner);
         $this->post( route('sync_collaborator', $note), ['emails' => [$collaborator2->email]] )->assertOk();
+    }
+
+    /**
+     * Image rights
+     */
+    public function generate_image() : File
+    {
+        return UploadedFile::fake()
+            ->image('test.jpg', 1000, 1000);
+    }
+
+    public function test_an_image_could_be_uploaded_by_owner_and_collaborators()
+    {
+        Storage::fake();
+        Storage::makeDirectory('thumbnails_large');
+        Storage::makeDirectory('thumbnails_small');
+
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+        $note->refresh();
+
+        auth()->login($note->owner);
+        $this->post(route('image.store'), [
+            'image' => $this->generate_image(),
+            'note_id' => $note->id
+        ])->assertSuccessful();
+
+        auth()->login($collaborator);
+        $this->post(route('image.store'), [
+            'image' => $this->generate_image(),
+            'note_id' => $note->id
+        ])->assertSuccessful();
+
+        auth()->login( $user2 = User::factory()->create() );
+        $this->post(route('image.store'), [
+            'image' => $this->generate_image(),
+            'note_id' => $note->id
+        ])->assertForbidden();
     }
 }

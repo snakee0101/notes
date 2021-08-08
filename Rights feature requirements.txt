@@ -22,7 +22,10 @@ Collaborator:
    (+) sync => owner
 
 Image:
-   (-) all actions => owner + collaborators
+   (+) store => owner + collaborators
+   (-) destroy => owner + collaborators
+   (-) restore => owner + collaborators
+   (-) recognize => owner + collaborators
 
 Link:
    (-) all actions => owner + collaborators

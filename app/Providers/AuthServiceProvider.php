@@ -18,5 +18,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('sync_collaborator', fn($user, Note $note) => $user->is($note->owner) );
+        Gate::define('image_manipulation', fn($user, Note $note) => $user->is($note->owner) || $note->collaborators()->where('users.id', $user->id)->exists() );
     }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\Note;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use thiagoalessio\TesseractOCR\TesseractOCR;
@@ -12,12 +14,21 @@ use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
+    public function __construct(Request $request)
+    {
+
+
+    }
+
     public function store(Request $request)
     {
+        $note = Note::find( $request->input('note_id') );
+
+        if(Gate::denies('image_manipulation', $note))
+            return response('Only owner and collaborators can manipulate images', 403);
+
         $image = $request->file('image');
         $paths = Image::processUpload($image);
-
-        $note = Note::find( $request->input('note_id') );
 
         return $note->images()->create([
             'image_path' => $paths['image_path'],
