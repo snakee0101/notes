@@ -8,7 +8,6 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\TaskController;
 use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
@@ -43,9 +42,6 @@ Route::middleware('auth')->group(function() {
     Route::post('/checklist/delete/{note}', [ChecklistController::class, 'destroy'])->name('checklist.destroy');
     Route::post('/checklist/uncheck_all/{checklist}', [ChecklistController::class, 'uncheck_all'])->name('checklist.uncheck_all');
     Route::post('/checklist/remove_completed/{checklist}', [ChecklistController::class, 'remove_completed'])->name('checklist.remove_completed');
-
-
-    Route::resource('task', TaskController::class)->only(['store', 'update', 'destroy']);
 
     Route::resource('image', ImageController::class)->except('destroy');
     Route::post('/image/delete/{image}', [ImageController::class, 'destroy'])->name('image.destroy');

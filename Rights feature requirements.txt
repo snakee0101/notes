@@ -37,9 +37,6 @@ Tag:
     (-) index, show => owner + collaborators
     (-) other actions => owner
 
-Task:
-   (-) all actions => owner + collaborators
-
 Reminder:
    (-) index => owner + collaborators
    (-) store, destroy => owner + collaborators (HOWEVER, each user must have their own notification => Reminder-User is Many-To-Many relation; and also, Note-Reminder is One-To-Many relation)
