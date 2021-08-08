@@ -344,4 +344,39 @@ class RightsTest extends TestCase
         $this->assertNull( $link_3->fresh()->deleted_at );
 
     }
+
+    public function test_the_link_could_be_restored_by_owner_and_collaborators()
+    {
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        $note->refresh();
+        auth()->login($note->owner);
+
+        $link = Link::persist('https://habr.com/ru/all/', 'habr main page', $note);
+        $link_2 = Link::persist('https://www.google.com', 'second link', $note);
+        $link_3 = Link::persist('https://www.yandex.ru', 'third link', $note);
+
+        $link->delete();
+        $link_2->delete();
+        $link_3->delete();
+
+        $this->assertSoftDeleted($link);
+        $this->assertSoftDeleted($link_2);
+        $this->assertSoftDeleted($link_3);
+
+        auth()->login($note->owner);
+        $this->post( route('link.restore', $link->id) );
+        $this->assertDatabaseHas('links', ['id' => $link->id, 'deleted_at' => null]);
+
+        auth()->login($collaborator);
+        $this->post( route('link.restore', $link_2->id) );
+        $this->assertDatabaseHas('links', ['id' => $link_2->id, 'deleted_at' => null]);
+
+        auth()->login( User::factory()->create() );
+        $this->post( route('link.restore', $link_3->id) );
+        $this->assertDatabaseMissing('links', ['id' => $link_3->id, 'deleted_at' => null]);
+
+    }
 }

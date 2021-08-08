@@ -29,7 +29,7 @@ Image:
 
 Link:
    (+) destroy => owner + collaborators
-   (-) restore => owner + collaborators
+   (+) restore => owner + collaborators
 
 Checklist:
    (-) all actions => owner + collaborators
