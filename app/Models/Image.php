@@ -22,6 +22,11 @@ class Image extends Model
         parent::boot();
     }
 
+    public function note()
+    {
+        return $this->belongsTo(Note::class);
+    }
+
     public function makeCopy(Note $replica)
     {
         $path_1 = substr($this->image_path, 9);  //offset for '/storage/' part

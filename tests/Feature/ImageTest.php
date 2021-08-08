@@ -24,6 +24,30 @@ class ImageTest extends TestCase
                ->image('test.jpg', 1000, 1000);
     }
 
+    public function test_image_belongs_to_a_note()
+    {
+        $storage = Storage::fake();
+        $note = Note::factory()->create();
+        auth()->login($note->owner);
+
+        $storage->put('images/123.jpeg', '12345');
+        $storage->put('thumbnails_small/456.jpeg', '12345');
+        $storage->put('thumbnails_large/789.jpeg', '12345');
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
+                '.jpeg',
+        ]);
+
+        $note->refresh();
+        $image = $note->images[0];
+
+        $this->assertInstanceOf(Note::class, $image->note);
+    }
+
     public function test_an_image_could_be_uploaded()
     {
        $note = Note::factory()->create();
