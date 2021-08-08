@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Checklist;
 use App\Models\Link;
 use App\Models\Note;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -433,6 +435,41 @@ class RightsTest extends TestCase
             'note_id' => $note2->id
         ])->assertForbidden();
         $this->assertDatabaseCount('tasks',6);
+    }
+
+    public function test_tasks_could_be_unchecked_by_owner_and_collaborator()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        $checklist = Checklist::factory()->for($note, 'note')->create();
+        $tasks = Task::factory()->for($checklist)->count(3)->create( ['completed' => true] );
+        $note->refresh();
+
+        $this->assertCount(3, Task::where('completed', true)->get() );
+
+        auth()->login($owner);
+        $this->post(route('checklist.uncheck_all', $checklist))->assertOk();
+        $this->assertCount(0, Task::where('completed', true)->get() );
+
+        Task::where('completed', false)->update( ['completed' => true] );
+        $this->assertCount(3, Task::where('completed', true)->get() );
+
+
+        auth()->login($collaborator);
+        $this->post(route('checklist.uncheck_all', $checklist))->assertOk();
+        $this->assertCount(0, Task::where('completed', true)->get() );
+
+        Task::where('completed', false)->update( ['completed' => true] );
+        $this->assertCount(3, Task::where('completed', true)->get() );
+
+
+        auth()->login( User::factory()->create() );
+        $this->post(route('checklist.uncheck_all', $checklist))->assertForbidden();
+        $this->assertCount(3, Task::where('completed', true)->get() );
     }
 
 }

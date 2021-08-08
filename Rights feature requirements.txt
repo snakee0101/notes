@@ -35,7 +35,7 @@ Checklist:
    (+) store => owner + collaborators
    (-) update => owner + collaborators
    (-) destroy => owner + collaborators
-   (-) uncheck_all => owner + collaborators
+   (+) uncheck_all => owner + collaborators
    (-) remove_completed => owner + collaborators
 
 Tag:

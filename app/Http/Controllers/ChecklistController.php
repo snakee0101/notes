@@ -42,6 +42,9 @@ class ChecklistController extends Controller
 
     public function uncheck_all(Checklist $checklist)
     {
+        if(Gate::denies('checklist', $checklist->note))
+            return response('Only owner and collaborators can manipulate checklists', 403);
+
         $checklist->uncheckAll();
         return $checklist->note;
     }
