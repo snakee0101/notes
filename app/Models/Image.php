@@ -74,10 +74,6 @@ class Image extends Model
             $resource->widen(240)->save(Storage::path('thumbnails_small/' . $filename), 100);
         }
 
-        return [
-            'image_path' => $image_path,
-            'thumbnail_small_path' => $thumbnail_small_path,
-            'thumbnail_large_path' => $thumbnail_large_path
-        ];
+        return compact('image_path', 'thumbnail_small_path', 'thumbnail_large_path');
     }
 }
