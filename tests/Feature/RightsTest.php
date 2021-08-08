@@ -508,4 +508,36 @@ class RightsTest extends TestCase
         $this->assertDatabaseCount('tasks', 8);
     }
 
+    public function test_checklist_could_be_removed_by_owner_and_collaborator()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        Checklist::factory()->for($note, 'note')->has( Task::factory()->count(3) )->create();
+        $note->refresh();
+
+        auth()->login($owner);
+        $this->assertInstanceOf(Checklist::class, $note->checklist);
+        $this->post( route('checklist.destroy', $note) );
+        $this->assertNull($note->fresh()->checklist);
+
+        Checklist::factory()->for($note, 'note')->has( Task::factory()->count(3) )->create();
+        $note->refresh();
+
+        auth()->login($collaborator);
+        $this->assertInstanceOf(Checklist::class, $note->checklist);
+        $this->post( route('checklist.destroy', $note) );
+        $this->assertNull($note->fresh()->checklist);
+
+        Checklist::factory()->for($note, 'note')->has( Task::factory()->count(3) )->create();
+        $note->refresh();
+
+        auth()->login( User::factory()->create() );
+        $this->assertInstanceOf(Checklist::class, $note->checklist);
+        $this->post( route('checklist.destroy', $note) );
+        $this->assertInstanceOf(Checklist::class, $note->fresh()->checklist);
+    }
 }

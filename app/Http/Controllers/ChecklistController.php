@@ -34,6 +34,9 @@ class ChecklistController extends Controller
 
     public function destroy(Note $note)
     {
+        if(Gate::denies('checklist', $note))
+            return response('Only owner and collaborators can manipulate checklists', 403);
+
         $note->update(['body' => $note->checklist->toHTML()]);
         $note->checklist()->delete();
 
