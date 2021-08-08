@@ -175,4 +175,52 @@ class RightsTest extends TestCase
             'note_id' => $note->id
         ])->assertForbidden();
     }
+
+    public function test_an_image_could_be_destroyed_by_owner_and_collaborators()
+    {
+        $storage = Storage::fake();
+        Storage::makeDirectory('thumbnails_large');
+        Storage::makeDirectory('thumbnails_small');
+
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+        $note->refresh();
+
+        $storage->put('images/123.jpeg', '12345');
+        $storage->put('thumbnails_small/456.jpeg', '12345');
+        $storage->put('thumbnails_large/789.jpeg', '12345');
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/123.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/789.jpeg',
+        ]);
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/1234.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/4567.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/78910.jpeg',
+        ]);
+
+        $note->images()->create([
+            'note_id' => $note->id,
+            'image_path' => '/storage/images/12345.jpeg',
+            'thumbnail_small_path' => '/storage/thumbnails_small/45678.jpeg',
+            'thumbnail_large_path' => '/storage/thumbnails_large/7891011.jpeg',
+        ]);
+
+        $note->refresh();
+
+        auth()->login($note->owner);
+        $this->post( route('image.destroy', $note->images[0]))->assertOk();
+
+        auth()->login($collaborator);
+        $this->post( route('image.destroy', $note->images[1]))->assertOk();
+
+        auth()->login( User::factory()->create() );
+        $this->post( route('image.destroy', $note->images[2]))->assertForbidden();
+    }
 }

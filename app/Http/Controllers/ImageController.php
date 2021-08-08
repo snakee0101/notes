@@ -39,6 +39,9 @@ class ImageController extends Controller
 
     public function destroy(Image $image)
     {
+        if(Gate::denies('image_manipulation', $image->note))
+            return response('Only owner and collaborators can manipulate images', 403);
+
         $image_id = $image->id;
         $image->delete();
 
