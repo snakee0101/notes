@@ -5,8 +5,10 @@ namespace Tests\Feature;
 use App\Models\Checklist;
 use App\Models\Link;
 use App\Models\Note;
+use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
+use Database\Factories\TagFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
@@ -586,5 +588,33 @@ class RightsTest extends TestCase
                 ['text' => 'task 6', 'completed' => true] ]
         ] )->assertForbidden();
         $this->assertDatabaseCount('tasks', 5);
+    }
+
+    /**
+     * Tag rights
+     */
+    public function test_only_owner_can_see_the_notes_associated_with_the_tag()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+        $tag = Tag::factory()->for($owner, 'owner')->create();
+        $note->tags()->attach($tag);
+
+        $owner2 = User::factory()->create();
+        $note2 = Note::factory()->for($owner2, 'owner')->create();
+        $tag2 = Tag::factory()->for($owner2, 'owner')->create();
+        $note2->tags()->attach($tag2);
+
+        $note->refresh();
+        $note2->refresh();
+
+        auth()->login($owner);
+        $this->get( route('tag.show', $tag->name) )->assertOk();
+        $this->get( route('tag.show', $tag2->name) )->assertNotFound();
+
+        auth()->login($owner2);
+        $this->get( route('tag.show', $tag->name) )->assertNotFound();
+        $this->get( route('tag.show', $tag2->name) )->assertOk();
+
     }
 }

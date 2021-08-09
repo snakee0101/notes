@@ -39,8 +39,14 @@ Checklist:
    (+) remove_completed => owner + collaborators
 
 Tag:
-    (-) index, show => owner + collaborators
-    (-) other actions => owner
+    (+) index => any user
+    (+) show => owner
+    (+) store => any user
+    (-) update => owner
+    (-) destroy => owner
+    (-) toggle => owner
+    (-) addToNote => owner
+    (-) removeFromNote => owner
 
 Reminder:
    (-) index => owner + collaborators
