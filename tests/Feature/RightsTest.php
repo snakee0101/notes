@@ -102,7 +102,6 @@ class RightsTest extends TestCase
         $note = Note::factory()->create( ['archived' => false] );
         $collaborator = User::factory()->create();
         $note->collaborators()->attach($collaborator);
-        $note->refresh();
 
         auth()->login($collaborator);
         $this->put( route('note.update', $note), ['archived' => true] )->assertForbidden();
@@ -137,7 +136,6 @@ class RightsTest extends TestCase
         $collaborator = User::factory()->create();
         $collaborator2 = User::factory()->create();
         $note->collaborators()->attach($collaborator);
-        $note->refresh();
 
         auth()->login($collaborator);
         $this->post( route('sync_collaborator', $note), ['emails' => [$collaborator2->email]] )->assertForbidden();
@@ -348,9 +346,9 @@ class RightsTest extends TestCase
         $note->refresh();
         auth()->login($note->owner);
 
-        $link = Link::persist('https://habr.com/ru/all/', 'habr main page', $note);
-        $link_2 = Link::persist('https://www.google.com', 'second link', $note);
-        $link_3 = Link::persist('https://www.yandex.ru', 'third link', $note);
+        $link = $note->links()->create(['name' => 'habr main page', 'url' => 'https://habr.com/ru/all/', 'favicon_path' => 'test', 'domain' => 'test']);
+        $link_2 = $note->links()->create(['name' => 'second link', 'url' => 'https://www.google.com', 'favicon_path' => 'test', 'domain' => 'test']);
+        $link_3 = $note->links()->create(['name' => 'third link', 'url' => 'https://www.yandex.ru', 'favicon_path' => 'test', 'domain' => 'test']);
 
         $link->delete();
         $link_2->delete();
