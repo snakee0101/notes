@@ -87,7 +87,22 @@ class TagTest extends TestCase
 
     public function test_user_could_get_only_own_tags()
     {
-        //$this->get( action('tag.index') );
+        $user = User::factory()->create();
+        $tags = TagFactory::times(3)->for($user, 'owner')->create();
+
+        $user2 = User::factory()->create();
+        $tags2 = TagFactory::times(3)->for($user2, 'owner')->create();
+
+        auth()->login($user);
+        $tag_names = json_decode( $this->get( route('tag.index') )->content() );
+
+        $this->assertContains($tags[0]->name, $tag_names );
+        $this->assertContains($tags[1]->name, $tag_names );
+        $this->assertContains($tags[2]->name, $tag_names );
+
+        $this->assertNotContains($tags2[0]->name, $tag_names );
+        $this->assertNotContains($tags2[1]->name, $tag_names );
+        $this->assertNotContains($tags2[2]->name, $tag_names );
     }
 
     public function test_user_can_create_a_tag()
