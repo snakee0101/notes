@@ -46,7 +46,7 @@ Tag:
     (+) destroy => owner
     (+) toggle => owner
     (+) addToNote => owner
-    (-) removeFromNote => owner
+    (+) removeFromNote => owner
 
 Reminder:
    (-) index => owner + collaborators

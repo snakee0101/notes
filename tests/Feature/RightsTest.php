@@ -727,4 +727,32 @@ class RightsTest extends TestCase
         ]) )->assertNotFound();
         $this->assertEmpty( $note->fresh()->tags );
     }
+
+    public function test_a_tag_could_be_removed_from_specific_note_by_owner_only()
+    {
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        $tag = Tag::factory()->for($note->owner, 'owner')
+            ->hasAttached($note)
+            ->create();
+
+        $note->refresh();
+        $this->assertNotEmpty( $note->fresh()->tags );
+
+        auth()->login($collaborator);
+        $this->delete( route('tag.remove_from_note', [
+            'note' => $note,
+            'tag' => $tag->name
+        ]) );
+        $this->assertNotEmpty( $note->fresh()->tags );
+
+        auth()->login($note->owner);
+        $this->delete( route('tag.remove_from_note', [
+            'note' => $note,
+            'tag' => $tag->name
+        ]) );
+        $this->assertEmpty( $note->fresh()->tags );
+    }
 }
