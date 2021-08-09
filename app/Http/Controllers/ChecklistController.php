@@ -26,6 +26,9 @@ class ChecklistController extends Controller
 
     public function update(Request $request, Checklist $checklist) //updates tasks in checklist (in fact - it just replaces them)
     {
+        if(Gate::denies('checklist', $checklist->note))
+            return response('Only owner and collaborators can manipulate checklists', 403);
+
         $checklist->tasks()->delete();
         $checklist->tasks()->createMany( Checklist::wrap($request->tasks) );
 

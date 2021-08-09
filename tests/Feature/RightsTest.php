@@ -540,4 +540,51 @@ class RightsTest extends TestCase
         $this->post( route('checklist.destroy', $note) );
         $this->assertInstanceOf(Checklist::class, $note->fresh()->checklist);
     }
+
+    public function test_checklist_could_be_updated_by_owner_or_collaborator()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        Checklist::factory()->for($note, 'note')->has( Task::factory()->count(5) )->create();
+        $note->refresh();
+
+        $this->assertDatabaseCount('tasks', 5);
+
+        auth()->login($owner);
+        $this->put( route('checklist.update', $note->checklist->id), [
+            'tasks' => [ ['text' => 'some task 1', 'completed' => true],
+                ['text' => 'second task', 'completed' => false],
+                ['text' => 'another task', 'completed' => true] ]
+        ] )->assertOk();
+        $this->assertDatabaseCount('tasks', 3);
+
+        $note->checklist()->delete();
+        Checklist::factory()->for($note, 'note')->has( Task::factory()->count(5) )->create();
+        $this->assertDatabaseCount('tasks', 5);
+        $note->refresh();
+
+        auth()->login($collaborator);
+        $this->put( route('checklist.update', $note->checklist->id), [
+            'tasks' => [ ['text' => 'task 4', 'completed' => true],
+                ['text' => 'task 5', 'completed' => false],
+                ['text' => 'task 6', 'completed' => true] ]
+        ] )->assertOk();
+
+        $this->assertDatabaseCount('tasks', 3);
+
+        Checklist::factory()->for($note, 'note')->has( Task::factory()->count(2) )->create();
+        $this->assertDatabaseCount('tasks', 5);
+
+        auth()->login( User::factory()->create() );
+        $this->put( route('checklist.update', $note->checklist->id), [
+            'tasks' => [ ['text' => 'task 4', 'completed' => true],
+                ['text' => 'task 5', 'completed' => false],
+                ['text' => 'task 6', 'completed' => true] ]
+        ] )->assertForbidden();
+        $this->assertDatabaseCount('tasks', 5);
+    }
 }
