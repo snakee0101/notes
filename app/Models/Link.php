@@ -85,26 +85,20 @@ class Link extends Model
 
     public static function persist($url, $name, Note $note)
     {
-        $res = null;
-
         try {
-            $res = $note->links()->create([
+            $note->links()->create([
                 'name' => $name,
                 'url' => $url,
                 'favicon_path' => self::extractFaviconURL($url),
                 'domain' => self::extractHost($url),
             ]);
         } catch (\Exception $e) { //the user needs to update the link's name...
-            $duplicated_link = self::where([
+            self::where([
                 ['url', $url],
                 ['note_id', $note->id]
-            ])->first();
-
-            if($duplicated_link->name !== $name) { //...when the link with specified name, url, and note_id is not found
-                $duplicated_link->update(['name' => $name]);
-            }
+            ])->update(['name' => $name]); //...when the link with specified name, url, and note_id is not found
         } finally {
-            return $res;
+            return $note->links()->firstWhere('url', $url);
         }
     }
 }

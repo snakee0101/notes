@@ -144,4 +144,20 @@ class LinkTest extends TestCase
 
         $this->assertSoftDeleted($link);
     }
+
+    public function test_if_old_links_name_is_changed_it_is_persisted_to_DB()
+    {
+        $note = Note::factory()->create();
+
+        Link::persist('https://habr.com/ru/all/', 'link 1', $note);
+        Link::persist('https://regexr.com/', 'other link', $note);
+
+        Link::persist('https://habr.com/ru/all/', 'habr', $note);
+
+        $note->refresh();
+
+        $this->assertDatabaseCount('links', 2);
+        $this->assertEquals('habr', $note->links[0]->name);
+        $this->assertEquals('https://habr.com/ru/all/', $note->links[0]->url);
+    }
 }
