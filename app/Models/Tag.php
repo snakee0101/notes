@@ -15,8 +15,7 @@ class Tag extends Model
     public function resolveRouteBinding($value, $field = null)
     {
         return static::where('user_id', auth()->id())
-                     ->whereName($value)
-                     ->first();
+                     ->firstWhere('name', $value);
     }
 
     public function owner()
