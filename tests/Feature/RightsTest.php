@@ -27,6 +27,15 @@ class RightsTest extends TestCase
         return [$note, $collaborator];
     }
 
+    private function create_note_with_tags()
+    {
+        $note = Note::factory()->create();
+        $tag = Tag::factory()->for($note->owner, 'owner')->create();
+        $note->tags()->attach($tag);
+
+        return [$note, $tag];
+    }
+
     /**
      * Note rights
      */
@@ -556,16 +565,8 @@ class RightsTest extends TestCase
      */
     public function test_only_owner_can_see_the_notes_associated_with_the_tag()
     {
-        $note = Note::factory()->create();
-        $tag = Tag::factory()->for($note->owner, 'owner')->create();
-        $note->tags()->attach($tag);
-
-        $note2 = Note::factory()->create();
-        $tag2 = Tag::factory()->for($note2->owner, 'owner')->create();
-        $note2->tags()->attach($tag2);
-
-        $note->refresh();
-        $note2->refresh();
+        [$note, $tag] = $this->create_note_with_tags();
+        [$note2, $tag2] = $this->create_note_with_tags();
 
         auth()->login($note->owner);
         $this->get( route('tag.show', $tag->name) )->assertOk();
@@ -578,24 +579,17 @@ class RightsTest extends TestCase
 
     public function test_only_owner_can_destroy_tags()
     {
-        $owner = User::factory()->create();
-        $note = Note::factory()->for($owner, 'owner')->create();
-        $tag = Tag::factory()->for($owner, 'owner')->create();
-        $note->tags()->attach($tag);
-
-        $owner2 = User::factory()->create();
-        $note2 = Note::factory()->for($owner2, 'owner')->create();
-        $tag2 = Tag::factory()->for($owner2, 'owner')->create();
-        $note2->tags()->attach($tag2);
+        [$note, $tag] = $this->create_note_with_tags();
+        [$note2, $tag2] = $this->create_note_with_tags();
 
         $note->refresh();
         $note2->refresh();
 
-        auth()->login($owner);
+        auth()->login($note->owner);
         $this->delete( route('tag.destroy', $tag->name) )->assertOk();
         $this->delete( route('tag.destroy', $tag2->name) )->assertNotFound();
 
-        auth()->login($owner2);
+        auth()->login($note2->owner);
         $this->delete( route('tag.destroy', $tag->name) )->assertNotFound();
         $this->delete( route('tag.destroy', $tag2->name) )->assertOk();
     }
@@ -659,10 +653,7 @@ class RightsTest extends TestCase
 
     public function test_a_tag_could_be_added_to_specific_note_by_owner_only()
     {
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
-        $note->refresh();
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($note->owner); //check owner rights
         $tag = Tag::factory()->for($note->owner, 'owner')->create();
@@ -689,9 +680,7 @@ class RightsTest extends TestCase
 
     public function test_a_tag_could_be_removed_from_specific_note_by_owner_only()
     {
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         $tag = Tag::factory()->for($note->owner, 'owner')
             ->hasAttached($note)
