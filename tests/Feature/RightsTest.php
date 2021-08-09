@@ -615,6 +615,29 @@ class RightsTest extends TestCase
         auth()->login($owner2);
         $this->get( route('tag.show', $tag->name) )->assertNotFound();
         $this->get( route('tag.show', $tag2->name) )->assertOk();
+    }
 
+    public function test_only_owner_can_destroy_tags()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+        $tag = Tag::factory()->for($owner, 'owner')->create();
+        $note->tags()->attach($tag);
+
+        $owner2 = User::factory()->create();
+        $note2 = Note::factory()->for($owner2, 'owner')->create();
+        $tag2 = Tag::factory()->for($owner2, 'owner')->create();
+        $note2->tags()->attach($tag2);
+
+        $note->refresh();
+        $note2->refresh();
+
+        auth()->login($owner);
+        $this->delete( route('tag.destroy', $tag->name) )->assertOk();
+        $this->delete( route('tag.destroy', $tag2->name) )->assertNotFound();
+
+        auth()->login($owner2);
+        $this->delete( route('tag.destroy', $tag->name) )->assertNotFound();
+        $this->delete( route('tag.destroy', $tag2->name) )->assertOk();
     }
 }

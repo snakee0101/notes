@@ -43,7 +43,7 @@ Tag:
     (+) show => owner
     (+) store => any user
     (-) update => owner
-    (-) destroy => owner
+    (+) destroy => owner
     (-) toggle => owner
     (-) addToNote => owner
     (-) removeFromNote => owner

@@ -24,9 +24,6 @@ class TagController extends Controller
 
     public function show(Tag $tag)
     {
-        if(Gate::denies('update_tags', $tag))
-            return response('Only owner can manipulate and view tags', 403);
-
         $data = [
             'pinned_notes' => $tag->notes()
                 ->where('owner_id', auth()->id())
