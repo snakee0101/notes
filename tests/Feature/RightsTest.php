@@ -18,15 +18,21 @@ use Tests\TestCase;
 
 class RightsTest extends TestCase
 {
+    private function create_note_with_collaborators()
+    {
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        return [$note, $collaborator];
+    }
+
     /**
      * Note rights
      */
     public function test_note_could_be_duplicated_by_owner_only()
     {
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
-        $note->refresh();
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($note->owner); //check for owner's rights
         $this->post( route('note.duplicate', $note) )->assertOk();
@@ -45,10 +51,7 @@ class RightsTest extends TestCase
         $this->delete( route('note.destroy', $note) )->assertOk();
 
         //create new note to test the collaborator
-        $note2 = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note2->collaborators()->attach($collaborator);
-        $note2->refresh();
+        [$note2, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($collaborator);
         $this->delete( route('note.destroy', $note2) )->assertForbidden();
@@ -61,9 +64,7 @@ class RightsTest extends TestCase
     public function test_note_could_be_restored_by_owner_only()
     {
         //create the note to test an owner
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
         $note->delete();
 
         auth()->login($note->owner);
@@ -75,10 +76,7 @@ class RightsTest extends TestCase
 
     public function test_note_could_be_returned_to_owner_and_collaborator()
     {
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
-        $note->refresh();
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($note->owner);
         $this->get( route('note.show', $note) )->assertOk();
@@ -109,10 +107,7 @@ class RightsTest extends TestCase
 
     public function test_other_note_properties_could_be_updated_by_owner_and_collaborators()
     {
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
-        $note->refresh();
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($collaborator);
         $this->put( route('note.update', $note), ['header' => 'new header'] )->assertOK();
@@ -157,10 +152,7 @@ class RightsTest extends TestCase
         Storage::makeDirectory('thumbnails_large');
         Storage::makeDirectory('thumbnails_small');
 
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
-        $note->refresh();
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($note->owner);
         $this->post(route('image.store'), [
@@ -187,10 +179,7 @@ class RightsTest extends TestCase
         Storage::makeDirectory('thumbnails_large');
         Storage::makeDirectory('thumbnails_small');
 
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
-        $note->refresh();
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         $storage->put('images/123.jpeg', '12345');
         $storage->put('thumbnails_small/456.jpeg', '12345');
@@ -235,10 +224,7 @@ class RightsTest extends TestCase
         Storage::makeDirectory('thumbnails_large');
         Storage::makeDirectory('thumbnails_small');
 
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
-        $note->refresh();
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         $storage->put('images/123.jpeg', '12345');
         $storage->put('thumbnails_small/456.jpeg', '12345');
@@ -290,9 +276,8 @@ class RightsTest extends TestCase
         $image = imagecreate(200, 200);
         imagejpeg($image, Storage::path('test_OCR.jpg'));
 
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
+
         $note->images()->create([
             'image_path' => Storage::path('test_OCR.jpg'),
             'thumbnail_large_path' => Storage::path('test_OCR.jpg'),
@@ -325,9 +310,7 @@ class RightsTest extends TestCase
      */
     public function test_link_could_be_deleted_by_owner_and_collaborators()
     {
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         $link_1 = $note->links()->create(['name' => 'link 1', 'url' => 'https://habr.com/ru/all/', 'favicon_path' => 'test', 'domain' => 'test']);
         $link_2 = $note->links()->create(['name' => 'other link', 'url' => 'https://regexr.com/', 'favicon_path' => 'test', 'domain' => 'test']);
@@ -351,9 +334,7 @@ class RightsTest extends TestCase
 
     public function test_the_link_could_be_restored_by_owner_and_collaborators()
     {
-        $note = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         $note->refresh();
         auth()->login($note->owner);
@@ -390,11 +371,7 @@ class RightsTest extends TestCase
     {
         $note = Note::factory()->create();
 
-        $note2 = Note::factory()->create();
-        $collaborator = User::factory()->create();
-        $note2->collaborators()->attach($collaborator);
-
-        $note2->refresh();
+        [$note2, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($note->owner);
         $this->post( route('checklist.store'), [
@@ -441,11 +418,7 @@ class RightsTest extends TestCase
 
     public function test_tasks_could_be_unchecked_by_owner_and_collaborator()
     {
-        $owner = User::factory()->create();
-        $note = Note::factory()->for($owner, 'owner')->create();
-
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         $checklist = Checklist::factory()->for($note, 'note')->create();
         $tasks = Task::factory()->for($checklist)->count(3)->create( ['completed' => true] );
@@ -453,7 +426,7 @@ class RightsTest extends TestCase
 
         $this->assertCount(3, Task::where('completed', true)->get() );
 
-        auth()->login($owner);
+        auth()->login($note->owner);
         $this->post(route('checklist.uncheck_all', $checklist))->assertOk();
         $this->assertCount(0, Task::where('completed', true)->get() );
 
@@ -476,11 +449,7 @@ class RightsTest extends TestCase
 
     public function test_completed_tasks_could_be_removed_by_owner_and_collaborator()
     {
-        $owner = User::factory()->create();
-        $note = Note::factory()->for($owner, 'owner')->create();
-
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         $checklist = Checklist::factory()->for($note, 'note')->create();
         Task::factory()->for($checklist)->count(3)->create([ 'completed' => false ]);
@@ -488,7 +457,7 @@ class RightsTest extends TestCase
 
         $note->refresh();
 
-        auth()->login($owner);
+        auth()->login($note->owner);
         $this->post(route('checklist.remove_completed', $checklist))
                      ->assertOk();
         $this->assertDatabaseCount('tasks', 3);
@@ -512,16 +481,12 @@ class RightsTest extends TestCase
 
     public function test_checklist_could_be_removed_by_owner_and_collaborator()
     {
-        $owner = User::factory()->create();
-        $note = Note::factory()->for($owner, 'owner')->create();
-
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         Checklist::factory()->for($note, 'note')->has( Task::factory()->count(3) )->create();
         $note->refresh();
 
-        auth()->login($owner);
+        auth()->login($note->owner);
         $this->assertInstanceOf(Checklist::class, $note->checklist);
         $this->post( route('checklist.destroy', $note) );
         $this->assertNull($note->fresh()->checklist);
@@ -545,18 +510,14 @@ class RightsTest extends TestCase
 
     public function test_checklist_could_be_updated_by_owner_or_collaborator()
     {
-        $owner = User::factory()->create();
-        $note = Note::factory()->for($owner, 'owner')->create();
-
-        $collaborator = User::factory()->create();
-        $note->collaborators()->attach($collaborator);
+        [$note, $collaborator] = $this->create_note_with_collaborators();
 
         Checklist::factory()->for($note, 'note')->has( Task::factory()->count(5) )->create();
         $note->refresh();
 
         $this->assertDatabaseCount('tasks', 5);
 
-        auth()->login($owner);
+        auth()->login($note->owner);
         $this->put( route('checklist.update', $note->checklist->id), [
             'tasks' => [ ['text' => 'some task 1', 'completed' => true],
                 ['text' => 'second task', 'completed' => false],
@@ -595,24 +556,22 @@ class RightsTest extends TestCase
      */
     public function test_only_owner_can_see_the_notes_associated_with_the_tag()
     {
-        $owner = User::factory()->create();
-        $note = Note::factory()->for($owner, 'owner')->create();
-        $tag = Tag::factory()->for($owner, 'owner')->create();
+        $note = Note::factory()->create();
+        $tag = Tag::factory()->for($note->owner, 'owner')->create();
         $note->tags()->attach($tag);
 
-        $owner2 = User::factory()->create();
-        $note2 = Note::factory()->for($owner2, 'owner')->create();
-        $tag2 = Tag::factory()->for($owner2, 'owner')->create();
+        $note2 = Note::factory()->create();
+        $tag2 = Tag::factory()->for($note2->owner, 'owner')->create();
         $note2->tags()->attach($tag2);
 
         $note->refresh();
         $note2->refresh();
 
-        auth()->login($owner);
+        auth()->login($note->owner);
         $this->get( route('tag.show', $tag->name) )->assertOk();
         $this->get( route('tag.show', $tag2->name) )->assertNotFound();
 
-        auth()->login($owner2);
+        auth()->login($note2->owner);
         $this->get( route('tag.show', $tag->name) )->assertNotFound();
         $this->get( route('tag.show', $tag2->name) )->assertOk();
     }
