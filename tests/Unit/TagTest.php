@@ -100,4 +100,25 @@ class TagTest extends TestCase
         $note->forceDelete();
         $this->assertDatabaseCount('note_tag', 0);
     }
+
+    public function test_user_tags_cant_be_duplicated()
+    {
+        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+        $user = User::factory()->create();
+
+        $user->tags()->create(['name' => 'tag 1']);
+        $user->tags()->create(['name' => 'tag 1']);
+    }
+
+    public function test_note_tags_cant_be_duplicated()
+    {
+        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+        $user = User::factory()->create();
+        $tag = $user->tags()->create(['name' => 'tag 1']);
+
+        $note = Note::factory()->create();
+
+        $note->tags()->attach($tag);
+        $note->tags()->attach($tag);
+    }
 }

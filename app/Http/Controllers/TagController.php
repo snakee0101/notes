@@ -66,7 +66,7 @@ class TagController extends Controller
         if(Gate::denies('update_tags', $tag))
             return response('Only owner of the note may update collaborators', 403);
 
-        $note->tags()->attach($tag); //TODO: prevent duplications caused by re-adding the tag
+        $note->tags()->attach($tag);
     }
 
     public function removeFromNote(Note $note, Tag $tag)
