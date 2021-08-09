@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/collaborator/{email}', [CollaboratorController::class, 'check'])->name('check_user_existence');
 
     Route::delete('/link/{link}', [LinkController::class, 'destroy'])->name('link.destroy');
-    Route::post('/link/{link_id}/restore', [LinkController::class, 'restore'])->name('link.restore');
+    Route::post('/link/{link}/restore', [LinkController::class, 'restore'])->name('link.restore');
 
     Route::get('/', function () {
         $data = [  //get the paginators for both pinned and other notes

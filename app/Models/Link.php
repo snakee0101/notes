@@ -16,6 +16,11 @@ class Link extends Model
 
     public $timestamps = false;
 
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return static::withTrashed()->firstWhere('id', $value);
+    }
+
     public function note()
     {
         return $this->belongsTo(Note::class);
