@@ -44,7 +44,7 @@ Tag:
     (+) store => any user
     (+) update => owner
     (+) destroy => owner
-    (-) toggle => owner
+    (+) toggle => owner
     (-) addToNote => owner
     (-) removeFromNote => owner
 

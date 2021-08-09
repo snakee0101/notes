@@ -664,4 +664,37 @@ class RightsTest extends TestCase
         $this->put( route('tag.update', $tag->name), ['new_name' => 'tag 1 updated'] )->assertNotFound();
         $this->put( route('tag.update', $tag2->name), ['new_name' => 'tag 2 updated'] )->assertOk();
     }
+
+    public function test_only_owner_can_toggle_the_tags()
+    {
+        $owner = User::factory()->create();
+        $note = Note::factory()->for($owner, 'owner')->create();
+        $tag = Tag::factory()->for($owner, 'owner')->create(['name' => 'tag 1']);
+
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+
+        $note->refresh();
+
+        $this->assertNull($note->tags()->first());
+
+        auth()->login($owner);
+        $this->post( route('tag.toggle', [
+            'tag' => $tag->name,
+            'note' => $note->id
+        ]) )->assertOk();
+
+        $note->refresh();
+        $this->assertInstanceOf(Tag::class, $note->tags()->first());
+
+
+        auth()->login($collaborator);
+        $this->post( route('tag.toggle', [
+            'tag' => $tag->name,
+            'note' => $note->id
+        ]) );
+
+        $note->refresh();
+        $this->assertInstanceOf(Tag::class, $note->tags()->first());
+    }
 }
