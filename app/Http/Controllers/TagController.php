@@ -62,8 +62,11 @@ class TagController extends Controller
         $note->push();
     }
 
-    public function addToNote(Note $note, Tag $tag) //TODO: for future - only owner of note and tags could add tag to the note
+    public function addToNote(Note $note, Tag $tag)
     {
+        if(Gate::denies('update_tags', $tag))
+            return response('Only owner of the note may update collaborators', 403);
+
         $note->tags()->attach($tag); //TODO: prevent duplications caused by re-adding the tag
     }
 

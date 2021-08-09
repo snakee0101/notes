@@ -697,4 +697,34 @@ class RightsTest extends TestCase
         $note->refresh();
         $this->assertInstanceOf(Tag::class, $note->tags()->first());
     }
+
+    public function test_a_tag_could_be_added_to_specific_note_by_owner_only()
+    {
+        $note = Note::factory()->create();
+        $collaborator = User::factory()->create();
+        $note->collaborators()->attach($collaborator);
+        $note->refresh();
+
+        auth()->login($note->owner); //check owner rights
+        $tag = Tag::factory()->for($note->owner, 'owner')->create();
+        $this->assertEmpty( $note->fresh()->tags );
+
+        $this->post( route('tag.add_to_note', [
+            'note' => $note,
+            'tag' => $tag->name
+        ]) )->assertOk();
+        $this->assertNotEmpty( $note->fresh()->tags );
+
+        $note->tags()->detach($tag);
+        $note->refresh();
+
+        auth()->login($collaborator); //check collaborator rights
+        $this->assertEmpty( $note->fresh()->tags );
+
+        $this->post( route('tag.add_to_note', [
+            'note' => $note,
+            'tag' => $tag->name
+        ]) )->assertNotFound();
+        $this->assertEmpty( $note->fresh()->tags );
+    }
 }
