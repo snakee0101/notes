@@ -329,9 +329,9 @@ class RightsTest extends TestCase
         $collaborator = User::factory()->create();
         $note->collaborators()->attach($collaborator);
 
-        $link_1 = Link::persist('https://habr.com/ru/all/', 'link 1', $note);
-        $link_2 = Link::persist('https://regexr.com/', 'other link', $note);
-        $link_3 = Link::persist('https://www.google.com/', 'google', $note);
+        $link_1 = $note->links()->create(['name' => 'link 1', 'url' => 'https://habr.com/ru/all/', 'favicon_path' => 'test', 'domain' => 'test']);
+        $link_2 = $note->links()->create(['name' => 'other link', 'url' => 'https://regexr.com/', 'favicon_path' => 'test', 'domain' => 'test']);
+        $link_3 = $note->links()->create(['name' => 'google', 'url' => 'https://www.google.com/', 'favicon_path' => 'test', 'domain' => 'test']);
 
         $note->refresh();
 
