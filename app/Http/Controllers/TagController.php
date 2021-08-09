@@ -47,7 +47,7 @@ class TagController extends Controller
 
     public function update(Request $request, Tag $tag)
     {
-        $tag->update([ 'name' => $request->input('new_name') ]);
+        $tag->update([ 'name' => $request->new_name ]);
     }
 
     public function destroy(Tag $tag)
@@ -69,7 +69,7 @@ class TagController extends Controller
         $note->tags()->attach($tag); //TODO: prevent duplications caused by re-adding the tag
     }
 
-    public function removeFromNote(Note $note, Tag $tag) //TODO: for future - only owner of note and tags could remove tag from the note
+    public function removeFromNote(Note $note, Tag $tag)
     {
         $note->tags()->detach($tag);
     }

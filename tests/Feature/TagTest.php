@@ -168,7 +168,7 @@ class TagTest extends TestCase
             ->has(Note::factory())
             ->create();
 
-        $this->put(route('tag.destroy', $tag->name), ['new_name' => 'new tag']);
+        $this->put(route('tag.update', $tag->name), ['new_name' => 'new tag']);
         $tag->refresh();
 
         $this->assertEquals('new tag', $tag->name);
