@@ -31,11 +31,7 @@ class CollaboratorController extends Controller
         if(Gate::denies('sync_collaborator', $note))
             return response('Only owner of the note may update collaborators', 403);
 
-        $emails = request('emails');
-
-        $note->collaborators()->sync(
-            User::whereIn('email', $emails)->pluck('id')
-        );
+        $note->collaborators()->sync( request('collaborator_ids') );
 
         return $note->collaborators->pluck('email');
         //TODO: Send mail to the user when it is added or deleted from collaborators

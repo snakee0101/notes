@@ -24,7 +24,7 @@ class CollaboratorTest extends TestCase
         $this->post(route('sync_collaborator', [
             'note' => $note,
         ]), [
-            'emails' => [$user->email, $user2->email]
+            'collaborator_ids' => [$user->id, $user2->id]
         ]);
 
         $this->assertContains($user->id, $note->fresh()->collaborators->pluck('id'));
@@ -33,7 +33,7 @@ class CollaboratorTest extends TestCase
         $this->post(route('sync_collaborator', [
             'note' => $note,
         ]), [
-            'emails' => [$user->email]
+            'collaborator_ids' => [$user->id]
         ]);
 
         $this->assertContains($user->id, $note->fresh()->collaborators->pluck('id'));
