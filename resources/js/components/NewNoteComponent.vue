@@ -471,7 +471,7 @@ export default {
                 color: this.note.color,
                 type: this.note.type,
                 reminder: JSON.stringify(this.note.reminder),
-                tags: this.tags,
+                tag_ids: this.note.tags.map( tag => tag.id ),
                 collaborator_ids: this.note.collaborators.map( user => user.id )
             }).then(res => this.saveChecklist(res))
               .then(res => this.attach_images())
