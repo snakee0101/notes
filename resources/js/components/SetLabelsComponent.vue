@@ -93,18 +93,10 @@ export default {
             }
         },
         toggleLabel(label) {
-            if (this.note.id === 'new_note') {
-                let tag_name = event.target.value;
-                let isChecked = event.target.checked;
+            if (this.note.id === 'new_note')
+                return window.events.$emit('reload_new_note_tags', label, event.target.checked);
 
-                window.events.$emit('reload_new_note_tags', tag_name, isChecked);
-                return;
-            }
-
-            let tag_name = event.target.value;
-            let note_id = this.note.id;
-
-            axios.post('/toggle_tag/' + note_id + '/' + tag_name);
+            axios.post('/toggle_tag/' + this.note.id + '/' + label.name);
             window.events.$emit('reload_note_tags', this.note.id);
         },
         setCheckedState(label) {
