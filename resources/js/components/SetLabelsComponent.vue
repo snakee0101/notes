@@ -133,16 +133,17 @@ export default {
             }
         },
         show(event_note_id = null, attached_tags = null) {
+            this.getTags();
+
             if (this.isGlobal && event_note_id == null) {
-                this.getTags();
                 this.$refs['labels-dialog'].show();
             } else {
                 if (this.note.id == event_note_id) {
-                    this.getTags();
                     if (this.note.id !== 'new_note')
                         this.attached_tags = this.note.tags;
                     else
                         this.attached_tags = attached_tags;
+
                     this.$refs['labels-dialog'].show();
                 }
             }
