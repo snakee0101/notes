@@ -27,7 +27,7 @@
 
         <div @click="openForEditing" style="cursor: pointer">
             <div class="images">
-                <img :src="image.thumbnail_small_path" v-for="image in note.images_json">
+                <img :src="image.thumbnail_small_path" v-for="image in note.images">
             </div>
 
             <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>
@@ -425,7 +425,6 @@ export default {
                 this.note.header = note.header;
                 this.note.body = note.body;
                 this.note.images = note.images ? note.images : {};
-                this.note.images_json = note.images ? note.images : {};
 
                 this.note.checklist = note.checklist;
             }
@@ -451,7 +450,7 @@ export default {
             this.note.reminder_json = {'time': formatted_time};
         },
         refreshImage(data) {
-            this.note.images_json.push(data);
+            this.note.images.push(data);
         },
         selectImage() {
             this.$refs['image'].click();

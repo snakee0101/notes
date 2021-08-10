@@ -489,11 +489,7 @@ export default {
         },
         attach_images() {
             let note = window.newNote;
-
-            if(this.images.length > 0) {
-                window.newNote.images = [];
-                window.newNote.images_json = [];
-            }
+            window.newNote.images = [];
 
             this.images.forEach(function (image) {
                 let data = new FormData();
@@ -503,11 +499,8 @@ export default {
                 axios.post('/image', data)
                      .then(res => window.newNote.images.push(res.data));
             });
-
-            window.newNote.images_json = window.newNote.images;
         },
         refreshNotesContainer() {
-            console.log(window.newNote.images);
             window.events.$emit('note_created', window.newNote);
         },
         reset() {
