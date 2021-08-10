@@ -64,7 +64,6 @@ class NoteController extends Controller
 
     public function update(Request $request, Note $note)
     {
-        //TODO: only owner is allowed to change an archived state
         $archivedStateChanged = request('archived') != $note->archived;
         $archivedStateChanged ? $this->authorize('updateArchived', $note)
                               : $this->authorize('update', $note);

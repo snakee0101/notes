@@ -181,13 +181,6 @@ class NoteTest extends TestCase
         $this->assertEquals($note->checklist->tasks[0]->text, $replica->checklist->tasks[0]->text);
     }
 
-    public function test_link_in_note_body_is_wrapped_with_anchor_tag()
-    {
-        $note = Note::factory()->create();
-        $note->forceFill(['body' => 'text 1 https://www.google.com text 2']);
-    }
-
-
     //note deletion tests
 
     public function test_image_record_is_deleted_when_the_note_is_deleted()
