@@ -68,21 +68,18 @@ class TagTest extends TestCase
 
     public function test_tags_list_could_be_returned()
     {
-        $user = UserFactory::times(1)->createOne();
+        $user = User::factory()->create();
         auth()->login($user);
 
-        $tags = TagFactory::times(3)->for($user, 'owner')->create();
-        $expected_tag_names = $tags->pluck('name')->sort()->toArray();
+        $expected_tags = TagFactory::times(3)->for($user, 'owner')->create();
 
+        $actual_tags = $this->get( route('tag.index') )->json();
 
-        $json_response = $this->get( route('tag.index') )->content();
-        $actual_tags = json_decode($json_response);
+        $tag_names = array_map(fn($tag) => $tag['name'], $actual_tags);
 
-        sort($actual_tags);
-
-        $this->assertContains($expected_tag_names[0], $actual_tags);
-        $this->assertContains($expected_tag_names[1], $actual_tags);
-        $this->assertContains($expected_tag_names[2], $actual_tags);
+        $this->assertContains($expected_tags[0]->name, $tag_names);
+        $this->assertContains($expected_tags[1]->name, $tag_names);
+        $this->assertContains($expected_tags[2]->name, $tag_names);
     }
 
     public function test_user_could_get_only_own_tags()
@@ -94,7 +91,9 @@ class TagTest extends TestCase
         $tags2 = TagFactory::times(3)->for($user2, 'owner')->create();
 
         auth()->login($user);
-        $tag_names = json_decode( $this->get( route('tag.index') )->content() );
+
+        $actual_tags = $this->get( route('tag.index') )->json();
+        $tag_names = array_map(fn($tag) => $tag['name'], $actual_tags);
 
         $this->assertContains($tags[0]->name, $tag_names );
         $this->assertContains($tags[1]->name, $tag_names );

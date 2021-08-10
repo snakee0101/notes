@@ -11,7 +11,7 @@ class TagController extends Controller
 {
     public function index()
     {
-        return Tag::getAllNames();
+        return auth()->user()->tags;
     }
 
     public function store(Request $request)
