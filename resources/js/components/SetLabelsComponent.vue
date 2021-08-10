@@ -78,16 +78,16 @@ export default {
         createTag() {
             axios.post('/tag', {
                 'tag_name': this.searchingLabel
-            }).then(res => this.addSearchingLabel());
+            }).then(res => this.addSearchingLabel(res));
         },
         addSearchingLabel(res) {
-            this.labels.push(this.searchingLabel);
-            this.searchResults.push(this.searchingLabel);
+            this.labels.push(res.data);
+            this.searchResults.push(res.data);
 
             window.events.$emit('refreshLabels', this.labels);
 
             if (this.note.id === 'new_note') {
-                window.events.$emit('reload_new_note_tags', this.searchingLabel, true);
+                window.events.$emit('reload_new_note_tags', res.data, true);
             } else {
                 window.events.$emit('reload_note_tags', this.note.id);
             }

@@ -16,7 +16,7 @@ class TagController extends Controller
 
     public function store(Request $request)
     {
-        auth()->user()->tags()->create([
+        return auth()->user()->tags()->create([
             'name' => $request->tag_name
         ]);
     }
