@@ -15,14 +15,13 @@ class Note extends Model
 
     use HasFactory, SoftDeletes, Searchable;
 
-    protected $appends = ['tags'];
     protected $guarded = [];
     protected $casts = [
         'pinned' => 'boolean',
         'archived' => 'boolean',
     ];
 
-    protected $with = ['checklist', 'links', 'images', 'owner', 'reminder', 'collaborators'];
+    protected $with = ['checklist', 'links', 'images', 'owner', 'reminder', 'collaborators', 'tags'];
 
     public function toSearchableArray()
     {
@@ -86,11 +85,6 @@ class Note extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
-    }
-
-    public function getTagsAttribute()
-    {
-        return $this->tags()->pluck('name');
     }
 
     public function collaborators()

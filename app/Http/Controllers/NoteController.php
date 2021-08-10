@@ -30,16 +30,8 @@ class NoteController extends Controller
             ]);
         }
 
-        /****Set the tags****/
-        if( $request->has('tags') )
-        {
-            $note->tags()->attach(
-                Tag::whereIn('name', $request->tags)->get()
-            );
-        }
-
-        /****Set the collaborators****/
-        $note->collaborators()->sync( request('collaborator_ids') );
+        $note->tags()->attach( request('tag_ids') );  /****Set the tags****/
+        $note->collaborators()->sync( request('collaborator_ids') );  /****Set the collaborators****/
 
         /**Persist the links**/
         $links = Link::parseNote($note);

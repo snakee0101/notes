@@ -87,22 +87,22 @@ class NoteTest extends TestCase
         $user = UserFactory::times(1)->createOne();
         auth()->login($user);
 
-        $tag_names = TagFactory::times(3)
+        $tags = TagFactory::times(3)
             ->for($user, 'owner')
-            ->create()
-            ->pluck('name')
-            ->toArray();
+            ->create();
 
-        $this->userData['tags'] = $tag_names;
+        $this->userData['tag_ids'] = $tags->pluck('id')->toArray();
         $this->post(route('note.store'), $this->userData);
 
         $this->assertNotNull($note = Note::first());
 
         $note->refresh();
 
-        $this->assertContains($tag_names[0], $note->tags->toArray());
-        $this->assertContains($tag_names[1], $note->tags->toArray());
-        $this->assertContains($tag_names[2], $note->tags->toArray());
+        $tag_names = $note->tags->pluck('name');
+
+        $this->assertContains($tags[0]->name, $tag_names);
+        $this->assertContains($tags[1]->name, $tag_names);
+        $this->assertContains($tags[2]->name, $tag_names);
     }
 
     public function test_a_note_could_be_saved_with_reminder()
