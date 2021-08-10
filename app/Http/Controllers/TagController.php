@@ -32,7 +32,7 @@ class TagController extends Controller
                 ->where('owner_id', auth()->id())
                 ->where('pinned', false)
                 ->paginate(),
-            'tag_name' => $tag->name
+            'tag' => $tag
         ];
 
         if(! request()->wantsJson()) {

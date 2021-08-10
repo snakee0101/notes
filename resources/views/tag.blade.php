@@ -4,7 +4,7 @@
     <div class="notes-container">
         <div class="mb-10">
             <new-note-component owner="{{ auth()->user() }}"
-                                tag_name="{{ $tag_name }}">
+                                tag="{{ $tag }}">
 
             </new-note-component>
         </div>

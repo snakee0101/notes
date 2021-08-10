@@ -73,11 +73,11 @@
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
-            <a v-for="tag in tags"
+            <a v-for="tag in note.tags"
                :href="'/tag/' + tag"
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2"
                style="border: 1px solid black!important;">
-                {{ tag }}
+                {{ tag.name }}
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove label"
@@ -328,10 +328,11 @@ export default {
                 color: 'white',
                 type: 'text',
                 reminder: {},
-                collaborators: []
+                collaborators: [],
+                tags: []
             },
             owner_object: JSON.parse(this.owner),
-            tags: [],
+            tag: JSON.parse(this.$attrs.tag),
         };
     },
     created() {
@@ -416,8 +417,8 @@ export default {
         },
         initialize_dependencies() {
             //Set the tag if it exists
-            if (this.$attrs.tag_name)
-                this.tags[0] = this.$attrs.tag_name;
+            if (this.tag)
+                this.note.tags[0] = this.tag;
 
             //Set the remainder if it exists
             if (this.hasRemainder)
