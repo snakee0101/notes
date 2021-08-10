@@ -433,14 +433,14 @@ export default {
         detach_tag(tag) {
             this.note.tags.splice(this.note.tags.indexOf(tag), 1);
         },
-        reload_tags(tag_name, isChecked) {
+        reload_tags(tag, isChecked) {
             if (isChecked)
-                this.tags.push(tag_name);
+                this.note.tags.push(tag);
             else
-                this.detach_tag(tag_name);
+                this.detach_tag(tag);
         },
         openSetLabelsDialog() {
-            window.events.$emit('open_set_labels_dialog', 'new_note', this.tags);
+            window.events.$emit('open_set_labels_dialog', 'new_note', this.note.tags);
         },
         saveReminder() {
             let time = this.pickedDate + ' ' + this.pickedTime;
@@ -526,7 +526,7 @@ export default {
             this.customRepeatStatusShown = false;
 
             this.note.reminder = {};
-            this.tags = [];
+            this.note.tags = [];
             this.initialize_dependencies();
 
             this.repeat_ends = 'never';
