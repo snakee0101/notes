@@ -23,7 +23,7 @@
 
                     <div v-if="isGlobal">
                         <div class="form-check mb-3" v-for="(label, key) in searchResults">
-                            <p>{{ label }} - <a class="mr-3 text-primary hover:underline" href="" @click.prevent="addToAll(label)">Add to all</a>  <a class="text-danger" href="" @click.prevent="removeFromAll(label)">Remove from all</a></p>
+                            <p>{{ label.name }} - <a class="mr-3 text-primary hover:underline" href="" @click.prevent="addToAll(label)">Add to all</a>  <a class="text-danger" href="" @click.prevent="removeFromAll(label)">Remove from all</a></p>
                         </div>
                     </div>
 
@@ -34,7 +34,7 @@
                                    :checked="setCheckedState(label)"
                                    @click="toggleLabel(label)">
                             <label class="form-check-label" :for="'tag-' + key">
-                                {{ label }}
+                                {{ label.name }}
                             </label>
                         </div>
                     </div>
