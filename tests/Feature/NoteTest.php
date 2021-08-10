@@ -110,7 +110,7 @@ class NoteTest extends TestCase
         $user = UserFactory::times(1)->createOne();
         auth()->login($user);
 
-        $this->userData['reminder_json'] = "{
+        $this->userData['reminder'] = "{
             \"repeat\": {
                 \"every\": {
                      \"number\":3,

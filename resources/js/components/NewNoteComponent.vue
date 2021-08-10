@@ -59,7 +59,7 @@
         </div>
 
         <div class="tags my-3">
-            <a v-if="note.reminder_json.time"
+            <a v-if="note.reminder.time"
                @click.self.prevent="$refs['dateTimePicker-modal'].show()"
                href="#"
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2"
@@ -69,7 +69,7 @@
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove reminder"
-                   @click.prevent="note.reminder_json = {}">
+                   @click.prevent="note.reminder = {}">
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
@@ -328,7 +328,7 @@ export default {
                 archived: false,
                 color: 'white',
                 type: 'text',
-                reminder_json: {},
+                reminder: {},
             },
             owner_object: JSON.parse(this.owner),
             tags: [],
@@ -445,7 +445,7 @@ export default {
             let time = this.pickedDate + ' ' + this.pickedTime;
             let repeat = this.buildRepeatObjectFromData();
 
-            this.note.reminder_json = {
+            this.note.reminder = {
                 time: time,
                 repeat: JSON.stringify(repeat)
             };
@@ -455,7 +455,7 @@ export default {
         storeReminder(text_time) {
             let formatted_time = this.formatDate(text_time, 'YYYY-MM-DD HH:mm:ss');
 
-            this.note.reminder_json = {'time': formatted_time};
+            this.note.reminder = {'time': formatted_time};
 
             this.pickedDate = this.formatDate(text_time, 'YYYY-MM-DD');
             this.pickedTime = this.formatDate(text_time, 'HH:mm:ss');
@@ -469,7 +469,7 @@ export default {
                 archived: false,
                 color: this.note.color,
                 type: this.note.type,
-                reminder_json: JSON.stringify(this.note.reminder_json),
+                reminder: JSON.stringify(this.note.reminder),
                 tags: this.tags,
                 collaboratorEmails: this.collaboratorEmails
             }).then(res => this.saveChecklist(res))
@@ -524,7 +524,7 @@ export default {
             this.repeatStatus = '';
             this.customRepeatStatusShown = false;
 
-            this.note.reminder_json = {};
+            this.note.reminder = {};
             this.tags = [];
             this.initialize_dependencies();
 

@@ -15,14 +15,14 @@ class Note extends Model
 
     use HasFactory, SoftDeletes, Searchable;
 
-    protected $appends = ['tags', 'collaborators_json', 'reminder_json'];
+    protected $appends = ['tags', 'collaborators_json'];
     protected $guarded = [];
     protected $casts = [
         'pinned' => 'boolean',
         'archived' => 'boolean',
     ];
 
-    protected $with = ['checklist', 'links', 'images', 'owner'];
+    protected $with = ['checklist', 'links', 'images', 'owner', 'reminder'];
 
     public function toSearchableArray()
     {
@@ -111,11 +111,6 @@ class Note extends Model
     public function reminder()
     {
         return $this->hasOne(Reminder::class);
-    }
-
-    public function getReminderJsonAttribute()
-    {
-        return $this->reminder;
     }
 
     public function checklist()

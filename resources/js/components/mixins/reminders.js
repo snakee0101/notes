@@ -28,7 +28,7 @@ module.exports = {
     },
     computed: {
         remainder_time_formatted() {
-            let reminder_date = this.note.reminder_json.time;
+            let reminder_date = this.note.reminder.time;
 
             if (moment(reminder_date).year() > moment().year())
                 return moment(reminder_date).format('MMM D, YYYY, H:mm A');
@@ -63,9 +63,9 @@ module.exports = {
             axios.delete('/reminder/' + this.note.id);
 
             window.ReminderNoteId = this.note.id;
-            window.ReminderTime = this.note.reminder_json.time;
+            window.ReminderTime = this.note.reminder.time;
 
-            this.note.reminder_json = null;
+            this.note.reminder = null;
 
             if (location.href.includes('/reminder'))
                 window.events.$emit('note_deleted', this.note);
@@ -74,7 +74,7 @@ module.exports = {
         },
         undoReminderRemoval() {
             axios.post('/reminder/' + window.ReminderNoteId, {'time': window.ReminderTime});
-            this.note.reminder_json = {'time': window.ReminderTime};
+            this.note.reminder = {'time': window.ReminderTime};
 
             if (location.href.includes('/reminder'))
                 window.events.$emit('note_created', this.note);
@@ -82,10 +82,10 @@ module.exports = {
             window.events.$emit('show-notification', 'Action undone');
         },
         updateReminder(json_time) {
-            this.note.reminder_json = json_time;
+            this.note.reminder = json_time;
         },
-        reload_reminder_json(res) {
-            this.note.reminder_json = res.data;
+        reload_reminder(res) {
+            this.note.reminder = res.data;
         },
         pickDateAndTime() {
             this.$refs['dateTimePicker-modal'].show();
@@ -111,7 +111,7 @@ module.exports = {
                 'year' : 'Yearly'
             };
 
-            let json = this.note.reminder_json;
+            let json = this.note.reminder;
 
             this.pickedDate = json.time ? moment(json.time).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
             this.pickedTime = json.time ? moment(json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');

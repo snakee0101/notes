@@ -49,7 +49,7 @@
         </div>
 
         <div class="tags mb-4">
-            <a v-if="note.reminder_json"
+            <a v-if="note.reminder"
                @click.self.prevent="pickDateAndTime()"
                href="#"
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
@@ -439,7 +439,7 @@ export default {
             axios.post('/reminder/' + this.note.id, {
                 time : time,
                 repeat: JSON.stringify(repeat)
-            }).then(res => this.reload_reminder_json(res));
+            }).then(res => this.reload_reminder(res));
 
             this.$refs['dateTimePicker-modal'].hide();
         },
@@ -447,7 +447,7 @@ export default {
             let formatted_time = this.formatDate(text_time, 'YYYY-MM-DD HH:mm:ss');
 
             axios.post('/reminder/' + this.note.id, {'time': formatted_time});
-            this.note.reminder_json = {'time': formatted_time};
+            this.note.reminder = {'time': formatted_time};
         },
         refreshImage(data) {
             this.note.images.push(data);
