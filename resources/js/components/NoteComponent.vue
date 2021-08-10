@@ -314,7 +314,6 @@
         </b-modal>
 
         <collaborator-dialog-component :note="note"
-                                       :emails="note.collaborators.map( user => user.email )"
                                        :owner="note.owner">
 
         </collaborator-dialog-component>

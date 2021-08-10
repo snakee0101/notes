@@ -57,7 +57,7 @@ export default {
     data() {
         return {
             newEmail: '',
-            emails: this.$attrs.emails ? this.$attrs.emails : [],
+            emails: this.$attrs.note.collaborators.map( user => user.email ) ?? [],
             owner: this.$attrs.owner,
             checkingEmail: '',
             note: this.$attrs.note,
