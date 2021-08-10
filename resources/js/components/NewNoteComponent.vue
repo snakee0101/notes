@@ -430,8 +430,8 @@ export default {
         showCollaboratorsDialog() {
             window.events.$emit('show-collaborators-dialog', 'new_note');
         },
-        detach_tag(tag_name) {
-            this.tags.splice(this.tags.indexOf(tag_name), 1);
+        detach_tag(tag) {
+            this.note.tags.splice(this.note.tags.indexOf(tag), 1);
         },
         reload_tags(tag_name, isChecked) {
             if (isChecked)
