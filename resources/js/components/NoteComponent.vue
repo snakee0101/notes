@@ -73,10 +73,10 @@
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
-            <a v-for="collaboratorEmail in note.collaborators_json" href="#"
+            <a v-for="collaborator in note.collaborators" href="#"
                @click.prevent="showCollaboratorsDialog()"
                class="inline-block mr-2 rounded-full px-2 py-0 text-sm group" style="border: 1px solid black!important;">
-                Shared with {{ collaboratorEmail }}
+                Shared with {{ collaborator.email }}
             </a>
         </div>
 
@@ -314,7 +314,7 @@
         </b-modal>
 
         <collaborator-dialog-component :note="note"
-                                       :emails="note.collaborators_json"
+                                       :emails="note.collaborators.map( user => user.email )"
                                        :owner="note.owner">
 
         </collaborator-dialog-component>

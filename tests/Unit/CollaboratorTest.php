@@ -38,13 +38,9 @@ class CollaboratorTest extends TestCase
                                ->hasAttached($users, [], 'collaborators')
                                ->create();
 
-        $this->assertInstanceOf(User::class, $note->collaborators->first());
-        $this->assertCount(3, $note->collaborators);
-
-        $json = $note->toJson();
-        $obj = json_decode($json);
-
-        $this->assertNotEmpty($obj->collaborators_json);
+        $note->refresh();
+        $this->assertNotEmpty($note->collaborators);
+        $this->assertInstanceOf(User::class, $note->collaborators[0]);
     }
 
     public function test_collaborators_must_be_unique()
