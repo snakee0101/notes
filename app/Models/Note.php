@@ -125,33 +125,21 @@ class Note extends Model
 
     public function makeCopy()
     {
-        //replicate the note
-        $replica = $this->replicate();
+        $replica = $this->replicate();  //replicate the note
         $replica->push();
 
-        //replicate the reminder
-        if($this->reminder) {
+        if($this->reminder) { //replicate the reminder
             $reminder = $this->reminder->replicate();
             $reminder->note_id = $replica->id;
             $reminder->push();
         }
 
-        //replicate the tags
-            $replica->tags()->saveMany( $this->tags()->get() );
-            $replica->push();
+        $replica->tags()->saveMany( $this->tags()->get() );   //replicate the tags
+        $this?->images->each->makeCopy($replica);  //replicate the image
 
-        //replicate the image
-        if($this->images)
-            $this->images->each->makeCopy($replica);
+        $replica->collaborators()->saveMany( $this->collaborators ); //replicate the collaborators
 
-        $replica->push();
-
-        //replicate the collaborators
-        $replica->collaborators()->saveMany( $this->collaborators );
-        $replica->push();
-
-        //replicate the links
-        $modified_links = $this->links->map(function($link) {
+        $modified_links = $this->links->map(function($link) {  //replicate the links
             return array_diff_assoc($link->toArray(), ['id' => $link->id]);
         });
 
