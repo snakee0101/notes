@@ -11,16 +11,6 @@ use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $data = $request->only(['header', 'body', 'pinned', 'archived', 'color', 'type']);
@@ -70,11 +60,6 @@ class NoteController extends Controller
     {
         $this->authorize('view', $note);
         return $note;
-    }
-
-    public function edit(Note $note)
-    {
-        //
     }
 
     public function update(Request $request, Note $note)
