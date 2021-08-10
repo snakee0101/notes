@@ -315,7 +315,7 @@
 
         <collaborator-dialog-component :note="note"
                                        :emails="note.collaborators_json"
-                                       :owner="note.owner_json">
+                                       :owner="note.owner">
 
         </collaborator-dialog-component>
 

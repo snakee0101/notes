@@ -15,14 +15,14 @@ class Note extends Model
 
     use HasFactory, SoftDeletes, Searchable;
 
-    protected $appends = ['tags', 'collaborators_json', 'owner_json', 'images_json', 'reminder_json'];
+    protected $appends = ['tags', 'collaborators_json', 'images_json', 'reminder_json'];
     protected $guarded = [];
     protected $casts = [
         'pinned' => 'boolean',
         'archived' => 'boolean',
     ];
 
-    protected $with = ['checklist', 'links', 'images'];
+    protected $with = ['checklist', 'links', 'images', 'owner'];
 
     public function toSearchableArray()
     {
@@ -101,11 +101,6 @@ class Note extends Model
     public function getCollaboratorsJsonAttribute()
     {
         return $this->collaborators()->pluck('email');
-    }
-
-    public function getOwnerJsonAttribute()
-    {
-        return $this->owner;
     }
 
     public function images()
