@@ -39,12 +39,7 @@ class NoteController extends Controller
         }
 
         /****Set the collaborators****/
-        if( $request->has('collaboratorEmails') )
-        {
-            $note->collaborators()->attach(
-                User::whereIn('email', $request->collaboratorEmails)->get()
-            );
-        }
+        $note->collaborators()->sync( request('collaborator_ids') );
 
         /**Persist the links**/
         $links = Link::parseNote($note);

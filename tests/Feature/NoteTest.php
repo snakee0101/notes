@@ -73,7 +73,7 @@ class NoteTest extends TestCase
         auth()->login($owner);
 
         $collaborators = UserFactory::times(2)->create();
-        $this->userData['collaboratorEmails'] = $collaborators->pluck('email')->toArray();
+        $this->userData['collaborator_ids'] = $collaborators->pluck('id')->toArray();
 
         $this->post(route('note.store'), $this->userData);
         $this->assertNotNull($note = Note::first());

@@ -85,11 +85,11 @@
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
-            <a v-for="collaboratorEmail in collaboratorEmails" href="#"
+            <a v-for="collaborator in note.collaborators" href="#"
                @click.prevent="showCollaboratorsDialog()"
                class="inline-block mr-2 rounded-full px-2 py-0 text-sm group"
                style="border: 1px solid black!important;">
-                Shared with {{ collaboratorEmail }}
+                Shared with {{ collaborator.email }}
             </a>
         </div>
 
@@ -195,7 +195,7 @@
 
         </set-labels-component>
 
-        <collaborator-dialog-component :note="{id: 'new_note'}"
+        <collaborator-dialog-component :note="{id: 'new_note', collaborators: note.collaborators}"
                                        :owner="owner_object">
 
         </collaborator-dialog-component>
@@ -315,7 +315,6 @@ export default {
                 'green', 'teal', 'blue', 'dark-blue',
                 'purple', 'pink', 'brown', 'grey'
             ],
-            collaboratorEmails: [],
             images: [],
             isChecklist: false,
             checklist: [],
@@ -329,6 +328,7 @@ export default {
                 color: 'white',
                 type: 'text',
                 reminder: {},
+                collaborators: []
             },
             owner_object: JSON.parse(this.owner),
             tags: [],
@@ -423,8 +423,8 @@ export default {
             if (this.hasRemainder)
                 this.storeReminder('soon');
         },
-        reload_collaborators(emails) {
-            this.collaboratorEmails = emails;
+        reload_collaborators(collaborators) {
+            this.note.collaborators = collaborators;
         },
         showCollaboratorsDialog() {
             window.events.$emit('show-collaborators-dialog', 'new_note');
@@ -471,7 +471,7 @@ export default {
                 type: this.note.type,
                 reminder: JSON.stringify(this.note.reminder),
                 tags: this.tags,
-                collaboratorEmails: this.collaboratorEmails
+                collaborator_ids: this.note.collaborators.map( user => user.id )
             }).then(res => this.saveChecklist(res))
               .then(res => this.attach_images())
               .then(res => this.refreshNotesContainer())
@@ -514,7 +514,7 @@ export default {
             };
             this.$refs['new-note-editor'].value = '';
 
-            this.collaboratorEmails = [];
+            this.note.collaborators = [];
             this.images = [];
             this.encoded_images = [];
 
