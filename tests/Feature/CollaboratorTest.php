@@ -47,9 +47,11 @@ class CollaboratorTest extends TestCase
 
         $response = $this->get( route('check_user_existence', $user->email) );
         $response->assertJson(['exists' => true]);
+        $response->assertJson(['user' => ['name' => $user->name]]);
 
         $response = $this->get( route('check_user_existence', 'not-exists@gmail.com') );
         $response->assertJson(['exists' => false]);
+        $response->assertJsonMissing(['user' => ['name' => $user->name]]);
     }
 
     public function test_note_can_restore_collaborator_emails()

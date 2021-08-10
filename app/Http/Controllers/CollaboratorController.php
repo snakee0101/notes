@@ -33,12 +33,16 @@ class CollaboratorController extends Controller
 
         $note->collaborators()->sync( request('collaborator_ids') );
 
-        return $note->collaborators->pluck('email');
+        return $note->fresh()->collaborators;
         //TODO: Send mail to the user when it is added or deleted from collaborators
     }
 
-    public function check($email)
+    public function check($email) //returns user object, if it exists
     {
-        return [ 'exists' => User::whereEmail($email)->exists() ];
+        $data = [ 'exists' => User::whereEmail($email)->exists() ];
+        if($data['exists'])
+            $data['user'] = User::firstwhere('email', $email);
+
+        return $data;
     }
 }
