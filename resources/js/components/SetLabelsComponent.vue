@@ -128,7 +128,7 @@ export default {
                 this.searchResults = this.labels;
                 this.isNewTagButtonVisible = false;
             } else {
-                this.searchResults = this.labels.filter(label => label.toLowerCase().includes(this.searchingLabel.toLowerCase()));
+                this.searchResults = this.labels.filter(label => label.name.toLowerCase().includes(this.searchingLabel.toLowerCase()));
                 this.isNewTagButtonVisible = (this.searchResults.length === 0);
             }
         },
