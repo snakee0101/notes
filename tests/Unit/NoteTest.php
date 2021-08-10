@@ -109,6 +109,10 @@ class NoteTest extends TestCase
         $note = Note::factory()->create([ 'owner_id' => $owner->id ]);
         $note->tags()->attach($tag);
 
+        $checklist = Checklist::factory()->for($note,'note')
+            ->has(Task::factory()->count(3))
+            ->create();
+
         $image = Image::factory()->create([
             'note_id' => $note->id,
             'image_path' => '/storage/images/123.jpeg',
@@ -166,6 +170,15 @@ class NoteTest extends TestCase
             'note_id' => $replica->id,
             'tag_id' => $tag->id
         ]);
+
+        //check for replicated checklist
+        $this->assertInstanceOf(Checklist::class, $replica->checklist);
+        $this->assertInstanceOf(Task::class, $replica->checklist->tasks[0]);
+
+        $this->assertCount(3, $replica->checklist->tasks);
+        $this->assertNotEquals($replica->checklist->id, $note->checklist->id);
+        $this->assertEquals($replica->checklist->id, $replica->checklist->tasks[0]->checklist_id);
+        $this->assertEquals($note->checklist->tasks[0]->text, $replica->checklist->tasks[0]->text);
     }
 
     public function test_link_in_note_body_is_wrapped_with_anchor_tag()

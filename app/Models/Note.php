@@ -142,8 +142,21 @@ class Note extends Model
         $modified_links = $this->links->map(function($link) {  //replicate the links
             return array_diff_assoc($link->toArray(), ['id' => $link->id]);
         });
-
         $replica->links()->createMany($modified_links);
+
+        if($this->checklist) { //replicate the checklist
+            $checklist = $this->checklist->replicate();
+            $checklist->note_id = $replica->id;
+            $checklist->push();
+
+            $this->checklist->tasks->each(function($task) use ($checklist) {
+                $task->checklist_id = $checklist->id;
+                $checklist->tasks()->create(
+                    array_diff_key($task->toArray(), ['id' => 0]) //remove task's id from data
+                );
+            });
+        }
+
         $replica->push();
 
         return $replica->fresh();
