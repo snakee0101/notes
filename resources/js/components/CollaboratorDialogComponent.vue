@@ -103,10 +103,10 @@ export default {
             if ((this.emails.length > 0) && this.emails.includes(this.checkingEmail))
                 return this.showError("The user you want to add is already your collaborator");
 
-            this.addCollaborator(this.checkingEmail);
+            this.addCollaborator(response.data.user);
         },
-        addCollaborator(email) {
-            this.emails.push(email);
+        addCollaborator(user) {
+            this.note.collaborators.push(user);
             this.newEmail = '';
 
             this.confirm();
@@ -116,8 +116,8 @@ export default {
                 window.events.$emit('save_new_note_collaborators', this.emails);
             } else {
                 axios.post('/collaborator/' + this.note.id, {
-                    emails: this.emails
-                }).then(res => this.emails = res.data);
+                    collaborator_ids: this.note.collaborators.map( user => user.id )
+                }).then(res => this.note.collaborators = res.data);
             }
         },
     }
