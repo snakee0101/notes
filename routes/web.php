@@ -36,8 +36,6 @@ Route::middleware('auth')->group(function() {
     Route::post('/tag/add/{note}/{tag}', [TagController::class, 'addToNote'])->name('tag.add_to_note');
     Route::delete('/tag/remove/{note}/{tag}', [TagController::class, 'removeFromNote'])->name('tag.remove_from_note');
 
-    Route::post('/note/{note}/get_tags', [NoteController::class, 'get_tags'])->name('note.get_tags');
-
     Route::resource('checklist', ChecklistController::class)->only(['store', 'update']);
     Route::post('/checklist/delete/{note}', [ChecklistController::class, 'destroy'])->name('checklist.destroy');
     Route::post('/checklist/uncheck_all/{checklist}', [ChecklistController::class, 'uncheck_all'])->name('checklist.uncheck_all');

@@ -416,8 +416,8 @@ export default {
         },
         reload_tags(note_id) {
             if(note_id == this.note.id) {
-                axios.post('/note/' + note_id + '/get_tags')
-                     .then( (res) => this.note.tags = res.data );
+                axios.get('/note/' + note_id)
+                     .then( (res) => this.note.tags = res.data.tags );
             }
         },
         reload_note(note) {

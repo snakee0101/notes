@@ -96,9 +96,4 @@ class NoteController extends Controller
         $this->authorize('duplicate', $note);
         return $note->makeCopy();
     }
-
-    public function get_tags(Note $note)
-    {
-        return $note->tags;
-    }
 }

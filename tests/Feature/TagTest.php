@@ -28,11 +28,11 @@ class TagTest extends TestCase
 
         $initial_tags = $note->tags->toArray();
 
-        $res_tags = $this->post(route('note.get_tags', $note->id))->json();
+        $res_note = $this->get(route('note.show', $note->id))->json();
 
-        $this->assertContains($initial_tags[0], $res_tags);
-        $this->assertContains($initial_tags[1], $res_tags);
-        $this->assertContains($initial_tags[2], $res_tags);
+        $this->assertContains($initial_tags[0], $res_note['tags']);
+        $this->assertContains($initial_tags[1], $res_note['tags']);
+        $this->assertContains($initial_tags[2], $res_note['tags']);
     }
 
     public function test_tags_could_be_toggled()
