@@ -40,7 +40,7 @@ class NoteController extends Controller
             Link::persist($link['url'], $link['name'], $note);
 
 
-        return $note;
+        return $note->fresh();
     }
 
     public function show(Note $note)
