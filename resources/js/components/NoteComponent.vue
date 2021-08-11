@@ -417,6 +417,13 @@ export default {
             if(note_id == this.note.id) {
                 axios.get('/note/' + note_id)
                      .then( (res) => this.note.tags = res.data.tags );
+
+                this.note.tags.forEach(function(tag) {
+                    if( location.href.includes('tag/' + encodeURIComponent(tag.name)) ) { //if the current tag was deleted from the note
+                        window.events.$emit('note_deleted', this.note);
+                    }
+                });
+
             }
         },
         reload_note(note) {
