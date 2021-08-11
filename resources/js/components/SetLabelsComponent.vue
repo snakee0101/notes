@@ -103,7 +103,7 @@ export default {
             if (!this.attached_tags)
                 return '';
             else
-                return (this.attached_tags.findIndex((item) => item === label) !== -1) ? 'checked' : '';
+                return (this.attached_tags.findIndex((item) => item.name === label.name) !== -1) ? 'checked' : '';
         },
         addToAll(label) {
             window.events.$emit('reload_top_bar_tags', label, 'add');
