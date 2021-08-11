@@ -128,13 +128,12 @@ export default {
         },
         hideDeleteConfirmation() {
             this.$refs['delete-confirmation'].hide();
-            this.deletingLabel = {};
         },
         deleteLabel() {
             this.labels = _.without(this.labels, this.deletingLabel);
 
             axios.delete('/tag/' + this.deletingLabel.name)
-                .then(this.reloadDeletingLabel);
+                .then(this.reloadDeletingLabel());
 
             window.events.$emit('refreshLabels', this.labels);
             this.hideDeleteConfirmation();
@@ -142,6 +141,7 @@ export default {
         reloadDeletingLabel() {
             let is_current_label = location.href.includes( location.host + '/tag/' + encodeURI(this.deletingLabel.name) );
 
+            console.log(this.deletingLabel);
             if(is_current_label)
                 location.href = '/';
         },
