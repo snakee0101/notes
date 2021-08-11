@@ -32,9 +32,11 @@
 <script>
 export default {
     name: "MenuComponent",
+    props: ['tag', 'tags'],
     data() {
         return {
-            tag_names: JSON.parse(this.$attrs.tag_names),
+            tags_list: JSON.parse(this.tags),
+            current_tag: JSON.parse(this.tag),
             isCollapsed: (localStorage.getItem('menu-collapsed') === 'true')
         };
     },
@@ -53,7 +55,7 @@ export default {
             return (this.$attrs.current_route === route) ? 'active' : '';
         },
         setActiveTagLink(tag) {
-            return (this.$attrs.tag_link === tag) ? 'active' : '';
+            return (this.$attrs.tag.name === tag.name) ? 'active' : '';
         },
     }
 }

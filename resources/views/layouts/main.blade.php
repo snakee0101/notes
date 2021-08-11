@@ -25,9 +25,8 @@
 <div id="app">
     <top-bar-component></top-bar-component>
     <div class="flex flex-row justify-between" style="margin-top:80px">
-        <menu-component current_route="{{ Route::currentRouteName() }}"
-                        tag_link="{{ $tag_name ?? '' }}"
-                        tag_names="{{ \App\Models\Tag::getAllNames() }}">
+        <menu-component tag="{{ $tag ?? '' }}"
+                        tags="{{ auth()->user()->tags }}">
 
         </menu-component>
 
