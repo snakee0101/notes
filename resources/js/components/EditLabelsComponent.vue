@@ -68,7 +68,7 @@
 
                         <input type="text"
                                @focus="setFocusedState('label_' + key)"
-                               :value="label" :ref="'label_' + key"
+                               :value="label.name" :ref="'label_' + key"
                                class="border-transparent border-b-2 add-label-input ml-4 flex-grow text-sm focus:outline-none focus:border-gray-200">
 
 
