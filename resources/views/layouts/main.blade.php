@@ -25,8 +25,9 @@
 <div id="app">
     <top-bar-component></top-bar-component>
     <div class="flex flex-row justify-between" style="margin-top:80px">
-        <menu-component tag="{{ $tag ?? '' }}"
-                        tags="{{ auth()->user()->tags }}">
+        <menu-component tag="{{ $tag ?? '{}' }}"
+                        tags="{{ auth()->user()->tags }}"
+                        current_route="{{ Route::currentRouteName() }}">
 
         </menu-component>
 

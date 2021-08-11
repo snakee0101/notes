@@ -32,7 +32,7 @@
 <script>
 export default {
     name: "MenuComponent",
-    props: ['tag', 'tags'],
+    props: ['tag', 'tags', 'current_route'],
     data() {
         return {
             tags_list: JSON.parse(this.tags),
@@ -52,7 +52,7 @@ export default {
             this.tags_list = labels;
         },
         setActiveLink(route) {
-            return (this.$attrs.current_route === route) ? 'active' : '';
+            return (this.current_route === route) ? 'active' : '';
         },
         setActiveTagLink(tag) {
             return (this.current_tag.name === tag.name) ? 'active' : '';
