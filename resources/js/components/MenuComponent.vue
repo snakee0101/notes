@@ -12,8 +12,8 @@
             <i class="bi bi-people icon-lg mr-3 text-black"></i> Collaborator notes
         </a>
 
-        <a :href="'/tag/' + tag_name" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveTagLink(tag_name)" v-for="tag_name in tag_names">
-            <i class="bi bi-tag-fill icon-lg mr-3 text-black"></i> {{ tag_name }}
+        <a :href="'/tag/' + tag_item.name" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveTagLink(tag_item)" v-for="tag_item in tags_list">
+            <i class="bi bi-tag-fill icon-lg mr-3 text-black"></i> {{ tag_item.name }}
         </a>
 
         <edit-labels-component :labels="tag_names" v-on:refreshLabels="tag_names = $event">
@@ -55,7 +55,7 @@ export default {
             return (this.$attrs.current_route === route) ? 'active' : '';
         },
         setActiveTagLink(tag) {
-            return (this.$attrs.tag.name === tag.name) ? 'active' : '';
+            return (this.current_tag.name === tag.name) ? 'active' : '';
         },
     }
 }
