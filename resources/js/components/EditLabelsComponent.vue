@@ -136,10 +136,11 @@ export default {
             axios.delete('/tag/' + this.deletingLabel.name)
                 .then(this.reloadDeletingLabel);
 
+            window.events.$emit('refreshLabels', this.labels);
             this.hideDeleteConfirmation();
         },
         reloadDeletingLabel() {
-            let is_current_label = location.href.includes( location.host + '/tag/' + encodeURI(this.deletingLabel) );
+            let is_current_label = location.href.includes( location.host + '/tag/' + encodeURI(this.deletingLabel.name) );
 
             if(is_current_label)
                 location.href = '/';
