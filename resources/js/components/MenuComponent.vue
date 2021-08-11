@@ -16,7 +16,7 @@
             <i class="bi bi-tag-fill icon-lg mr-3 text-black"></i> {{ tag_item.name }}
         </a>
 
-        <edit-labels-component :labels="tag_names" v-on:refreshLabels="tag_names = $event">
+        <edit-labels-component :labels="tags_list" v-on:refreshLabels="tags_list = $event">
 
         </edit-labels-component>
 
