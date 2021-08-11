@@ -672,15 +672,20 @@ class RightsTest extends TestCase
         $this->assertNull($note->tags()->first());
     }
 
-    public function test_a_tag_could_be_added_to_specific_note_by_owner_only()
+    public function test_a_tag_could_be_added_to_specific_note_by_owner_of_note_and_tag_only()
     {
         [$note, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($note->owner); //check owner rights
         $tag = Tag::factory()->for($note->owner, 'owner')->create();
+
+        $another_user = User::factory()->create();
+        $another_tag = Tag::factory()->for($another_user, 'owner')->create();
+        $another_note = Note::factory()->for($another_user, 'owner')->create();
+
         $this->assertEmpty( $note->fresh()->tags );
 
-        $this->post( route('tag.add_to_note', [
+        $this->post( route('tag.add_to_note', [ //Note owner - OK, Tag owner - OK
             'note' => $note,
             'tag' => $tag->name
         ]) )->assertOk();
@@ -689,10 +694,15 @@ class RightsTest extends TestCase
         $note->tags()->detach($tag);
         $note->refresh();
 
+        $this->post( route('tag.add_to_note', [ //Note owner - OK, Tag owner - Wrong
+            'note' => $note,
+            'tag' => $another_tag->name
+        ]) )->assertNotFound();
+
         auth()->login($collaborator); //check collaborator rights
         $this->assertEmpty( $note->fresh()->tags );
 
-        $this->post( route('tag.add_to_note', [
+        $this->post( route('tag.add_to_note', [ //Note owner - Wrong, Tag onwer - OK
             'note' => $note,
             'tag' => $tag->name
         ]) )->assertNotFound();
