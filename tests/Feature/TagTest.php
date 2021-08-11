@@ -109,7 +109,8 @@ class TagTest extends TestCase
         $user = User::factory()->create();
         auth()->login($user);
 
-        $this->post(route('tag.store'), ['tag_name' => 'test']);
+        $res_tag = $this->post(route('tag.store'), ['tag_name' => 'test'])->json();
+        $this->assertEquals(Tag::first()->name, $res_tag['name']);
 
         $this->assertCount(1, Tag::all());
         $this->assertEquals('test', Tag::first()->name);
