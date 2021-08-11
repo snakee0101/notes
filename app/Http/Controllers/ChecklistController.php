@@ -14,8 +14,7 @@ class ChecklistController extends Controller
     {
         $note = Note::findOrFail($request->note_id); //Checklist could be created only for existing note
 
-        if(Gate::denies('checklist', $note))
-            return response('Only owner and collaborators can manipulate checklists', 403);
+        abort_if(Gate::denies('checklist', $note), 403, 'Only owner and collaborators can manipulate checklists');
 
         $checklist = $note->checklist()->create();
 
@@ -26,8 +25,7 @@ class ChecklistController extends Controller
 
     public function update(Request $request, Checklist $checklist) //updates tasks in checklist (in fact - it just replaces them)
     {
-        if(Gate::denies('checklist', $checklist->note))
-            return response('Only owner and collaborators can manipulate checklists', 403);
+        abort_if(Gate::denies('checklist', $checklist->note), 403, 'Only owner and collaborators can manipulate checklists');
 
         $checklist->tasks()->delete();
         $checklist->tasks()->createMany( Checklist::wrap($request->tasks) );
@@ -37,8 +35,7 @@ class ChecklistController extends Controller
 
     public function destroy(Note $note)
     {
-        if(Gate::denies('checklist', $note))
-            return response('Only owner and collaborators can manipulate checklists', 403);
+        abort_if(Gate::denies('checklist', $note), 403, 'Only owner and collaborators can manipulate checklists');
 
         $note->update(['body' => $note->checklist->toHTML()]);
         $note->checklist()->delete();
@@ -48,8 +45,7 @@ class ChecklistController extends Controller
 
     public function uncheck_all(Checklist $checklist)
     {
-        if(Gate::denies('checklist', $checklist->note))
-            return response('Only owner and collaborators can manipulate checklists', 403);
+        abort_if(Gate::denies('checklist', $checklist->note), 403, 'Only owner and collaborators can manipulate checklists');
 
         $checklist->uncheckAll();
         return $checklist->note;
@@ -57,8 +53,7 @@ class ChecklistController extends Controller
 
     public function remove_completed(Checklist $checklist)
     {
-        if(Gate::denies('checklist', $checklist->note))
-            return response('Only owner and collaborators can manipulate checklists', 403);
+        abort_if(Gate::denies('checklist', $checklist->note), 403, 'Only owner and collaborators can manipulate checklists');
 
         $checklist->removeCompleted();
         return Note::find($checklist->note->id);
