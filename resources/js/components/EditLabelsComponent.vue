@@ -114,7 +114,7 @@ export default {
     },
     created() {
         window.events.$on('refreshLabels', function(labels) {
-            window.tags_list = labels.valueOf().flat();
+            window.tags_list = labels;
         });
     },
     methods: {
