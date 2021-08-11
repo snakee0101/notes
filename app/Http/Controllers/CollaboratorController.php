@@ -28,8 +28,7 @@ class CollaboratorController extends Controller
 
     public function sync(Note $note)
     {
-        if(Gate::denies('sync_collaborator', $note))
-            return response('Only owner of the note may update collaborators', 403);
+        abort_if(Gate::denies('sync_collaborator', $note), 403, 'Only owner of the note may update collaborators');
 
         $note->collaborators()->sync( request('collaborator_ids') );
 
