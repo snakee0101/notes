@@ -73,15 +73,15 @@
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
-            <a v-for="tag in note.tags"
-               :href="'/tag/' + tag"
+            <a v-for="tag_object in note.tags"
+               :href="'/tag/' + tag_object.name"
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2"
                style="border: 1px solid black!important;">
-                {{ tag.name }}
+                {{ tag_object.name }}
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove label"
-                   @click.prevent="detach_tag(tag)">
+                   @click.prevent="detach_tag(tag_object)">
                     <i class="bi bi-x icon"></i>
                 </a>
             </a>
@@ -332,7 +332,7 @@ export default {
                 tags: []
             },
             owner_object: JSON.parse(this.owner),
-            tag: JSON.parse(this.$attrs.tag),
+            tag: this.$attrs.tag ? JSON.parse(this.$attrs.tag) : {},
         };
     },
     created() {
@@ -417,7 +417,7 @@ export default {
         },
         initialize_dependencies() {
             //Set the tag if it exists
-            if (this.tag)
+            if (this.tag.name)
                 this.note.tags[0] = this.tag;
 
             //Set the remainder if it exists
