@@ -128,13 +128,15 @@ export default {
         },
         hideDeleteConfirmation() {
             this.$refs['delete-confirmation'].hide();
-            this.deletingLabel = '';
+            this.deletingLabel = {};
         },
         deleteLabel() {
             this.labels = _.without(this.labels, this.deletingLabel);
 
-            axios.delete('/tag/' + this.deletingLabel)
+            axios.delete('/tag/' + this.deletingLabel.name)
                 .then(this.reloadDeletingLabel);
+
+            this.hideDeleteConfirmation();
         },
         reloadDeletingLabel() {
             let is_current_label = location.href.includes( location.host + '/tag/' + encodeURI(this.deletingLabel) );
