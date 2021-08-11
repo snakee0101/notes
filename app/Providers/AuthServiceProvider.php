@@ -19,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('update_tags', fn($user, Tag $tag) => $user->is($tag->owner) );
+        Gate::define('update_note_tags', fn($user, Tag $tag, Note $note) => $user->is($tag->owner) && $user->is($note->owner));
         Gate::define('sync_collaborator', fn($user, Note $note) => $user->is($note->owner) );
         Gate::define('checklist', fn($user, Note $note) => $user->is($note->owner) || $note->collaborators()->where('users.id', $user->id)->exists() );
         Gate::define('image_manipulation', fn($user, Note $note) => $user->is($note->owner) || $note->collaborators()->where('users.id', $user->id)->exists() );

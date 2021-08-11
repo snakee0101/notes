@@ -616,16 +616,21 @@ class RightsTest extends TestCase
         $this->put( route('tag.update', $tag2->name), ['new_name' => 'tag 2 updated'] )->assertOk();
     }
 
-    public function test_only_owner_can_toggle_the_tags()
+    public function test_only_owner_of_the_note_and_tags_can_toggle_the_tags()
     {
         $owner = User::factory()->create();
         $note = Note::factory()->for($owner, 'owner')->create();
         $tag = Tag::factory()->for($owner, 'owner')->create(['name' => 'tag 1']);
 
+        $another_user = User::factory()->create();
+        $another_tag = Tag::factory()->for($another_user, 'owner')->create();
+        $another_note = Note::factory()->for($another_user, 'owner')->create();
+
         $collaborator = User::factory()->create();
         $note->collaborators()->attach($collaborator);
 
         $note->refresh();
+        $another_note->refresh();
 
         $this->assertNull($note->tags()->first());
 
@@ -638,6 +643,24 @@ class RightsTest extends TestCase
         $note->refresh();
         $this->assertInstanceOf(Tag::class, $note->tags()->first());
 
+        $this->post( route('tag.toggle', [
+            'tag' => $another_tag->name,
+            'note' => $note->id
+        ]) )->assertNotFound();
+
+        $note->refresh();
+        $this->assertCount(1, $note->tags);
+
+        $this->post( route('tag.toggle', [
+            'tag' => $tag->name,
+            'note' => $another_note->id
+        ]) )->assertForbidden();
+
+        $note->refresh();
+        $this->assertCount(0, $another_note->tags);
+
+        $note->tags()->delete();
+        $note->refresh();
 
         auth()->login($collaborator);
         $this->post( route('tag.toggle', [
@@ -646,7 +669,7 @@ class RightsTest extends TestCase
         ]) );
 
         $note->refresh();
-        $this->assertInstanceOf(Tag::class, $note->tags()->first());
+        $this->assertNull($note->tags()->first());
     }
 
     public function test_a_tag_could_be_added_to_specific_note_by_owner_only()
