@@ -63,9 +63,9 @@
                 </a>
             </a>
             <a v-for="tag in note.tags"
-               :href="'/tag/' + tag"
+               :href="'/tag/' + tag.name"
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
-                {{ tag }}
+                {{ tag.name }}
                 <a class="bg-gray-300 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove label"
