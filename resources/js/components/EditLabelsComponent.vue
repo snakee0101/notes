@@ -182,10 +182,10 @@ export default {
                 return setTimeout(this.hideUniqueError, 2000);
             }
 
-           /* axios.post('/tag', {
+            axios.post('/tag', {
                 'tag_name': label_name
-            }).then( (res) => this.labels.push(label_name) )
-              .finally( () => window.events.$emit('refreshLabels', this.labels) );*/
+            }).then( (res) => this.labels.push(res.data) )
+              .finally( () => window.events.$emit('refreshLabels', this.labels) );
         },
         save() {
             this.addLabel(this.newLabel);
