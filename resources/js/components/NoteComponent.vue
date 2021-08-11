@@ -501,11 +501,11 @@ export default {
             element.style.height = (element.scrollHeight) + "px";
         },
         detach_tag(tag) {
-            axios.delete('/detach_tag/' + this.note.id + '/' + tag);
+            axios.delete('/detach_tag/' + this.note.id + '/' + tag.name);
 
             this.note.tags = _.without(this.note.tags, tag);
 
-            let tagsLocation = 'tag/' + encodeURIComponent(tag);
+            let tagsLocation = 'tag/' + encodeURIComponent(tag.name);
             if (location.href.includes(tagsLocation))
                 window.events.$emit('note_deleted', this.note);
         },
