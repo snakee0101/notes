@@ -1,4 +1,4 @@
-<template> <!--TODO: Доделать диалог Edit Labels-->
+<template>
     <div>
         <a href="" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200 block"
            @click.prevent="$refs['labels-dialog'].show()">
@@ -154,12 +154,11 @@ export default {
         renameLabel(refName, key) {
             let newLabelName = this.$refs[refName][0].value;
 
-            axios.put('/tag/' + this.labels[key], {
+            axios.put('/tag/' + this.labels[key].name, {
                 new_name: newLabelName
             }).then(res => {
-                this.labels[key] = newLabelName;
-
-                let is_current_label = location.href.includes( 'tag/' + encodeURI(this.labels[key]) );
+                let is_current_label = location.href.includes( 'tag/' + encodeURI(this.labels[key].name) );
+                this.labels[key].name = newLabelName;
 
                 if(is_current_label) //if the user is on the current tag's page - got to the new tag's page
                     location.href = '/tag/' + encodeURI(newLabelName);
