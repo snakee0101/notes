@@ -141,7 +141,6 @@ export default {
         reloadDeletingLabel() {
             let is_current_label = location.href.includes( location.host + '/tag/' + encodeURI(this.deletingLabel.name) );
 
-            console.log(this.deletingLabel);
             if(is_current_label)
                 location.href = '/';
         },
@@ -171,22 +170,22 @@ export default {
         hideUniqueError() {
             this.uniqueErrorShown = false;
         },
-        addLabel(label) {
-            if (label === '')
+        addLabel(label_name) {
+            if (label_name === '')
                 return false;
 
             this.clearNewLabel();
             this.hideCancelButton();
 
-            if (this.labels.includes(label)) {
+            if (this.labels.map( tag => tag.name ).includes(label_name)) {
                 this.uniqueErrorShown = true;
                 return setTimeout(this.hideUniqueError, 2000);
             }
 
-            axios.post('/tag', {
-                'tag_name': label
-            }).then( (res) => this.labels.push(label) )
-              .finally( () => window.events.$emit('refreshLabels', this.labels) );
+           /* axios.post('/tag', {
+                'tag_name': label_name
+            }).then( (res) => this.labels.push(label_name) )
+              .finally( () => window.events.$emit('refreshLabels', this.labels) );*/
         },
         save() {
             this.addLabel(this.newLabel);
