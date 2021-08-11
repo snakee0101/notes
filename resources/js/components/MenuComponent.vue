@@ -49,7 +49,7 @@ export default {
             this.isCollapsed = collapsed;
         },
         refreshMenu(labels) {
-            this.tag_names = labels.valueOf().flat();
+            this.tags_list = labels;
         },
         setActiveLink(route) {
             return (this.$attrs.current_route === route) ? 'active' : '';
