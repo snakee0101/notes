@@ -144,9 +144,6 @@ export default {
             this.$refs['labels-dialog'].hide();
             this.searchingLabel = '';
         },
-        focusOnLabel(refName) {
-            this.$refs[refName][0].focus();
-        },
         cancel() {
             this.searchingLabel = "";
             this.isCancelButtonVisible = false;
