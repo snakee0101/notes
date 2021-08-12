@@ -24,14 +24,9 @@
         <div class="label-controls shadow-lg border border-gray-300 mb-4">
             <h2 class="font-bold p-2 pb-4">Labels</h2>
             <div class="flex flex-row items-start">
-                <button class="gray-search-box-button mr-2" @click="filterByLabel('Tag 1')">
+                <button class="gray-search-box-button mr-2" @click="filterByLabel(tag.name)" v-for="tag in tags_list">
                     <i class="bi bi-tags-fill icon-lg"></i>
-                    <p class="mt-10 mb-4">Tag 1</p>
-                </button>
-
-                <button class="gray-search-box-button mr-2" @click="filterByLabel('Tag 2')">
-                    <i class="bi bi-tags-fill icon-lg"></i>
-                    <p class="mt-10 mb-4">Tag 2</p>
+                    <p class="mt-10 mb-4">{{ tag.name }}</p>
                 </button>
             </div>
         </div>
@@ -59,6 +54,7 @@ export default {
                 'green', 'teal', 'blue', 'dark-blue',
                 'purple', 'pink', 'brown', 'grey'
             ],
+            tags_list: []
         };
     },
     created() {
@@ -67,13 +63,13 @@ export default {
     },
     methods: {
         activateSearch() {
+            this.tags_list = window.tags_list;
             this.isSearchActive = true;
         },
         deactivateSearch() {
             this.isSearchActive = false;
         },
         filterByType(type) {
-
             alert('Content is filtered by type ' + type);
         },
         filterByLabel(label) {
