@@ -73,13 +73,18 @@ export default {
             this.isSearchActive = false;
         },
         filterByType(type) {
+
             alert('Content is filtered by type ' + type);
         },
         filterByLabel(label) {
             alert('Content is filtered by label ' + label);
         },
         filterByColor(color) {
-            alert('Content is filtered by color ' + color);
+            axios.post('/search', {
+                'query' : '',
+                'filterBy' : 'color',
+                'filterValue' : color,
+            }).then(res => console.log(res.data));
         }
     }
 }
