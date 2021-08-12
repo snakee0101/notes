@@ -61,4 +61,15 @@ class NoteTypeDetectorTest extends TestCase
         $this->assertIsArray($result);
         $this->assertEmpty($result);
     }
+
+    public function test_note_type_is_included_in_note_searchable_data()
+    {
+        $res = $this->note_with_images->toSearchableArray();
+
+        $this->assertArrayHasKey('type', $res);
+        $this->assertCount(1, $res['type']);
+        $this->assertIsArray($res['type']);
+
+        $this->assertEquals('image', $res['type'][0]);
+    }
 }

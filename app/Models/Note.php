@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utilities\NoteTypeDetector;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,7 +31,8 @@ class Note extends Model
             'header' => $this->header,
             'body' => \strip_tags($this->body),
             'color' => $this->color,
-            'tags' => implode(',', $this->tags()->pluck('name')->toArray())
+            'tags' => implode(',', $this->tags()->pluck('name')->toArray()),
+            'type' => NoteTypeDetector::select($this)->detectTypes()
         ];
     }
 
