@@ -31,7 +31,7 @@ class Note extends Model
             'header' => $this->header,
             'body' => \strip_tags($this->body),
             'color' => $this->color,
-            'tags' => implode(',', $this->tags()->pluck('name')->toArray()),
+            'tags' => $this->tags()->pluck('name')->toArray(),
             'type' => NoteTypeDetector::select($this)->detectTypes()
         ];
     }

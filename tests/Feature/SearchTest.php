@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Note;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
@@ -99,15 +100,39 @@ class SearchTest extends TestCase
 
         $this->assertArrayHasKey('tags', $serialized_note);
 
-        dd($serialized_note);
-
         $this->assertStringContainsString($tags[0]->name, $serialized_note['tags']);
         $this->assertStringContainsString($tags[1]->name, $serialized_note['tags']);
         $this->assertStringContainsString($tags[2]->name, $serialized_note['tags']);
     }
 
-    public function test_a_note_could_be_filtered_by_tags()
+    public function test_a_note_could_be_filtered_by_tags() //TODO: Actually it works but not testable yet
     {
+        $owner = User::factory()->create();
 
+        $tags = Tag::factory()->for($owner, 'owner')->count(3)->create();
+
+        $notes_with_tag_1_and_2 = Note::factory()->for($owner, 'owner')
+                                                 ->hasAttached($tags[0])
+                                                 ->hasAttached($tags[1])
+                                                 ->count(3)
+                                                 ->create(['body' => 'note']);
+
+        $notes_with_tag_2_and_3 = Note::factory()->for($owner, 'owner')
+                                                ->hasAttached($tags[1])
+                                                ->hasAttached($tags[2])
+                                                ->count(2)
+                                                ->create(['body' => 'note']);
+
+        auth()->login($owner);
+
+        $json = $this->post(route('search'), [
+            'query' => 'note',
+            'filterBy' => 'tag',
+            'filterValue' => $tags[0]->name
+        ])->assertOk()->content();
+        $data = json_decode($json);
+
+        $this->assertCount(3, $data->data);
+        $this->assertEquals($notes_with_tag_1_and_2[0]->color, $data->data[0]->color);
     }
 }

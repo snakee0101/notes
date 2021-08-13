@@ -73,7 +73,11 @@ export default {
             alert('Content is filtered by type ' + type);
         },
         filterByLabel(label) {
-            alert('Content is filtered by label ' + label);
+            axios.post('/search', {
+                'query' : '',
+                'filterBy' : 'tag',
+                'filterValue' : label,
+            }).then(res => console.log(res.data));
         },
         filterByColor(color) {
             axios.post('/search', {
