@@ -49,8 +49,14 @@ export default {
             window.events.$emit('searchCleared');
         },
         search() {
-            if (this.searchText !== '')
-                alert('starting search');
+            if (this.searchText === '')
+                return;
+
+            axios.post('/search', {
+                'query': this.searchText,
+                'filterBy': window.searchFilters.filterBy,
+                'filterValue': window.searchFilters.filterValue,
+            }).then(res => console.log(res.data));
         },
         delayedSearch() {
             clearTimeout(window.searchTimeoutId);
