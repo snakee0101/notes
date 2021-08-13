@@ -11,7 +11,8 @@
                     <i class="bi bi-image icon-lg text-white"></i>
                     <p class="mt-10 mb-4">Images</p>
                 </button>
-                <button class="blue-search-box-button" @click="filterByType('drawing')"> <!--TODO: Drawings feature is not implemented yet-->
+                <button class="blue-search-box-button" @click="filterByType('drawing')">
+                    <!--TODO: Drawings feature is not implemented yet-->
                     <i class="bi bi-brush-fill icon-lg text-white"></i>
                     <p class="mt-10 mb-4">Drawings</p>
                 </button>
@@ -33,11 +34,11 @@
         <div class="color-controls shadow-lg border border-gray-300 mb-4">
             <h2 class="font-bold p-2 pb-2">Colors</h2>
             <div class="p-4 flex flex-row flex-wrap">
-                    <a v-for="color in colors" href=""
-                       class="color-circle"
-                       :class="'bg-google-' + color"
-                       v-b-tooltip.hover.bottom :title="color"
-                       @click.prevent="filterByColor(color)"></a>
+                <a v-for="color in colors" href=""
+                   class="color-circle"
+                   :class="'bg-google-' + color"
+                   v-b-tooltip.hover.bottom :title="color"
+                   @click.prevent="filterByColor(color)"></a>
             </div>
         </div>
     </div>
@@ -46,7 +47,7 @@
 <script>
 export default {
     name: "SearchControlsComponent.vue",
-    data: function(){
+    data: function () {
         return {
             isSearchActive: false,
             colors: [
@@ -69,25 +70,37 @@ export default {
         deactivateSearch() {
             this.isSearchActive = false;
         },
+        saveFilters(filterBy, filterValue) {
+            window.searchFilters = {
+                'filterBy': filterBy,
+                'filterValue': filterValue
+            };
+        },
         filterByType(type) {
+            this.saveFilters('type', type);
+
             axios.post('/search', {
-                'query' : '',
-                'filterBy' : 'type',
-                'filterValue' : type,
+                'query': '',
+                'filterBy': 'type',
+                'filterValue': type,
             }).then(res => console.log(res.data));
         },
         filterByLabel(label) {
+            this.saveFilters('tag', label);
+
             axios.post('/search', {
-                'query' : '',
-                'filterBy' : 'tag',
-                'filterValue' : label,
+                'query': '',
+                'filterBy': 'tag',
+                'filterValue': label,
             }).then(res => console.log(res.data));
         },
         filterByColor(color) {
+            this.saveFilters('color', color);
+
             axios.post('/search', {
-                'query' : '',
-                'filterBy' : 'color',
-                'filterValue' : color,
+                'query': '',
+                'filterBy': 'color',
+                'filterValue': color,
             }).then(res => console.log(res.data));
         }
     }
