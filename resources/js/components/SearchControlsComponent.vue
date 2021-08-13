@@ -3,7 +3,7 @@
         <div class="type-controls shadow-lg border border-gray-300 mb-4">
             <h2 class="font-bold p-2 pb-4">Types</h2>
             <div class="flex flex-row justify-between">
-                <button class="blue-search-box-button" @click="filterByType('list')">
+                <button class="blue-search-box-button" @click="filterByType('checklist')">
                     <i class="bi bi-list icon-lg text-white"></i>
                     <p class="mt-10 mb-4">Lists</p>
                 </button>
@@ -11,11 +11,11 @@
                     <i class="bi bi-image icon-lg text-white"></i>
                     <p class="mt-10 mb-4">Images</p>
                 </button>
-                <button class="blue-search-box-button" @click="filterByType('drawing')">
+                <button class="blue-search-box-button" @click="filterByType('drawing')"> <!--TODO: Drawings feature is not implemented yet-->
                     <i class="bi bi-brush-fill icon-lg text-white"></i>
                     <p class="mt-10 mb-4">Drawings</p>
                 </button>
-                <button class="blue-search-box-button" @click="filterByType('url')">
+                <button class="blue-search-box-button" @click="filterByType('links')">
                     <i class="bi bi-link icon-lg text-white"></i>
                     <p class="mt-10 mb-4">URLs</p>
                 </button>
@@ -70,7 +70,11 @@ export default {
             this.isSearchActive = false;
         },
         filterByType(type) {
-            alert('Content is filtered by type ' + type);
+            axios.post('/search', {
+                'query' : '',
+                'filterBy' : 'type',
+                'filterValue' : type,
+            }).then(res => console.log(res.data));
         },
         filterByLabel(label) {
             axios.post('/search', {

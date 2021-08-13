@@ -13,15 +13,18 @@ class SearchController extends Controller
     {
         $searchQuery = $request->input('query');
         return Note::search($searchQuery, function(\MeiliSearch\Endpoints\Indexes $engine, $query, array $options) {
+            $engine->updateAttributesForFaceting(['tags', 'type']);
 
             if(request()->has('filterBy') && request()->input('filterBy') === 'color') {
                 $options['filters'] = 'color=' . request('filterValue');
             }
 
             if(request()->has('filterBy') && request()->input('filterBy') === 'tag') {
-                $engine->updateAttributesForFaceting(['tags', 'type']);
-
                 $options['facetFilters'] = ['tags:' . request()->input('filterValue')];
+            }
+
+            if(request()->has('filterBy') && request()->input('filterBy') === 'type') {
+                $options['facetFilters'] = ['type:' . request()->input('filterValue')];
             }
 
             return $engine->search($query, $options);
