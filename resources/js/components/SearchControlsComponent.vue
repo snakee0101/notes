@@ -56,6 +56,11 @@
 
             </note-component>
         </div>
+        <div class="searchResults notes-container" v-if="(areSearchControlsVisible === false) && (results.length === 0)">
+            <div class="alert alert-danger" role="alert">
+                No results found
+            </div>
+        </div>
     </div>
 
 </template>
