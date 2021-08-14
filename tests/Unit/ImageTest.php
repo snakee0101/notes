@@ -27,4 +27,9 @@ class ImageTest extends TestCase
         Storage::assertExists( Str::after($paths['thumbnail_small_path'], '/storage/') );
         Storage::assertExists( Str::after($paths['thumbnail_large_path'], '/storage/') );
     }
+
+    public function test_image_could_recognize_its_text()
+    {
+        $image->recognize();
+    }
 }

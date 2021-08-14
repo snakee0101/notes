@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image as InterventionImage;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class Image extends Model
 {
@@ -25,6 +27,13 @@ class Image extends Model
     public function note()
     {
         return $this->belongsTo(Note::class);
+    }
+
+    public function recognize($image_path)
+    {
+        $path = storage_path() . '/app/' . Str::after($image_path, '/storage');
+        $tesseract = new TesseractOCR($path);
+        return $tesseract->run();
     }
 
     public function makeCopy(Note $replica)

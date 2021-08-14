@@ -17,9 +17,17 @@ use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class ImageTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Storage::fake();
+        Storage::makeDirectory('images');
+        Storage::makeDirectory('thumbnails_large');
+        Storage::makeDirectory('thumbnails_small');
+    }
+
     public function generate_image() : File
     {
-        Storage::fake();
         return UploadedFile::fake()
                ->image('test.jpg', 1000, 1000);
     }
@@ -114,7 +122,7 @@ class ImageTest extends TestCase
 
     public function test_tesseract_output_in_controller()
     {
-        auth()->login( User::factory()->create() );
+        auth()->login( $owner = User::factory()->create() );
 
         $image = imagecreate(200, 200);
         $color = imagecolorallocate($image, 255, 255, 255);
@@ -124,8 +132,15 @@ class ImageTest extends TestCase
         imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
         imagejpeg($image, Storage::path('test_OCR.jpg'));
 
+        $image_model = Image::factory()->create([
+            'image_path' => Storage::path('test_OCR.jpg')
+        ]);
+        $note = Note::factory()->for($owner, 'owner')->create();
+        $note->images()->save($image_model);
+        $note->refresh();
+
         $recognized_text = $this->post(route('image.recognize'), [
-            'image_path' => '/storage/test_OCR.jpg'
+            'image_path' => Storage::path('test_OCR.jpg')
         ])->content();
 
         imagedestroy($image);

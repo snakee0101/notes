@@ -56,8 +56,6 @@ class ImageController extends Controller
         $image = Image::where('image_path', $request->image_path)->first();
 
         abort_if(Gate::denies('image_manipulation', $image->note), 403, 'Only owner and collaborators can manipulate images');
-
-        $tesseract = new TesseractOCR(storage_path() . '/app/' . Str::after($request->image_path,'/storage'));
-        return $tesseract->run();
+        return $image->recognize($request->image_path);
     }
 }
