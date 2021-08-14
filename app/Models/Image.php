@@ -22,6 +22,10 @@ class Image extends Model
     protected static function boot()
     {
         parent::boot();
+
+        static::saved(function(self $image) {
+            $image->update([ 'recognized_text' => $image->recognize() ]);
+        });
     }
 
     public function note()
