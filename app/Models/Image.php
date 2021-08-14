@@ -29,9 +29,9 @@ class Image extends Model
         return $this->belongsTo(Note::class);
     }
 
-    public function recognize($image_path)
+    public function recognize()
     {
-        $path = storage_path() . '/app/' . Str::after($image_path, '/storage');
+        $path = storage_path() . '/app/' . Str::after($this->image_path, '/storage');
         $tesseract = new TesseractOCR($path);
         return $tesseract->run();
     }
