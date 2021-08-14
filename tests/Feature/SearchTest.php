@@ -2,13 +2,17 @@
 
 namespace Tests\Feature;
 
+use App\Models\Image;
 use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Mockery\Mock;
 use Tests\TestCase;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 
 class SearchTest extends TestCase
@@ -103,6 +107,29 @@ class SearchTest extends TestCase
         $this->assertStringContainsString($tags[0]->name, $serialized_note['tags']);
         $this->assertStringContainsString($tags[1]->name, $serialized_note['tags']);
         $this->assertStringContainsString($tags[2]->name, $serialized_note['tags']);
+    }
+
+    public function test_recognized_images_text_is_included_in_search_index()
+    {
+        /*Storage::fake();
+        $image = imagecreate(200, 200);
+        $color = imagecolorallocate($image, 255, 255, 255);
+        $text_color = imagecolorallocate($image, 0, 0, 0);
+        $font_path = 'storage/app/Roboto-Light.ttf';
+
+        imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
+        imagejpeg($image, 'storage/app/test_OCR.jpg');*/
+
+
+      /*  $note = Note::factory()->create();
+        $image_models = Image::factory()->count(3)->for($note, 'note')->create();
+
+        dd($note->images);
+
+
+        $this->assertStringContainsString($image_models[0]->recognized_text, '');
+        $this->assertStringContainsString($image_models[1]->recognized_text, '');
+        $this->assertStringContainsString($image_models[2]->recognized_text, '');*/
     }
 
     public function test_a_note_could_be_filtered_by_tags() //TODO: Actually it works but not testable yet

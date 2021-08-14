@@ -26,13 +26,18 @@ class Note extends Model
 
     public function toSearchableArray()
     {
+        $recognized_text = $this->images->reduce(function($carry, $image) {
+            return $carry . ',' . $image->recognized_text;
+        });
+
         return [
             'id' => $this->id,
             'header' => $this->header,
             'body' => \strip_tags($this->body),
             'color' => $this->color,
             'tags' => $this->tags()->pluck('name')->toArray(),
-            'type' => NoteTypeDetector::select($this)->detectTypes()
+            'type' => NoteTypeDetector::select($this)->detectTypes(),
+            'recognized_text' => $recognized_text
         ];
     }
 

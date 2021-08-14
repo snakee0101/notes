@@ -5,21 +5,14 @@ namespace Database\Factories;
 use App\Models\Image;
 use App\Models\Note;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class ImageFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
+    use WithFaker;
+
     protected $model = Image::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition()
     {
         return [
@@ -27,6 +20,7 @@ class ImageFactory extends Factory
             'image_path' => '/storage/images/1.jpeg',
             'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
             'thumbnail_large_path' => '/storage/thumbnails_large/789' . '.jpeg',
+            'recognized_text' => $this->faker->sentence
         ];
     }
 }
