@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults">
+        <div class="searchResults" v-if="results.length > 0">
 
         </div>
     </div>
@@ -61,14 +61,20 @@ export default {
                 'green', 'teal', 'blue', 'dark-blue',
                 'purple', 'pink', 'brown', 'grey'
             ],
-            tags_list: []
+            tags_list: [],
+            results: []
         };
     },
     created() {
         window.events.$on('searchActivated', this.activateSearch);
         window.events.$on('searchCleared', this.deactivateSearch);
+        window.events.$on('searchResultsRetrieved', this.showSearchResults);
     },
     methods: {
+        showSearchResults(results) {
+            console.log('search results event has been executed');
+            this.results = results;
+        },
         activateSearch() {
             this.tags_list = window.tags_list;
             this.isSearchActive = true;
@@ -96,7 +102,7 @@ export default {
                 'query': '',
                 'filterBy': 'type',
                 'filterValue': type,
-            }).then(res => console.log(res.data));
+            }).then(res => window.events.$emit('searchResultsRetrieved', res.data.data));
         },
         filterByLabel(label) {
             this.saveFilters('tag', label);
@@ -105,7 +111,7 @@ export default {
                 'query': '',
                 'filterBy': 'tag',
                 'filterValue': label,
-            }).then(res => console.log(res.data));
+            }).then(res => window.events.$emit('searchResultsRetrieved', res.data.data));
         },
         filterByColor(color) {
             this.saveFilters('color', color);
@@ -114,7 +120,7 @@ export default {
                 'query': '',
                 'filterBy': 'color',
                 'filterValue': color,
-            }).then(res => console.log(res.data));
+            }).then(res => window.events.$emit('searchResultsRetrieved', res.data.data));
         }
     }
 }

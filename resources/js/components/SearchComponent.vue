@@ -56,7 +56,7 @@ export default {
                 'query': this.searchText,
                 'filterBy': window.searchFilters.filterBy,
                 'filterValue': window.searchFilters.filterValue,
-            }).then(res => console.log(res.data));
+            }).then(res => window.events.$emit('searchResultsRetrieved', res.data.data));
         },
         delayedSearch() {
             clearTimeout(window.searchTimeoutId);
