@@ -49,9 +49,6 @@ export default {
             window.events.$emit('searchCleared');
         },
         search() {
-            if (this.searchText === '')
-                return;
-
             axios.post('/search', {
                 'query': this.searchText,
                 'filterBy': window.searchFilters.filterBy,
