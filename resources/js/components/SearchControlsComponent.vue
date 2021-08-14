@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults" v-if="results.length > 0" v-masonry transition-duration="0.3s" item-selector=".note"
+        <div class="searchResults notes-container" v-if="results.length > 0" v-masonry transition-duration="0.3s" item-selector=".note"
              gutter=".gutter" :origin-top="true">
             <div class="gutter"></div>
 
