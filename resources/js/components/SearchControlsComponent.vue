@@ -26,7 +26,8 @@
             <div class="label-controls shadow-lg border border-gray-300 mb-4">
                 <h2 class="font-bold p-2 pb-4">Labels</h2>
                 <div class="flex flex-row items-start flex-wrap justify-between">
-                    <button class="gray-search-box-button mb-2" @click="filterByLabel(tag.name)" v-for="tag in tags_list">
+                    <button class="gray-search-box-button mb-2" @click="filterByLabel(tag.name)"
+                            v-for="tag in tags_list">
                         <i class="bi bi-tags-fill icon-lg"></i>
                         <p class="mt-10 mb-4">{{ tag.name }}</p>
                     </button>
@@ -43,8 +44,17 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults" v-if="results.length > 0">
+        <div class="searchResults" v-if="results.length > 0" v-masonry transition-duration="0.3s" item-selector=".note"
+             gutter=".gutter" :origin-top="true">
+            <div class="gutter"></div>
 
+            <note-component v-masonry-tile
+                            v-for="note in results"
+                            :key="note.id"
+                            :note="note"
+                            :isTrashed="false">
+
+            </note-component>
         </div>
     </div>
 
@@ -72,14 +82,13 @@ export default {
     },
     methods: {
         showSearchResults(results) {
-            console.log('search results event has been executed');
             this.results = results;
         },
         activateSearch() {
             this.tags_list = window.tags_list;
             this.isSearchActive = true;
 
-            if(window.searchFilters == undefined) {
+            if (window.searchFilters == undefined) {
                 window.searchFilters = {
                     'filterBy': '',
                     'filterValue': ''
