@@ -56,7 +56,7 @@
 
             </note-component>
         </div>
-        <div class="searchResults notes-container" v-if="(areSearchControlsVisible === false) && (results.length === 0)">
+        <div class="searchResults notes-container" v-if="resultsNotFound">
             <div class="alert alert-danger" role="alert">
                 No results found
             </div>
@@ -72,6 +72,7 @@ export default {
         return {
             isSearchActive: false,
             areSearchControlsVisible: false,
+            resultsNotFound: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -87,9 +88,18 @@ export default {
         window.events.$on('searchResultsRetrieved', this.showSearchResults);
     },
     methods: {
-        showSearchResults(results) {
-            this.areSearchControlsVisible = false;
+        assignResults: async function (results) {
+            this.resultsNotFound = false;
             this.results = results;
+        },
+        showSearchResults(results) {
+            this.assignResults(results).then(
+                () => this.checkForResults()
+            );
+        },
+        checkForResults() {
+            this.resultsNotFound = !(this.results.length);
+            this.areSearchControlsVisible = false;
         },
         activateSearch() {
             this.isSearchActive = true;
@@ -111,6 +121,7 @@ export default {
             this.isSearchActive = false;
             this.areSearchControlsVisible = false;
             this.results = [];
+            this.resultsNotFound = false;
 
             window.searchFilters = {
                 'filterBy': '',
