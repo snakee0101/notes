@@ -66,6 +66,13 @@ export default {
         activateSearch() {
             this.tags_list = window.tags_list;
             this.isSearchActive = true;
+
+            if(window.searchFilters == undefined) {
+                window.searchFilters = {
+                    'filterBy': '',
+                    'filterValue': ''
+                };
+            }
         },
         deactivateSearch() {
             this.isSearchActive = false;
