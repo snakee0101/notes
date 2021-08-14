@@ -7,7 +7,8 @@
            @click.prevent="search()">
             <i class="bi bi-search icon text-black"></i>
         </a><!--TODO: Restore the tooltip (Search)-->
-        <input type="text" class="flex-grow focus:outline-none mx-2 bg-gray-100" placeholder="Search"
+        <input type="text" class="flex-grow focus:outline-none mx-2 bg-gray-100"
+               :placeholder="placeholderValue"
                @focus="inFocus()"
                @blur="isSearchFieldActive = false"
                @keypress.enter="search()"
@@ -31,8 +32,13 @@ export default {
         return {
             isSearchFieldActive: false,
             isSearchControlsShown: false,
-            searchText: ''
+            searchText: '',
+            placeholderValue: 'Search'
         };
+    },
+    created() {
+        window.events.$on('searchResultsRetrieved', this.changePlaceholder);
+        window.events.$on('searchCleared', this.clearPlaceholder);
     },
     methods: {
         inFocus() {
@@ -47,6 +53,15 @@ export default {
 
             this.searchText = '';
             window.events.$emit('searchCleared');
+        },
+        changePlaceholder() {
+            if (window.searchFilters.filterBy !== '')
+                this.placeholderValue = 'Search within "' + window.searchFilters.filterValue + '"';
+            else
+                this.placeholderValue = "Search";
+        },
+        clearPlaceholder() {
+            this.placeholderValue = "Search";
         },
         search() {
             axios.post('/search', {
