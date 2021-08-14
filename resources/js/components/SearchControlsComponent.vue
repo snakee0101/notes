@@ -87,10 +87,7 @@ export default {
             this.results = results;
         },
         activateSearch() {
-            this.results = [];
-            this.tags_list = window.tags_list;
             this.isSearchActive = true;
-            this.areSearchControlsVisible = true;
 
             if (window.searchFilters == undefined) {
                 window.searchFilters = {
@@ -98,11 +95,22 @@ export default {
                     'filterValue': ''
                 };
             }
+
+            if(window.searchFilters.filterBy == '') {
+                this.results = [];
+                this.tags_list = window.tags_list;
+                this.areSearchControlsVisible = true;
+            }
         },
         deactivateSearch() {
             this.isSearchActive = false;
             this.areSearchControlsVisible = false;
             this.results = [];
+
+            window.searchFilters = {
+                'filterBy': '',
+                'filterValue': ''
+            };
         },
         saveFilters(filterBy, filterValue) {
             this.areSearchControlsVisible = false;
