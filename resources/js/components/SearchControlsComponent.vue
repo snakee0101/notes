@@ -44,22 +44,27 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults notes-container" v-if="results.length > 0" v-masonry transition-duration="0.3s" item-selector=".note"
+        <div class="searchResults notes-container" v-if="results.data != undefined" v-masonry transition-duration="0.3s" item-selector=".note"
              gutter=".gutter" :origin-top="true">
             <div class="gutter"></div>
 
             <note-component v-masonry-tile
-                            v-for="note in results"
+                            v-for="note in results.data"
                             :key="note.id"
                             :note="note"
                             :isTrashed="false">
 
             </note-component>
         </div>
+
         <div class="searchResults notes-container" v-if="resultsNotFound">
             <div class="alert alert-danger" role="alert">
                 No results found
             </div>
+        </div>
+
+        <div class="searchResults notes-container" v-else>
+            <a :href="link.url" v-for="link in results.links" class="btn btn-outline-primary" :class="link.active ? 'btn-primary' : 'btn-outline-primary'" v-html="link.label"></a>
         </div>
     </div>
 
@@ -98,7 +103,7 @@ export default {
             );
         },
         checkForResults() {
-            this.resultsNotFound = !(this.results.length);
+            this.resultsNotFound = !(this.results.data.length);
             this.areSearchControlsVisible = false;
         },
         activateSearch() {
@@ -143,7 +148,7 @@ export default {
                 'query': '',
                 'filterBy': 'type',
                 'filterValue': type,
-            }).then(res => window.events.$emit('searchResultsRetrieved', res.data.data));
+            }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
         },
         filterByLabel(label) {
             this.saveFilters('tag', label);
@@ -152,7 +157,7 @@ export default {
                 'query': '',
                 'filterBy': 'tag',
                 'filterValue': label,
-            }).then(res => window.events.$emit('searchResultsRetrieved', res.data.data));
+            }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
         },
         filterByColor(color) {
             this.saveFilters('color', color);
@@ -161,7 +166,7 @@ export default {
                 'query': '',
                 'filterBy': 'color',
                 'filterValue': color,
-            }).then(res => window.events.$emit('searchResultsRetrieved', res.data.data));
+            }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
         }
     }
 }
