@@ -1,6 +1,6 @@
 <template>
     <div class="search-controls m-auto" :class="isSearchActive ? 'active' :''">
-        <div class="m-auto" style="max-width: 640px">
+        <div class="m-auto" :class="areSearchControlsVisible ? 'd-block' : 'd-none'" style="max-width: 640px">
             <div class="type-controls shadow-lg border border-gray-300 mb-4">
                 <h2 class="font-bold p-2 pb-4">Types</h2>
                 <div class="flex flex-row justify-between">
@@ -66,6 +66,7 @@ export default {
     data: function () {
         return {
             isSearchActive: false,
+            areSearchControlsVisible: false,
             colors: [
                 'white', 'red', 'orange', 'yellow',
                 'green', 'teal', 'blue', 'dark-blue',
@@ -82,11 +83,14 @@ export default {
     },
     methods: {
         showSearchResults(results) {
+            this.areSearchControlsVisible = false;
             this.results = results;
         },
         activateSearch() {
+            this.results = [];
             this.tags_list = window.tags_list;
             this.isSearchActive = true;
+            this.areSearchControlsVisible = true;
 
             if (window.searchFilters == undefined) {
                 window.searchFilters = {
@@ -97,8 +101,12 @@ export default {
         },
         deactivateSearch() {
             this.isSearchActive = false;
+            this.areSearchControlsVisible = false;
+            this.results = [];
         },
         saveFilters(filterBy, filterValue) {
+            this.areSearchControlsVisible = false;
+
             window.searchFilters = {
                 'filterBy': filterBy,
                 'filterValue': filterValue
