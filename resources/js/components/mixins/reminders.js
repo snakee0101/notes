@@ -122,7 +122,7 @@ module.exports = {
 
             json.repeat = json.repeat ?? {};
             //initialize repeat status dropdown
-            if(Object.keys(json.repeat).length == 0) {  //Object.keys(obj).length == 0  - check if the object is empty
+            if(json.repeat.hasOwnProperty('every') === false) {  //Object.keys(obj).length == 0  - check if the object is empty
                 this.repeatStatus = "Doesn't repeat";
                 return;
             }
