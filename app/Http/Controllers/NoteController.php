@@ -23,7 +23,8 @@ class NoteController extends Controller
 
         if( !empty($reminder) )
         {
-            $note->reminder()->create([
+            $note->reminders()->create([
+                'user_id' => auth()->id(),
                 'time' => $reminder['time'] ?? "",
                 'repeat' => $reminder['repeat'] ?? "",
                 'location' => '',

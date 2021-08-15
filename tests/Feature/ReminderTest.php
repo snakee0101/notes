@@ -15,7 +15,8 @@ class ReminderTest extends TestCase
     {
         $note = Note::factory()->create();
         $reminder = Reminder::factory()->create([
-            'note_id' => $note->id
+            'note_id' => $note->id,
+            'user_id' => $note->owner
         ]);
         auth()->login($note->owner);
 
