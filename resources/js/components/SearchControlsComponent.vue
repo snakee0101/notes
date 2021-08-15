@@ -64,7 +64,7 @@
         </div>
 
         <div class="searchResults notes-container" v-else>
-            <a :href="link.url" v-for="link in results.links" class="btn btn-outline-primary" :class="link.active ? 'btn-primary' : 'btn-outline-primary'" v-html="link.label"></a>
+            <button @click.prevent="goToPage(link.url)" v-for="link in results.links" class="btn btn-outline-primary" :class="link.active ? 'btn-primary' : 'btn-outline-primary'" v-html="link.label"></button>
         </div>
     </div>
 
@@ -94,6 +94,9 @@ export default {
         window.events.$on('refreshLabels', this.refreshLabels);
     },
     methods: {
+        goToPage(url) {
+            axios.post(url).then(res => window.events.$emit('searchResultsRetrieved', res.data));
+        },
         refreshLabels(labels) {
             this.tags_list = labels;
         },
