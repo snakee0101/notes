@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Note;
 use App\Models\Reminder;
+use App\Models\User;
 use App\Notifications\TimeNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -19,6 +20,18 @@ class ReminderTest extends TestCase
 
         $this->assertInstanceOf(Reminder::class, $note->reminders[0]);
         $this->assertCount(3, $note->reminders);
+    }
+
+    public function test_reminder_belongs_to_the_user()
+    {
+        $this->assertInstanceOf(User::class, Reminder::factory()->create()->owner);
+    }
+
+    public function test_reminders_are_unique_by_note_and_user()
+    {
+//        $note = Note::factory()->create();
+//        Reminder::factory()->for($note, 'note')->for('user')->create();
+//        Reminder::factory()->for($note, 'note')->create();
     }
 
     public function test_current_user_can_see_only_their_reminder()

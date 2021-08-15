@@ -19,6 +19,11 @@ class Reminder extends Model
     ];
     protected $dates = ['time'];
 
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function note()
     {
         return $this->belongsTo(Note::class);
