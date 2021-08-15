@@ -19,7 +19,7 @@ class CreateImagesTable extends Migration
             $table->string('image_path');
             $table->string('thumbnail_small_path');
             $table->string('thumbnail_large_path');
-            $table->string('recognized_text')->nullable();
+            $table->longText('recognized_text')->nullable();
             $table->softDeletes();
         });
     }
