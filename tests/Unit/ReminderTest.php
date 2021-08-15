@@ -22,6 +22,11 @@ class ReminderTest extends TestCase
         $this->assertCount(3, $note->reminders);
     }
 
+    public function test_reminder_belongs_to_the_note()
+    {
+        $this->assertInstanceOf(Note::class, Reminder::factory()->create()->note);
+    }
+
     public function test_reminder_belongs_to_the_user()
     {
         $this->assertInstanceOf(User::class, Reminder::factory()->create()->owner);
@@ -66,17 +71,6 @@ class ReminderTest extends TestCase
 
         $json_decoded = json_decode($note->fresh()->toJson());
         $this->assertObjectHasAttribute('reminder', $json_decoded);
-    }
-
-    public function test_reminder_can_access_the_note()
-    {
-        $note = Note::factory()->create();
-        $reminder = Reminder::factory()->create([
-            'note_id' => $note->id,
-            'time' => now()->addHour()
-        ]);
-
-        $this->assertInstanceOf(Note::class, $reminder->note);
     }
 
     public function test_reminder_sends_a_time_notification()
