@@ -29,9 +29,11 @@ class ReminderTest extends TestCase
 
     public function test_reminders_are_unique_by_note_and_user()
     {
-//        $note = Note::factory()->create();
-//        Reminder::factory()->for($note, 'note')->for('user')->create();
-//        Reminder::factory()->for($note, 'note')->create();
+        $this->expectExceptionMessage('19 UNIQUE constraint failed');
+        $note = Note::factory()->create();
+        $user = User::factory()->create();
+        Reminder::factory()->for($note, 'note')->for($user, 'owner')->create();
+        Reminder::factory()->for($note, 'note')->for($user, 'owner')->create();
     }
 
     public function test_current_user_can_see_only_their_reminder()
