@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\Image;
 use App\Models\Reminder;
 use App\Utilities\Trash;
 use Illuminate\Console\Scheduling\Schedule;
@@ -26,13 +27,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            Trash::removeExpired();
-        })->daily();
-
-        $schedule->call(function () {
-            Reminder::sendExpired();
-        })->everyMinute();
+        $schedule->call(function () { Trash::removeExpired(); })->daily();
+        $schedule->call(function () { Reminder::sendExpired(); })->everyMinute();
+        $schedule->call(function () { Image::removeSoftDeleted(); })->everyFiveMinutes();
     }
 
     /**

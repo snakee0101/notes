@@ -28,6 +28,19 @@ class Image extends Model
         });
     }
 
+    public static function removeSoftDeleted()
+    {
+        //remove images, that were deleted more than a minute ago
+        static::onlyTrashed()->where('deleted_at', '<', now()->subMinute())->each(function(self $image) {
+            //offset for '/storage/' part
+            Storage::delete( substr($image->image_path, 9) );
+            Storage::delete( substr($image->thumbnail_small_path, 9) );
+            Storage::delete( substr($image->thumbnail_large_path, 9) );
+
+            $image->forceDelete();
+        });
+    }
+
     public function note()
     {
         return $this->belongsTo(Note::class);
