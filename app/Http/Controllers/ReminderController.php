@@ -11,8 +11,12 @@ class ReminderController extends Controller
     public function index()
     {
         $data = [
-            'pinned_notes' => auth()->user()->notes()->has('reminder')->where('pinned', true)->paginate(),
-            'other_notes' => auth()->user()->notes()->has('reminder')->where('pinned', false)->paginate()
+            'pinned_notes' => auth()->user()->notes()->whereHas('reminders', function($q){
+               $q->where('reminders.user_id', auth()->id());
+            })->where('pinned', true)->paginate(),
+            'other_notes' => auth()->user()->notes()->whereHas('reminders', function($q){
+                $q->where('reminders.user_id', auth()->id());
+            })->where('pinned', false)->paginate()
         ];
 
         if(! request()->wantsJson()) {
