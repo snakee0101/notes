@@ -734,4 +734,33 @@ class RightsTest extends TestCase
         ]) );
         $this->assertEmpty( $note->fresh()->tags );
     }
+
+    /**
+     * Reminder rights
+     */
+
+    public function test_reminder_for_a_note_could_be_created_by_notes_owner_or_collaborator()
+    {
+        [$note, $collaborator] = $this->create_note_with_collaborators();
+        [$note_2, $collaborator_2] = $this->create_note_with_collaborators();
+        [$note_3, $collaborator_3] = $this->create_note_with_collaborators();
+
+        auth()->login($note->owner);
+        $this->post( route('reminder.store', $note), [
+            'time' => now()->addDay()->format('Y-m-d H:i:s')
+        ])->assertSuccessful();
+        $this->assertDatabaseHas('reminders', ['user_id' => $note->owner->id, 'note_id' => $note->id]);
+
+        auth()->login($collaborator_2);
+        $this->post( route('reminder.store', $note_2), [
+            'time' => now()->addDay()->format('Y-m-d H:i:s')
+        ])->assertSuccessful();
+        $this->assertDatabaseHas('reminders', ['user_id' => $collaborator_2->id, 'note_id' => $note_2->id]);
+
+        auth()->login( $another_user = User::factory()->create() );
+        $this->post( route('reminder.store', $note_3), [
+            'time' => now()->addDay()->format('Y-m-d H:i:s')
+        ])->assertForbidden();
+        $this->assertDatabaseMissing('reminders', ['user_id' => $another_user->id, 'note_id' => $note_3->id]);
+    }
 }

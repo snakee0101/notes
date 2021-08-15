@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ReminderController extends Controller
 {
@@ -26,8 +27,11 @@ class ReminderController extends Controller
 
     public function store(Request $request, Note $note)
     {
-        return $note->reminder()->updateOrCreate([
+        abort_if(Gate::denies('reminders', $note), 403, 'Only owner and collaborators can manipulate reminders');
+
+        return $note->reminders()->updateOrCreate([
             'note_id' => $note->id,
+            'user_id' => auth()->id(),
         ], [
             'time' => request('time'),
             'repeat' => json_decode( request('repeat') )
