@@ -181,6 +181,31 @@ class NoteTest extends TestCase
         $this->assertEquals($note->checklist->tasks[0]->text, $replica->checklist->tasks[0]->text);
     }
 
+    public function test_note_duplicates_only_owners_reminder()
+    {
+        $owner = User::factory()->create();
+        $other_user = User::factory()->create();
+
+        $note = Note::factory()->create([ 'owner_id' => $owner->id ]);
+        $note->collaborators()->attach($other_user);
+
+        $reminder = Reminder::factory()->for($note,'note')
+                                       ->for($note->owner,'owner')
+                                       ->create();
+
+        $other_reminder = Reminder::factory()->for($note,'note')
+                                       ->for($other_user,'owner')
+                                       ->create();
+
+        $this->assertDatabaseCount('reminders', 2);
+
+        auth()->login($owner);
+        $duplicated = $note->makeCopy();
+
+        $this->assertDatabaseCount('reminders', 3);
+        $this->assertEquals($owner->id, $duplicated->reminder->user_id);
+    }
+
     //note deletion tests
 
     public function test_image_record_is_deleted_when_the_note_is_deleted()
