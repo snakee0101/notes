@@ -91,8 +91,12 @@ export default {
         window.events.$on('searchActivated', this.activateSearch);
         window.events.$on('searchCleared', this.deactivateSearch);
         window.events.$on('searchResultsRetrieved', this.showSearchResults);
+        window.events.$on('refreshLabels', this.refreshLabels);
     },
     methods: {
+        refreshLabels(labels) {
+            this.tags_list = labels;
+        },
         assignResults: async function (results) {
             this.resultsNotFound = false;
             this.results = results;
