@@ -11,20 +11,20 @@
   - OK - Note hasMany Links
   - OK - Link belongsTo a Note
 
-- NO - Set up DB CONSTRAINTS
+- OK - Set up DB CONSTRAINTS
   - OK - When the note is deleted - all associated links are automatically removed (ON DELETE CASCADE)
   - OK - UNIQUE check: links with the same url in the same note are not allowed
   - OK - it shouldn't raise an exception, because other links must be added despite constraint violation - the exception
          must be intercepted by try-catch and ignored)
 
-- NO - Link actions
+- OK - Link actions
    - OK - Copy URL.  Performed by:  Vue
-   - NO - Remove. Performed by:
-     - NO - Vue
+   - OK - Remove. Performed by:
+     - OK - Vue
      - OK - PHP
-   - NO - Restore. Performed by:
+   - OK - Restore. Performed by:
      - OK - PHP
-     - NO - Vue
+     - OK - Vue
 
 - OK - Link should have a resource controller with one action - DESTROY
 
@@ -34,15 +34,15 @@ WHEN the Note-Link relations and Link models must be checked for CHANGES:
 - OK - Note is DELETED
 
 ACTIONS
-- NO - REMOVE. The link card (actually the link model) is removed only when the user clicked "Remove" button,
-- NO - when the link is deleted from the note's body, it's model remains untouched (soft deletes).
+- OK - REMOVE. The link card (actually the link model) is removed only when the user clicked "Remove" button,
+- OK - when the link is deleted from the note's body, it's model remains untouched (soft deletes).
 - OK - It requires a DESTROY controller action
 
 - OK - link could be RESTORED (requires RESTORE action)
-- NO - link could be restored by Vue (it means that DESTROY action could be undone with Vue Notification)
+- OK - link could be restored by Vue (it means that DESTROY action could be undone with Vue Notification)
 
 - OK - CREATE. The link model is created only after the new note is saved to DB.
-- NO - CREATE (Vue). After the new note is created - the link card is automatically displayed on the note
+- OK - CREATE (Vue). After the new note is created - the link card is automatically displayed on the note
 
 - OK - Before creation, all links must be found. It's accomplished by parsing note's body for links.
   IMPLEMENTATION:
@@ -74,4 +74,3 @@ ACTIONS
 
 RELATIONS
 - OK - Note::copy() action must now copy the Note->URLS relationship
-- NO - Hide checkboxes action restores all the links into <a> tags

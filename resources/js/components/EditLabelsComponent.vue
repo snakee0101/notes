@@ -50,8 +50,6 @@
                         </a>
                     </div>
 
-                    <p class="mb-4 text-red-700" v-if="uniqueErrorShown">Tag names must be unique</p>
-
                     <div class="label flex flex-row mb-3 items-center" v-for="(label, key) in labels">
                         <a href=""
                            @click.prevent="showDeleteConfirmation(label)"
@@ -87,6 +85,9 @@
                             <i class="bi bi-check icon-sm"></i>
                         </a>
                     </div>
+
+                    <p class="mb-4 text-red-700" v-if="uniqueErrorShown">Tag names must be unique</p>
+
                 </div>
             </div>
             <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
@@ -153,6 +154,11 @@ export default {
         },
         renameLabel(refName, key) {
             let newLabelName = this.$refs[refName][0].value;
+
+            if(this.labels.map(label => label.name).includes(newLabelName)) {
+                this.uniqueErrorShown = true;
+                return setTimeout(this.hideUniqueError, 2000);
+            }
 
             axios.put('/tag/' + this.labels[key].name, {
                 new_name: newLabelName
