@@ -90,7 +90,7 @@ class ReminderTest extends TestCase
 
         $this->travel(61)->minutes();
         $reminder->sendTimeReminder();
-        Notification::assertSentTo($note->owner, TimeNotification::class);
+        Notification::assertSentTo($reminder->owner, TimeNotification::class);
     }
 
     public function test_time_notification_sends_mail()
