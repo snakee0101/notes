@@ -470,7 +470,7 @@ export default {
                 archived: false,
                 color: this.note.color,
                 type: this.note.type,
-                reminder: JSON.stringify(this.note.reminder),
+                reminder: this.note.reminder,
                 tag_ids: this.note.tags.map( tag => tag.id ),
                 collaborator_ids: this.note.collaborators.map( user => user.id )
             }).then(res => this.saveChecklist(res))

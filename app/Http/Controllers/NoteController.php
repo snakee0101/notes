@@ -19,14 +19,14 @@ class NoteController extends Controller
         $note = Note::create($data);
 
         /****Set the reminder****/
-        $reminder = json_decode($request->reminder, true);
+        $reminder = $request->reminder;
 
         if( !empty($reminder) )
         {
             $note->reminders()->create([
                 'user_id' => auth()->id(),
                 'time' => $reminder['time'] ?? "",
-                'repeat' => $reminder['repeat'] ?? "",
+                'repeat' => json_decode($reminder['repeat']) ?? "",
                 'location' => '',
             ]);
         }

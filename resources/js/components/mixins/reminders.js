@@ -116,6 +116,7 @@ module.exports = {
             };
 
             let json = this.note.reminder;
+            json.repeat = JSON.parse(this.note.reminder.repeat);
 
             this.pickedDate = json.time ? moment(json.time).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
             this.pickedTime = json.time ? moment(json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
