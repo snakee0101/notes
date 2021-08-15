@@ -285,17 +285,17 @@ export default {
         },
         delete_image(index) {
             axios.post('/image/delete/' + this.note.images[index].id)
-                 .then(res => this.deleteImageCallback(res.data, index));
+                 .then(res => this.deleteImageCallback(this.note.images[index], index));
         },
-        deleteImageCallback(deleted_image_id, index) {
-            window.deleted_image_id = deleted_image_id;
+        deleteImageCallback(deleted_image, index) {
+            window.deleted_image = deleted_image;
 
             this.note.images.splice(index, 1);
             window.events.$emit('show-notification', 'Image deleted', this.undoImageDeletion);
         },
         undoImageDeletion() {
-            axios.put('/image/restore/' + window.deleted_image_id)
-                 .then( (res) => this.note.images.push(res.data) );
+            axios.put('/image/restore/' + window.deleted_image.id);
+            this.note.images.push(window.deleted_image);
 
             window.events.$emit('show-notification', 'Action undone');
         },
