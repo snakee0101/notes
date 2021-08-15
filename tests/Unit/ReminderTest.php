@@ -60,9 +60,9 @@ class ReminderTest extends TestCase
     public function test_a_note_appends_reminder_to_json()
     {
         $note = Note::factory()->create();
-        Reminder::factory()->create([
-            'note_id' => $note->id
-        ]);
+        Reminder::factory()->for($note,'note')
+                           ->for($note->owner,'owner')->create();
+        auth()->login($note->owner);
 
         $json_decoded = json_decode($note->fresh()->toJson());
         $this->assertObjectHasAttribute('reminder', $json_decoded);
