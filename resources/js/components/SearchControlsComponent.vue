@@ -145,32 +145,24 @@ export default {
                 'filterValue': filterValue
             };
         },
-        filterByType(type) {
-            this.saveFilters('type', type);
-
+        filterData(filterBy, filterValue) {
             axios.post('/search', {
                 'query': '',
-                'filterBy': 'type',
-                'filterValue': type,
+                'filterBy': filterBy,
+                'filterValue': filterValue,
             }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
+        },
+        filterByType(type) {
+            this.saveFilters('type', type);
+            this.filterData('type', type);
         },
         filterByLabel(label) {
             this.saveFilters('tag', label);
-
-            axios.post('/search', {
-                'query': '',
-                'filterBy': 'tag',
-                'filterValue': label,
-            }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
+            this.filterData('tag', label);
         },
         filterByColor(color) {
             this.saveFilters('color', color);
-
-            axios.post('/search', {
-                'query': '',
-                'filterBy': 'color',
-                'filterValue': color,
-            }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
+            this.filterData('color', color);
         }
     }
 }
