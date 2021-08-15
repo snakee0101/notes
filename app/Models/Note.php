@@ -104,6 +104,11 @@ class Note extends Model
         return $this->hasMany(Image::class);
     }
 
+    public function reminders()
+    {
+        return $this->hasMany(Reminder::class);
+    }
+
     public function reminder()
     {
         return $this->hasOne(Reminder::class);

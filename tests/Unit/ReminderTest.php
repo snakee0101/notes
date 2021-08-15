@@ -12,14 +12,23 @@ use Tests\TestCase;
 
 class ReminderTest extends TestCase
 {
-    public function test_a_note_has_a_reminder()
+    public function test_a_note_has_many_reminders()
     {
-        $note = Note::factory()->create();
+        $note = Note::factory()->has( Reminder::factory()->count(3) )->create();
+        $note->refresh();
+
+        $this->assertInstanceOf(Reminder::class, $note->reminders[0]);
+        $this->assertCount(3, $note->reminders);
+    }
+
+    public function test_current_user_can_see_only_their_reminder()
+    {
+        /*$note = Note::factory()->create();
         $reminder = Reminder::factory()->create([
             'note_id' => $note->id
         ]);
 
-        $this->assertInstanceOf(Reminder::class, $note->reminder);
+        $note->reminder;*/
     }
 
     public function test_a_note_appends_reminder_to_json()

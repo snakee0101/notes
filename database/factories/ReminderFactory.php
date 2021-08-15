@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Note;
 use App\Models\Reminder;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ReminderFactory extends Factory
@@ -22,6 +24,8 @@ class ReminderFactory extends Factory
     public function definition()
     {
         return [
+            'note_id' => Note::factory(),
+            'user_id' => User::factory(),
             'time' => now()->addDay(),
             'location' => $this->faker->address,
             'repeat' => null
