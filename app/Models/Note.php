@@ -22,7 +22,8 @@ class Note extends Model
         'archived' => 'boolean',
     ];
 
-    protected $with = ['checklist', 'links', 'images', 'owner', 'reminder', 'collaborators', 'tags'];
+    protected $appends = ['reminder'];
+    protected $with = ['checklist', 'links', 'images', 'owner', 'collaborators', 'tags'];
 
     public function toSearchableArray()
     {
@@ -109,9 +110,9 @@ class Note extends Model
         return $this->hasMany(Reminder::class);
     }
 
-    public function reminder()
+    public function getReminderAttribute() :Reminder
     {
-        return $this->hasOne(Reminder::class);
+        return $this->reminders()->firstWhere('user_id', auth()->id());
     }
 
     public function checklist()

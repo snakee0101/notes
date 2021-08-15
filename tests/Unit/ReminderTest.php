@@ -36,12 +36,23 @@ class ReminderTest extends TestCase
 
     public function test_current_user_can_see_only_their_reminder()
     {
-        /*$note = Note::factory()->create();
-        $reminder = Reminder::factory()->create([
-            'note_id' => $note->id
-        ]);
+        $user_1 = User::factory()->create();
+        $user_2 = User::factory()->create();
 
-        $note->reminder;*/
+        $note = Note::factory()->create();
+        $reminder_1 = Reminder::factory()->for($note, 'note')
+                                       ->for($user_1, 'owner')->create();
+
+        $reminder_2 = Reminder::factory()->for($note, 'note')
+                                       ->for($user_2, 'owner')->create();
+
+        auth()->login($user_1);
+        $this->assertInstanceOf(Reminder::class, $note->reminder);
+        $this->assertEquals($user_1->id, $note->reminder->user_id);
+
+        auth()->login($user_2);
+        $this->assertInstanceOf(Reminder::class, $note->reminder);
+        $this->assertEquals($user_2->id, $note->reminder->user_id);
     }
 
     public function test_a_note_appends_reminder_to_json()
