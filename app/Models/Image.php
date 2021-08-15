@@ -23,7 +23,7 @@ class Image extends Model
     {
         parent::boot();
 
-        static::saved(function(self $image) {
+        static::created(function(self $image) {
             $image->update([ 'recognized_text' => $image->recognize() ]);
         });
     }
