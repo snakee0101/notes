@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Note;
+use App\Models\Reminder;
 use App\Models\Tag;
 use App\Policies\NotePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;

@@ -40,6 +40,9 @@ class ReminderController extends Controller
 
     public function destroy(Note $note)
     {
-        $note->reminder()->delete();
+        abort_if(Gate::denies('reminders', $note), 403, 'Only reminder owner can delete reminder');
+
+        $note->reminders()->firstWhere('user_id', auth()->id())
+                          ?->delete();
     }
 }

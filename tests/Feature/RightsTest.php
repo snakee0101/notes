@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Checklist;
 use App\Models\Link;
 use App\Models\Note;
+use App\Models\Reminder;
 use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
@@ -762,5 +763,41 @@ class RightsTest extends TestCase
             'time' => now()->addDay()->format('Y-m-d H:i:s')
         ])->assertForbidden();
         $this->assertDatabaseMissing('reminders', ['user_id' => $another_user->id, 'note_id' => $note_3->id]);
+    }
+
+    public function test_reminder_could_be_deleted_by_its_owner_only()
+    {
+        [$note, $collaborator] = $this->create_note_with_collaborators();
+        Reminder::factory()->for($note,'note')
+                           ->for($collaborator,'owner')->create();
+
+        $this->assertDatabaseCount('reminders', 1);
+
+        auth()->login( User::factory()->create() ); //other user rights
+        $this->delete( route('reminder.destroy', $note) )
+             ->assertForbidden();
+        $this->assertDatabaseCount('reminders', 1);
+
+        auth()->login( $note->owner ); //note owner rights
+        $this->delete( route('reminder.destroy', $note) );
+        $this->assertDatabaseCount('reminders', 1);
+
+        auth()->login( $collaborator ); //reminder owner rights
+        $this->delete( route('reminder.destroy', $note) )
+            ->assertOk();
+        $this->assertDatabaseCount('reminders', 0);
+
+
+        $note_2 = Note::factory()->create();
+        Reminder::factory()->for($note_2,'note')
+            ->for($note_2->owner,'owner')->create();
+
+        $this->assertDatabaseCount('reminders', 1);
+
+        auth()->login( $note_2->owner ); //owner rights
+        $this->delete( route('reminder.destroy', $note_2) )
+            ->assertOk();
+
+        $this->assertDatabaseCount('reminders', 0);
     }
 }

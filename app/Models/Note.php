@@ -110,7 +110,7 @@ class Note extends Model
         return $this->hasMany(Reminder::class);
     }
 
-    public function getReminderAttribute() :Reminder
+    public function getReminderAttribute()
     {
         return $this->reminders()->firstWhere('user_id', auth()->id());
     }
