@@ -64,6 +64,7 @@ module.exports = {
 
             window.ReminderNoteId = this.note.id;
             window.ReminderTime = this.note.reminder.time;
+            window.ReminderRepeat = this.note.reminder.repeat;
 
             this.note.reminder = null;
 
@@ -73,8 +74,11 @@ module.exports = {
             window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
         },
         undoReminderRemoval() {
-            axios.post('/reminder/' + window.ReminderNoteId, {'time': window.ReminderTime});
-            this.note.reminder = {'time': window.ReminderTime};
+            axios.post('/reminder/' + window.ReminderNoteId, {
+                'time': window.ReminderTime,
+                'repeat': window.ReminderRepeat,
+            });
+            this.note.reminder = {'time': window.ReminderTime, 'repeat': window.ReminderRepeat};
 
             if (location.href.includes('/reminder'))
                 window.events.$emit('note_created', this.note);
