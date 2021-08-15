@@ -38,7 +38,7 @@ class ReminderController extends Controller
             'user_id' => auth()->id(),
         ], [
             'time' => request('time'),
-            'repeat' => json_decode(request('repeat')) ?? ""
+            'repeat' => request('repeat') ? json_decode(request('repeat')) : new class(){}
         ]);
     }
 

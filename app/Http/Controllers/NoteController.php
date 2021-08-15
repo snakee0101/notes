@@ -26,7 +26,7 @@ class NoteController extends Controller
             $note->reminders()->create([
                 'user_id' => auth()->id(),
                 'time' => $reminder['time'] ?? "",
-                'repeat' => json_decode($reminder['repeat']) ?? "",
+                'repeat' => $reminder['repeat'] ? json_decode($reminder['repeat']) : new class(){},
                 'location' => '',
             ]);
         }

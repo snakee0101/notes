@@ -92,9 +92,9 @@ module.exports = {
             this.note.reminder = res.data;
         },
         pickDateAndTime() {
+            this.initializeRepeatFields();
             this.$refs['dateTimePicker-modal'].show();
             this.$refs['reminder-dropdown'].hide()
-            this.initializeRepeatFields();
         },
         formatDate(text_time, format) {
             let time = {
@@ -115,12 +115,12 @@ module.exports = {
                 'year' : 'Yearly'
             };
 
-            let json = this.note.reminder;
-            json.repeat = JSON.parse(this.note.reminder.repeat);
+            let json = this.note.reminder ?? {};
 
-            this.pickedDate = json.time ? moment(json.time).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
-            this.pickedTime = json.time ? moment(json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
+            this.pickedDate = json ? moment(json.time).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
+            this.pickedTime = json ? moment(json.time).format('HH:mm:ss') : moment().format('HH:mm:ss');
 
+            json.repeat = json.repeat ?? {};
             //initialize repeat status dropdown
             if(Object.keys(json.repeat).length == 0) {  //Object.keys(obj).length == 0  - check if the object is empty
                 this.repeatStatus = "Doesn't repeat";
