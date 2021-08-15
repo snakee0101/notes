@@ -23,7 +23,7 @@
                     </button>
                 </div>
             </div>
-            <div class="label-controls shadow-lg border border-gray-300 mb-4">
+            <div class="label-controls shadow-lg border border-gray-300 mb-4" v-if="tags_list.length">
                 <h2 class="font-bold p-2 pb-4">Labels</h2>
                 <div class="flex flex-row items-start flex-wrap justify-between">
                     <button class="gray-search-box-button mb-2" @click="filterByLabel(tag.name)"
