@@ -456,7 +456,7 @@ export default {
         storeReminder(text_time) {
             let formatted_time = this.formatDate(text_time, 'YYYY-MM-DD HH:mm:ss');
 
-            this.note.reminder = {'time': formatted_time};
+            this.note.reminder = {'time': formatted_time, 'repeat': {}};
 
             this.pickedDate = this.formatDate(text_time, 'YYYY-MM-DD');
             this.pickedTime = this.formatDate(text_time, 'HH:mm:ss');

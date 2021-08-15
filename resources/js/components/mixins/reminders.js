@@ -158,7 +158,7 @@ module.exports = {
             }
         },
         buildRepeatObjectFromData() {
-            let repeat = '';
+            let repeat = {};
 
             if(this.repeatStatus !== "Doesn't repeat") {
                 repeat = {
