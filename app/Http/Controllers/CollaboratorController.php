@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use App\Models\User;
+use App\Notifications\CollaboratorWasAddedNotification;
+use App\Notifications\CollaboratorWasDeletedNotification;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
@@ -30,10 +32,19 @@ class CollaboratorController extends Controller
     {
         abort_if(Gate::denies('sync_collaborator', $note), 403, 'Only owner of the note may update collaborators');
 
-        $note->collaborators()->sync( request('collaborator_ids') );
+        $res = $note->collaborators()->sync( request('collaborator_ids') );
+
+        foreach($res['attached'] as $attachedCollaboratorId)
+        {
+           User::find($attachedCollaboratorId)->notify( new CollaboratorWasAddedNotification($note) );
+        }
+
+        foreach($res['detached'] as $detachedCollaboratorId)
+        {
+            User::find($detachedCollaboratorId)->notify( new CollaboratorWasDeletedNotification($note) );
+        }
 
         return $note->fresh()->collaborators;
-        //TODO: Send mail to the user when it is added or deleted from collaborators
     }
 
     public function check($email) //returns user object, if it exists
