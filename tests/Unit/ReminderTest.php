@@ -112,30 +112,26 @@ class ReminderTest extends TestCase
     public function test_time_notification_is_broadcasted()
     {
         $note = Note::factory()->create();
-        $reminder = Reminder::factory()->create([
-            'note_id' => $note->id,
-            'time' => now()->addHour()
-        ]);
+        $reminder = Reminder::factory()->for($note,'note')
+            ->for($note->owner,'owner')->create([ 'time' => now()->addHour() ]);
 
         $this->travel(61)->minutes();
         Reminder::sendTimeReminders();
-        Notification::assertSentTo($note->owner, TimeNotification::class, function($notification, $channels, $notifiable){
-            return array_search('broadcast', $channels) !== false;
+        Notification::assertSentTo($reminder->owner, TimeNotification::class, function($notification, $channels, $notifiable){
+            return array_search('broadcast', $channels);
         });
     }
 
     public function test_reminder_could_send_expired_reminders()
     {
         $note = Note::factory()->create();
-        $reminder = Reminder::factory()->create([
-            'note_id' => $note->id,
-            'time' => now()->addHour()
-        ]);
+        $reminder = Reminder::factory()->for($note,'note')
+            ->for($note->owner,'owner')->create([ 'time' => now()->addHour() ]);
 
         Notification::assertNothingSent();
         $this->travel(61)->minutes();
         Reminder::sendExpired();
-        Notification::assertSentTo($note->owner, TimeNotification::class);
+        Notification::assertSentTo($reminder->owner, TimeNotification::class);
     }
 
     public function test_reminder_is_deleted_after_sending()
