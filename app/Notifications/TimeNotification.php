@@ -13,7 +13,6 @@ class TimeNotification extends Notification
 
     public function __construct(Note $note)
     {
-
         $this->note = $note;
     }
 
