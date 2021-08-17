@@ -4,9 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\Note;
 use App\Models\Reminder;
+use App\Models\User;
+use App\Notifications\CollaboratorWasAddedNotification;
+use App\Notifications\TimeNotification;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class ReminderTest extends TestCase
@@ -128,6 +132,37 @@ class ReminderTest extends TestCase
         ])->json();
 
         $this->assertEquals($note->id, $reminder['note_id']);
+    }
+
+    public function test_when_collaborators_are_added_appropriate_messages_are_sent()
+    {
+        Notification::fake();
+
+        $owner = User::factory()->create();
+        auth()->login($owner);
+
+        $userData = [
+            'header' => 'header',
+            'body' => 'body',
+            'pinned' => false,
+            'archived' => false,
+            'color' => 'blue',
+            'type' => 'text'
+        ];
+
+        $collaborators = User::factory()->times(2)->create();
+        $userData['collaborator_ids'] = $collaborators->pluck('id')->toArray();
+
+        $this->post(route('note.store'), $userData);
+        $this->assertNotNull($note = Note::first());
+
+        Notification::assertSentTo($collaborators[0], CollaboratorWasAddedNotification::class);
+        Notification::assertSentTo($collaborators[1], CollaboratorWasAddedNotification::class);
+    }
+
+    public function test_when_collaborators_are_synchronized_appropriate_messages_are_sent()
+    {
+
     }
 
     /*public function test_reminder_could_be_stored_for_specific_place()

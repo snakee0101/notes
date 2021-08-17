@@ -7,6 +7,7 @@ use App\Models\Note;
 use App\Models\Reminder;
 use App\Models\Tag;
 use App\Models\User;
+use App\Notifications\CollaboratorWasAddedNotification;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -33,6 +34,8 @@ class NoteController extends Controller
 
         $note->tags()->attach( request('tag_ids') );  /****Set the tags****/
         $note->collaborators()->sync( request('collaborator_ids') );  /****Set the collaborators****/
+
+        $note->collaborators->each->notify( new CollaboratorWasAddedNotification($note) );
 
         /**Persist the links**/
         $links = Link::parseNote($note);
