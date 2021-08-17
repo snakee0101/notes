@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Note;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -9,52 +10,25 @@ use Illuminate\Notifications\Notification;
 
 class CollaboratorWasDeletedNotification extends Notification
 {
-    use Queueable;
+    private $note;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct(Note $note)
     {
-        //
+        $this->note = $note;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                ->line('Reminder about the note ' . $this->note->header)
-                ->action('View the note', url('/#'.$this->note->id));
-    }
+        $message = (new MailMessage)
+            ->line("You are now not a collaborator of the note '" . $this->note->header . "'");
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+        $message->subject = 'Notes App - You are now not a collaborator of the note #' . $this->note->id;
+
+        return $message;
     }
 }

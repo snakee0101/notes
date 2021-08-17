@@ -6,10 +6,12 @@ use App\Models\Note;
 use App\Models\Reminder;
 use App\Models\User;
 use App\Notifications\CollaboratorWasAddedNotification;
+use App\Notifications\CollaboratorWasDeletedNotification;
 use App\Notifications\TimeNotification;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -162,7 +164,27 @@ class ReminderTest extends TestCase
 
     public function test_when_collaborators_are_synchronized_appropriate_messages_are_sent()
     {
+        Notification::fake();
+        Mail::fake();
 
+        $note = Note::factory()->create();
+        $users = User::factory()->times(4)->create();
+        $note->collaborators()->attach([$users[0]->id, $users[1]->id]);
+        $note->refresh();
+
+        auth()->login($note->owner);
+
+        $this->post( route('sync_collaborator', $note), [
+            'collaborator_ids' => [$users[0]->id, $users[2]->id,  $users[3]->id]
+        ] )->assertOk();
+
+
+        Notification::assertSentTo($users[1], CollaboratorWasDeletedNotification::class);
+        Notification::assertSentTo($users[2], CollaboratorWasAddedNotification::class);
+        Notification::assertSentTo($users[3], CollaboratorWasAddedNotification::class);
+
+        Notification::assertNotSentTo($users[0], CollaboratorWasDeletedNotification::class);
+        Notification::assertNotSentTo($users[0], CollaboratorWasAddedNotification::class);
     }
 
     /*public function test_reminder_could_be_stored_for_specific_place()

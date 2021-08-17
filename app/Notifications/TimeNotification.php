@@ -37,7 +37,7 @@ class TimeNotification extends Notification
     {
         return (new MailMessage)
                     ->line('Reminder about the note ' . $this->note->header)
-                    ->action('View the note', url('/#'.$this->note->id));
+                    ->action('View the note', route('notes') . '#' . $this->note->id);
     }
 
     public function toBroadcast($notifiable)
