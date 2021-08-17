@@ -26,7 +26,7 @@ class CollaboratorWasAddedNotification extends Notification
     {
         $message = (new MailMessage)
             ->line($this->note->owner->email . " has shared with you a note '" . $this->note->header . "'")
-            ->action("Go to the note", route('collaborator.index') . '#' . $this->note->id);
+            ->action("Go to the note", route('collaborator.index') . '/#' . $this->note->id);
 
         $message->subject = 'Notes App - You are now a collaborator of the note #' . $this->note->id;
 
