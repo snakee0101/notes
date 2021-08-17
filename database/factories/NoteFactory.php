@@ -25,13 +25,17 @@ class NoteFactory extends Factory
      */
     public function definition()
     {
+        $colors = ['white', 'red', 'orange', 'yellow',
+            'green', 'teal', 'blue', 'dark-blue',
+            'purple', 'pink', 'brown', 'grey'];
+
         return [
             'header' => $this->faker->sentence,
             'body' => $this->faker->sentence,
-            'pinned' => false,
+            'pinned' => random_int(0,1),
             'archived' => false,
-            'owner_id' => User::factory()->create()->id,
-            'color' => 'blue',  //TODO: color should be set as the relationship
+            'owner_id' => User::factory(),
+            'color' => $colors[array_rand($colors)],
             'type' => 'text'
         ];
     }
