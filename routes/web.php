@@ -99,11 +99,12 @@ Route::middleware('auth')->group(function() {
     Route::get('/trash', [TrashController::class, 'index'])->name('trash');
     Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::redirect('/dashboard', '/')->name('dashboard');
+    Route::redirect('/home', '/')->name('home');
+});
 
-    Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/logout', function() {
+    auth()->logout();
 });
 
 require __DIR__.'/auth.php';
