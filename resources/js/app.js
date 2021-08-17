@@ -44,3 +44,10 @@ new Vue({
 window.onload = function() {
     axios.get('/tag').then( (res) => window.tags_list = res.data );
 };
+
+window.onhashchange = function() {
+    let note_id_from_hash = location.hash.substr(1);
+
+    axios.get('/note/' + note_id_from_hash)
+        .then( (res) => window.events.$emit('open_note_for_editing', res.data) );
+};
