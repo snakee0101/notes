@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults notes-container" v-if="results.data != undefined" v-masonry transition-duration="0.3s" item-selector=".note"
+        <div class="searchResults notes-container flex justify-between" v-if="results.data != undefined" v-masonry transition-duration="0.3s" item-selector=".note"
              gutter=".gutter" :origin-top="true">
             <div class="gutter"></div>
 
@@ -95,7 +95,11 @@ export default {
     },
     methods: {
         goToPage(url) {
-            axios.post(url).then(res => window.events.$emit('searchResultsRetrieved', res.data));
+            axios.post(url, {
+                'query': window.searchText ?? '',
+                'filterBy': window.searchFilters.filterBy,
+                'filterValue': window.searchFilters.filterValue,
+            }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
         },
         refreshLabels(labels) {
             this.tags_list = labels;
@@ -151,8 +155,8 @@ export default {
         filterData(filterBy, filterValue) {
             axios.post('/search', {
                 'query': '',
-                'filterBy': filterBy,
-                'filterValue': filterValue,
+                'filterBy': window.searchFilters.filterBy,
+                'filterValue': window.searchFilters.filterValue,
             }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
         },
         filterByType(type) {

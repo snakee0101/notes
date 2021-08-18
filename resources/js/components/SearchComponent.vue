@@ -64,6 +64,8 @@ export default {
             this.placeholderValue = "Search";
         },
         search() {
+            window.searchText = this.searchText;
+
             axios.post('/search', {
                 'query': this.searchText,
                 'filterBy': window.searchFilters.filterBy,
