@@ -138,6 +138,7 @@ export default {
             this.areSearchControlsVisible = false;
             this.results = [];
             this.resultsNotFound = false;
+            window.searchText = '';
 
             window.searchFilters = {
                 'filterBy': '',
