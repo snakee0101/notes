@@ -22,6 +22,7 @@
     --bg-google-grey: #e8eaed;
     --text-color: #000;
     --active-menu-link-background: rgb(253, 246, 178);
+    --menu-icon-color: #000;
 }
 
 .theme-dark {
@@ -40,11 +41,13 @@
     --bg-google-grey: #3c3f43;
     --text-color: #e8eaed;
     --active-menu-link-background: #40331c;
+    --menu-icon-color: #9aa0a6;
 }
 
 a { color: var(--text-color) !important }
 .main-page, nav, header { background: var(--page-background) }
 nav a.active { background: var(--active-menu-link-background) }
+.menu-icon-color { color: var(--menu-icon-color)!important; }
 
 .bg-google-white { background: var(--bg-google-white) }
 .bg-google-red { background: var(--bg-google-red) }

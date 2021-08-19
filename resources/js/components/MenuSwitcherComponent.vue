@@ -4,7 +4,7 @@
            v-b-tooltip.hover.bottom
            title="Main menu"
            @click.prevent="toggle()">
-            <i class="bi bi-list icon-lg text-black"></i>
+            <i class="bi bi-list icon-lg menu-icon-color"></i>
         </a>
         <img src="/keep.png" alt="">
         <span class="text-xl">Keep</span>
