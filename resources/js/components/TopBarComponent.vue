@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header class="border-b border-gray-500">
         <set-labels-component :is-global="true" ref="labels-dialog">
 
         </set-labels-component>

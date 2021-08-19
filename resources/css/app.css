@@ -6,6 +6,59 @@
 
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
 
+.theme-light {
+    --page-background: #fff;
+    --bg-google-white: #fff;
+    --bg-google-red: #f28b82;
+    --bg-google-orange: #fbbc04;
+    --bg-google-yellow: #fff475;
+    --bg-google-green: #ccff90;
+    --bg-google-teal: #a7ffeb;
+    --bg-google-blue: #cbf0f8;
+    --bg-google-dark-blue: #aecbfa;
+    --bg-google-purple: #d7aefb;
+    --bg-google-pink: #fdcfe8;
+    --bg-google-brown: #e6c9a8;
+    --bg-google-grey: #e8eaed;
+    --text-color: #000;
+    --active-menu-link-background: rgb(253, 246, 178);
+}
+
+.theme-dark {
+    --page-background: #202124;
+    --bg-google-white: #202124;
+    --bg-google-red: #5c2b29;
+    --bg-google-orange: #614a19;
+    --bg-google-yellow: #635d19;
+    --bg-google-green: #345920;
+    --bg-google-teal: #16504b;
+    --bg-google-blue: #2d555e;
+    --bg-google-dark-blue: #1e3a5f;
+    --bg-google-purple: #42275e;
+    --bg-google-pink: #5b2245;
+    --bg-google-brown: #442f19;
+    --bg-google-grey: #3c3f43;
+    --text-color: #e8eaed;
+    --active-menu-link-background: #40331c;
+}
+
+a { color: var(--text-color) !important }
+.main-page, nav, header { background: var(--page-background) }
+nav a.active { background: var(--active-menu-link-background) }
+
+.bg-google-white { background: var(--bg-google-white) }
+.bg-google-red { background: var(--bg-google-red) }
+.bg-google-orange { background: var(--bg-google-orange) }
+.bg-google-yellow { background: var(--bg-google-yellow) }
+.bg-google-green { background: var(--bg-google-green) }
+.bg-google-teal { background: var(--bg-google-teal) }
+.bg-google-blue { background: var(--bg-google-blue) }
+.bg-google-dark-blue { background: var(--bg-google-dark-blue) }
+.bg-google-purple { background: var(--bg-google-purple) }
+.bg-google-pink { background: var(--bg-google-pink) }
+.bg-google-brown { background: var(--bg-google-brown) }
+.bg-google-grey { background: var(--bg-google-grey) }
+
 
 html {
     scroll-behavior: smooth;
@@ -23,7 +76,6 @@ html {
     position: fixed!important;
     width: 100%!important;
     z-index: 2000!important;
-    background: white!important;
 }
 
 .icon-2xl {font-size: 8em}
@@ -35,7 +87,6 @@ html {
 
 .icon, .icon-xl, .icon-lg, .icon-sm, .icon-xs {color: #000}
 
-a {color: #000!important}
 a:hover {text-decoration: none!important}
 
 
@@ -59,10 +110,6 @@ nav.collapsed a {
 
 nav.collapsed svg {
     @apply m-0;
-}
-
-nav a.active {
-    @apply bg-yellow-100;
 }
 
 .edit-note-modal .modal-content { width: 634px!important }

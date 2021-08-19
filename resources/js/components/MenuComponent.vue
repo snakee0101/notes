@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex flex-col bg-white"
+    <nav class="flex flex-col"
          :class="isCollapsed ? 'collapsed' : ''"
          ref="menu">
         <a href="/" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200" :class="setActiveLink('notes')">
