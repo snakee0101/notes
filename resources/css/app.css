@@ -41,7 +41,7 @@
     --bg-google-grey: #3c3f43;
     --text-color: #e8eaed;
     --active-menu-link-background: #40331c;
-    --menu-icon-color: #9aa0a6;
+    --menu-icon-color: #B6BCBEFF;
 }
 
 a { color: var(--text-color) !important }
