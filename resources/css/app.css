@@ -44,7 +44,7 @@
     --menu-icon-color: #B6BCBEFF;
 }
 
-a { color: var(--text-color) !important }
+a, .text-color { color: var(--text-color) !important }
 .main-page, nav, header { background: var(--page-background) }
 nav a.active { background: var(--active-menu-link-background) }
 .menu-icon-color { color: var(--menu-icon-color)!important; }

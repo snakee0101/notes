@@ -7,7 +7,7 @@
             <i class="bi bi-list icon menu-icon-color"></i>
         </a>
         <img src="/keep.png" alt="">
-        <span class="text-xl">Keep</span>
+        <span class="text-xl text-color">Keep</span>
     </section>
 </template>
 
