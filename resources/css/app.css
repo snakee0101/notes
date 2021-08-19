@@ -23,6 +23,8 @@
     --text-color: #000;
     --active-menu-link-background: rgb(253, 246, 178);
     --menu-icon-color: #000;
+    --search-field-background: #fff;
+    --search-field-button-color: #000;
 }
 
 .theme-dark {
@@ -42,12 +44,19 @@
     --text-color: #e8eaed;
     --active-menu-link-background: #40331c;
     --menu-icon-color: #B6BCBEFF;
+    --search-field-background: #525356;
+    --search-field-button-color: #525356;
 }
 
 a, .text-color { color: var(--text-color) !important }
 .main-page, nav, header { background: var(--page-background) }
 nav a.active { background: var(--active-menu-link-background) }
 .menu-icon-color { color: var(--menu-icon-color)!important; }
+.search-field-background { background: var(--search-field-background) }
+.search-field-button-color {
+    color: var(--search-field-button-color);
+    background: var(--search-field-background);
+}
 
 .bg-google-white { background: var(--bg-google-white) }
 .bg-google-red { background: var(--bg-google-red) }

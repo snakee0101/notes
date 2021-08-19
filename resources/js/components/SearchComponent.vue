@@ -1,13 +1,13 @@
 <template>
-    <section class="search bg-gray-100 flex flex-grow p-2 items-center rounded-lg"
+    <section class="search search-field-background flex flex-grow p-2 items-center rounded-lg"
              :class="isSearchFieldActive ? 'active' : ''" style="max-width: 730px">
         <a href="" class="p-2 rounded-full hover:bg-gray-300"
            v-b-tooltip.hover.bottom
            title="Search"
            @click.prevent="search()">
-            <i class="bi bi-search icon text-black"></i>
+            <i class="bi bi-search icon search-field-button-color"></i>
         </a><!--TODO: Restore the tooltip (Search)-->
-        <input type="text" class="flex-grow focus:outline-none mx-2 bg-gray-100"
+        <input type="text" class="flex-grow focus:outline-none mx-2 search-field-background"
                :placeholder="placeholderValue"
                @focus="inFocus()"
                @blur="isSearchFieldActive = false"
@@ -19,7 +19,7 @@
            v-b-tooltip.hover.bottom
            title="Clear search"
            @click.prevent="clear()">
-            <i class="bi bi-x icon-lg text-black"></i>
+            <i class="bi bi-x icon-lg search-field-button-color"></i>
         </a>
         <!--TODO: Restore the tooltip (Clear search)-->
     </section>
