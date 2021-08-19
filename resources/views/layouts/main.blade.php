@@ -21,7 +21,7 @@
 
     <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.0.0/masonry.pkgd.min.js"></script>
 </head>
-<body class="h-screen antialiased leading-none font-sans flex flex-col main-page theme-dark">
+<body class="h-screen antialiased leading-none font-sans flex flex-col main-page theme-light">
 <div id="app">
     <top-bar-component></top-bar-component>
     <div class="flex flex-row justify-between" style="margin-top:80px">

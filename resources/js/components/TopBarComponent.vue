@@ -158,11 +158,7 @@
             <search-component></search-component>
 
             <section class="flex flex-row items-center">
-                <a href="" class="p-2 mr-3 rounded-full hover:bg-gray-200"
-                   v-b-tooltip.hover.bottom
-                   title="Setings">
-                    <i class="bi bi-nut icon-lg text-black"></i>
-                </a>
+                <theme-switcher-component></theme-switcher-component>
 
                 <a href="#" class="p-2 group"
                    v-b-tooltip.hover.bottom
