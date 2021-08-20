@@ -113,6 +113,15 @@ nav a:hover:not(.active),
     background: var(--search-controls-background-color)!important;
 }
 
+.dropdown-menu {
+    background: var(--page-background)!important;
+    list-style: none!important;
+}
+
+.dropdown-item:active {
+    @apply bg-gray-200 !important;
+}
+
 .bg-google-white { background: var(--bg-google-white) }
 .bg-google-red { background: var(--bg-google-red) }
 .bg-google-orange { background: var(--bg-google-orange) }
@@ -216,7 +225,7 @@ nav.collapsed svg {
 }
 
 .vertical-tooltiptext {
-    background: #fff;
+    background: var(--page-background);
     visibility: hidden;
     width: 200px;
     text-align: center;
@@ -412,10 +421,6 @@ section.search.active {
     padding: 0;
     width: 0;
     height: 0;
-}
-
-.dropdown-item:active {
-    @apply bg-gray-200 !important;
 }
 
 .dropdown-item {
