@@ -132,9 +132,8 @@ nav a:hover:not(.active),
     list-style: none!important;
 }
 
-.dropdown-item:active {
-    @apply bg-gray-200 !important;
-}
+.dropdown-item:hover, .dropdown-item:active { background: var(--link-hover-color) }
+
 
 .modal-content .main { background: var(--dialog-background)!important; }
 .modal-content .footer { background: var(--dialog-footer-background)!important; }
