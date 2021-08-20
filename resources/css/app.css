@@ -28,6 +28,9 @@
     --link-hover-color: #E5E7EB;
     --search-controls-border-color: #D1D5DB;
     --search-controls-background-color: transparent;
+    --quote-background-color: #ececec;
+    --quote-text-color: #025f01;
+    --link-color: #00f;
 }
 
 .theme-dark {
@@ -52,6 +55,9 @@
     --link-hover-color: #28292c;
     --search-controls-border-color: transparent;
     --search-controls-background-color: #292929;
+    --quote-background-color: #2f3135;
+    --quote-text-color: #65d811;
+    --link-color: #02d1d2;
 }
 
 a, .text-color { color: var(--text-color) !important }
@@ -62,6 +68,7 @@ nav a.active { background: var(--active-menu-link-background) }
 .search-field-button-color {
     color: var(--search-field-button-color);
 }
+.note * { color: var(--text-color) !important }
 
 ul {
     list-style: disc!important;
@@ -79,8 +86,8 @@ ol {
 }
 
 .note pre, #edit-note-modal pre {
-    background: #ececec!important;
-    color: #025f01!important;
+    background: var(--quote-background-color)!important;
+    color: var(--quote-text-color)!important;
 }
 
 .note blockquote, #edit-note-modal blockquote {
@@ -89,8 +96,8 @@ ol {
     padding-left: .5rem;
 }
 
-trix-editor a {
-    color: #1D4ED8!important;
+trix-editor a, .note-content a {
+    color: var(--link-color)!important;
     text-decoration: underline!important;
 }
 
@@ -181,11 +188,6 @@ nav.collapsed svg {
 .notes-container { margin-left: 250px }
 
 [data-trix-button-group="file-tools"] { display: none!important }
-
-.note-content a {
-    color: #00f!important;
-    text-decoration: underline!important;
-}
 
 .custom-tooltip, .tooltip2 {
     position: relative;
