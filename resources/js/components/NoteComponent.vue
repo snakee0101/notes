@@ -55,7 +55,7 @@
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
                 <i class="bi bi-alarm icon" @click.self.prevent="pickDateAndTime()"></i>
                 <span ref="updated_reminder_time" @click.self.prevent="pickDateAndTime()">{{ this.remainder_time_formatted }}</span>
-                <a class="bg-gray-300 rounded-full"
+                <a class="x-button rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove reminder"
                    @click.prevent="removeReminder()">
@@ -66,7 +66,7 @@
                :href="'/tag/' + tag.name"
                class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
                 {{ tag.name }}
-                <a class="bg-gray-300 rounded-full"
+                <a class="x-button rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Remove label"
                    @click.prevent="detach_tag(tag)">

@@ -34,6 +34,7 @@
     --dialog-background: #fff;
     --dialog-footer-background: #e5e7eb;
     --muted-color: #737171;
+    --x-button-background: #D1D5DB;
 }
 
 .theme-dark {
@@ -64,6 +65,7 @@
     --dialog-background: #2d2e30;
     --dialog-footer-background: #272829;
     --muted-color: #bcb7b7;
+    --x-button-background: #374151;
 }
 
 a, .text-color { color: var(--text-color) !important }
@@ -111,6 +113,10 @@ trix-editor a, .note-content a {
 .toolbar a:hover, .toolbar button:hover { background: var(--link-hover-color)!important }
 
 .muted { color: var(--muted-color)!important }
+
+.x-button {
+    background: var(--x-button-background);
+}
 
 nav a:hover:not(.active),
 .menu-switcher a:hover,
