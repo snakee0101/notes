@@ -1,5 +1,5 @@
 <template>
-    <div class="note border border-gray-300 p-3 hover:shadow-md relative transition-colors m-auto new-note"
+    <div class="note p-3 hover:shadow-md relative transition-colors m-auto new-note"
          :class="'bg-google-' + note.color"
          style="width: 630px"
          ref="note">
@@ -94,7 +94,7 @@
         </div>
 
         <div class="toolbar">
-            <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
+            <a href="" class="rounded-full p-0 inline-block"
                v-b-tooltip.hover.bottom
                title="Remind me"
                @click.prevent>
@@ -131,7 +131,7 @@
                 </b-dropdown>
             </a>
 
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+            <a href="" class="p-2 rounded-full"
                v-b-tooltip.hover.bottom
                title="Collaborator"
                @click.prevent="showCollaboratorsDialog()">
@@ -139,7 +139,7 @@
             </a>
 
             <div class="custom-tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+                <a href="" class="p-2 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Change color"
                    @click.prevent>
@@ -158,7 +158,7 @@
                 </div>
             </div>
 
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+            <a href="" class="p-2 rounded-full"
                v-b-tooltip.hover.bottom
                title="Add image"
                @click.prevent="selectImage()">
@@ -168,7 +168,7 @@
             <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
                    @change="handleFiles()">
 
-            <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
+            <a href="" class="rounded-full p-0 inline-block"
                v-b-tooltip.hover.bottom
                title="More"
                @click.prevent>

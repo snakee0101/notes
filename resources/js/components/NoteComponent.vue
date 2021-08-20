@@ -1,5 +1,5 @@
 <template>
-    <div class="note border-2 p-3 hover:shadow-md relative transition-colors mb-4 group"
+    <div class="note p-3 hover:shadow-md relative transition-colors mb-4 group"
          :class="('bg-google-' + note.color) + ' ' + (selected ? 'border-black' : 'border-gray-200')"
          ref="note">
         <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="togglePin()"
@@ -94,7 +94,7 @@
         </div>
 
         <div class="toolbar" v-else>
-            <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
+            <a href="" class="rounded-full p-0 inline-block"
                v-b-tooltip.hover.bottom
                title="Remind me"
                @click.prevent>
@@ -131,7 +131,7 @@
                 </b-dropdown>
             </a>
 
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+            <a href="" class="p-2 rounded-full"
                v-b-tooltip.hover.bottom
                title="Collaborator"
                @click.prevent="showCollaboratorsDialog()">
@@ -139,7 +139,7 @@
             </a>
 
             <div class="custom-tooltip">
-                <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+                <a href="" class="p-2 rounded-full"
                    v-b-tooltip.hover.bottom
                    title="Change color"
                    @click.prevent>
@@ -155,7 +155,7 @@
                 </div>
             </div>
 
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+            <a href="" class="p-2 rounded-full"
                v-b-tooltip.hover.bottom
                title="Add image"
                @click.prevent="selectImage()">
@@ -166,7 +166,7 @@
                    @change="handleFiles()">
 
 
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+            <a href="" class="p-2 rounded-full"
                v-b-tooltip.hover.bottom
                title="Unarchive"
                @click.prevent="unarchive()"
@@ -174,7 +174,7 @@
                 <i class="bi bi-arrow-up-square icon-sm"></i>
             </a>
 
-            <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+            <a href="" class="p-2 rounded-full"
                v-b-tooltip.hover.bottom
                title="Archive"
                @click.prevent="archive()"
@@ -182,7 +182,7 @@
                 <i class="bi bi-arrow-down-square-fill icon-sm"></i>
             </a>
 
-            <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
+            <a href="" class="rounded-full p-0 inline-block"
                v-b-tooltip.hover.bottom
                title="More"
                @click.prevent>

@@ -63,6 +63,14 @@ nav a.active { background: var(--active-menu-link-background) }
     color: var(--search-field-button-color);
 }
 
+.note {
+    width: 270px;
+    border: 1px solid #404040;
+}
+
+.toolbar a, .toolbar button { color: var(--text-color)!important; }
+.toolbar a:hover, .toolbar button:hover { background: var(--link-hover-color)!important }
+
 nav a:hover:not(.active),
 .menu-switcher a:hover,
 .search-field-button-color a:hover { background: var(--link-hover-color)!important; }
@@ -139,10 +147,6 @@ nav.collapsed svg {
 }
 
 .edit-note-modal .modal-content { width: 634px!important }
-
-.note {
-    width: 270px;
-}
 
 .note-content {
     max-height: 450px;
