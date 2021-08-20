@@ -31,6 +31,9 @@
     --quote-background-color: #ececec;
     --quote-text-color: #025f01;
     --link-color: #00f;
+    --collaborator-dialog-background: #fff;
+    --collaborator-dialog-footer-background: #e5e7eb;
+    --muted-color: #737171;
 }
 
 .theme-dark {
@@ -58,6 +61,9 @@
     --quote-background-color: #2f3135;
     --quote-text-color: #65d811;
     --link-color: #02d1d2;
+    --collaborator-dialog-background: #2d2e30;
+    --collaborator-dialog-footer-background: #272829;
+    --muted-color: #bcb7b7;
 }
 
 a, .text-color { color: var(--text-color) !important }
@@ -103,6 +109,8 @@ trix-editor a, .note-content a {
 
 .toolbar a, .toolbar button { color: var(--text-color)!important; }
 .toolbar a:hover, .toolbar button:hover { background: var(--link-hover-color)!important }
+
+.muted { color: var(--muted-color)!important }
 
 nav a:hover:not(.active),
 .menu-switcher a:hover,
@@ -161,7 +169,7 @@ html {
 .icon-sm {font-size: 1.2em}
 .icon-xs {font-size: 0.8em}
 
-.icon, .icon-xl, .icon-lg, .icon-sm, .icon-xs {color: #000}
+.icon, .icon-xl, .icon-lg, .icon-sm, .icon-xs {color: var(--text-color)}
 
 a:hover {text-decoration: none!important}
 
@@ -355,8 +363,20 @@ section.search.active {
 }
 
 .collaborators-footer {
-    @apply rounded-b-md bg-gray-200 py-2 px-4 text-right;
+    @apply rounded-b-md py-2 px-4 text-right;
+    background: var(--collaborator-dialog-footer-background);
 }
+
+.collaborators-content {
+    @apply p-4;
+    background: var(--collaborator-dialog-background);
+}
+
+.collaborators-content h3,
+.collaborators-content p,
+.collaborators-content a,
+.collaborator-button { color: var(--text-color)!important }
+
 
 .modal-body{
     padding: 0!important;
@@ -374,18 +394,19 @@ section.search.active {
 
 .add-collaborator-input {
     @apply ml-4 flex-grow text-sm focus:outline-none;
+    background: transparent;
+    color: var(--text-color);
 }
 
 .add-collaborator-input.invalid {
     @apply border-b border-red-600;
 }
 
-.collaborators-content {
-    @apply p-4;
-}
-
 .collaborator-button {
-    @apply text-gray-800 text-sm font-medium px-6 py-2 hover:bg-gray-300 focus:outline-none focus:bg-gray-400 rounded-sm;
+    @apply text-sm font-medium px-6 py-2 focus:outline-none focus:bg-gray-400 rounded-sm;
+}
+.collaborator-button:hover {
+    background: var(--link-hover-color);
 }
 
 .restore-button {
