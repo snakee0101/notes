@@ -1,7 +1,7 @@
 <template>
     <div class="search-controls m-auto" :class="isSearchActive ? 'active' :''">
         <div class="m-auto" :class="areSearchControlsVisible ? 'd-block' : 'd-none'" style="max-width: 640px">
-            <div class="type-controls shadow-lg border border-gray-300 mb-4">
+            <div class="type-controls mb-4">
                 <h2 class="font-bold p-2 pb-4">Types</h2>
                 <div class="flex flex-row justify-between">
                     <button class="blue-search-box-button" @click="filterByType('checklist')">
@@ -23,7 +23,7 @@
                     </button>
                 </div>
             </div>
-            <div class="label-controls shadow-lg border border-gray-300 mb-4" v-if="tags_list.length">
+            <div class="label-controls mb-4" v-if="tags_list.length">
                 <h2 class="font-bold p-2 pb-4">Labels</h2>
                 <div class="flex flex-row items-start flex-wrap justify-between">
                     <button class="gray-search-box-button mb-2" @click="filterByLabel(tag.name)"
@@ -33,7 +33,7 @@
                     </button>
                 </div>
             </div>
-            <div class="color-controls shadow-lg border border-gray-300 mb-4">
+            <div class="color-controls mb-4">
                 <h2 class="font-bold p-2 pb-2">Colors</h2>
                 <div class="p-4 flex flex-row flex-wrap">
                     <a v-for="color in colors" href=""

@@ -1,7 +1,7 @@
 <template>
     <section class="search search-field-background flex flex-grow p-2 items-center rounded-lg"
              :class="isSearchFieldActive ? 'active' : ''" style="max-width: 730px">
-        <a href="" class="p-2 rounded-full hover:bg-gray-300"
+        <a href="" class="p-2 rounded-full"
            v-b-tooltip.hover.bottom
            title="Search"
            @click.prevent="search()">
@@ -14,7 +14,7 @@
                @keypress.enter="search()"
                @input="delayedSearch()"
                v-model="searchText">
-        <a href="" class="p-1 rounded-full hover:bg-gray-300"
+        <a href="" class="p-1 rounded-full"
            v-if="isSearchControlsShown"
            v-b-tooltip.hover.bottom
            title="Clear search"

@@ -25,6 +25,9 @@
     --menu-icon-color: #000;
     --search-field-background: #fff;
     --search-field-button-color: #000;
+    --link-hover-color: #E5E7EB;
+    --search-controls-border-color: #D1D5DB;
+    --search-controls-background-color: transparent;
 }
 
 .theme-dark {
@@ -46,6 +49,9 @@
     --menu-icon-color: #B6BCBEFF;
     --search-field-background: #525356;
     --search-field-button-color: #525356;
+    --link-hover-color: #28292c;
+    --search-controls-border-color: transparent;
+    --search-controls-background-color: #292929;
 }
 
 a, .text-color { color: var(--text-color) !important }
@@ -55,7 +61,15 @@ nav a.active { background: var(--active-menu-link-background) }
 .search-field-background { background: var(--search-field-background) }
 .search-field-button-color {
     color: var(--search-field-button-color);
-    background: var(--search-field-background);
+}
+
+nav a:hover:not(.active),
+.menu-switcher a:hover,
+.search-field-button-color a:hover { background: var(--link-hover-color)!important; }
+.type-controls, .label-controls, .color-controls {
+    border-width: 1px;
+    border-color: var(--search-controls-border-color);
+    background: var(--search-controls-background-color)!important;
 }
 
 .bg-google-white { background: var(--bg-google-white) }
