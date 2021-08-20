@@ -35,6 +35,7 @@
     --dialog-footer-background: #e5e7eb;
     --muted-color: #737171;
     --x-button-background: #D1D5DB;
+    --note-border-color: #bcb7b7;
 }
 
 .theme-dark {
@@ -66,6 +67,7 @@
     --dialog-footer-background: #272829;
     --muted-color: #bcb7b7;
     --x-button-background: #374151;
+    --note-border-color: #404040;
 }
 
 a, .text-color { color: var(--text-color) !important }
@@ -90,6 +92,10 @@ ol {
 
 .note {
     width: 270px;
+    border: 1px solid var(--note-border-color);
+}
+
+.new-note {
     border: 1px solid #404040;
 }
 
