@@ -23,7 +23,7 @@
         </b-modal>
 
         <b-modal ref="labels-dialog" hide-footer centered class="labels-dialog">
-            <div class="bg-white p-4 rounded-t-lg">
+            <div class="main p-4 rounded-t-lg">
                 <h3 class="font-medium text-lg">Edit labels</h3>
                 <div class="mt-3 pt-4 px-2 border-t-2 border-gray-200">
                     <div class="label flex flex-row mb-3 items-center">
@@ -90,7 +90,7 @@
 
                 </div>
             </div>
-            <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
+            <div class="footer rounded-b-lg py-2 px-4 text-right">
                 <button @click="hide()" class="done-button">
                     Done
                 </button>
