@@ -2,7 +2,7 @@
     <div>
         <div v-if="notes_count">
             <div class="pinned">
-                <p class="font-bold text-sm mb-2">PINNED</p>
+                <p class="font-bold text-sm mb-2 text-color">PINNED</p>
 
                 <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" ref="pinned_notes_content">
                     <div class="gutter"></div>
@@ -23,7 +23,7 @@
             </div>
 
             <div class="others">
-                <p class="font-bold text-sm mt-20 mb-2">OTHERS</p>
+                <p class="font-bold text-sm mt-20 mb-2 text-color">OTHERS</p>
 
                 <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" ref="other_notes_content">
                     <div class="gutter"></div>

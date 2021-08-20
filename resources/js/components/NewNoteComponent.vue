@@ -4,7 +4,7 @@
          style="width: 630px"
          ref="note">
 
-        <a class="absolute right-1 top-1 hover:bg-gray-300 p-2 rounded-full"
+        <a href="" class="absolute right-1 top-1 p-2 rounded-full"
            @click.prevent="pin()"
            v-b-tooltip.hover.bottom :title="note.pinned ? 'Unpin' : 'Pin'">
             <i class="bi bi-pin-fill icon" v-if="note.pinned"></i>

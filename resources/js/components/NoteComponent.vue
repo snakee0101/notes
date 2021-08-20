@@ -2,7 +2,7 @@
     <div class="note p-3 hover:shadow-md relative transition-colors mb-4 group"
          :class="('bg-google-' + note.color) + ' ' + (selected ? 'border-black' : 'border-gray-200')"
          ref="note">
-        <a href="" class="absolute right-2 top-2 hover:bg-gray-300 p-1 rounded-full" @click.prevent="togglePin()"
+        <a href="" class="absolute right-2 top-2 p-1 rounded-full" @click.prevent="togglePin()"
            v-if="!trashed">
             <i class="bi bi-pin-fill icon text-black"
                v-b-tooltip.hover.bottom title="Unpin" v-if="note.pinned"></i>
