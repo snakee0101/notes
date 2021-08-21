@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\NoteIndexAction;
 use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -21,28 +22,11 @@ class TagController extends Controller
         ]);
     }
 
-    public function show(Tag $tag)
+    public function show(Tag $tag, NoteIndexAction $index)
     {
-        $data = [
-            'pinned_notes' => $tag->notes()
-                ->where('owner_id', auth()->id())
-                ->where('pinned', true)
-                ->paginate(),
-            'other_notes' => $tag->notes()
-                ->where('owner_id', auth()->id())
-                ->where('pinned', false)
-                ->paginate(),
+        return $index->getNotes(request(), 'tag', $tag->notes()->where('owner_id', auth()->id()), [
             'tag' => $tag
-        ];
-
-        if(! request()->wantsJson()) {
-            $data['pinned_notes'] = $data['pinned_notes']->toJson();
-            $data['other_notes'] = $data['other_notes']->toJson();
-
-            return view('tag', $data);
-        }
-
-        return $data[ request('notes_type') ];
+        ]);
     }
 
     public function update(Request $request, Tag $tag)
