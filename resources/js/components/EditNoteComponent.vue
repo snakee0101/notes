@@ -51,7 +51,7 @@
                 <h6 class="pb-1">Note images (images are saved immediately)</h6>
                 <div class="inline-block relative m-2" v-for="(image, index) in note.images">
                     <img :src="image.thumbnail_large_path" style="height: 120px; width: 120px; cursor: pointer" @click="openImageViewer(image)">
-                    <a class="bg-gray-300 rounded-full absolute top-1 left-1"
+                    <a class="x-button rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
                        title="Delete image"
                        style="cursor: pointer"

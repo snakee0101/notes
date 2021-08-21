@@ -36,6 +36,7 @@
     --muted-color: #737171;
     --x-button-background: #D1D5DB;
     --note-border-color: #bcb7b7;
+    --pill-border-color: #000;
     --empty-trash-button-hover-background: #EFF6FF;
     --empty-trash-button-focus-background: #DBEAFE;
 }
@@ -70,10 +71,12 @@
     --muted-color: #bcb7b7;
     --x-button-background: #374151;
     --note-border-color: #404040;
+    --pill-border-color: #9a9a9a;
     --empty-trash-button-hover-background: #1E3A8A;
     --empty-trash-button-focus-background: #1E40AF;
 }
 
+.pill { border: 1px solid var(--pill-border-color) }
 .empty-trash-button { @apply py-2 px-6 text-blue-500 text-sm font-bold focus:outline-none; }
 .empty-trash-button:hover { background: var(--empty-trash-button-hover-background)!important; }
 .empty-trash-button:focus { background: var(--empty-trash-button-focus-background)!important; }

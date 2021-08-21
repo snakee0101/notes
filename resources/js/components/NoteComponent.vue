@@ -52,7 +52,7 @@
             <a v-if="note.reminder"
                @click.self.prevent="pickDateAndTime()"
                href="#"
-               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2 pill">
                 <i class="bi bi-alarm icon" @click.self.prevent="pickDateAndTime()"></i>
                 <span ref="updated_reminder_time" @click.self.prevent="pickDateAndTime()">{{ this.remainder_time_formatted }}</span>
                 <a class="x-button rounded-full"
@@ -64,7 +64,7 @@
             </a>
             <a v-for="tag in note.tags"
                :href="'/tag/' + tag.name"
-               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full pl-2 pr-1 py-0 text-sm mb-2 pill">
                 {{ tag.name }}
                 <a class="x-button rounded-full"
                    v-b-tooltip.hover.bottom
@@ -75,7 +75,7 @@
             </a>
             <a v-for="collaborator in note.collaborators" href="#"
                @click.prevent="showCollaboratorsDialog()"
-               class="inline-block mr-2 rounded-full px-2 py-0 text-sm group" style="border: 1px solid black!important;">
+               class="inline-block mr-2 rounded-full px-2 py-0 text-sm group pill">
                 Shared with {{ collaborator.email }}
             </a>
         </div>
