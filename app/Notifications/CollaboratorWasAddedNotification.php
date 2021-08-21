@@ -8,8 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CollaboratorWasAddedNotification extends Notification
+class CollaboratorWasAddedNotification extends Notification implements ShouldQueue
 {
+    use Queueable;
     private $note;
 
     public function __construct(Note $note)
