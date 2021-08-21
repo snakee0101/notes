@@ -161,6 +161,11 @@ ol {
     padding-left: .5rem;
 }
 
+trix-editor {
+    max-height: 400px;
+    overflow: scroll;
+}
+
 trix-editor * { color: var(--text-color)!important }
 
 trix-editor a, .note-content a {
