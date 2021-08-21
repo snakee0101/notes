@@ -110,7 +110,7 @@ nav a.active { background: var(--active-menu-link-background) }
 
 .modal-content h1, .modal-content h2, .modal-content h3, .modal-content h4,
 .modal-content h5, .modal-content h6,
-.modal-content p, .modal-content a,
+.modal-content p, .modal-content a:not(.text-primary, .text-danger),
 .collaborator-button { color: var(--text-color)!important }
 
 

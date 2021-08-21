@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal ref="labels-dialog" hide-footer centered class="labels-dialog">
-            <div class="bg-white p-4 rounded-t-lg">
+            <div class="p-4 rounded-t-lg">
                 <h3 class="font-medium text-lg" v-if="isGlobal">Set labels for selected notes</h3>
                 <h3 class="font-medium text-lg" v-else>Set labels for the note</h3>
 
@@ -33,7 +33,7 @@
                                    :id="'tag-' + key"
                                    :checked="setCheckedState(label)"
                                    @click="toggleLabel(label)">
-                            <label class="form-check-label" :for="'tag-' + key">
+                            <label class="form-check-label text-color" :for="'tag-' + key">
                                 {{ label.name }}
                             </label>
                         </div>
@@ -46,7 +46,7 @@
                     </button>
                 </div>
             </div>
-            <div class="bg-gray-200 rounded-b-lg py-2 px-4 text-right">
+            <div class="modal-footer rounded-b-lg py-2 px-4 text-right">
                 <button @click="hide()" class="done-button">
                     Done
                 </button>
