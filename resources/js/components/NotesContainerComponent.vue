@@ -49,7 +49,7 @@
                 <p class="text-center text-2xl mb-6 mt-14">
                     <i class="bi bi-bell-fill icon-xl"></i>
                 </p>
-                <p class="text-center text-2xl text-gray-600 font-light">Notes with upcoming reminders appear
+                <p class="text-center text-2xl text-color font-light">Notes with upcoming reminders appear
                     here</p>
             </div>
 
@@ -57,21 +57,21 @@
                 <p class="text-center text-2xl mb-6 mt-20">
                     <i class="bi bi-tag-fill icon-xl"></i>
                 </p>
-                <p class="text-center text-2xl text-gray-600 font-light">No notes with this label yet</p>
+                <p class="text-center text-2xl text-color font-light">No notes with this label yet</p>
             </div>
 
             <div v-if="isOnPage('/archive')">
                 <p class="text-center text-2xl mb-6 mt-14">
                     <i class="bi bi-save2-fill icon-xl"></i>
                 </p>
-                <p class="text-center text-2xl text-gray-600 font-light">Your archived notes appear here</p>
+                <p class="text-center text-2xl text-color font-light">Your archived notes appear here</p>
             </div>
 
             <div v-if="isOnPage('/trash')">
                 <p class="text-center text-2xl mb-6 mt-14">
                     <i class="bi bi-trash-fill icon-xl"></i>
                 </p>
-                <p class="text-center text-2xl text-gray-600 font-light">No notes in Trash</p>
+                <p class="text-center text-2xl text-color font-light">No notes in Trash</p>
             </div>
         </div>
     </div>
