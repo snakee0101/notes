@@ -148,10 +148,9 @@ class Note extends Model
             $checklist->push();
 
             $this->checklist->tasks->each(function($task) use ($checklist) {
-                $task->checklist_id = $checklist->id;
-                $checklist->tasks()->create(
-                    array_diff_key($task->toArray(), ['id' => 0]) //remove task's id from data
-                );
+                $task->replicate(['id'])
+                    ->fill(['checklist_id' => $checklist->id])
+                    ->push();
             });
         }
 
