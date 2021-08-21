@@ -78,7 +78,7 @@
                             <template #button-content>
                                 <i class="bi bi-bell icon p-0 top-bar-icon-color"></i>
                             </template>
-                            <p class="text-lg p-2 pl-4 m-0 font-bold">Reminder:</p>
+                            <p class="text-lg p-2 pl-4 m-0 font-bold text-color">Reminder:</p>
                             <b-dropdown-item href="#" @click="storeReminder('later_today')"
                                              class="focus:outline-none py-2.5" v-if="isLaterTodayVisible">
                                 Later today
