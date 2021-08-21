@@ -92,9 +92,10 @@ a, .text-color { color: var(--text-color) !important }
 nav a.active { background: var(--active-menu-link-background) }
 .menu-icon-color { color: var(--menu-icon-color)!important; }
 .search-field-background { background: var(--search-field-background) }
-.search-field-button-color {
-    color: var(--search-field-button-color);
-}
+
+.search-field-button-color {  color: var(--search-field-button-color); }
+.search.active .search-field-button-color { color: #000; }
+
 .note * { color: var(--text-color) !important }
 .modal-body { background: var(--dialog-background) }
 .modal-footer { background: var(--dialog-footer-background) }

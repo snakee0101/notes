@@ -6,7 +6,7 @@
            title="Search"
            @click.prevent="search()">
             <i class="bi bi-search icon search-field-button-color"></i>
-        </a><!--TODO: Restore the tooltip (Search)-->
+        </a>
         <input type="text" class="flex-grow focus:outline-none mx-2 search-field-background"
                :placeholder="placeholderValue"
                @focus="inFocus()"
@@ -21,7 +21,6 @@
            @click.prevent="clear()">
             <i class="bi bi-x icon-lg search-field-button-color"></i>
         </a>
-        <!--TODO: Restore the tooltip (Clear search)-->
     </section>
 </template>
 
