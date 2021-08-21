@@ -2,30 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\NoteIndexAction;
 use App\Models\Note;
 use App\Models\User;
 use App\Notifications\CollaboratorWasAddedNotification;
 use App\Notifications\CollaboratorWasDeletedNotification;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
 
 class CollaboratorController extends Controller
 {
-    public function index(Request $request)
+    public function index(NoteIndexAction $index)
     {
-        $data = [  //get the paginators for both pinned and other notes
-            'pinned_notes' => auth()->user()->collaboratorNotes()->where('pinned', true)->paginate(),
-            'other_notes' => auth()->user()->collaboratorNotes()->where('pinned', false)->paginate()
-        ];
-
-        if(! request()->wantsJson()) { //if the request was not posted by axios - return view with the JSON, encoded to string
-            $data['pinned_notes'] = $data['pinned_notes']->toJson();
-            $data['other_notes'] = $data['other_notes']->toJson();
-
-            return view('collaborator_notes', $data); //JSON string is passed to Vue component by component property
-        }
-
-        return $data[ request('notes_type') ];
+        return $index->getNotes(request(), 'collaborator_notes', auth()->user()->collaboratorNotes());
     }
 
     public function sync(Note $note)
