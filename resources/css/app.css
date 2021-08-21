@@ -83,6 +83,7 @@
 .top-bar-icon-color { color: var(--top-bar-icon-color) }
 .top-bar-icon-color:hover { color: var(--top-bar-icon-hover-color) }
 
+header .dropdown-item:hover { background: var(--link-hover-color)!important }
 
 .trix-button-row { background: #fff!important }
 .dateTimePicker-modal .modal-content,

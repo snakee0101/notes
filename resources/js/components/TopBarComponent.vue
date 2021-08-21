@@ -80,27 +80,27 @@
                             </template>
                             <p class="text-lg p-2 pl-4 m-0 font-bold">Reminder:</p>
                             <b-dropdown-item href="#" @click="storeReminder('later_today')"
-                                             class="focus:outline-none py-2.5 hover:bg-gray-200" v-if="isLaterTodayVisible">
+                                             class="focus:outline-none py-2.5" v-if="isLaterTodayVisible">
                                 Later today
                                 <span class="text-gray-500">8:00 PM</span>
                             </b-dropdown-item>
                             <b-dropdown-item href="#" @click="storeReminder('tomorrow')"
-                                             class="focus:outline-none py-2.5 hover:bg-gray-200">
+                                             class="focus:outline-none py-2.5">
                                 Tomorrow
                                 <span class="text-gray-500">8:00 AM</span>
                             </b-dropdown-item>
                             <b-dropdown-item href="#" @click="storeReminder('next_week')"
-                                             class="focus:outline-none py-2.5 hover:bg-gray-200">
+                                             class="focus:outline-none py-2.5">
                                 Next week
                                 <span class="text-gray-500">Mon., 8:00 AM</span>
                             </b-dropdown-item>
                             <b-dropdown-item href="#"
                                              @click="pickDateAndTime()"
-                                             class="focus:outline-none py-2.5 hover:bg-gray-200">
+                                             class="focus:outline-none py-2.5">
                                 <i class="bi bi-alarm-fill mr-3"></i>
                                 Pick date & time
                             </b-dropdown-item>
-                            <b-dropdown-item href="#" @click="" class="focus:outline-none py-2.5 hover:bg-gray-200">
+                            <b-dropdown-item href="#" @click="" class="focus:outline-none py-2.5">
                                 <i class="bi bi-geo-alt-fill mr-3"></i>
                                 Pick place
                             </b-dropdown-item>
