@@ -13,10 +13,10 @@
                        @click.prevent="deselectAll()"
                        v-b-tooltip.hover.bottom
                        title="Clear selection">
-                        <i class="bi bi-x icon-lg text-black"></i>
+                        <i class="bi bi-x icon-lg top-bar-icon-color"></i>
                     </a>
 
-                    <p class="m-0 text-xl pt-0.5">{{ notes.length }} selected</p>
+                    <p class="m-0 text-xl pt-0.5 text-color">{{ notes.length }} selected</p>
                 </div>
 
                 <div class="flex flex-row items-center">
@@ -24,7 +24,7 @@
                        @click.prevent="deleteForever()"
                        v-b-tooltip.hover.bottom
                        title="Delete forever">
-                        <i class="bi bi-trash2 icon" style="color: rgb(26, 86, 219)"></i>
+                        <i class="bi bi-trash2 icon top-bar-icon-color"></i>
                     </a>
 
                     <a href="" class="mr-2 rounded-full mt-1"
@@ -32,7 +32,7 @@
                        v-b-tooltip.hover.bottom
                        title="Restore">
                         <i class="bi bi-recycle icon-lg text-black">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-recycle text-blue-600" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-recycle top-bar-icon-color" viewBox="0 0 16 16">
                                 <path d="M9.302 1.256a1.5 1.5 0 0 0-2.604 0l-1.704 2.98a.5.5 0 0 0 .869.497l1.703-2.981a.5.5 0 0 1 .868 0l2.54 4.444-1.256-.337a.5.5 0 1 0-.26.966l2.415.647a.5.5 0 0 0 .613-.353l.647-2.415a.5.5 0 1 0-.966-.259l-.333 1.242-2.532-4.431zM2.973 7.773l-1.255.337a.5.5 0 1 1-.26-.966l2.416-.647a.5.5 0 0 1 .612.353l.647 2.415a.5.5 0 0 1-.966.259l-.333-1.242-2.545 4.454a.5.5 0 0 0 .434.748H5a.5.5 0 0 1 0 1H1.723A1.5 1.5 0 0 1 .421 12.24l2.552-4.467zm10.89 1.463a.5.5 0 1 0-.868.496l1.716 3.004a.5.5 0 0 1-.434.748h-5.57l.647-.646a.5.5 0 1 0-.708-.707l-1.5 1.5a.498.498 0 0 0 0 .707l1.5 1.5a.5.5 0 1 0 .708-.707l-.647-.647h5.57a1.5 1.5 0 0 0 1.302-2.244l-1.716-3.004z"/>
                             </svg>
                         </i>
@@ -46,10 +46,10 @@
                        @click.prevent="deselectAll()"
                        v-b-tooltip.hover.bottom
                        title="Clear selection">
-                        <i class="bi bi-x icon-lg text-black"></i>
+                        <i class="bi bi-x icon-lg top-bar-icon-color"></i>
                     </a>
 
-                    <p class="m-0 text-xl pt-0.5">{{ notes.length }} selected</p>
+                    <p class="m-0 text-xl pt-0.5 text-color">{{ notes.length }} selected</p>
                 </div>
 
                 <div class="flex flex-row items-center">
@@ -58,7 +58,7 @@
                        v-b-tooltip.hover.bottom
                        title="Unpin"
                        v-if="isAllNotesPinned">
-                        <i class="bi bi-pin icon" style="color: rgb(26, 86, 219)"></i>
+                        <i class="bi bi-pin icon top-bar-icon-color"></i>
                     </a>
 
                     <a href="" class="mr-3 rounded-full"
@@ -66,17 +66,17 @@
                        v-b-tooltip.hover.bottom
                        title="Pin"
                        v-else>
-                        <i class="bi bi-pin-fill icon" style="color: rgb(26, 86, 219)"></i>
+                        <i class="bi bi-pin-fill icon top-bar-icon-color"></i>
                     </a>
 
 
-                    <a href="" class="hover:bg-gray-300 rounded-full p-0 inline-block"
+                    <a href="" class="rounded-full p-0 inline-block"
                        v-b-tooltip.hover.bottom
                        title="Remind me"
                        @click.prevent>
                         <b-dropdown size="sm" variant="link" toggle-class="" no-caret ref="reminder-dropdown" right>
                             <template #button-content>
-                                <i class="bi bi-bell icon-sm p-0" style="color: rgb(26, 86, 219)"></i>
+                                <i class="bi bi-bell icon p-0 top-bar-icon-color"></i>
                             </template>
                             <p class="text-lg p-2 pl-4 m-0 font-bold">Reminder:</p>
                             <b-dropdown-item href="#" @click="storeReminder('later_today')"
@@ -108,11 +108,11 @@
                     </a>
 
                     <div class="custom-tooltip">
-                        <a href="" class="hover:bg-gray-300 p-2 rounded-full"
+                        <a href="" class="p-2 rounded-full"
                            v-b-tooltip.hover.lefttop
                            title="Change color"
                            @click.prevent>
-                            <i class="bi bi-palette icon" style="color: rgb(26, 86, 219)"></i>
+                            <i class="bi bi-palette icon top-bar-icon-color"></i>
                         </a>
                         <div class="vertical-tooltiptext topbar-vertical-tooltiptext rounded-md"> <!--TODO: fix displaying - hides when hovered on another circle-->
                             <a v-for="color in colors"
@@ -130,8 +130,8 @@
                        @click.prevent="toggleArchive()"
                        v-b-tooltip.hover.bottom
                        :title="isOnPage('/archive') ? 'Unarchive' : 'Archive'">
-                        <i class="bi icon"
-                           :class="isOnPage('/archive') ? 'bi-arrow-up-square' : 'bi-arrow-down-square-fill'" style="color: rgb(26, 86, 219)"></i>
+                        <i class="bi icon top-bar-icon-color"
+                           :class="isOnPage('/archive') ? 'bi-arrow-up-square' : 'bi-arrow-down-square-fill'"></i>
                     </a>
 
                     <a href="" class="rounded-full"
@@ -140,7 +140,7 @@
                        @click.prevent>
                         <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret right>
                             <template #button-content>
-                                <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
+                                <i class="bi bi-three-dots-vertical icon-sm p-0 top-bar-icon-color"></i>
                             </template>
                             <b-dropdown-item href="#" @click="deleteNotes()">Delete notes</b-dropdown-item>
                             <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>

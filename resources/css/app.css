@@ -39,6 +39,8 @@
     --pill-border-color: #000;
     --empty-trash-button-hover-background: #EFF6FF;
     --empty-trash-button-focus-background: #DBEAFE;
+    --top-bar-icon-color: rgb(26, 86, 219);
+    --top-bar-icon-hover-color: #B91C1C;
 }
 
 .theme-dark {
@@ -74,7 +76,13 @@
     --pill-border-color: #9a9a9a;
     --empty-trash-button-hover-background: #1E3A8A;
     --empty-trash-button-focus-background: #1E40AF;
+    --top-bar-icon-color: #fff;
+    --top-bar-icon-hover-color: #FBBF24;
 }
+
+.top-bar-icon-color { color: var(--top-bar-icon-color) }
+.top-bar-icon-color:hover { color: var(--top-bar-icon-hover-color) }
+
 
 .trix-button-row { background: #fff!important }
 .dateTimePicker-modal .modal-content,
