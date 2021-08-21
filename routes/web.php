@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\NoteIndexAction;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\ImageController;
@@ -60,36 +61,12 @@ Route::middleware('auth')->group(function() {
     Route::delete('/link/{link}', [LinkController::class, 'destroy'])->name('link.destroy');
     Route::post('/link/{link}/restore', [LinkController::class, 'restore'])->name('link.restore');
 
-    Route::get('/', function () {
-        $data = [  //get the paginators for both pinned and other notes
-            'pinned_notes' => auth()->user()->notes()->where('pinned', true)->paginate(),
-            'other_notes' => auth()->user()->notes()->where('pinned', false)->paginate()
-        ];
-
-        if(! request()->wantsJson()) { //if the request was not posted by axios - return view with the JSON, encoded to string
-            $data['pinned_notes'] = $data['pinned_notes']->toJson();
-            $data['other_notes'] = $data['other_notes']->toJson();
-
-            return view('notes', $data); //JSON string is passed to Vue component by component property
-        }
-
-        return $data[ request('notes_type') ]; //else - return the data itself (JSON Object) for axios, that automatically converts it to object literal
+    Route::get('/', function (NoteIndexAction $index) {
+        return $index->getNotes(request(), 'notes', auth()->user()->notes());
     })->name('notes');
 
-    Route::get('/archive', function () {
-        $data = [
-            'pinned_notes' => auth()->user()->notes()->onlyArchived()->where('pinned', true)->paginate(),
-            'other_notes' => auth()->user()->notes()->onlyArchived()->where('pinned', false)->paginate()
-        ];
-
-        if(! request()->wantsJson()) {
-            $data['pinned_notes'] = $data['pinned_notes']->toJson();
-            $data['other_notes'] = $data['other_notes']->toJson();
-
-            return view('archive', $data);
-        }
-
-        return $data[ request('notes_type') ];
+    Route::get('/archive', function (NoteIndexAction $index) {
+        return $index->getNotes(request(), 'archive', auth()->user()->notes()->onlyArchived());
     })->name('archive');
 
     Route::delete('/detach_tag/{note}/{tag}', function(Note $note, Tag $tag){
