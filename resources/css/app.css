@@ -79,6 +79,30 @@ nav a.active { background: var(--active-menu-link-background) }
     color: var(--search-field-button-color);
 }
 .note * { color: var(--text-color) !important }
+.modal-body { background: var(--dialog-background) }
+.modal-footer { background: var(--dialog-footer-background) }
+
+.modal-content .main { background: var(--dialog-background)!important; }
+.modal-content .footer { background: var(--dialog-footer-background)!important; }
+
+.modal-content input {
+    background: transparent;
+    color: var(--text-color);
+}
+
+.modal-content h1, .modal-content h2, .modal-content h3, .modal-content h4,
+.modal-content h5, .modal-content h6,
+.modal-content p, .modal-content a,
+.collaborator-button { color: var(--text-color)!important }
+
+
+.note-header-input,
+.note-content-input {
+    width: 94%!important;
+}
+
+.note-header-input { color: var(--text-color)!important; }
+.note-header-input:focus { outline: none; }
 
 ul {
     list-style: disc!important;
@@ -110,6 +134,8 @@ ol {
     padding-left: .5rem;
 }
 
+trix-editor * { color: var(--text-color)!important }
+
 trix-editor a, .note-content a {
     color: var(--link-color)!important;
     text-decoration: underline!important;
@@ -139,18 +165,6 @@ nav a:hover:not(.active),
 }
 
 .dropdown-item:hover, .dropdown-item:active { background: var(--link-hover-color) }
-
-
-.modal-content .main { background: var(--dialog-background)!important; }
-.modal-content .footer { background: var(--dialog-footer-background)!important; }
-
-.modal-content input {
-    background: transparent;
-    color: var(--text-color);
-}
-
-.modal-content h3, .modal-content p, .modal-content a,
-.collaborator-button { color: var(--text-color)!important }
 
 
 .bg-google-white { background: var(--bg-google-white) }
@@ -371,10 +385,6 @@ section.search.active {
     @apply text-yellow-300 text-sm font-medium px-6 py-2 ml-4 hover:bg-gray-700 focus:outline-none focus:bg-gray-600 rounded-sm;
 }
 
-.note-header-input,
-.note-content-input {
-    width: 94%!important;
-}
 
 .modal-dialog header {
     display: none!important;

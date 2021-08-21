@@ -9,7 +9,7 @@
 
             <h6 class="pb-1">Header</h6>
             <textarea name="note_header" placeholder="Title"
-                      class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent text-xl"
+                      class="note-header-input mx-2 h-auto resize-none font-bold bg-transparent text-xl"
                       v-model="note.header">
 
             </textarea>
