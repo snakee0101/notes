@@ -226,6 +226,11 @@ html {
 
 .icon, .icon-xl, .icon-lg, .icon-sm, .icon-xs {color: var(--text-color)}
 
+.black-icon-lg {
+    font-size: 2em;
+    color: #000;
+}
+
 a:hover {text-decoration: none!important}
 
 
@@ -368,7 +373,7 @@ section.search.active {
 }
 
 .gray-search-box-button {
-    @apply bg-gray-200 text-black pt-14 text-center flex flex-col items-center;
+    @apply bg-gray-200 pt-14 text-center flex flex-col items-center;
     width: 24%;
 }
 

@@ -28,7 +28,7 @@
                 <div class="flex flex-row items-start flex-wrap justify-between">
                     <button class="gray-search-box-button mb-2" @click="filterByLabel(tag.name)"
                             v-for="tag in tags_list">
-                        <i class="bi bi-tags-fill icon-lg"></i>
+                        <i class="bi bi-tags-fill black-icon-lg"></i>
                         <p class="mt-10 mb-4">{{ tag.name }}</p>
                     </button>
                 </div>
