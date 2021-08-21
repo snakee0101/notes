@@ -62,13 +62,9 @@ class Note extends Model
                 return;
 
             foreach ($object->images as $image) {
-                $path_1 = substr($image->image_path, 9);  //offset for '/storage/' part
-                $path_2 = substr($image->thumbnail_small_path, 9);
-                $path_3 = substr($image->thumbnail_large_path, 9);
-
-                Storage::delete($path_1);
-                Storage::delete($path_2);
-                Storage::delete($path_3);
+                Storage::delete( substr($image->image_path, 9) ); //offset for '/storage/' part
+                Storage::delete( substr($image->thumbnail_small_path, 9) );
+                Storage::delete( substr($image->thumbnail_large_path, 9) );
             }
 
             $object->images()->forceDelete();
