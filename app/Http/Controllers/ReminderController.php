@@ -2,31 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\NoteIndexAction;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class ReminderController extends Controller
 {
-    public function index()
+    public function index(NoteIndexAction $index)
     {
-        $data = [
-            'pinned_notes' => auth()->user()->notes()->whereHas('reminders', function($q){
-               $q->where('reminders.user_id', auth()->id());
-            })->where('pinned', true)->paginate(),
-            'other_notes' => auth()->user()->notes()->whereHas('reminders', function($q){
-                $q->where('reminders.user_id', auth()->id());
-            })->where('pinned', false)->paginate()
-        ];
-
-        if(! request()->wantsJson()) {
-            $data['pinned_notes'] = $data['pinned_notes']->toJson();
-            $data['other_notes'] = $data['other_notes']->toJson();
-
-            return view('reminders', $data);
-        }
-
-        return $data[ request('notes_type') ];
+        return $index->getNotes( request(), 'reminders', auth()->user()->notes()->whereHas('reminders', function($q){
+            $q->where('reminders.user_id', auth()->id());
+        }) );
     }
 
     public function store(Request $request, Note $note)
