@@ -1,17 +1,17 @@
 <template>
     <div class="empty-trash">
         <div class="mt-4 mb-6 text-center italic ">
-            <p class="text-lg">Notes in Trash are deleted after 7 days
+            <p class="text-lg text-color">Notes in Trash are deleted after 7 days
                 <button @click="$refs['trash-confirmation'].show()" class="ml-6 empty-trash-button">Empty Trash</button>
             </p>
         </div>
 
         <b-modal ref="trash-confirmation" hide-footer centered class="delete-confirmation">
             <p class="m-2">Empty trash? All notes in Trash will be permanently deleted.</p>
-            <div class="bg-white rounded-b-lg py-2 px-4 text-right">
+            <div class="rounded-b-lg py-2 px-4 text-right">
                 <button
                     @click="$refs['trash-confirmation'].hide()"
-                    class="cancel-button">
+                    class="cancel-button text-color">
                     Cancel
                 </button>
                 <button
