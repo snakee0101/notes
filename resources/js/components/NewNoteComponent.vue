@@ -201,6 +201,10 @@
         <b-modal title="BootstrapVue" ref="placePicker-modal"
                  centered hide-footer modal-class="placePicker-modal" id="placePicker-modal">
             pick place
+            <div class="modal-footer">
+                <button class="btn btn-secondary" @click="cancelPickPlace()">Cancel</button>
+                <button class="btn btn-primary" @click="confirmPickPlace()">OK</button>
+            </div>
         </b-modal>
 
         <b-modal title="BootstrapVue" ref="dateTimePicker-modal"

@@ -23,7 +23,8 @@ module.exports = {
                 {text: 'Fri', value: 'Friday'},
                 {text: 'Sat', value: 'Saturday'},
                 {text: 'Sun', value: 'Sunday'},
-            ]
+            ],
+            googleMap: {}
         }
     },
     computed: {
@@ -98,7 +99,14 @@ module.exports = {
         },
         pickPlace() {
             this.$refs['placePicker-modal'].show();
-            this.$refs['reminder-dropdown'].hide()
+            this.$refs['reminder-dropdown'].hide();
+        },
+        cancelPickPlace() {
+            //TODO: clear location and marker
+            this.$refs['placePicker-modal'].hide();
+        },
+        confirmPickPlace() {
+            this.$refs['placePicker-modal'].hide();
         },
         formatDate(text_time, format) {
             let time = {
