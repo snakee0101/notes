@@ -30,10 +30,14 @@ Route::middleware('auth')->group(function() {
     Route::post('search', SearchController::class)->name('search');
 
     Route::resource('note', NoteController::class);
+    Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
+    Route::post('/note/duplicate/{note}', [NoteController::class, 'duplicate'])->name('note.duplicate');
+    Route::get('/', function (NoteIndexAction $index) {
+        return $index->getNotes(request(), 'notes', auth()->user()->notes());
+    })->name('notes');
 
     Route::resource('tag', TagController::class);
     Route::post('/toggle_tag/{note}/{tag}', [TagController::class, 'toggle'])->name('tag.toggle');
-
     Route::post('/tag/add/{note}/{tag}', [TagController::class, 'addToNote'])->name('tag.add_to_note');
     Route::delete('/tag/remove/{note}/{tag}', [TagController::class, 'removeFromNote'])->name('tag.remove_from_note');
 
@@ -47,8 +51,6 @@ Route::middleware('auth')->group(function() {
     Route::put('/image/restore/{image_id}', [ImageController::class, 'restore'])->name('image.restore');
     Route::post('/image/recognize', [ImageController::class, 'recognize'])->name('image.recognize');
 
-    Route::post('/note/restore/{note}', [NoteController::class, 'restore'])->name('note.restore');
-    Route::post('/note/duplicate/{note}', [NoteController::class, 'duplicate'])->name('note.duplicate');
 
     Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');
     Route::delete('/reminder/{note}', [ReminderController::class, 'destroy'])->name('reminder.destroy');
@@ -60,10 +62,6 @@ Route::middleware('auth')->group(function() {
 
     Route::delete('/link/{link}', [LinkController::class, 'destroy'])->name('link.destroy');
     Route::post('/link/{link}/restore', [LinkController::class, 'restore'])->name('link.restore');
-
-    Route::get('/', function (NoteIndexAction $index) {
-        return $index->getNotes(request(), 'notes', auth()->user()->notes());
-    })->name('notes');
 
     Route::get('/archive', function (NoteIndexAction $index) {
         return $index->getNotes(request(), 'archive', auth()->user()->notes()->onlyArchived());
