@@ -78,9 +78,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/trash', [TrashController::class, 'index'])->name('trash');
     Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
 
-
     Route::redirect('/dashboard', '/')->name('dashboard');
-    Route::redirect('/home', '/')->name('home');
 });
 
 Route::get('/logout', function() {
