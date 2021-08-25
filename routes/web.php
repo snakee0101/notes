@@ -37,15 +37,19 @@ Route::middleware('auth')->group(function() {
         return $index->getNotes(request(), 'notes', auth()->user()->notes());
     })->name('notes');
 
+
     Route::resource('tag', TagController::class);
     Route::post('/toggle_tag/{note}/{tag}', [TagOperationsController::class, 'toggle'])->name('tag.toggle');
     Route::post('/tag/add/{note}/{tag}', [TagOperationsController::class, 'addToNote'])->name('tag.add_to_note');
     Route::delete('/tag/remove/{note}/{tag}', [TagOperationsController::class, 'removeFromNote'])->name('tag.remove_from_note');
+    Route::delete('/detach_tag/{note}/{tag}', [TagOperationsController::class, 'detach'])->name('detach_tag');
+
 
     Route::resource('checklist', ChecklistController::class)->only(['store', 'update']);
     Route::post('/checklist/delete/{note}', [ChecklistController::class, 'destroy'])->name('checklist.destroy');
     Route::post('/checklist/uncheck_all/{checklist}', [ChecklistController::class, 'uncheck_all'])->name('checklist.uncheck_all');
     Route::post('/checklist/remove_completed/{checklist}', [ChecklistController::class, 'remove_completed'])->name('checklist.remove_completed');
+
 
     Route::resource('image', ImageController::class)->except('destroy');
     Route::post('/image/delete/{image}', [ImageController::class, 'destroy'])->name('image.destroy');
@@ -57,23 +61,24 @@ Route::middleware('auth')->group(function() {
     Route::delete('/reminder/{note}', [ReminderController::class, 'destroy'])->name('reminder.destroy');
     Route::get('/reminder', [ReminderController::class, 'index'])->name('reminder.index');
 
+
     Route::get('/collaborator', [CollaboratorController::class, 'index'])->name('collaborator.index');
     Route::post('/collaborator/{note}', [CollaboratorController::class, 'sync'])->name('sync_collaborator');
     Route::get('/collaborator/{email}', [CollaboratorController::class, 'check'])->name('check_user_existence');
 
+
     Route::delete('/link/{link}', [LinkController::class, 'destroy'])->name('link.destroy');
     Route::post('/link/{link}/restore', [LinkController::class, 'restore'])->name('link.restore');
+
 
     Route::get('/archive', function (NoteIndexAction $index) {
         return $index->getNotes(request(), 'archive', auth()->user()->notes()->onlyArchived());
     })->name('archive');
 
-    Route::delete('/detach_tag/{note}/{tag}', function(Note $note, Tag $tag){
-        $note->tags()->detach($tag);
-    })->name('detach_tag');
 
     Route::get('/trash', [TrashController::class, 'index'])->name('trash');
     Route::delete('/trash/empty', [TrashController::class, 'empty'])->name('trash.empty');
+
 
     Route::redirect('/dashboard', '/')->name('dashboard');
     Route::redirect('/home', '/')->name('home');

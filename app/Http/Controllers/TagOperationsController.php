@@ -27,4 +27,9 @@ class TagOperationsController extends Controller
     {
         $note->tags()->detach($tag);
     }
+
+    public function detach(Note $note, Tag $tag)
+    {
+        $note->tags()->detach($tag);
+    }
 }
