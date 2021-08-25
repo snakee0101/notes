@@ -16,7 +16,7 @@ class TagOperationsController extends Controller
         $note->push();
     }
 
-    public function addToNote(Note $note, Tag $tag)
+    public function attach(Note $note, Tag $tag)
     {
         abort_if(Gate::denies('update_note_tags', [$tag, $note]), 403, 'Only owner and collaborators can manipulate checklists');
 

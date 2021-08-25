@@ -193,7 +193,7 @@ class TagTest extends TestCase
         $this->assertEmpty( $note->fresh()->tags );
     }
 
-    public function test_a_tag_could_be_added_to_specific_note()
+    public function test_a_tag_could_be_attached_to_specific_note()
     {
         $note = Note::factory()->create();
         auth()->login($note->owner);
@@ -202,7 +202,7 @@ class TagTest extends TestCase
 
         $this->assertEmpty( $note->fresh()->tags );
 
-        $this->post( route('tag.add_to_note', [
+        $this->post( route('tag.attach', [
             'note' => $note,
             'tag' => $tag->name
         ]) );

@@ -313,7 +313,7 @@ export default {
         //TODO: Problem - sometimes notes are duplicating (for example, with pin/unpin actions)
         bindTags(label, action) {
             if(action === 'add')
-                this.notes.forEach((note) => axios.post('/tag/add/' + note.id + '/' + label.name)
+                this.notes.forEach((note) => axios.post('/tag/attach/' + note.id + '/' + label.name)
                                                   .then(res => window.events.$emit('reload_note_tags', note.id)));
 
             if(action === 'remove')
