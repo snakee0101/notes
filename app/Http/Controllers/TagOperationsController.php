@@ -23,11 +23,6 @@ class TagOperationsController extends Controller
         $note->tags()->attach($tag);
     }
 
-    public function removeFromNote(Note $note, Tag $tag)
-    {
-        $note->tags()->detach($tag);
-    }
-
     public function detach(Note $note, Tag $tag)
     {
         $note->tags()->detach($tag);
