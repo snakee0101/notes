@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function() {
     Route::resource('tag', TagController::class);
     Route::post('/toggle_tag/{note}/{tag}', [TagOperationsController::class, 'toggle'])->name('tag.toggle');
     Route::post('/tag/attach/{note}/{tag}', [TagOperationsController::class, 'attach'])->name('tag.attach');
-    Route::delete('/detach_tag/{note}/{tag}', [TagOperationsController::class, 'detach'])->name('detach_tag');
+    Route::delete('/tag/detach/{note}/{tag}', [TagOperationsController::class, 'detach'])->name('tag.detach');
 
 
     Route::resource('checklist', ChecklistController::class)->only(['store', 'update']);

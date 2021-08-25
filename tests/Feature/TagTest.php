@@ -185,7 +185,7 @@ class TagTest extends TestCase
 
         $this->assertNotEmpty( $note->fresh()->tags );
 
-        $this->delete( route('detach_tag', [
+        $this->delete( route('tag.detach', [
             'note' => $note,
             'tag' => $tag->name
         ]) );

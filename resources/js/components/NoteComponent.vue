@@ -517,7 +517,7 @@ export default {
             element.style.height = (element.scrollHeight) + "px";
         },
         detach_tag(tag) {
-            axios.delete('/detach_tag/' + this.note.id + '/' + tag.name);
+            axios.delete('/tag/detach/' + this.note.id + '/' + tag.name);
 
             this.note.tags = _.without(this.note.tags, tag);
 

@@ -317,7 +317,7 @@ export default {
                                                   .then(res => window.events.$emit('reload_note_tags', note.id)));
 
             if(action === 'remove')
-                this.notes.forEach((note) => axios.delete('/detach_tag/' + note.id + '/' + label.name)
+                this.notes.forEach((note) => axios.delete('/tag/detach/' + note.id + '/' + label.name)
                                                   .then(res => window.events.$emit('reload_note_tags', note.id)));
 
             this.deselectAll();
