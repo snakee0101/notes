@@ -76,7 +76,7 @@ class Image extends Model
 
     public static function processUpload(UploadedFile $image)
     {
-        $filename = now()->timestamp . random_int(10000,10000000) . '.' . $image->getClientOriginalExtension();
+        $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
         $image->storeAs('images', $filename);
 
         $image_path = Storage::url("images/" . $filename);
