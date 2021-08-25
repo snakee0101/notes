@@ -39,23 +39,4 @@ class TagController extends Controller
        return $tag->delete();
     }
 
-    public function toggle(Note $note, Tag $tag) //Only the note and tag owner may update these tags
-    {
-        abort_if(Gate::denies('update_note_tags', [$tag, $note]), 403, 'Only owner and collaborators can manipulate checklists');
-
-        $note->tags()->toggle($tag->id); //Tag is resolved by $name property
-        $note->push();
-    }
-
-    public function addToNote(Note $note, Tag $tag)
-    {
-        abort_if(Gate::denies('update_note_tags', [$tag, $note]), 403, 'Only owner and collaborators can manipulate checklists');
-
-        $note->tags()->attach($tag);
-    }
-
-    public function removeFromNote(Note $note, Tag $tag)
-    {
-        $note->tags()->detach($tag);
-    }
 }

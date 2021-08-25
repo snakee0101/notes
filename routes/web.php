@@ -9,6 +9,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\TagOperationsController;
 use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
@@ -37,9 +38,9 @@ Route::middleware('auth')->group(function() {
     })->name('notes');
 
     Route::resource('tag', TagController::class);
-    Route::post('/toggle_tag/{note}/{tag}', [TagController::class, 'toggle'])->name('tag.toggle');
-    Route::post('/tag/add/{note}/{tag}', [TagController::class, 'addToNote'])->name('tag.add_to_note');
-    Route::delete('/tag/remove/{note}/{tag}', [TagController::class, 'removeFromNote'])->name('tag.remove_from_note');
+    Route::post('/toggle_tag/{note}/{tag}', [TagOperationsController::class, 'toggle'])->name('tag.toggle');
+    Route::post('/tag/add/{note}/{tag}', [TagOperationsController::class, 'addToNote'])->name('tag.add_to_note');
+    Route::delete('/tag/remove/{note}/{tag}', [TagOperationsController::class, 'removeFromNote'])->name('tag.remove_from_note');
 
     Route::resource('checklist', ChecklistController::class)->only(['store', 'update']);
     Route::post('/checklist/delete/{note}', [ChecklistController::class, 'destroy'])->name('checklist.destroy');
