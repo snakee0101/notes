@@ -129,7 +129,7 @@ class ChecklistTest extends TestCase
     public function test_all_tasks_could_be_unchecked()
     {
         auth()->login(User::factory()->create());
-        $checklist = Checklist::factory()->create();
+        $checklist = Checklist::factory()->create(['note_id' => Note::factory()->create(['owner_id' => auth()->id()])]);
 
         Task::factory()->for($checklist)->count(3)->create([ 'completed' => false ]);
         Task::factory()->for($checklist)->count(3)->create([ 'completed' => true  ]);
@@ -145,7 +145,7 @@ class ChecklistTest extends TestCase
     public function test_all_completed_tasks_could_be_removed()
     {
         auth()->login(User::factory()->create());
-        $checklist = Checklist::factory()->create();
+        $checklist = Checklist::factory()->create(['note_id' => Note::factory()->create(['owner_id' => auth()->id()])]);
 
         Task::factory()->for($checklist)->count(3)->create([ 'completed' => false ]);
         Task::factory()->for($checklist)->count(5)->create([ 'completed' => true  ]);
