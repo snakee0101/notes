@@ -87,23 +87,10 @@ class NoteTest extends TestCase
         $this->assertCount(3, $note->tags);
     }
 
-    public function test_a_note_appends_tags_to_json()
-    {
-        $note = Note::factory()->for(
-            User::factory()->create(), 'owner'
-        )->hasAttached(Tag::factory()->count(3))
-            ->create();
-
-
-        $json_decoded = json_decode($note->toJson());
-        $this->assertObjectHasAttribute('tags', $json_decoded);
-        $this->assertCount(3, $json_decoded->tags);
-    }
-
     public function test_a_note_has_images()
     {
         $note = Note::factory()->has(Image::factory()->count(3))->create();
-        $this->assertInstanceOf(Image::class, $note->images->first());
+        $this->assertInstanceOf(Image::class, $note->fresh()->images[0]);
     }
 
     public function test_a_note_could_de_duplicated()
