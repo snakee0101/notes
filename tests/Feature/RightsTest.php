@@ -15,10 +15,21 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Mockery\MockInterface;
 use Tests\TestCase;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class RightsTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->mock(TesseractOCR::class, function (MockInterface $mock) {
+            $mock->shouldReceive('run', 'image');
+        });
+    }
+
     private function create_note_with_collaborators()
     {
         $note = Note::factory()->create();

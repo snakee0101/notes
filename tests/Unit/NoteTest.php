@@ -11,10 +11,21 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
+use Mockery\MockInterface;
 use Tests\TestCase;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class NoteTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->mock(TesseractOCR::class, function (MockInterface $mock) {
+            $mock->shouldReceive('run', 'image');
+        });
+    }
+
     public function test_a_note_has_an_owner()
     {
         $note = Note::factory()->for(

@@ -11,6 +11,7 @@ use \Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 use thiagoalessio\TesseractOCR\TesseractOCR;
@@ -20,6 +21,11 @@ class ImageTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->mock(TesseractOCR::class, function (MockInterface $mock) {
+            $mock->shouldReceive('run', 'image');
+        });
+
         Storage::fake();
         Storage::makeDirectory('images');
         Storage::makeDirectory('thumbnails_large');

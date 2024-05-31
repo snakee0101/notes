@@ -5,7 +5,9 @@ namespace Tests\Unit;
 use App\Models\{Checklist, Note, Image, Task, Link};
 use App\Utilities\NoteTypeDetector;
 
+use Mockery\MockInterface;
 use Tests\TestCase;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class NoteTypeDetectorTest extends TestCase
 {
@@ -14,6 +16,11 @@ class NoteTypeDetectorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->mock(TesseractOCR::class, function (MockInterface $mock) {
+            $mock->shouldReceive('run', 'image');
+        });
+
         $this->empty_note = Note::factory()->create();
         $this->note_with_images = Note::factory()->has( Image::factory() )->create();
         $this->note_with_checklist = Note::factory()->has( Checklist::factory()->has(Task::factory()->count(3)) )->create();
@@ -47,11 +54,6 @@ class NoteTypeDetectorTest extends TestCase
 
         $this->assertIsArray($result);
         $this->assertContains('links', $result);
-    }
-
-    public function test_note_type_detector_can_detect_drawings()
-    {
-        $this->assertFalse('drawings feature is not implemented yet');
     }
 
     public function test_if_the_note_contains_only_text_note_type_detector_returns_empty_array()

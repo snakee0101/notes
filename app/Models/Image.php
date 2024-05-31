@@ -49,8 +49,11 @@ class Image extends Model
     public function recognize()
     {
         $path = storage_path() . '/app/' . Str::after($this->image_path, '/storage');
-        $tesseract = new TesseractOCR($path);
-        return $tesseract->run();
+
+        $ocr_service = app(TesseractOCR::class);
+        $ocr_service->image($path);
+
+        return $ocr_service->run();
     }
 
     public function makeCopy(Note $replica)
