@@ -733,14 +733,14 @@ class RightsTest extends TestCase
         $this->assertNotEmpty( $note->fresh()->tags );
 
         auth()->login($collaborator);
-        $this->delete( route('tag.remove_from_note', [
+        $this->delete( route('tag.detach', [
             'note' => $note,
             'tag' => $tag->name
         ]) );
         $this->assertNotEmpty( $note->fresh()->tags );
 
         auth()->login($note->owner);
-        $this->delete( route('tag.remove_from_note', [
+        $this->delete( route('tag.detach', [
             'note' => $note,
             'tag' => $tag->name
         ]) );
