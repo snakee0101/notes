@@ -282,8 +282,8 @@ class NoteTest extends TestCase
 
     public function test_collaborators_are_automatically_detached_when_the_note_is_deleted()
     {
-        dump(User::firstOrNew(['id' => 1, 'email' => 's@h.h'], ['name' => 'inserted', 'password' => '122']));
-        dd(User::all());
+        //dump(User::firstOrNew(['id' => 1, 'email' => 's@h.h'], ['name' => 'inserted', 'password' => '122']));
+        //dd(User::all());
 
         $owner = User::factory()->create();
         $users = User::factory()->count(3);

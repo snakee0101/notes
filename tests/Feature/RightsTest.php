@@ -697,7 +697,7 @@ class RightsTest extends TestCase
 
         $this->assertEmpty( $note->fresh()->tags );
 
-        $this->post( route('tag.add_to_note', [ //Note owner - OK, Tag owner - OK
+        $this->post( route('tag.attach', [ //Note owner - OK, Tag owner - OK
             'note' => $note,
             'tag' => $tag->name
         ]) )->assertOk();
@@ -706,7 +706,7 @@ class RightsTest extends TestCase
         $note->tags()->detach($tag);
         $note->refresh();
 
-        $this->post( route('tag.add_to_note', [ //Note owner - OK, Tag owner - Wrong
+        $this->post( route('tag.attach', [ //Note owner - OK, Tag owner - Wrong
             'note' => $note,
             'tag' => $another_tag->name
         ]) )->assertNotFound();
@@ -714,7 +714,7 @@ class RightsTest extends TestCase
         auth()->login($collaborator); //check collaborator rights
         $this->assertEmpty( $note->fresh()->tags );
 
-        $this->post( route('tag.add_to_note', [ //Note owner - Wrong, Tag onwer - OK
+        $this->post( route('tag.attach', [ //Note owner - Wrong, Tag onwer - OK
             'note' => $note,
             'tag' => $tag->name
         ]) )->assertNotFound();
