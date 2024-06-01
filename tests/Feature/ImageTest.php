@@ -67,45 +67,37 @@ class ImageTest extends TestCase
        $note = Note::factory()->create();
        auth()->login($note->owner);
 
-       $image = $this->generate_image();
-       Storage::makeDirectory('thumbnails_small');
-       Storage::makeDirectory('thumbnails_large');
-       Storage::makeDirectory('images');
-
-       $response = $this->post( route('image.store'), [
-           'image' => $image,
+        $response = $this->post( route('image.store'), [
+           'image' => $this->generate_image(),
            'note_id' => $note->id
-       ]);
-       $filename = $response->content();
-       $this->assertTrue(
-            Storage::exists('images/' . $filename)
-       );
+       ])->assertSuccessful();
+
+       $images = $response->json();
+
+       Storage::assertExists(Str::after($images["image_path"], '/storage'));
+       Storage::assertExists(Str::after($images["thumbnail_small_path"], '/storage'));
+       Storage::assertExists(Str::after($images["thumbnail_large_path"], '/storage'));
     }
 
     public function test_an_image_is_attached_to_the_note()
     {
-        Storage::makeDirectory('thumbnails_large');
-
         $note = Note::factory()->create();
         auth()->login($note->owner);
 
-        $this->post( route('image.store'), [
+        $this->assertCount(0, $note->fresh()->images);
+
+        $images = $this->post( route('image.store'), [
             'image' => $this->generate_image(),
             'note_id' => $note->id
-        ]);
+        ])->json();
 
-        $this->assertCount(1, $note->fresh()->images);
-        $this->assertInstanceOf(Image::class, $note->images[0]);
-    }
+        $image = $note->fresh()->images()->first();
 
-    public function test_thumbnail_small_is_attached()
-    {
+        $this->assertInstanceOf(Image::class, $image);
 
-    }
-
-    public function test_thumbnail_large_is_attached()
-    {
-
+        $this->assertEquals($image->image_path, $images['image_path']);
+        $this->assertEquals($image->thumbnail_small_path, $images['thumbnail_small_path']);
+        $this->assertEquals($image->thumbnail_large_path, $images['thumbnail_large_path']);
     }
 
     public function test_tesseractOCR_service_itself()
