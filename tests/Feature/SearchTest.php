@@ -11,12 +11,27 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Mockery\Mock;
+use Mockery\MockInterface;
 use Tests\TestCase;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 
 
 class SearchTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->mock(TesseractOCR::class, function (MockInterface $mock) {
+            $mock->shouldReceive('run', 'image');
+        });
+
+        Storage::fake();
+        Storage::makeDirectory('images');
+        Storage::makeDirectory('thumbnails_large');
+        Storage::makeDirectory('thumbnails_small');
+    }
+
     public function test_a_note_could_be_searched_by_header()
     {
         $note = Note::factory()->create(['header' => 'test header']);
@@ -104,32 +119,48 @@ class SearchTest extends TestCase
 
         $this->assertArrayHasKey('tags', $serialized_note);
 
-        $this->assertStringContainsString($tags[0]->name, $serialized_note['tags']);
-        $this->assertStringContainsString($tags[1]->name, $serialized_note['tags']);
-        $this->assertStringContainsString($tags[2]->name, $serialized_note['tags']);
+        $this->assertContains($tags[0]->name, $serialized_note['tags']);
+        $this->assertContains($tags[1]->name, $serialized_note['tags']);
+        $this->assertContains($tags[2]->name, $serialized_note['tags']);
+    }
+
+    protected function create_3_fake_images(array $texts)
+    {
+        $paths = [];
+
+        foreach ($texts as $key => $text) {
+            $image = imagecreate(200, 200);
+            $color = imagecolorallocate($image, 255, 255, 255);
+            $text_color = imagecolorallocate($image, 0, 0, 0);
+            $font_path = 'storage/app/Roboto-Light.ttf';
+
+            imagefttext($image, 20, 0, 40,40, $text_color, $font_path, $text);
+            imagejpeg($image, Storage::path("test_OCR_$key.jpg"));
+
+            $paths[] = Storage::path("test_OCR_$key.jpg");
+        }
+
+        return $paths;
     }
 
     public function test_recognized_images_text_is_included_in_search_index()
     {
-        /*Storage::fake();
-        $image = imagecreate(200, 200);
-        $color = imagecolorallocate($image, 255, 255, 255);
-        $text_color = imagecolorallocate($image, 0, 0, 0);
-        $font_path = 'storage/app/Roboto-Light.ttf';
+        $this->forgetMock(TesseractOCR::class);
 
-        imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
-        imagejpeg($image, 'storage/app/test_OCR.jpg');*/
+        $note = Note::factory()->create();
+        $images = [];
 
+        foreach ($this->create_3_fake_images(['OCR test 1', 'new text', 'testing']) as $image_path) {
+            $images[] = Image::factory()->count(3)->for($note, 'note')->create([
+                'image_path' => $image_path
+            ]);
+        }
 
-      /*  $note = Note::factory()->create();
-        $image_models = Image::factory()->count(3)->for($note, 'note')->create();
+        $note->refresh();
 
-        dd($note->images);
-
-
-        $this->assertStringContainsString($image_models[0]->recognized_text, '');
-        $this->assertStringContainsString($image_models[1]->recognized_text, '');
-        $this->assertStringContainsString($image_models[2]->recognized_text, '');*/
+        $this->assertStringContainsString($images[0]->recognized_text, $note->toSearchableArray()['recognized_text']);
+        $this->assertStringContainsString($images[1]->recognized_text, $note->toSearchableArray()['recognized_text']);
+        $this->assertStringContainsString($images[2]->recognized_text, $note->toSearchableArray()['recognized_text']);
     }
 
     public function test_a_note_could_be_filtered_by_tags() //TODO: Actually it works but not testable yet
