@@ -120,16 +120,18 @@ class ImageTest extends TestCase
 
     public function test_tesseract_output_in_controller()
     {
+        $this->forgetMock(TesseractOCR::class);
         auth()->login( $owner = User::factory()->create() );
 
+        // generate image with text
         $image = imagecreate(200, 200);
-        $color = imagecolorallocate($image, 255, 255, 255);
         $text_color = imagecolorallocate($image, 0, 0, 0);
         $font_path = 'storage/app/Roboto-Light.ttf';
 
         imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
         imagejpeg($image, Storage::path('test_OCR.jpg'));
 
+        //prepare note and attach image to it
         $image_model = Image::factory()->create([
             'image_path' => Storage::path('test_OCR.jpg')
         ]);
@@ -137,13 +139,12 @@ class ImageTest extends TestCase
         $note->images()->save($image_model);
         $note->refresh();
 
-        $recognized_text = $this->post(route('image.recognize'), [
+        //try to recognize text
+        $this->post(route('image.recognize'), [
             'image_path' => Storage::path('test_OCR.jpg')
-        ])->content();
+        ]);
 
-        imagedestroy($image);
-
-        $this->assertEquals('test OCR', $recognized_text);
+        $this->assertEquals('test OCR', $image_model->fresh()->recognized_text);
     }
 
     public function test_an_image_could_be_soft_deleted_by_id()
