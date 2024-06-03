@@ -12,9 +12,33 @@ use Tests\TestCase;
 
 class PaginatorJsonTest extends TestCase
 {
+    protected function test_paginator($other_notes, $pinned_notes, $route)
+    {
+        $json = $this->getJson( $route . '?page=1&notes_type=other_notes' )->json();
+
+        $this->assertNotEmpty( array_filter($json['data'], fn($item) => $item["header"] == $other_notes->first()->header ) );
+        $this->assertEmpty( array_filter($json['data'], fn($item) => $item["header"] == $other_notes->last()->header ) );
+
+        $json_page_2 = $this->getJson( $route . '?page=2&notes_type=other_notes' )->json();
+        $this->assertNotEmpty( array_filter($json_page_2['data'], fn($item) => $item["header"] == $other_notes->last()->header ) );
+        $this->assertEmpty( array_filter($json_page_2['data'], fn($item) => $item["header"] == $other_notes->first()->header ) );
+
+        //CHECK FOR PINNED NOTES
+
+        $json_pinned = $this->getJson( $route . '?page=1&notes_type=pinned_notes' )->json();
+
+        $this->assertNotEmpty( array_filter($json_pinned['data'], fn($item) => $item["header"] == $pinned_notes->first()->header ) );
+        $this->assertEmpty( array_filter($json_pinned['data'], fn($item) => $item["header"] == $pinned_notes->last()->header ) );
+
+        $json_pinned_page_2 = $this->getJson( $route . '?page=2&notes_type=pinned_notes' )->json();
+        $this->assertNotEmpty( array_filter($json_pinned_page_2['data'], fn($item) => $item["header"] == $pinned_notes->last()->header ) );
+        $this->assertEmpty( array_filter($json_pinned_page_2['data'], fn($item) => $item["header"] == $pinned_notes->first()->header ) );
+    }
+
     public function test_main_page_paginator()
     {
         auth()->login( $owner = User::factory()->create() );
+
         $other_notes = Note::factory()->for($owner,'owner')
                                 ->count(40)
                                 ->create(['pinned' => false]);
@@ -23,25 +47,7 @@ class PaginatorJsonTest extends TestCase
             ->count(40)
             ->create(['pinned' => true]);
 
-        $json = $this->getJson( route('notes') . '?page=1&notes_type=other_notes' )->json();
-
-        $this->assertNotEmpty( array_filter($json['data'], fn($item) => $item["header"] == $other_notes->first()->header ) );
-        $this->assertEmpty( array_filter($json['data'], fn($item) => $item["header"] == $other_notes->last()->header ) );
-
-        $json_page_2 = $this->getJson( route('notes') . '?page=2&notes_type=other_notes' )->json();
-        $this->assertNotEmpty( array_filter($json_page_2['data'], fn($item) => $item["header"] == $other_notes->last()->header ) );
-        $this->assertEmpty( array_filter($json_page_2['data'], fn($item) => $item["header"] == $other_notes->first()->header ) );
-
-        //CHECK FOR PINNED NOTES
-
-        $json_pinned = $this->getJson( route('notes') . '?page=1&notes_type=pinned_notes' )->json();
-
-        $this->assertNotEmpty( array_filter($json_pinned['data'], fn($item) => $item["header"] == $pinned_notes->first()->header ) );
-        $this->assertEmpty( array_filter($json_pinned['data'], fn($item) => $item["header"] == $pinned_notes->last()->header ) );
-
-        $json_pinned_page_2 = $this->getJson( route('notes') . '?page=2&notes_type=pinned_notes' )->json();
-        $this->assertNotEmpty( array_filter($json_pinned_page_2['data'], fn($item) => $item["header"] == $pinned_notes->last()->header ) );
-        $this->assertEmpty( array_filter($json_pinned_page_2['data'], fn($item) => $item["header"] == $pinned_notes->first()->header ) );
+        $this->test_paginator($other_notes, $pinned_notes, route('notes'));
     }
 
     public function test_tag_page_paginator()
