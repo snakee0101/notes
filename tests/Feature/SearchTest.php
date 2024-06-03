@@ -22,14 +22,12 @@ class SearchTest extends TestCase
     {
         parent::setUp();
 
-        $this->mock(TesseractOCR::class, function (MockInterface $mock) {
-            $mock->shouldReceive('run', 'image');
-        });
-
         Storage::fake();
         Storage::makeDirectory('images');
         Storage::makeDirectory('thumbnails_large');
         Storage::makeDirectory('thumbnails_small');
+
+        config(['scout.driver' => 'meilisearch']);
     }
 
     public function test_a_note_could_be_searched_by_header()
