@@ -54,7 +54,7 @@ class CollaboratorTest extends TestCase
         $response->assertJsonMissing(['user' => ['name' => $user->name]]);
     }
 
-    public function test_note_can_restore_collaborator_emails()
+    public function test_note_owner_can_update_collaborators_list()
     {
         $owner = User::factory()->create();
         $user = User::factory()->create();
