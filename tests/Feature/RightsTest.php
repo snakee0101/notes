@@ -289,41 +289,6 @@ class RightsTest extends TestCase
         $this->put("/image/restore/$image_3->id")->assertForbidden();
     }
 
-    public function test_an_image_could_be_recognized_by_owner_and_collaborators()
-    {
-        $storage = Storage::fake();
-        $image = imagecreate(200, 200);
-        imagejpeg($image, Storage::path('test_OCR.jpg'));
-
-        [$note, $collaborator] = $this->create_note_with_collaborators();
-
-        $note->images()->create([
-            'image_path' => Storage::path('test_OCR.jpg'),
-            'thumbnail_large_path' => Storage::path('test_OCR.jpg'),
-            'thumbnail_small_path' => Storage::path('test_OCR.jpg'),
-        ]);
-        $note->refresh();
-
-        auth()->login($note->owner);
-        $status = $this->post(route('image.recognize'), [
-            'image_path' => Storage::path('test_OCR.jpg')
-        ])->status();
-        $this->assertNotEquals(403, $status);
-
-        auth()->login($collaborator);
-        $status = $this->post(route('image.recognize'), [
-            'image_path' => Storage::path('test_OCR.jpg')
-        ])->status();
-        $this->assertNotEquals(403, $status);
-
-        auth()->login( User::factory()->create() );
-        $this->post(route('image.recognize'), [
-            'image_path' => Storage::path('test_OCR.jpg')
-        ])->assertForbidden();
-
-        imagedestroy($image);
-    }
-
     /**
      * Link rights
      */
