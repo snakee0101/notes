@@ -50,12 +50,4 @@ class ImageController extends Controller
 
         return $image->fresh();
     }
-
-    public function recognize(Request $request)
-    {
-        $image = Image::where('image_path', $request->image_path)->first();
-
-        abort_if(Gate::denies('image_manipulation', $image->note), 403, 'Only owner and collaborators can manipulate images');
-        return $image->recognize();
-    }
 }

@@ -7,7 +7,7 @@
                 </a>
             </div>
             <div class="mr-3 my-3">
-                <a href="#" @click.prevent="recognizeText()" class="p-2 pt-3 hover:bg-gray-800">
+                <a href="#" @click.prevent="recognizeText()" class="p-2 pt-3 hover:bg-gray-800" title="recognize text">
                     <i class="bi bi-type text-white" style="font-size: 1.5rem"></i>
                 </a>
 
@@ -136,12 +136,8 @@ export default {
                 this.next_shown = false;
         },
         recognizeText() {
-            axios.post('/image/recognize', {
-                'image_path' : this.current_image.image_path
-            }).then(function(res) {
-                navigator.clipboard.writeText(res.data).then(function() {
-                    window.events.$emit('show-notification', 'Recognized text was copied to clipboard');
-                });
+            navigator.clipboard.writeText(this.current_image.recognized_text).then(function() {
+                window.events.$emit('show-notification', 'Recognized text was copied to clipboard');
             });
         }
     }
