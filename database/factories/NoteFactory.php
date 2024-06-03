@@ -32,7 +32,7 @@ class NoteFactory extends Factory
         return [
             'header' => $this->faker->sentence,
             'body' => $this->faker->sentence,
-            'pinned' => random_int(0,1),
+            'pinned' => false,
             'archived' => false,
             'owner_id' => User::factory(),
             'color' => $colors[array_rand($colors)],

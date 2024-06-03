@@ -14,43 +14,34 @@ class PaginatorJsonTest extends TestCase
 {
     public function test_main_page_paginator()
     {
-        $owner = User::factory()->create();
-        $notes = Note::factory()->for($owner,'owner')
+        auth()->login( $owner = User::factory()->create() );
+        $other_notes = Note::factory()->for($owner,'owner')
                                 ->count(40)
-                                ->create();
+                                ->create(['pinned' => false]);
 
-        auth()->login($owner);
+        $pinned_notes = Note::factory()->for($owner,'owner')
+            ->count(40)
+            ->create(['pinned' => true]);
 
-        $http_response = $this->getJson( route('notes') . '?page=1&notes_type=other_notes' );
-        $this->assertJson($http_response->content());
+        $json = $this->getJson( route('notes') . '?page=1&notes_type=other_notes' )->json();
 
-        $this->assertStringContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
-        $this->assertStringNotContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+        $this->assertNotEmpty( array_filter($json['data'], fn($item) => $item["header"] == $other_notes->first()->header ) );
+        $this->assertEmpty( array_filter($json['data'], fn($item) => $item["header"] == $other_notes->last()->header ) );
 
-
-        $http_response = $this->getJson( route('notes') . '?page=2&notes_type=other_notes' );
-        $this->assertJson($http_response->content());
-
-        $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
-        $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
-
+        $json_page_2 = $this->getJson( route('notes') . '?page=2&notes_type=other_notes' )->json();
+        $this->assertNotEmpty( array_filter($json_page_2['data'], fn($item) => $item["header"] == $other_notes->last()->header ) );
+        $this->assertEmpty( array_filter($json_page_2['data'], fn($item) => $item["header"] == $other_notes->first()->header ) );
 
         //CHECK FOR PINNED NOTES
-        $notes->toQuery()->update(['pinned' => true]);
-        $notes = Note::all();
 
-        $http_response = $this->getJson( route('notes') . '?page=1&notes_type=pinned_notes' );
-        $this->assertJson($http_response->content());
+        $json_pinned = $this->getJson( route('notes') . '?page=1&notes_type=pinned_notes' )->json();
 
-        $this->assertStringContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
-        $this->assertStringNotContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
+        $this->assertNotEmpty( array_filter($json_pinned['data'], fn($item) => $item["header"] == $pinned_notes->first()->header ) );
+        $this->assertEmpty( array_filter($json_pinned['data'], fn($item) => $item["header"] == $pinned_notes->last()->header ) );
 
-
-        $http_response = $this->getJson( route('notes') . '?page=2&notes_type=pinned_notes' );
-        $this->assertJson($http_response->content());
-
-        $this->assertStringContainsString("\"header\":\"{$notes->last()->header}\"", $http_response->content());
-        $this->assertStringNotContainsString("\"header\":\"{$notes->first()->header}\"", $http_response->content());
+        $json_pinned_page_2 = $this->getJson( route('notes') . '?page=2&notes_type=pinned_notes' )->json();
+        $this->assertNotEmpty( array_filter($json_pinned_page_2['data'], fn($item) => $item["header"] == $pinned_notes->last()->header ) );
+        $this->assertEmpty( array_filter($json_pinned_page_2['data'], fn($item) => $item["header"] == $pinned_notes->first()->header ) );
     }
 
     public function test_tag_page_paginator()
