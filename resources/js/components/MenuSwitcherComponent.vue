@@ -1,6 +1,6 @@
 <template>
     <section class="flex flex-row items-center menu-switcher">
-        <a href="" class="p-2 rounded-full hover:bg-gray-200"
+        <a href="" class="p-2"
            v-b-tooltip.hover.bottom
            title="Main menu"
            @click.prevent="toggle()">

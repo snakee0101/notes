@@ -147,7 +147,7 @@ ol {
 }
 
 .new-note {
-    border: 1px solid #404040;
+    border: 1px solid #d9d8d8;
 }
 
 .note pre, #edit-note-modal pre {
@@ -183,13 +183,7 @@ trix-editor a, .note-content a {
 }
 
 nav a:hover:not(.active),
-.menu-switcher a:hover,
 .search-field-button-color a:hover { background: var(--link-hover-color)!important; }
-.type-controls, .label-controls, .color-controls {
-    border-width: 1px;
-    border-color: var(--search-controls-border-color);
-    background: var(--search-controls-background-color)!important;
-}
 
 .dropdown-menu {
     background: var(--page-background)!important;

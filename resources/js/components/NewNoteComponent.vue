@@ -1,5 +1,5 @@
 <template>
-    <div class="note p-3 hover:shadow-md relative transition-colors m-auto new-note"
+    <div class="note p-3 relative transition-colors m-auto new-note"
          :class="'bg-google-' + note.color"
          style="width: 630px"
          ref="note">

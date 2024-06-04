@@ -2,7 +2,7 @@
     <div class="search-controls m-auto" :class="isSearchActive ? 'active' :''">
         <div class="m-auto" :class="areSearchControlsVisible ? 'd-block' : 'd-none'" style="max-width: 640px">
             <div class="type-controls mb-4">
-                <h2 class="font-bold p-2 pb-4">Types</h2>
+                <h2 class="p-2 pb-4">Types</h2>
                 <div class="flex flex-row justify-between">
                     <button class="blue-search-box-button" @click="filterByType('checklist')">
                         <i class="bi bi-list icon-lg text-white"></i>
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="label-controls mb-4" v-if="tags_list.length">
-                <h2 class="font-bold p-2 pb-4">Labels</h2>
+                <h2 class="p-2 pb-4">Labels</h2>
                 <div class="flex flex-row items-start flex-wrap justify-between">
                     <button class="gray-search-box-button mb-2" @click="filterByLabel(tag.name)"
                             v-for="tag in tags_list">
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="color-controls mb-4">
-                <h2 class="font-bold p-2 pb-2">Colors</h2>
+                <h2 class="p-2 pb-2">Colors</h2>
                 <div class="p-4 flex flex-row flex-wrap">
                     <a v-for="color in colors" href=""
                        class="color-circle"

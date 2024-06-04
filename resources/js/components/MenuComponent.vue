@@ -2,17 +2,17 @@
     <nav class="flex flex-col"
          :class="isCollapsed ? 'collapsed' : ''"
          ref="menu">
-        <a href="/" class="p-2.5 pl-4 rounded-r-full" :class="setActiveLink('notes')">
+        <a href="/" class="p-2.5 pl-4" :class="setActiveLink('notes')">
             <i class="bi bi-lightbulb icon mr-3 menu-icon-color"></i> Notes
         </a>
-        <a href="/reminder" class="p-2.5 pl-4 rounded-r-full" :class="setActiveLink('reminder.index')">
+        <a href="/reminder" class="p-2.5 pl-4" :class="setActiveLink('reminder.index')">
             <i class="bi bi-bell icon mr-3 menu-icon-color"></i> Reminders
         </a>
-        <a href="/collaborator" class="p-2.5 pl-4 rounded-r-full" :class="setActiveLink('collaborator.index')">
+        <a href="/collaborator" class="p-2.5 pl-4" :class="setActiveLink('collaborator.index')">
             <i class="bi bi-people icon mr-3 menu-icon-color"></i> Collaborator notes
         </a>
 
-        <a :href="'/tag/' + tag_item.name" class="p-2.5 pl-4 rounded-r-full" :class="setActiveTagLink(tag_item)" v-for="tag_item in tags_list">
+        <a :href="'/tag/' + tag_item.name" class="p-2.5 pl-4" :class="setActiveTagLink(tag_item)" v-for="tag_item in tags_list">
             <i class="bi bi-tag-fill icon mr-3 menu-icon-color"></i> {{ tag_item.name }}
         </a>
 
@@ -20,10 +20,10 @@
 
         </edit-labels-component>
 
-        <a href="/archive" class="p-2.5 pl-4 rounded-r-full" :class="setActiveLink('archive')">
+        <a href="/archive" class="p-2.5 pl-4" :class="setActiveLink('archive')">
             <i class="bi bi-save2-fill icon mr-3 menu-icon-color"></i> Archive
         </a>
-        <a href="/trash" class="p-2.5 pl-4 rounded-r-full" :class="setActiveLink('trash')">
+        <a href="/trash" class="p-2.5 pl-4" :class="setActiveLink('trash')">
             <i class="bi bi-trash icon mr-3 menu-icon-color"></i> Trash
         </a>
     </nav>

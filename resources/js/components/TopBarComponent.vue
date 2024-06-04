@@ -1,5 +1,5 @@
 <template>
-    <header class="border-b border-gray-500">
+    <header class="border-b border-gray-200">
         <set-labels-component :is-global="true" ref="labels-dialog">
 
         </set-labels-component>
@@ -152,7 +152,7 @@
 
         </section>
 
-        <section class="flex flex-row justify-between py-2 px-3 shadow-sm items-center" v-else>
+        <section class="flex flex-row justify-between py-2 px-3 items-center" v-else>
             <menu-switcher-component></menu-switcher-component>
             <button @click="showDrawingDialog()" class="btn btn-primary">Show drawing dialog</button>
             <search-component></search-component>

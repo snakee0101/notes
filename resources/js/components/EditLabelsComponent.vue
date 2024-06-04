@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a href="" class="p-2.5 pl-4 rounded-r-full hover:bg-gray-200 block"
+        <a href="" class="p-2.5 pl-4 hover:bg-gray-200 block"
            @click.prevent="$refs['labels-dialog'].show()">
             <i class="bi bi-pencil icon mr-3 menu-icon-color"></i> Edit labels
         </a>
