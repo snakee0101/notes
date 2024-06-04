@@ -19,6 +19,8 @@ class Image extends Model
 
     public $timestamps = false;
 
+    //TODO: serialize 3 image paths as Storage::url() and pass them to vue components
+
     protected static function boot()
     {
         parent::boot();
@@ -85,20 +87,17 @@ class Image extends Model
         $image_path = Storage::url("images/" . $filename);
         $resource = InterventionImage::make( Storage::path("images/" . $filename) );
         $image_width = $resource->width();
-        $thumbnail_small_path = '';
-        $thumbnail_large_path = '';
 
-        if($image_width <= 240)
+        $thumbnail_small_path = Storage::url('thumbnails_small/' . $filename);
+        $thumbnail_large_path = Storage::url('thumbnails_large/' . $filename);
+
+        if($image_width <= 240) //if image is smaller than 240 pixels - use image itself as a both thumbnails
         {
-            $thumbnail_small_path = Storage::url("images/" . $filename);
-            $thumbnail_large_path = Storage::url("images/" . $filename);
-        } elseif (($image_width > 240) && ($image_width <= 600)) {
-            $thumbnail_small_path = Storage::url('thumbnails_small/' . $filename);
-            $thumbnail_large_path = Storage::url('thumbnails_small/' . $filename);
+            $thumbnail_small_path = $thumbnail_large_path = Storage::url("images/" . $filename);
+        } elseif ($image_width <= 600) { //if image is smaller than 600 pixels - generate small thumbnail and use it as both thumbnails
+            $thumbnail_small_path = $thumbnail_large_path = Storage::url('thumbnails_small/' . $filename);
             $resource->widen(240)->save(Storage::path('thumbnails_small/' . $filename), 100);
-        } else {
-            $thumbnail_small_path = Storage::url('thumbnails_small/' . $filename);
-            $thumbnail_large_path = Storage::url('thumbnails_large/' . $filename);
+        } else { //if image is bigger than 600 pixels - generate small and large thumbnail separately
             $resource->widen(600)->save(Storage::path('thumbnails_large/' . $filename), 100);
             $resource->widen(240)->save(Storage::path('thumbnails_small/' . $filename), 100);
         }
