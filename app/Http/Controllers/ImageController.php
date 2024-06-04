@@ -21,13 +21,10 @@ class ImageController extends Controller
         abort_if(Gate::denies('image_manipulation', $note), 403, 'Only owner and collaborators can manipulate images');
 
         $image = $request->file('image');
-        $paths = Image::processUpload($image);
 
-        return $note->images()->create([
-            'image_path' => $paths['image_path'],
-            'thumbnail_small_path' => $paths['thumbnail_small_path'],
-            'thumbnail_large_path' => $paths['thumbnail_large_path'],
-        ]);
+        return $note->images()->create(
+            Image::processUpload($image)
+        );
     }
 
     public function destroy(Image $image)
