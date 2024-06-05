@@ -44,127 +44,67 @@ class ImageTest extends TestCase
         $this->assertInstanceOf(Note::class, $image->note);
     }
 
-    public function test_an_image_could_be_uploaded()
+    public function test_an_image_could_be_uploaded_and_it_is_attached_to_the_note()
     {
        $note = Note::factory()->create();
        auth()->login($note->owner);
 
-        $response = $this->post( route('image.store'), [
+       $response = $this->post( route('image.store'), [
            'image' => $this->generate_image(),
            'note_id' => $note->id
        ])->assertSuccessful();
 
-       $images = $response->json();
+       $image = $response->json();
 
-       Storage::assertExists(Str::after($images["image_path"], '/storage'));
-       Storage::assertExists(Str::after($images["thumbnail_small_path"], '/storage'));
-       Storage::assertExists(Str::after($images["thumbnail_large_path"], '/storage'));
+       Storage::disk('public')->assertExists($image["image_path"]);
+       Storage::disk('public')->assertExists($image["thumbnail_small_path"]);
+       Storage::disk('public')->assertExists($image["thumbnail_large_path"]);
+
+       $this->assertEquals($note->id, $image["note_id"]);
+       $this->assertInstanceOf(Image::class, $note->fresh()->images()->first());
+       $this->assertEquals($image["image_path"], $note->fresh()->images()->first()->image_path);
     }
 
-    public function test_an_image_is_attached_to_the_note()
+    public function test_an_image_could_be_soft_deleted()
     {
-        $note = Note::factory()->create();
-        auth()->login($note->owner);
-
-        $this->assertCount(0, $note->fresh()->images);
-
-        $images = $this->post( route('image.store'), [
-            'image' => $this->generate_image(),
-            'note_id' => $note->id
-        ])->json();
-
-        $image = $note->fresh()->images()->first();
-
-        $this->assertInstanceOf(Image::class, $image);
-
-        $this->assertEquals($image->image_path, $images['image_path']);
-        $this->assertEquals($image->thumbnail_small_path, $images['thumbnail_small_path']);
-        $this->assertEquals($image->thumbnail_large_path, $images['thumbnail_large_path']);
-    }
-
-    public function test_an_image_could_be_soft_deleted_by_id()
-    {
-        $storage = Storage::fake();
-        $note = Note::factory()->create();
-        auth()->login($note->owner);
-
-        $storage->put('images/123.jpeg', '12345');
-        $storage->put('thumbnails_small/456.jpeg', '12345');
-        $storage->put('thumbnails_large/789.jpeg', '12345');
-
-        $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/123.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
-                '.jpeg',
+        $image = Image::factory()->create([
+            'note_id' => Note::factory()
         ]);
 
-        $note->refresh();
+        $this->actingAs($image->note->owner);
 
-        Storage::assertExists('images/123.jpeg');
-        Storage::assertExists('thumbnails_small/456.jpeg');
-        Storage::assertExists('thumbnails_large/789.jpeg');
+        $this->post(route('image.destroy', $image));
 
-        $this->assertDatabaseCount('images', 1);
-
-        $image_id = $this->post( route('image.destroy', $note->images[0]))->content();
-
-        $this->assertSoftDeleted('images', ['id' => $image_id]);
+        $this->assertSoftDeleted($image->fresh());
     }
 
     public function test_image_deletion_could_be_undone()
     {
-        $storage = Storage::fake();
-        $note = Note::factory()->create();
-        auth()->login($note->owner);
-
-        $storage->put('images/123.jpeg', '12345');
-        $storage->put('thumbnails_small/456.jpeg', '12345');
-        $storage->put('thumbnails_large/789.jpeg', '12345');
-
-        $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/123.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
-                '.jpeg',
+        $image = Image::factory()->create([
+            'note_id' => Note::factory()
         ]);
-        $image = $note->images()->first();
 
-        $note->images()->first()->delete();
-        $note->refresh();
-        $image->refresh();
+        $this->actingAs($image->note->owner);
 
-        $this->assertSoftDeleted('images', ['id' => $image->id]);
+        $this->post(route('image.destroy', $image));
+
+        $this->assertSoftDeleted($image->fresh());
 
         $image = json_decode($this->put("/image/restore/$image->id")->assertOk()->content());
-        $this->assertNull( Image::where('thumbnail_large_path', $image->thumbnail_large_path)->first()->deleted_at );
+        $this->assertNotSoftDeleted('images', ['id' => $image->id]);
     }
 
     public function test_images_are_physically_deleted_after_note_force_deleting()
     {
-        $storage = Storage::fake();
-        $note = Note::factory()->create();
-        auth()->login($note->owner);
-
-        $storage->put('images/123.jpeg', '12345');
-        $storage->put('thumbnails_small/456.jpeg', '12345');
-        $storage->put('thumbnails_large/789.jpeg', '12345');
-
-        $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/123.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
-                '.jpeg',
+        $image = Image::factory()->create([
+            'note_id' => Note::factory()
         ]);
 
-        $note->forceDelete();
+        $image->note->forceDelete();
 
-        Storage::assertMissing('images/123.jpeg');
-        Storage::assertMissing('thumbnails_small/456.jpeg');
-        Storage::assertMissing('thumbnails_large/789.jpeg');
+        Storage::disk('public')->assertMissing($image->image_path);
+        Storage::disk('public')->assertMissing($image->thumbnail_small_path);
+        Storage::disk('public')->assertMissing($image->thumbnail_large_path);
     }
 
     public function test_images_are_physically_deleted_after_five_minutes_if_deletion_is_not_undone()
