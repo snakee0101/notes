@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DRIVER', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,9 +67,6 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        public_path('storage/images') => storage_path('app/images'),
-        public_path('storage/thumbnails_small') => storage_path('app/thumbnails_small'),
-        public_path('storage/thumbnails_large') => storage_path('app/thumbnails_large'),
     ],
 
 ];

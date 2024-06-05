@@ -16,10 +16,9 @@ class Image extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    protected $appends = ['image_url', 'thumbnail_small_url', 'thumbnail_large_url'];
 
     public $timestamps = false;
-
-    //TODO: serialize 3 image paths as Storage::url() and pass them to vue components
 
     protected static function boot()
     {
@@ -30,14 +29,28 @@ class Image extends Model
         });
     }
 
+    public function getImageUrlAttribute()
+    {
+        return asset('storage/' . $this->image_path);
+    }
+
+    public function getThumbnailSmallUrlAttribute()
+    {
+        return asset('storage/' . $this->thumbnail_small_path);
+    }
+
+    public function getThumbnailLargeUrlAttribute()
+    {
+        return asset('storage/' . $this->thumbnail_large_path);
+    }
+
     public static function removeSoftDeleted()
     {
-        //remove images, that were deleted more than a minute ago
+        //remove images, that were deleted more than a minute ago (to give a user time to undo deletion)
         static::onlyTrashed()->where('deleted_at', '<', now()->subMinute())->each(function(self $image) {
-            //offset for '/storage/' part
-            Storage::delete( substr($image->image_path, 9) );
-            Storage::delete( substr($image->thumbnail_small_path, 9) );
-            Storage::delete( substr($image->thumbnail_large_path, 9) );
+            Storage::disk('public')->delete($image->image_path);
+            Storage::disk('public')->delete($image->thumbnail_small_path);
+            Storage::disk('public')->delete($image->thumbnail_large_path);
 
             $image->forceDelete();
         });
@@ -50,56 +63,52 @@ class Image extends Model
 
     public function recognize()
     {
-        $path = storage_path() . '/app/' . Str::after($this->image_path, '/storage');
-
         $ocr_service = app(TesseractOCR::class);
-        $ocr_service->image($path);
+        $ocr_service->image(Storage::disk('public')->path($this->image_path));
 
-        return $ocr_service->run();
+        try {
+            $recognized_text = $ocr_service->run();
+        } catch(\Exception $e) {
+            $recognized_text = null;
+        }
+
+        return $recognized_text;
     }
 
     public function makeCopy(Note $replica)
     {
-        $path_1 = substr($this->image_path, 9);  //offset for '/storage/' part
-        $path_2 = substr($this->thumbnail_small_path, 9);
-        $path_3 = substr($this->thumbnail_large_path, 9);
+        $extension = pathinfo(Storage::disk('public')->path($this->image_path), PATHINFO_EXTENSION);
+        $new_filename = Str::random(50) . ".$extension";
 
-        $extension = pathinfo($this->image_path)['extension'];
-        $new_filename = now()->timestamp . random_int(10000, 10000000) . '.' . $extension;
+        Storage::disk('public')->copy($this->image_path, $image_path = "images/$new_filename");
+        Storage::disk('public')->copy($this->thumbnail_small_path, $thumbnail_small_path = "thumbnails_small/$new_filename");
+        Storage::disk('public')->copy($this->thumbnail_large_path, $thumbnail_large_path = "thumbnails_large/$new_filename");
 
-        Storage::copy($path_1, 'images/' . $new_filename);
-        Storage::copy($path_2, 'thumbnails_small/' . $new_filename);
-        Storage::copy($path_3, 'thumbnails_large/' . $new_filename);
-
-        $replica->images()->create([
-            'note_id' => $replica->id,
-            'image_path' => '/storage/images/' . $new_filename,
-            'thumbnail_small_path' => '/storage/thumbnails_small/' . $new_filename,
-            'thumbnail_large_path' => '/storage/thumbnails_large/' . $new_filename,
-        ]);
+        $replica->images()->create(
+            compact('image_path', 'thumbnail_small_path', 'thumbnail_large_path')
+        );
     }
 
     public static function processUpload(UploadedFile $image)
     {
-        $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
-        $image->storeAs('images', $filename);
+        $filename = pathinfo(
+            $image->store('images', 'public'), PATHINFO_BASENAME
+        );
 
-        $image_path = Storage::url("images/" . $filename);
-        $resource = InterventionImage::make( Storage::path("images/" . $filename) );
-        $image_width = $resource->width();
+        $image_path = "images/$filename";
+        $thumbnail_small_path = "thumbnails_small/$filename";
+        $thumbnail_large_path = "thumbnails_large/$filename";
 
-        $thumbnail_small_path = Storage::url('thumbnails_small/' . $filename);
-        $thumbnail_large_path = Storage::url('thumbnails_large/' . $filename);
+        $intervention_image = InterventionImage::make( Storage::disk('public')->path($image_path) );
 
-        if($image_width <= 240) //if image is smaller than 240 pixels - use image itself as a both thumbnails
-        {
-            $thumbnail_small_path = $thumbnail_large_path = Storage::url("images/" . $filename);
-        } elseif ($image_width <= 600) { //if image is smaller than 600 pixels - generate small thumbnail and use it as both thumbnails
-            $thumbnail_small_path = $thumbnail_large_path = Storage::url('thumbnails_small/' . $filename);
-            $resource->widen(240)->save(Storage::path('thumbnails_small/' . $filename), 100);
+        if($intervention_image->width() <= 240) { //if image is smaller than 240 pixels - use image itself as a both thumbnails
+            $thumbnail_small_path = $thumbnail_large_path = $image_path;
+        } elseif ($intervention_image->width() <= 600) { //if image is smaller than 600 pixels - generate small thumbnail and use it as both thumbnails
+            $thumbnail_large_path = $thumbnail_small_path;
+            $intervention_image->widen(240)->save(Storage::disk('public')->path($thumbnail_small_path), 100);
         } else { //if image is bigger than 600 pixels - generate small and large thumbnail separately
-            $resource->widen(600)->save(Storage::path('thumbnails_large/' . $filename), 100);
-            $resource->widen(240)->save(Storage::path('thumbnails_small/' . $filename), 100);
+            $intervention_image->widen(600)->save(Storage::disk('public')->path($thumbnail_large_path), 100);
+            $intervention_image->widen(240)->save(Storage::disk('public')->path($thumbnail_small_path), 100);
         }
 
         return compact('image_path', 'thumbnail_small_path', 'thumbnail_large_path');

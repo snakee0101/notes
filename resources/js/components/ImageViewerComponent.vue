@@ -26,7 +26,7 @@
             <a href="#" @click.prevent="prev()" class="absolute left-4 rounded-full" v-if="prev_shown">
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
-            <img :src="current_image.image_path" style="width: 600px" ref="image">
+            <img :src="current_image.image_url" style="width: 600px" ref="image">
             <a href="#" @click.prevent="next()" class="absolute right-4 rounded-full" v-if="next_shown">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
@@ -109,7 +109,7 @@ export default {
             this.shown = false;
         },
         print() {
-            let win = window.open(this.current_image.image_path, '__blank', 'visible=none');
+            let win = window.open(this.current_image.image_url, '__blank', 'visible=none');
 
             win.addEventListener('afterprint', event => event.target.close() );
             win.print();
