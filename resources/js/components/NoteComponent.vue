@@ -206,9 +206,9 @@
                 <img style="height: 40px; width: 40px"
                      :src="link.favicon_path" alt="" v-if="link.favicon_path">
                 <i class="bi bi-globe text-3xl text-center mt-1" style="height: 40px; width: 40px" v-else></i>
-                <div class="ml-2 flex-grow">
-                    <h5 class="m-0">{{ link.name }}</h5>
-                    <p class="text-sm m-0 text-gray-600">{{ link.domain }}</p>
+                <div class="ml-2 flex-grow overflow-hidden">
+                    <h6 class="m-0 mb-1">{{ link.name }}</h6>
+                    <p class="text-sm m-0 text-gray-400">{{ link.domain }}</p>
                 </div>
                 <div>
                     <a :href="link.url"

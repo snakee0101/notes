@@ -105,7 +105,6 @@ nav a.active { background: var(--active-menu-link-background) }
 .search-field-button-color {  color: var(--search-field-button-color); }
 .search.active .search-field-button-color { color: #000; }
 
-.note * { color: var(--text-color) !important }
 .modal-body { background: var(--dialog-background) }
 .modal-footer { background: var(--dialog-footer-background) }
 
