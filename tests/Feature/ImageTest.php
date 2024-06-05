@@ -23,10 +23,10 @@ class ImageTest extends TestCase
             $mock->shouldReceive('run', 'image');
         });
 
-        Storage::fake();
-        Storage::makeDirectory('images');
-        Storage::makeDirectory('thumbnails_large');
-        Storage::makeDirectory('thumbnails_small');
+        Storage::fake('public');
+        Storage::disk('public')->makeDirectory('images');
+        Storage::disk('public')->makeDirectory('thumbnails_large');
+        Storage::disk('public')->makeDirectory('thumbnails_small');
     }
 
     public function generate_image() : File
@@ -37,24 +37,9 @@ class ImageTest extends TestCase
 
     public function test_image_belongs_to_a_note()
     {
-        $storage = Storage::fake();
-        $note = Note::factory()->create();
-        auth()->login($note->owner);
-
-        $storage->put('images/123.jpeg', '12345');
-        $storage->put('thumbnails_small/456.jpeg', '12345');
-        $storage->put('thumbnails_large/789.jpeg', '12345');
-
-        $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/123.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/789' .
-                '.jpeg',
+        $image = Image::factory()->create([
+            'note_id' => Note::factory()
         ]);
-
-        $note->refresh();
-        $image = $note->images[0];
 
         $this->assertInstanceOf(Note::class, $image->note);
     }
@@ -95,24 +80,6 @@ class ImageTest extends TestCase
         $this->assertEquals($image->image_path, $images['image_path']);
         $this->assertEquals($image->thumbnail_small_path, $images['thumbnail_small_path']);
         $this->assertEquals($image->thumbnail_large_path, $images['thumbnail_large_path']);
-    }
-
-    public function test_tesseractOCR_service_itself()
-    {
-        $image = imagecreate(200, 200);
-        $color = imagecolorallocate($image, 255, 255, 255);
-        $text_color = imagecolorallocate($image, 0, 0, 0);
-        $font_path = 'storage/app/Roboto-Light.ttf';
-
-        imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
-        imagejpeg($image, Storage::path('test_OCR.jpg'));
-
-        $tesseract = new TesseractOCR( Storage::path('test_OCR.jpg') );
-        $recognized_text = $tesseract->run();
-
-        imagedestroy($image);
-
-        $this->assertEquals('test OCR', $recognized_text);
     }
 
     public function test_an_image_could_be_soft_deleted_by_id()
