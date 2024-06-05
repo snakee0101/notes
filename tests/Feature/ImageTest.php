@@ -4,12 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\Image;
 use App\Models\Note;
-use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Str;
 use \Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 use Tests\TestCase;

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Checklist;
+use App\Models\Image;
 use App\Models\Link;
 use App\Models\Note;
 use App\Models\Reminder;
@@ -24,6 +25,11 @@ class RightsTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Storage::fake('public');
+        Storage::disk('public')->makeDirectory('images');
+        Storage::disk('public')->makeDirectory('thumbnails_large');
+        Storage::disk('public')->makeDirectory('thumbnails_small');
 
         $this->mock(TesseractOCR::class, function (MockInterface $mock) {
             $mock->shouldReceive('run', 'image');
@@ -69,17 +75,22 @@ class RightsTest extends TestCase
 
         auth()->login($note->owner);
         $this->delete( route('note.destroy', $note) )->assertOk();
+        $this->assertSoftDeleted($note);
         $this->delete( route('note.destroy', $note) )->assertOk();
+        $this->assertDatabaseMissing('notes', ['id' => $note->id]);
 
         //create new note to test the collaborator
         [$note2, $collaborator] = $this->create_note_with_collaborators();
 
         auth()->login($collaborator);
         $this->delete( route('note.destroy', $note2) )->assertForbidden();
+        $this->assertDatabaseHas('notes', ['id' => $note2->id]);
 
         auth()->login($note2->owner);
         $this->delete( route('note.destroy', $note2) )->assertOk();
+        $this->assertSoftDeleted($note2);
         $this->delete( route('note.destroy', $note2) )->assertOk();
+        $this->assertDatabaseMissing('notes', ['id' => $note2->id]);
     }
 
     public function test_note_could_be_restored_by_owner_only()
@@ -88,11 +99,13 @@ class RightsTest extends TestCase
         [$note, $collaborator] = $this->create_note_with_collaborators();
         $note->delete();
 
-        auth()->login($note->owner);
-        $this->post( route('note.restore', $note) )->assertOk();
-
         auth()->login($collaborator);
         $this->post( route('note.restore', $note) )->assertForbidden();
+        $this->assertSoftDeleted($note->fresh());
+
+        auth()->login($note->owner);
+        $this->post( route('note.restore', $note) )->assertOk();
+        $this->assertNotSoftDeleted($note->fresh());
     }
 
     public function test_note_could_be_returned_to_owner_and_collaborator()
@@ -167,9 +180,8 @@ class RightsTest extends TestCase
 
     public function test_an_image_could_be_uploaded_by_owner_and_collaborators()
     {
-        Storage::fake();
-        Storage::makeDirectory('thumbnails_large');
-        Storage::makeDirectory('thumbnails_small');
+        Storage::disk('public')->makeDirectory('thumbnails_large');
+        Storage::disk('public')->makeDirectory('thumbnails_small');
 
         [$note, $collaborator] = $this->create_note_with_collaborators();
 
@@ -194,99 +206,51 @@ class RightsTest extends TestCase
 
     public function test_an_image_could_be_destroyed_by_owner_and_collaborators()
     {
-        $storage = Storage::fake();
-        Storage::makeDirectory('thumbnails_large');
-        Storage::makeDirectory('thumbnails_small');
-
         [$note, $collaborator] = $this->create_note_with_collaborators();
 
-        $storage->put('images/123.jpeg', '12345');
-        $storage->put('thumbnails_small/456.jpeg', '12345');
-        $storage->put('thumbnails_large/789.jpeg', '12345');
-
-        $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/123.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/789.jpeg',
+        $images = Image::factory()->count(3)->create([
+            'note_id' => $note->id
         ]);
-
-        $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/1234.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/4567.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/78910.jpeg',
-        ]);
-
-        $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/12345.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/45678.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/7891011.jpeg',
-        ]);
-
         $note->refresh();
 
         auth()->login($note->owner);
-        $this->post( route('image.destroy', $note->images[0]))->assertOk();
+        $this->post( route('image.destroy', $images[0]))->assertOk();
 
         auth()->login($collaborator);
-        $this->post( route('image.destroy', $note->images[1]))->assertOk();
+        $this->post( route('image.destroy', $images[1]))->assertOk();
 
         auth()->login( User::factory()->create() );
-        $this->post( route('image.destroy', $note->images[2]))->assertForbidden();
+        $this->post( route('image.destroy', $images[2]))->assertForbidden();
+
+        $this->assertSoftDeleted($images[0]->fresh());
+        $this->assertSoftDeleted($images[1]->fresh());
+        $this->assertNotSoftDeleted($images[2]->fresh());
     }
 
     public function test_an_image_could_be_restored_by_owner_and_collaborators()
     {
-        $storage = Storage::fake();
-        Storage::makeDirectory('thumbnails_large');
-        Storage::makeDirectory('thumbnails_small');
-
         [$note, $collaborator] = $this->create_note_with_collaborators();
 
-        $storage->put('images/123.jpeg', '12345');
-        $storage->put('thumbnails_small/456.jpeg', '12345');
-        $storage->put('thumbnails_large/789.jpeg', '12345');
-
-        $image_1 = $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/123.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/789.jpeg',
-        ]);
-
-        $image_2 = $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/1234.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/4567.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/78910.jpeg',
-        ]);
-
-        $image_3 = $note->images()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/12345.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/45678.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/7891011.jpeg',
+        $images = Image::factory()->count(3)->create([
+            'note_id' => $note->id
         ]);
         $note->refresh();
-        $image_1->delete();
-        $image_2->delete();
-        $image_3->delete();
 
-        $this->assertSoftDeleted('images', ['id' => $image_1->id]);
-        $this->assertSoftDeleted('images', ['id' => $image_2->id]);
-        $this->assertSoftDeleted('images', ['id' => $image_2->id]);
-
+        $images[0]->delete();
+        $images[1]->delete();
+        $images[2]->delete();
 
         auth()->login($note->owner);
-        $this->put("/image/restore/$image_1->id")->assertOk();
+        $this->put( route('image.restore',$images[0]->id) )->assertOk();
+        $this->assertNotSoftDeleted($images[0]);
 
         auth()->login($collaborator);
-        $this->put("/image/restore/$image_2->id")->assertOk();
+        $this->put(route('image.restore',$images[1]->id))->assertOk();
+        $this->assertNotSoftDeleted($images[1]);
 
         auth()->login( User::factory()->create() );
-        $this->put("/image/restore/$image_3->id")->assertForbidden();
+        $this->put(route('image.restore',$images[2]->id))->assertForbidden();
+        $this->assertSoftDeleted($images[2]);
     }
 
     /**
