@@ -9,8 +9,8 @@ class NoteIndexAction
     public function getNotes(Request $request, $view, $notes, array $additionalData = [])
     {
         $data = [  //get the paginators for both pinned and other notes
-            'pinned_notes' => (clone $notes)->where('pinned', true)->latest()->paginate(), //clone is needed, because the index could be retrieved only once
-            'other_notes' => $notes->where('pinned', false)->latest()->paginate()
+            'pinned_notes' => (clone $notes)->where('pinned', true)->latest()->get(), //clone is needed, because the index could be retrieved only once
+            'other_notes' => $notes->where('pinned', false)->latest()->get()
         ];
 
         if(! $request->wantsJson()) { //if the request was not posted by axios - return view with the JSON, encoded to string
