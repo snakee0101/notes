@@ -46,11 +46,10 @@ class Image extends Model
 
     public static function removeSoftDeleted()
     {
-        //remove images, that were deleted more than a minute ago (to give a user time to undo deletion)
-        static::onlyTrashed()->where('deleted_at', '<', now()->subMinute())->each(function(self $image) {
-            Storage::disk('public')->delete($image->image_path);
-            Storage::disk('public')->delete($image->thumbnail_small_path);
-            Storage::disk('public')->delete($image->thumbnail_large_path);
+        static::onlyTrashed()->each(function(self $image) {
+            Storage::disk('public')->delete([
+                $image->image_path, $image->thumbnail_small_path, $image->thumbnail_large_path
+            ]);
 
             $image->forceDelete();
         });

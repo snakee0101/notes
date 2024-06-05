@@ -6,6 +6,7 @@ use App\Models\Image;
 use App\Models\Note;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Storage;
 
 class ImageFactory extends Factory
 {
@@ -15,12 +16,12 @@ class ImageFactory extends Factory
 
     public function definition()
     {
-        return [
-            'note_id' => Note::factory(),
-            'image_path' => '/storage/images/1.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/789' . '.jpeg',
-            'recognized_text' => $this->faker->sentence
-        ];
+        Storage::fake('public');
+
+        Storage::put($image_path = 'images/123.jpeg', 12345);
+        Storage::put($thumbnail_small_path = 'thumbnails_small/456.jpeg', 12345);
+        Storage::put($thumbnail_large_path = 'thumbnails_large/789.jpeg', 12345);
+
+        return ['note_id' => Note::factory()] + compact('image_path', 'thumbnail_small_path', 'thumbnail_large_path');
     }
 }

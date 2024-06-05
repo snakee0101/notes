@@ -57,17 +57,12 @@ class Note extends Model
             $query->where('archived', false);
         });
 
-        static::deleting(function (self $object) {
-            if (!$object->isForceDeleting())
+        static::deleting(function (self $note) {
+            if (!$note->isForceDeleting())
                 return;
 
-            foreach ($object->images as $image) {
-                Storage::delete( substr($image->image_path, 9) ); //offset for '/storage/' part
-                Storage::delete( substr($image->thumbnail_small_path, 9) );
-                Storage::delete( substr($image->thumbnail_large_path, 9) );
-            }
-
-            $object->images()->forceDelete();
+            $note->images->each->delete();
+            Image::removeSoftDeleted();
         });
     }
 
