@@ -21,7 +21,8 @@
         "laravel/tinker": "^2.5",
         "meilisearch/meilisearch-php": "0.18.3",
         "pusher/pusher-php-server": "4.1.5",
-        "thiagoalessio/tesseract_ocr": "^2.12"
+        "thiagoalessio/tesseract_ocr": "^2.12",
+        "mpclarkson/icon-scraper": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

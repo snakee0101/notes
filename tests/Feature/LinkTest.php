@@ -17,35 +17,47 @@ class LinkTest extends TestCase
         $user = UserFactory::times(1)->createOne();
         auth()->login($user);
 
+        Link::extractFaviconURL("https://habr.com/ru/all/");
+
         $this->post(route('note.store'), [
             'header' => 'header',
-            'body' => '<div><a href="https://habr.com/ru/all/">link 1</a><br><br>normal text <a href="https://regexr.com/">other link</a><br><br>other normal text</div>',
+            'body' => '<div><a href="https://habr.com/ru/all/">link 1</a><br><br>normal text <a href="https://regexr.com/">link 2</a><br><br>other normal text<a href="https://packagist.org/">link 3</a><a href="https://www.php.net">link 4</a></div>',
             'pinned' => false,
             'archived' => false,
             'color' => 'blue',
             'type' => 'text'
         ]);
 
-        $this->assertNotNull($note = Note::first());
-        $this->assertDatabaseCount('links',2);
 
-        $this->assertCount(2, $note->links);
+
+        $this->assertNotNull($note = Note::first());
+
         $this->assertInstanceOf(Link::class, $note->links[0]);
         $this->assertInstanceOf(Link::class, $note->links[1]);
+        $this->assertInstanceOf(Link::class, $note->links[2]);
+        $this->assertInstanceOf(Link::class, $note->links[3]);
 
         $links = $note->links;
 
         $this->assertEquals('link 1', $links[0]->name);
-        $this->assertEquals('other link', $links[1]->name);
+        $this->assertEquals('link 2', $links[1]->name);
+        $this->assertEquals('link 3', $links[2]->name);
+        $this->assertEquals('link 4', $links[3]->name);
 
         $this->assertEquals('https://habr.com/ru/all/', $links[0]->url);
         $this->assertEquals('https://regexr.com/', $links[1]->url);
+        $this->assertEquals('https://packagist.org/', $links[2]->url);
+        $this->assertEquals('https://www.php.net', $links[3]->url);
 
         $this->assertEquals('https://assets.habr.com/habr-web/img/favicons/favicon-32.png', $links[0]->favicon_path);
-        $this->assertEquals('https://regexr.com/assets/icons/favicon-32x32.png?1', $links[1]->favicon_path);
+        $this->assertEquals('https://regexr.com//assets/icons/favicon-32x32.png?1', $links[1]->favicon_path);
+        $this->assertEquals('https://packagist.org//favicon.ico?v=1716995028', $links[2]->favicon_path);
+        $this->assertEquals('https://www.php.net/favicon-196x196.png?v=2', $links[3]->favicon_path);
 
         $this->assertEquals('habr.com', $links[0]->domain);
         $this->assertEquals('regexr.com', $links[1]->domain);
+        $this->assertEquals('packagist.org', $links[2]->domain);
+        $this->assertEquals('www.php.net', $links[3]->domain);
     }
 
     public function test_the_link_could_be_soft_deleted()

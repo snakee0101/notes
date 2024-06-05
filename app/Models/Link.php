@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image as InterventionImage;
 
 class Link extends Model
 {
@@ -58,34 +59,29 @@ class Link extends Model
 
     public static function extractFaviconURL($page_url)
     {
-        //get the page's html
-        $httpResponseBody = Http::get($page_url)->body();
+        $scraper = new \Mpclarkson\IconScraper\Scraper();
+        $icons = collect($scraper->get($page_url));
 
-        //clear new lines and spaces
-        $new_lines_cleared = preg_replace('/\n/','', $httpResponseBody);
-        $spaces_collapsed = preg_replace('/\s+/'," ", $new_lines_cleared);
+        $largest_icon = $icons->filter(function ($icon) {
+            return $icon->getType() == "favicon";  //ignore apple icons
+        })->map(function ($icon) {    // get the size of all icons, because not every icon has size data
+            return new class($icon) {
+                public function __construct($icon)
+                {
+                    $this->href = $icon->getHref();
 
-        //collect all <link> tags
-        $all_link_tags = Str::of($spaces_collapsed)->matchAll('/<link[^>]+>/');
+                    try {   // if icon could not be loaded - assume that it has size of 0
+                        $this->size = \Intervention\Image\Facades\Image::make($this->href)->getWidth();
+                    } catch(\Exception $e) {
+                        $this->size = 0;
+                    }
+                }
+            };
+        })->sort(function($icon_1, $icon_2) {  //sort icons by size in descending order
+            return $icon_2->size <=> $icon_1->size;
+        })->first();
 
-        //select only those <link> tags, that contain images
-        $all_image_link_tags = $all_link_tags->filter( fn($item) => Str::of($item)->match('/type=\"image/') != '' );
-        $links_with_normal_icons = $all_image_link_tags->filter( fn($item) => Str::of($item)->match('/rel=.*[^-]icon"/') != '' );;
-
-        //get the index of largest icon
-        $sizes_extracted = $links_with_normal_icons->map( fn($item) => (int)(string)Str::of($item)->match('/sizes="([^"]*)x[^"]*"/') );
-        $index_of_item_with_max_icon_size = $sizes_extracted->search( $sizes_extracted->max() );
-
-        //get the largest icon path
-        $largest_icon = $links_with_normal_icons->get($index_of_item_with_max_icon_size);
-        $largest_icon_path = (string)Str::of($largest_icon)->match('/href="(.+)"/');
-
-        //transform icon path into absolute
-        if(Str::of($largest_icon_path)->startsWith('/')) { //path is relative
-            return parse_url($page_url, PHP_URL_SCHEME) . "://" . parse_url($page_url, PHP_URL_HOST) . $largest_icon_path;
-        } else {
-            return $largest_icon_path;
-        }
+        return $largest_icon->href;
     }
 
     public static function persist($url, $name, Note $note)
