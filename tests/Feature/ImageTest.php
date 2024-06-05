@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Image;
 use App\Models\Note;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use \Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -105,10 +106,5 @@ class ImageTest extends TestCase
         Storage::disk('public')->assertMissing($image->image_path);
         Storage::disk('public')->assertMissing($image->thumbnail_small_path);
         Storage::disk('public')->assertMissing($image->thumbnail_large_path);
-    }
-
-    public function test_images_are_physically_deleted_after_five_minutes_if_deletion_is_not_undone()
-    {
-
     }
 }
