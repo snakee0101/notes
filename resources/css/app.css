@@ -145,6 +145,10 @@ ol {
     border: 1px solid var(--note-border-color);
 }
 
+.note * {
+    color: var(--text-color) !important;
+}
+
 .new-note {
     border: 1px solid #d9d8d8;
 }
@@ -586,3 +590,7 @@ section.search.active {
 .drawer .color-circle.active { @apply p-3 mr-1; }
 
 .drawer .size-circle.active { @apply border-2 border-red-600; }
+
+.toolbar button.btn-dark {
+    color: #fff!important;
+}

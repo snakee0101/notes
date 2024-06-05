@@ -185,7 +185,7 @@
                 </b-dropdown>
             </a>
 
-            <button type="button" class="btn btn-danger btn-sm" @click="save()">Save</button>
+            <button type="button" class="btn btn-dark btn-sm text-light" @click="save()">Save</button>
         </div>
 
         <set-labels-component :note="{id: 'new_note'}">
