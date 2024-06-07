@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image as InterventionImage;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 
@@ -46,28 +44,9 @@ class Image extends Model
         return base64_encode(utf8_decode($this->thumbnail_large));
     }
 
-    /*public function getImageUrlAttribute()
-    {
-        return asset('storage/' . $this->image_path);
-    }
-
-    public function getThumbnailSmallUrlAttribute()
-    {
-        return asset('storage/' . $this->thumbnail_small_path);
-    }
-
-    public function getThumbnailLargeUrlAttribute()
-    {
-        return asset('storage/' . $this->thumbnail_large_path);
-    }*/
-
     public static function removeSoftDeleted()
     {
         static::onlyTrashed()->each(function(self $image) {
-            /*Storage::disk('public')->delete([
-                $image->image_path, $image->thumbnail_small_path, $image->thumbnail_large_path
-            ]);*/
-
             $image->forceDelete();
         });
     }
@@ -79,16 +58,16 @@ class Image extends Model
 
     public function recognize()
     {
-        /*$ocr_service = app(TesseractOCR::class);
-        $ocr_service->image(Storage::disk('public')->path($this->image_path));
+        $ocr_service = app(TesseractOCR::class);
+        $ocr_service->imageData(utf8_decode($this->image), InterventionImage::make( utf8_decode($this->image) )->filesize());
 
         try {
             $recognized_text = $ocr_service->run();
         } catch(\Exception $e) {
             $recognized_text = null;
-        }*/
+        }
 
-        return $recognized_text = "temporary recognized text";
+        return $recognized_text;
     }
 
     public function makeCopy(Note $replica)
