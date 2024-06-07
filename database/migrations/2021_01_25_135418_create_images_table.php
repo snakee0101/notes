@@ -11,9 +11,6 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('note_id');
-            $table->string('image_path');
-            $table->string('thumbnail_small_path');
-            $table->string('thumbnail_large_path');
             $table->longText('recognized_text')->nullable();
             $table->softDeletes();
         });
