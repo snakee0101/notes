@@ -27,7 +27,7 @@
 
         <div @click="openForEditing" style="cursor: pointer">
             <div class="images">
-                <img :src="image.thumbnail_small_url" v-for="image in note.images">
+                <img :src="'data:image/jpg;base64,' + image.thumbnail_small_encoded" v-for="image in note.images">
             </div>
 
             <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>

@@ -16,7 +16,9 @@ class Image extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['image_url', 'thumbnail_small_url', 'thumbnail_large_url'];
+    protected $appends = ['image_url', 'thumbnail_small_url', 'thumbnail_large_url', 'image_encoded', 'thumbnail_small_encoded', 'thumbnail_large_encoded'];
+
+    protected $hidden = ['image', 'thumbnail_small', 'thumbnail_large'];
 
     public $timestamps = false;
 
@@ -27,6 +29,21 @@ class Image extends Model
         static::created(function(self $image) {
             $image->update([ 'recognized_text' => $image->recognize() ]);
         });
+    }
+
+    public function getImageEncodedAttribute()
+    {
+        return base64_encode(utf8_decode($this->image));
+    }
+
+    public function getThumbnailSmallEncodedAttribute()
+    {
+        return base64_encode(utf8_decode($this->thumbnail_small));
+    }
+
+    public function getThumbnailLargeEncodedAttribute()
+    {
+        return base64_encode(utf8_decode($this->thumbnail_large));
     }
 
     public function getImageUrlAttribute()
@@ -88,28 +105,37 @@ class Image extends Model
         );
     }
 
-    public static function processUpload(UploadedFile $image)
+    public static function processUpload(UploadedFile $uploaded_image)
     {
         $filename = pathinfo(
-            $image->store('images', 'public'), PATHINFO_BASENAME
+            $uploaded_image->store('images', 'public'), PATHINFO_BASENAME
         );
 
         $image_path = "images/$filename";
         $thumbnail_small_path = "thumbnails_small/$filename";
         $thumbnail_large_path = "thumbnails_large/$filename";
 
-        $intervention_image = InterventionImage::make( Storage::disk('public')->path($image_path) );
+        $binary_image_data = $uploaded_image->getContent();
+        $intervention_image = InterventionImage::make( $binary_image_data );
+        $image = utf8_encode($binary_image_data);
 
         if($intervention_image->width() <= 240) { //if image is smaller than 240 pixels - use image itself as a both thumbnails
             $thumbnail_small_path = $thumbnail_large_path = $image_path;
+
+            $thumbnail_small = $thumbnail_large = $image;
         } elseif ($intervention_image->width() <= 600) { //if image is smaller than 600 pixels - generate small thumbnail and use it as both thumbnails
             $thumbnail_large_path = $thumbnail_small_path;
-            $intervention_image->widen(240)->save(Storage::disk('public')->path($thumbnail_small_path), 100);
+            $intervention_image = $intervention_image->widen(240)->save(Storage::disk('public')->path($thumbnail_small_path), 100);
+
+            $thumbnail_small = $thumbnail_large = utf8_encode((string)$intervention_image);
         } else { //if image is bigger than 600 pixels - generate small and large thumbnail separately
-            $intervention_image->widen(600)->save(Storage::disk('public')->path($thumbnail_large_path), 100);
-            $intervention_image->widen(240)->save(Storage::disk('public')->path($thumbnail_small_path), 100);
+            $intervention_image_large = $intervention_image->widen(600)->save(Storage::disk('public')->path($thumbnail_large_path), 100);
+            $intervention_image_small = $intervention_image->widen(240)->save(Storage::disk('public')->path($thumbnail_small_path), 100);
+
+            $thumbnail_small = utf8_encode((string)$intervention_image_small);
+            $thumbnail_large = utf8_encode((string)$intervention_image_large);
         }
 
-        return compact('image_path', 'thumbnail_small_path', 'thumbnail_large_path');
+        return compact('image_path', 'thumbnail_small_path', 'thumbnail_large_path', 'image', 'thumbnail_small', 'thumbnail_large');
     }
 }
