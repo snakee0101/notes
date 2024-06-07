@@ -59,7 +59,8 @@ class Image extends Model
     public function recognize()
     {
         $ocr_service = app(TesseractOCR::class);
-        $ocr_service->imageData(utf8_decode($this->image), InterventionImage::make( utf8_decode($this->image) )->filesize());
+        $ocr_service->imageData(utf8_decode($this->image),
+            InterventionImage::make( utf8_decode($this->image) )->filesize());
 
         try {
             $recognized_text = $ocr_service->run();
@@ -68,20 +69,6 @@ class Image extends Model
         }
 
         return $recognized_text;
-    }
-
-    public function makeCopy(Note $replica)
-    {
-        /*$extension = pathinfo(Storage::disk('public')->path($this->image_path), PATHINFO_EXTENSION);
-        $new_filename = Str::random(50) . ".$extension";
-
-        Storage::disk('public')->copy($this->image_path, $image_path = "images/$new_filename");
-        Storage::disk('public')->copy($this->thumbnail_small_path, $thumbnail_small_path = "thumbnails_small/$new_filename");
-        Storage::disk('public')->copy($this->thumbnail_large_path, $thumbnail_large_path = "thumbnails_large/$new_filename");
-
-        $replica->images()->create(
-            compact('image_path', 'thumbnail_small_path', 'thumbnail_large_path')
-        );*/
     }
 
     public static function processUpload(UploadedFile $uploaded_image)

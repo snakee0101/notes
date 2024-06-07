@@ -128,7 +128,12 @@ class Note extends Model
         }
 
         $replica->tags()->saveMany( $this->tags()->get() );   //replicate the tags
-        $this?->images->each->makeCopy($replica);  //replicate the image
+
+        $this?->images->each(function($image) use ($replica) {  //replicate each image and reassign it to new note
+            $image->replicate(['id'])
+                  ->fill(['note_id' => $replica->id, 'recognized_text' => $image->recognized_text])
+                  ->push();
+        });
 
         $replica->collaborators()->saveMany( $this->collaborators ); //replicate the collaborators
 
