@@ -34,12 +34,6 @@ class CreateRemindersTable extends Migration
              *   }
              * }
              */
-
-            $table->foreign('note_id')->references('id')
-                ->on('notes')
-                ->onDelete('cascade');
-
-            $table->unique(['note_id', 'user_id']);
         });
     }
 

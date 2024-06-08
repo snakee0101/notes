@@ -10,12 +10,7 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('checklist_id')
-                  ->references('id')
-                  ->on('checklists')
-                  ->cascadeOnDelete();
-
+            $table->foreignId('checklist_id');
             $table->text('text');
             $table->unsignedSmallInteger('position');
             $table->boolean('completed')->default(false);

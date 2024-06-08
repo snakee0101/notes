@@ -14,7 +14,7 @@ class CreateLinksTable extends Migration
             $table->string('url');
             $table->string('favicon_path');
             $table->string('domain');
-            $table->foreignId('note_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('note_id');
 
             $table->unique(['url', 'note_id']);
             $table->softDeletes();
