@@ -22,7 +22,7 @@ class NoteTest extends TestCase
         parent::setUp();
 
         $this->mock(TesseractOCR::class, function (MockInterface $mock) {
-            $mock->shouldReceive('run', 'image');
+            $mock->shouldReceive('run', 'image', 'imageData');
         });
     }
 
@@ -208,25 +208,10 @@ class NoteTest extends TestCase
 
     public function test_image_record_is_deleted_when_the_note_is_deleted()
     {
-        $storage = Storage::fake();
-        $storage->put('images/123.jpeg', 12345);
-        $storage->put('thumbnails_small/456.jpeg', 12345);
-        $storage->put('thumbnails_large/789.jpeg', 12345);
-
-        $owner = User::factory()->create();
-        $note = Note::factory()->create([ 'owner_id' => $owner->id ]);
-
-        $image = Image::factory()->create([
-            'note_id' => $note->id,
-            'image_path' => '/storage/images/123.jpeg',
-            'thumbnail_small_path' => '/storage/thumbnails_small/456.jpeg',
-            'thumbnail_large_path' => '/storage/thumbnails_large/789' . '.jpeg',
-        ]);
-
-        $note->refresh();
-
+        $image = Image::factory()->create();
         $this->assertDatabaseCount('images', 1);
-        $note->forceDelete();
+
+        $image->note->forceDelete();
         $this->assertDatabaseCount('images', 0);
     }
 

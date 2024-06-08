@@ -56,14 +56,6 @@ class Note extends Model
         static::addGlobalScope('hideArchived', function ($query) {
             $query->where('archived', false);
         });
-
-        static::deleting(function (self $note) {
-            if (!$note->isForceDeleting())
-                return;
-
-            $note->images->each->delete();
-            Image::removeSoftDeleted();
-        });
     }
 
     public function scopeWithArchived()

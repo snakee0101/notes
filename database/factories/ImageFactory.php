@@ -6,8 +6,7 @@ use App\Models\Image;
 use App\Models\Note;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 
 class ImageFactory extends Factory
 {
@@ -17,12 +16,14 @@ class ImageFactory extends Factory
 
     public function definition()
     {
-        Storage::fake('public');
+        $uploaded_image = UploadedFile::fake()->image('image.jpg');
+        $encoded_image = utf8_encode($uploaded_image->getContent());
 
-        Storage::put($image_path = 'images/'. Str::random(30) .'.jpeg', 12345);
-        Storage::put($thumbnail_small_path = 'thumbnails_small/' . Str::random(30) . '.jpeg', 12345);
-        Storage::put($thumbnail_large_path = 'thumbnails_large/' . Str::random(30) . '.jpeg', 12345);
-
-        return ['note_id' => Note::factory()] + compact('image_path', 'thumbnail_small_path', 'thumbnail_large_path');
+        return [
+            'note_id' => Note::factory(),
+            'image' => $encoded_image,
+            'thumbnail_small' => $encoded_image,
+            'thumbnail_large' => $encoded_image
+        ];
     }
 }
