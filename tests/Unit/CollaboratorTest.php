@@ -45,7 +45,7 @@ class CollaboratorTest extends TestCase
 
     public function test_collaborators_must_be_unique()
     {
-        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+        $this->expectExceptionMessage('SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry');
 
         $owner = User::factory()->create();
         $user = User::factory()->create();

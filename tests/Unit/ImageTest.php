@@ -24,36 +24,22 @@ class ImageTest extends TestCase
         Storage::disk('public')->makeDirectory('thumbnails_small');
     }
 
-    public function test_when_upload_has_been_processed_valid_paths_are_returned()
+    public function test_when_upload_has_been_processed_image_contents_are_returned()
     {
-        $paths = Image::processUpload(
-            UploadedFile::fake()
-            ->image('test.jpg', 1000, 1000)
+        $image_fields = Image::processUpload(
+            $file = UploadedFile::fake()->image('test.jpg')
         );
 
-        Storage::disk('public')->assertExists($paths['image_path']);
-        Storage::disk('public')->assertExists($paths['thumbnail_small_path']);
-        Storage::disk('public')->assertExists($paths['thumbnail_large_path']);
+        $this->assertEquals(utf8_encode($file->getContent()), $image_fields['image']);
+        $this->assertNotEmpty($image_fields['thumbnail_small']);
+        $this->assertNotEmpty($image_fields['thumbnail_large']);
     }
 
     public function test_when_image_is_created_text_is_automatically_recognized_by_tesseract_OCR()
     {
-        $image = imagecreate(200, 200);
-        $color = imagecolorallocate($image, 255, 255, 255);
-        $text_color = imagecolorallocate($image, 0, 0, 0);
-        $font_path = 'storage/app/Roboto-Light.ttf';
-
-        imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
-        imagejpeg($image, Storage::disk('public')->path('test_OCR.jpg'));
-
-        $image_model = Image::create([
-            'note_id' => Note::factory()->create()->id,
-            'image_path' => 'test_OCR.jpg',
-            'thumbnail_small_path' => 'fake',
-            'thumbnail_large_path' => 'fake'
-        ]);
-
-        imagedestroy($image);
+        $image_model = Image::factory()
+            ->forOCR()
+            ->create();
 
         $this->assertEquals('test OCR', $image_model->fresh()->recognized_text);
     }

@@ -26,4 +26,31 @@ class ImageFactory extends Factory
             'thumbnail_large' => $encoded_image
         ];
     }
+
+    public function forOCR()
+    {
+        $image = imagecreate(200, 200);
+        $color = imagecolorallocate($image, 255, 255, 255);
+        $text_color = imagecolorallocate($image, 0, 0, 0);
+        $font_path = 'storage/app/Roboto-Light.ttf';
+
+        imagefttext($image, 20, 0, 40,40, $text_color, $font_path,'test OCR');
+
+        ob_start();
+        imagejpeg($image);
+        $imageData = ob_get_contents();
+        ob_end_clean();
+
+        $encoded_image = utf8_encode($imageData);
+
+        imagedestroy($image);
+
+        return $this->state(function (array $attributes) use ($encoded_image) {
+            return [
+                'image' => $encoded_image,
+                'thumbnail_small' => $encoded_image,
+                'thumbnail_large' => $encoded_image
+            ];
+        });
+    }
 }
