@@ -20,7 +20,7 @@ class TrashTest extends TestCase
         Storage::fake('public');
 
         $this->mock(TesseractOCR::class, function (MockInterface $mock) {
-            $mock->shouldReceive('run', 'image');
+            $mock->shouldReceive('run', 'image', 'imageData');
         });
     }
 
@@ -69,18 +69,10 @@ class TrashTest extends TestCase
         $image = Image::factory()->create();
         auth()->login($image->note->owner);
 
-        Storage::disk('public')->assertExists($image->image_path);
-        Storage::disk('public')->assertExists($image->thumbnail_small_path);
-        Storage::disk('public')->assertExists($image->thumbnail_large_path);
-
         $image->note->delete();
         Trash::empty();
 
         $this->assertDatabaseCount('images', 0);
-
-        Storage::disk('public')->assertMissing($image->image_path);
-        Storage::disk('public')->assertMissing($image->thumbnail_small_path);
-        Storage::disk('public')->assertMissing($image->thumbnail_large_path);
     }
 
     public function test_images_are_deleted_when_expired_notes_are_removed()
@@ -95,9 +87,5 @@ class TrashTest extends TestCase
         Trash::removeExpired();
 
         $this->assertDatabaseCount('images', 0);
-
-        Storage::disk('public')->assertMissing($image->image_path);
-        Storage::disk('public')->assertMissing($image->thumbnail_small_path);
-        Storage::disk('public')->assertMissing($image->thumbnail_large_path);
     }
 }

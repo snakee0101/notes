@@ -41,7 +41,7 @@ class ReminderTest extends TestCase
 
     public function test_reminders_are_unique_by_note_and_user()
     {
-        $this->expectExceptionMessage('19 UNIQUE constraint failed');
+        $this->expectExceptionMessage('Integrity constraint violation: 1062 Duplicate entry');
         $note = Note::factory()->create();
         $user = User::factory()->create();
         Reminder::factory()->for($note, 'note')->for($user, 'owner')->create();

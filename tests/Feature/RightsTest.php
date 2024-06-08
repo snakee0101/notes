@@ -32,7 +32,7 @@ class RightsTest extends TestCase
         Storage::disk('public')->makeDirectory('thumbnails_small');
 
         $this->mock(TesseractOCR::class, function (MockInterface $mock) {
-            $mock->shouldReceive('run', 'image');
+            $mock->shouldReceive('run', 'image', 'imageData');
         });
     }
 

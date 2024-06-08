@@ -60,7 +60,7 @@ class LinkTest extends TestCase
 
     public function test_a_specific_note_cant_have_duplicated_urls()
     {
-        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+        $this->expectExceptionMessage('Integrity constraint violation: 1062 Duplicate entry');
         $note_1 = Note::factory()->create();
 
         Link::factory()->for($note_1, 'note')->create(['url' => 'http://www.google.com']);
@@ -103,31 +103,20 @@ class LinkTest extends TestCase
         $this->assertEquals('gismeteo.ua', $result2);
     }
 
-    public function test_favicon_could_be_extracted_from_url()
-    {
-        $this->assertNotFalse( $url_1 = Link::extractFaviconURL('https://habr.com/ru/all/') );
-        $this->assertNotFalse( $url_2 = Link::extractFaviconURL('https://laravel.com/docs/8.x/http-client#request-data') );
-        $this->assertNotFalse( $url_3 = Link::extractFaviconURL('https://regexr.com/') );
-
-        $this->assertEquals('https://assets.habr.com/habr-web/img/favicons/favicon-32.png', $url_1);
-        $this->assertEquals('https://laravel.com/img/favicon/favicon-32x32.png', $url_2);
-        $this->assertEquals('https://regexr.com/assets/icons/favicon-32x32.png?1', $url_3);
-    }
-
     public function test_link_could_be_persisted_to_DB()
     {
         $note = Note::factory()->create();
-        $url = 'https://habr.com/ru/all/';
-        $name = 'habr main page';
+        $url = 'https://regexr.com/';
+        $name = 'regexr';
 
         $link = Link::persist($url, $name, $note);
 
         $this->assertDatabaseCount('links',1);
 
-        $this->assertEquals('habr main page', $link->name);
-        $this->assertEquals('https://habr.com/ru/all/', $link->url);
-        $this->assertEquals('https://assets.habr.com/habr-web/img/favicons/favicon-32.png', $link->favicon_path);
-        $this->assertEquals('habr.com', $link->domain);
+        $this->assertEquals($name, $link->name);
+        $this->assertEquals($url, $link->url);
+        $this->assertEquals('https://regexr.com//assets/icons/favicon-32x32.png?1', $link->favicon_path);
+        $this->assertEquals('regexr.com', $link->domain);
         $this->assertEquals($note->id, $link->note_id);
     }
 

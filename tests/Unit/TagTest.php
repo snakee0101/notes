@@ -22,8 +22,11 @@ class TagTest extends TestCase
 
         $this->assertInstanceOf(Tag::class, $user->tags()->first());
 
-        $expected_tag_names = $tags->pluck('name')->sort();
-        $actual_tag_names = $user->tags()->pluck('name')->sort();
+        $expected_tag_names = $tags->pluck('name')->toArray();
+        $actual_tag_names = $user->tags->pluck('name')->toArray();
+
+        sort($expected_tag_names);
+        sort($actual_tag_names);
 
         $this->assertEquals($expected_tag_names, $actual_tag_names);
     }
@@ -60,7 +63,7 @@ class TagTest extends TestCase
 
     public function test_tags_should_be_unique_for_specific_user()
     {
-        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+        $this->expectExceptionMessage('Integrity constraint violation: 1062 Duplicate entry');
 
         $user = User::factory()->create();
 
@@ -99,18 +102,18 @@ class TagTest extends TestCase
         $this->assertDatabaseCount('note_tag', 0);
     }
 
-    public function test_user_tags_cant_be_duplicated()
+    public function test_user_tags_must_have_unique_names()
     {
-        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+        $this->expectExceptionMessage('Integrity constraint violation: 1062 Duplicate entry');
         $user = User::factory()->create();
 
         $user->tags()->create(['name' => 'tag 1']);
         $user->tags()->create(['name' => 'tag 1']);
     }
 
-    public function test_note_tags_cant_be_duplicated()
+    public function test_note_tags_must_have_unique_names()
     {
-        $this->expectExceptionMessage('Integrity constraint violation: 19 UNIQUE constraint failed');
+        $this->expectExceptionMessage('Integrity constraint violation: 1062 Duplicate entry');
         $user = User::factory()->create();
         $tag = $user->tags()->create(['name' => 'tag 1']);
 

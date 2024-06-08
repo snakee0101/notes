@@ -18,7 +18,7 @@ class NoteTypeDetectorTest extends TestCase
         parent::setUp();
 
         $this->mock(TesseractOCR::class, function (MockInterface $mock) {
-            $mock->shouldReceive('run', 'image');
+            $mock->shouldReceive('run', 'imageData');
         });
 
         $this->empty_note = Note::factory()->create();

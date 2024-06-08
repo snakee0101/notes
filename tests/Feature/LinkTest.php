@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class LinkTest extends TestCase
 {
-    public function test_links_are_persisted_in_the_DB_when_the_note_is_created()
+    public function test_links_are_persisted_in_the_DB_with_favicons_when_the_note_is_created()
     {
         $user = UserFactory::times(1)->createOne();
         auth()->login($user);

@@ -21,7 +21,7 @@ class ImageTest extends TestCase
         parent::setUp();
 
         $this->mock(TesseractOCR::class, function (MockInterface $mock) {
-            $mock->shouldReceive('run', 'image');
+            $mock->shouldReceive('run', 'image', 'imageData');
         });
 
         Storage::fake('public');
@@ -57,13 +57,9 @@ class ImageTest extends TestCase
 
        $image = $response->json();
 
-       Storage::disk('public')->assertExists($image["image_path"]);
-       Storage::disk('public')->assertExists($image["thumbnail_small_path"]);
-       Storage::disk('public')->assertExists($image["thumbnail_large_path"]);
-
        $this->assertEquals($note->id, $image["note_id"]);
        $this->assertInstanceOf(Image::class, $note->fresh()->images()->first());
-       $this->assertEquals($image["image_path"], $note->fresh()->images()->first()->image_path);
+       $this->assertEquals($image["image_encoded"], $note->fresh()->images()->first()->image_encoded);
     }
 
     public function test_an_image_could_be_soft_deleted()
@@ -93,18 +89,5 @@ class ImageTest extends TestCase
 
         $image = json_decode($this->put("/image/restore/$image->id")->assertOk()->content());
         $this->assertNotSoftDeleted('images', ['id' => $image->id]);
-    }
-
-    public function test_images_are_physically_deleted_after_note_force_deleting()
-    {
-        $image = Image::factory()->create([
-            'note_id' => Note::factory()
-        ]);
-
-        $image->note->forceDelete();
-
-        Storage::disk('public')->assertMissing($image->image_path);
-        Storage::disk('public')->assertMissing($image->thumbnail_small_path);
-        Storage::disk('public')->assertMissing($image->thumbnail_large_path);
     }
 }
