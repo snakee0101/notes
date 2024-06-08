@@ -14,8 +14,6 @@ use Tests\TestCase;
 
 class TagTest extends TestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     public function test_user_has_many_tags()
     {
         $user = User::factory()->create();

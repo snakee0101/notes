@@ -15,7 +15,7 @@ use Tests\TestCase;
 
 class TagTest extends TestCase
 {
-    use DatabaseMigrations, RefreshDatabase, WithFaker;
+    use WithFaker;
 
     public function test_tags_list_could_be_returned_for_specific_note() {
         $user = UserFactory::times(1)->createOne();
