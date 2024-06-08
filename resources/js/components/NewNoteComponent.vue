@@ -13,7 +13,7 @@
 
         <div class="images">
             <div class="inline-block relative m-2" v-for="(encoded_image, index) in encoded_images">
-                <img :src="encoded_image" style="height: 120px; width: 120px">
+                <img :src="encoded_image" style="height: 120px">
                 <a class="bg-gray-300 rounded-full absolute top-1 left-1"
                    v-b-tooltip.hover.bottom
                    title="Delete image"

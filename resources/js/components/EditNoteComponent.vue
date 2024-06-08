@@ -50,7 +50,7 @@
             <div class="images mt-4" v-if="typeof note.images !== 'undefined' && note.images.length > 0">
                 <h6 class="pb-1">Note images (images are saved immediately)</h6>
                 <div class="inline-block relative m-2" v-for="(image, index) in note.images">
-                    <img :src="'data:image/jpg;base64,' + image.thumbnail_large_encoded" style="height: 120px; width: 120px; cursor: pointer" @click="openImageViewer(image)">
+                    <img :src="'data:image/jpg;base64,' + image.thumbnail_large_encoded" style="height: 120px; cursor: pointer" @click="openImageViewer(image)">
                     <a class="x-button rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
                        title="Delete image"
