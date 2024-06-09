@@ -7,16 +7,6 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
- /*function (SearchIndex $algolia, string $query, array $options) {
-        $options['body']['query']['bool']['filter']['geo_distance'] = [
-            'distance' => '1000km',
-            'location' => ['lat' => 36, 'lon' => 111],
-        ];
-
-        return $algolia->search($query, $options);
-    }
-)->get();*/
-
     public function __invoke(Request $request)
     {
         $searchQuery = $request->input('query');
@@ -32,7 +22,7 @@ class SearchController extends Controller
             }
 
             if(request()->has('filterBy') && request()->input('filterBy') === 'type') {
-                $options['facetFilters'] = ['type:' . request('filterValue')];
+                $options['filter'] = "type = '" . request('filterValue') . "'";
             }
 
             return $meilisearch_index->search($query, $options);
