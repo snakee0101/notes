@@ -28,7 +28,7 @@ class SearchController extends Controller
             }
 
             if(request()->has('filterBy') && request()->input('filterBy') === 'tag') {
-                $options['facetFilters'] = ['tags:' . request('filterValue')];
+                $options['filter'] = "tags = '" . request('filterValue') . "'";
             }
 
             if(request()->has('filterBy') && request()->input('filterBy') === 'type') {
