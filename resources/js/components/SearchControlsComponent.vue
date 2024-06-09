@@ -165,8 +165,8 @@ export default {
             this.filterData('type', type);
         },
         filterByLabel(label) {
-            this.saveFilters('tag', label);
-            this.filterData('tag', label);
+            this.saveFilters('tags', label);
+            this.filterData('tags', label);
         },
         filterByColor(color) {
             this.saveFilters('color', color);

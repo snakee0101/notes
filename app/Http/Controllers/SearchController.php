@@ -14,10 +14,10 @@ class SearchController extends Controller
             $meilisearch_index->updateFilterableAttributes(['tags', 'type', 'color']);
 
             if(request()->has('filterBy') && request()->input('filterBy') === 'color') {
-                $options['filter'] = 'color = ' . request('filterValue');
+                $options['filter'] = "color = '" . request('filterValue') . "'";
             }
 
-            if(request()->has('filterBy') && request()->input('filterBy') === 'tag') {
+            if(request()->has('filterBy') && request()->input('filterBy') === 'tags') {
                 $options['filter'] = "tags = '" . request('filterValue') . "'";
             }
 
