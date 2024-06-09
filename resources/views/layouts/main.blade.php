@@ -11,14 +11,16 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('trix/trix.css') }}">
+
+    <!-- Scripts -->
     <script>
         window.userId = {{ auth()->id() }};
     </script>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('trix/trix.css') }}">
     <script type="text/javascript" src="{{ asset('trix/trix.js') }}"></script>
-
     <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.0.0/masonry.pkgd.min.js"></script>
 </head>
 <body class="h-screen antialiased leading-none font-sans flex flex-col main-page theme-light">
