@@ -62,10 +62,6 @@
                 No results found
             </div>
         </div>
-
-        <div class="searchResults notes-container" v-else>
-            <button @click.prevent="goToPage(link.url)" v-for="link in results.links" class="btn btn-outline-primary" :class="link.active ? 'btn-primary' : 'btn-outline-primary'" v-html="link.label"></button>
-        </div>
     </div>
 
 </template>
@@ -94,13 +90,6 @@ export default {
         window.events.$on('refreshLabels', this.refreshLabels);
     },
     methods: {
-        goToPage(url) {
-            axios.post(url, {
-                'query': window.searchText ?? '',
-                'filterBy': window.searchFilters.filterBy,
-                'filterValue': window.searchFilters.filterValue,
-            }).then(res => window.events.$emit('searchResultsRetrieved', res));
-        },
         refreshLabels(labels) {
             this.tags_list = labels;
         },
