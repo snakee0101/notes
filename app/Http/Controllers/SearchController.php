@@ -9,20 +9,11 @@ class SearchController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $searchQuery = $request->input('query');
-        return Note::search($searchQuery, function(\Meilisearch\Endpoints\Indexes $meilisearch_index, $query, array $options) {
+        return Note::search($request->input('query'), function(\Meilisearch\Endpoints\Indexes $meilisearch_index, $query, array $options) use ($request) {
             $meilisearch_index->updateFilterableAttributes(['tags', 'type', 'color']);
 
-            if(request()->has('filterBy') && request()->input('filterBy') === 'color') {
-                $options['filter'] = "color = '" . request('filterValue') . "'";
-            }
-
-            if(request()->has('filterBy') && request()->input('filterBy') === 'tags') {
-                $options['filter'] = "tags = '" . request('filterValue') . "'";
-            }
-
-            if(request()->has('filterBy') && request()->input('filterBy') === 'type') {
-                $options['filter'] = "type = '" . request('filterValue') . "'";
+            if($request->has('filterBy')) {
+                $options['filter'] = "$request->filterBy = '$request->filterValue'";
             }
 
             return $meilisearch_index->search($query, $options);
