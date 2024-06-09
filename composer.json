@@ -19,10 +19,10 @@
         "laravel/framework": "^v8.51.0",
         "laravel/scout": "^9.2",
         "laravel/tinker": "^2.5",
-        "meilisearch/meilisearch-php": "0.18.3",
+        "meilisearch/meilisearch-php": "^1.8",
+        "mpclarkson/icon-scraper": "dev-master",
         "pusher/pusher-php-server": "4.1.5",
-        "thiagoalessio/tesseract_ocr": "^2.12",
-        "mpclarkson/icon-scraper": "dev-master"
+        "thiagoalessio/tesseract_ocr": "^2.12"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

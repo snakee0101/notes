@@ -6,7 +6,6 @@ use App\Utilities\NoteTypeDetector;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 
 class Note extends Model
@@ -27,10 +26,6 @@ class Note extends Model
 
     public function toSearchableArray()
     {
-        $recognized_text = $this->images->reduce(function($carry, $image) {
-            return $carry . ',' . $image->recognized_text;
-        });
-
         return [
             'id' => $this->id,
             'header' => $this->header,
@@ -38,7 +33,9 @@ class Note extends Model
             'color' => $this->color,
             'tags' => $this->tags()->pluck('name')->toArray(),
             'type' => NoteTypeDetector::select($this)->detectTypes(),
-            'recognized_text' => $recognized_text
+            'recognized_text' => $this->images->reduce(function($carry, $image) {
+                return $carry . ',' . $image->recognized_text;
+            })
         ];
     }
 
