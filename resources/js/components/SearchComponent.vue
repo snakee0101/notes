@@ -73,7 +73,7 @@ export default {
         },
         delayedSearch() {
             clearTimeout(window.searchTimeoutId);
-            window.searchTimeoutId = setTimeout(this.search, 500);
+            window.searchTimeoutId = setTimeout(this.search, 200);
         }
     }
 }

@@ -44,12 +44,12 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults notes-container flex justify-between" v-if="results.data != undefined" v-masonry transition-duration="0.3s" item-selector=".note"
+        <div class="searchResults notes-container flex justify-between" v-if="results != undefined" v-masonry transition-duration="0.3s" item-selector=".note"
              gutter=".gutter" :origin-top="true">
             <div class="gutter"></div>
 
             <note-component v-masonry-tile
-                            v-for="note in results.data"
+                            v-for="note in results"
                             :key="note.id"
                             :note="note"
                             :isTrashed="false">
@@ -99,7 +99,7 @@ export default {
                 'query': window.searchText ?? '',
                 'filterBy': window.searchFilters.filterBy,
                 'filterValue': window.searchFilters.filterValue,
-            }).then(res => window.events.$emit('searchResultsRetrieved', res.data));
+            }).then(res => window.events.$emit('searchResultsRetrieved', res));
         },
         refreshLabels(labels) {
             this.tags_list = labels;
@@ -114,7 +114,7 @@ export default {
             );
         },
         checkForResults() {
-            this.resultsNotFound = !(this.results.data.length);
+            this.resultsNotFound = !(this.results.length);
             this.areSearchControlsVisible = false;
         },
         activateSearch() {

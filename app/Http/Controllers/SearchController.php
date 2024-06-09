@@ -17,6 +17,6 @@ class SearchController extends Controller
             }
 
             return $meilisearch_index->search($query, $options);
-        })->paginate(1);
+        })->get();
     }
 }
