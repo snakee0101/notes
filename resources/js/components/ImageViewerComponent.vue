@@ -74,6 +74,7 @@
 
 img {
     transition: .1s;
+    transition-delay: 0.01s;
 }
 </style>
 
