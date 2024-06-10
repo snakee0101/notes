@@ -1,5 +1,5 @@
 <template>
-    <div class="image-viewer flex flex-col" @wheel="zoom_on_mouse_wheel($event.deltaY)" v-if="shown">
+    <div class="image-viewer flex flex-col" @wheel="zoom_on_mouse_wheel($event.deltaY)" v-if="shown" ref="image-viewer">
         <div class="top-bar flex flex-row justify-between bg-black">
             <div class="ml-3 my-3">
                 <a href="#" @click.prevent="close()" class="icon-link">
@@ -114,7 +114,6 @@ export default {
     },
     created() {
         window.events.$on('open-image-viewer', this.open);
-        document.onkeydown = this.keyboardShortcuts;
     },
     methods: {
         resetTransformations() {
@@ -140,12 +139,20 @@ export default {
             this.last_drag_position.screenY = event.screenY;
         },
         keyboardShortcuts(event) {
+            if(["ArrowLeft", "ArrowRight", "Escape"].includes(event.code)) { // stop propagation only for these keys
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
             switch(event.code) {
                 case "ArrowLeft":
                     this.prev();
                     break;
                 case "ArrowRight":
                     this.next();
+                    break;
+                case "Escape":
+                    this.close();
                     break;
             }
         },
@@ -172,37 +179,19 @@ export default {
             this.scale = 1;
         },
         open(current_image, images) {
+            document.onkeydown = this.keyboardShortcuts;
             this.resetTransformations();
 
             this.current_image = current_image;
             this.images = images;
 
-            let index = images.indexOf(current_image);
+            let current_image_index = images.indexOf(current_image);
+            console.log(current_image_index);
 
-            this.prev_shown = (index - 1 >= 0); //if the previous image exists - show prev button
-            this.next_shown = (index + 1 <= images.length - 1); //if the next image exists - show next button
+            this.prev_shown = (current_image_index - 1 >= 0); //if the previous image exists - show prev button
+            this.next_shown = (current_image_index + 1 <= images.length - 1); //if the next image exists - show next button
 
             this.shown = true;
-        },
-        /**
-         * I need only a sign of deltaY (+, -) to determine direction - zoom-in or zoom-out.
-         * * "-" means "scroll Up" - which must "zoom in" the image;  "+" means "scroll Down" - which must "zoom out" the image.
-         * Zoom ratio itself is determined by zoomIn() and zoomOut() methods
-         * */
-        zoom_on_mouse_wheel(deltaY) {
-            deltaY < 0 ? this.zoomIn() : this.zoomOut();
-        },
-        close() {
-            this.shown = false;
-        },
-        print() {
-            let win = window.open(this.current_image.image_encoded, '__blank', 'visible=none');
-
-            win.addEventListener('afterprint', event => event.target.close() );
-            win.print();
-        },
-        edit() {
-            alert('edit'); //TODO: Edit
         },
         prev() { //TODO: when loading - width should be original or maximum allowed
             this.resetTransformations();
@@ -225,6 +214,27 @@ export default {
 
             if(index + 2 > this.images.length - 1) //next button should be hidden, if second image to current does not exists
                 this.next_shown = false;
+        },
+        /**
+         * I need only a sign of deltaY (+, -) to determine direction - zoom-in or zoom-out.
+         * * "-" means "scroll Up" - which must "zoom in" the image;  "+" means "scroll Down" - which must "zoom out" the image.
+         * Zoom ratio itself is determined by zoomIn() and zoomOut() methods
+         * */
+        zoom_on_mouse_wheel(deltaY) {
+            deltaY < 0 ? this.zoomIn() : this.zoomOut();
+        },
+        close() {
+            document.onkeydown = function(){ };
+            this.shown = false;
+        },
+        print() {
+            let win = window.open(this.current_image.image_encoded, '__blank', 'visible=none');
+
+            win.addEventListener('afterprint', event => event.target.close() );
+            win.print();
+        },
+        edit() {
+            alert('edit'); //TODO: Edit
         },
         recognizeText() {
             navigator.clipboard.writeText(this.current_image.recognized_text).then(function() {
