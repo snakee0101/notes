@@ -114,6 +114,8 @@ export default {
             image.style.height = 600/aspectRatio + 'px';
         },
         open(current_image, images) {
+            this.scale = 1;
+
             this.current_image = current_image;
             this.images = images;
 
