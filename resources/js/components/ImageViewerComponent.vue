@@ -96,6 +96,13 @@ export default {
             return Math.round(this.scale * 100);
         }
     },
+    watch: {
+        scale(newScale, oldScale) {
+            let image = this.$refs['image'];
+
+            image.style.transform = 'scale(' + newScale + ')';
+        }
+    },
     created() {
         window.events.$on('open-image-viewer', this.open);
     },
@@ -107,11 +114,7 @@ export default {
             this.zoom(-0.1);
         },
         resetZoom() {
-            let image = this.$refs['image'];
-            let aspectRatio = image.clientWidth/image.clientHeight;
-
-            image.style.width = 600 + 'px';
-            image.style.height = 600/aspectRatio + 'px';
+            this.scale = 1;
         },
         open(current_image, images) {
             this.scale = 1;
