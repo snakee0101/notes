@@ -2,27 +2,25 @@
     <div class="image-viewer flex flex-col" @wheel="zoom($event.deltaY)" v-if="shown">
         <div class="top-bar flex flex-row justify-between bg-black">
             <div class="ml-3 my-3">
-                <a href="#" @click.prevent="close()" class="p-2 pt-3 hover:bg-gray-800">
-                    <i class="bi bi-arrow-left text-white" style="font-size: 1.5rem"></i>
+                <a href="#" @click.prevent="close()" class="icon-link">
+                    <i class="bi-arrow-left"></i>
                 </a>
             </div>
             <div class="mr-3 my-3">
-                <a href="#" @click.prevent="recognizeText()" class="p-2 pt-3 hover:bg-gray-800" title="recognize text">
-                    <i class="bi bi-type text-white" style="font-size: 1.5rem"></i>
+                <a href="#" @click.prevent="recognizeText()" class="icon-link" title="recognize text">
+                    <i class="bi-type"></i>
                 </a>
 
-                <a href="#" @click.prevent="print()" class="p-2 pt-3 hover:bg-gray-800">
-                    <i class="bi bi-printer text-white" style="font-size: 1.5rem"></i>
+                <a href="#" @click.prevent="print()" class="icon-link" title="print">
+                    <i class="bi-printer"></i>
                 </a>
 
-                <a href="#" @click.prevent="edit()" class="p-2 pt-3 hover:bg-gray-800">
-                    <i class="bi bi-pen text-white" style="font-size: 1.5rem"></i>
+                <a href="#" @click.prevent="edit()" class="icon-link" tilte="edit image">
+                    <i class="bi-pen"></i>
                 </a>
             </div>
         </div>
-        <div class="content flex-grow flex align-items-center justify-content-center overflow-hidden"
-             style="background: rgba(0,0,0,0.85)"
-             @click.self="close()">
+        <div class="image-container" @click.self="close()">
             <a href="#" @click.prevent="prev()" class="absolute left-4 rounded-full" v-if="prev_shown">
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
@@ -30,26 +28,46 @@
             <a href="#" @click.prevent="next()" class="absolute right-4 rounded-full" v-if="next_shown">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
-
         </div>
 
         <div class="flex flex-row bg-black justify-center absolute bottom-6 left-1/2">
             <div class="inline bg-black flex flex-row align-items-stretch">
-                <a href="#" @click.prevent="zoomIn()" class="hover:bg-gray-800 p-1">
-                    <i class="bi bi-zoom-in text-white" style="font-size: 1.5rem"></i>
+                <a href="#" @click.prevent="zoomIn()" class="icon-link">
+                    <i class="bi-zoom-in"></i>
                 </a>
 
-                <a href="#" @click.prevent="resetZoom()" class="hover:bg-gray-800 text-white pt-2">
+                <a href="#" @click.prevent="resetZoom()" class="hover:bg-gray-800 text-white pt-3">
                     100%
                 </a>
 
-                <a href="#" @click.prevent="zoomOut()" class="hover:bg-gray-800 p-1">
-                    <i class="bi bi-zoom-out text-white" style="font-size: 1.5rem"></i>
+                <a href="#" @click.prevent="zoomOut()" class="icon-link">
+                    <i class="bi-zoom-out"></i>
                 </a>
             </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+.image-container {
+    align-items: center;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.icon-link {
+    @apply p-2 pt-3 hover:bg-gray-800;
+}
+
+.icon-link i {
+    @apply text-white;
+    font-size: 1.5rem;
+}
+</style>
+
 
 <script>
 export default {
@@ -143,7 +161,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>
