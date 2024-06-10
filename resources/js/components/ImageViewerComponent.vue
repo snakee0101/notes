@@ -107,8 +107,19 @@ export default {
     },
     created() {
         window.events.$on('open-image-viewer', this.open);
+        document.onkeydown = this.keyboardShortcuts;
     },
     methods: {
+        keyboardShortcuts(event) {
+            switch(event.code) {
+                case "ArrowLeft":
+                    this.prev();
+                    break;
+                case "ArrowRight":
+                    this.next();
+                    break;
+            }
+        },
         exceedsOriginalSizeOnZoom(image) {
             let actualWidth = image.clientWidth * (this.scale + this.zoom_delta);
             let actualHeight = image.clientHeight * (this.scale + this.zoom_delta);
