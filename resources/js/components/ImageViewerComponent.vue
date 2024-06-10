@@ -107,7 +107,17 @@ export default {
         window.events.$on('open-image-viewer', this.open);
     },
     methods: {
+        exceedsOriginalSizeOnZoom(image) {
+            let actualWidth = image.clientWidth * this.scale;
+            let actualHeight = image.clientHeight * this.scale;
+
+            return actualWidth > image.naturalWidth || actualHeight > image.naturalHeight;
+        },
         zoomIn() {
+            if ( this.exceedsOriginalSizeOnZoom(this.$refs['image']) ) {
+                return;
+            }
+
             this.scale += 0.1;
         },
         zoomOut() {
