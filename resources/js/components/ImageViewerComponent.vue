@@ -88,7 +88,8 @@ export default {
         next_shown: true,
         current_image: {},
         images: [],
-        scale: 1.0
+        scale: 1.0,
+        zoom_delta: 0.1
       };
     },
     computed: {
@@ -108,8 +109,8 @@ export default {
     },
     methods: {
         exceedsOriginalSizeOnZoom(image) {
-            let actualWidth = image.clientWidth * this.scale;
-            let actualHeight = image.clientHeight * this.scale;
+            let actualWidth = image.clientWidth * (this.scale + this.zoom_delta);
+            let actualHeight = image.clientHeight * (this.scale + this.zoom_delta);
 
             return actualWidth > image.naturalWidth || actualHeight > image.naturalHeight;
         },
@@ -118,10 +119,10 @@ export default {
                 return;
             }
 
-            this.scale += 0.1;
+            this.scale += this.zoom_delta;
         },
         zoomOut() { // You should not zoom out infinitely (minimum scale is 100%)
-            if (this.scale - 0.1 < 1.0)
+            if (this.scale == 1.0)
                 return;
 
             this.scale -= 0.1;
