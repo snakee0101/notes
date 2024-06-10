@@ -85,8 +85,6 @@ export default {
     data() {
       return {
         shown: false,
-        prev_shown: true,
-        next_shown: true,
         current_image: {},
         images: [],
         scale: 1.0,
@@ -191,35 +189,25 @@ export default {
             this.current_image = current_image;
             this.images = images;
 
-            let current_image_index = images.indexOf(current_image);
-            console.log(current_image_index);
-
-            this.prev_shown = (current_image_index - 1 >= 0); //if the previous image exists - show prev button
-            this.next_shown = (current_image_index + 1 <= images.length - 1); //if the next image exists - show next button
-
             this.shown = true;
         },
-        prev() { //TODO: when loading - width should be original or maximum allowed
+        prev() {
+            if(this.is_first_slide)
+                return;
+
             this.resetTransformations();
 
             let index = this.images.indexOf(this.current_image);
             this.current_image = this.images[index - 1];
-
-            this.next_shown = true;
-
-            if(index - 2 < 0) //if it was the second image - the previous image of first image is not exists - then prev button must be hidden
-                this.prev_shown = false;
         },
         next() {
+            if(this.is_last_slide)
+                return;
+
             this.resetTransformations();
 
             let index = this.images.indexOf(this.current_image);
             this.current_image = this.images[index + 1];
-
-            this.prev_shown = true;
-
-            if(index + 2 > this.images.length - 1) //next button should be hidden, if second image to current does not exists
-                this.next_shown = false;
         },
         /**
          * I need only a sign of deltaY (+, -) to determine direction - zoom-in or zoom-out.
