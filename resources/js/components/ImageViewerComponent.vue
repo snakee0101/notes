@@ -130,10 +130,7 @@ export default {
             this.shown = true;
         },
         zoom(delta) {
-            let image = this.$refs['image'];
             this.scale += delta;
-
-            image.style.transform = 'scale(' + this.scale + ')';
         },
         close() {
             this.shown = false;
