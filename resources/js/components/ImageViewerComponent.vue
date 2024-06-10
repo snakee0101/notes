@@ -73,7 +73,7 @@
 }
 
 img {
-    transition: .1s;
+    transition: 0.05s;
     transition-delay: 0.01s;
 }
 </style>
@@ -90,6 +90,8 @@ export default {
         current_image: {},
         images: [],
         scale: 1.0,
+        translateX: 0,
+        translateY: 0,
         zoom_delta: 0.1,
         last_drag_position: {
             screenX: 0,
@@ -100,13 +102,14 @@ export default {
     computed: {
         scaleRatio() {
             return Math.round(this.scale * 100);
+        },
+        transform_image() {
+            return 'scale(' + this.scale + ') translate(' + this.translateX + 'px,' + this.translateY + 'px)';
         }
     },
     watch: {
-        scale(newScale, oldScale) {
-            let image = this.$refs['image'];
-
-            image.style.transform = 'scale(' + newScale + ')';
+        transform_image(value, oldValue) {
+            this.$refs['image'].style.transform = value;
         }
     },
     created() {
@@ -114,6 +117,11 @@ export default {
         document.onkeydown = this.keyboardShortcuts;
     },
     methods: {
+        resetTransformations() {
+            this.scale = 1.0;
+            this.translateX = 0;
+            this.translateY = 0;
+        },
         startDraggingImage(event) { //start recording drag position to calculate moving speed and direction correctly
             this.last_drag_position.screenX = event.screenX;
             this.last_drag_position.screenY = event.screenY;
@@ -124,7 +132,8 @@ export default {
 
             // Ignore abrupt movements (caused by events) that are more than 30 pixels
             if(Math.abs(distanceX) < 30 && Math.abs(distanceY) < 30) {
-                console.log(distanceX, distanceY);
+                this.translateX += distanceX;
+                this.translateY += distanceY;
             }
 
             this.last_drag_position.screenX = event.screenX;
@@ -163,7 +172,7 @@ export default {
             this.scale = 1;
         },
         open(current_image, images) {
-            this.scale = 1;
+            this.resetTransformations();
 
             this.current_image = current_image;
             this.images = images;
@@ -196,7 +205,7 @@ export default {
             alert('edit'); //TODO: Edit
         },
         prev() { //TODO: when loading - width should be original or maximum allowed
-            this.scale = 1;
+            this.resetTransformations();
 
             let index = this.images.indexOf(this.current_image);
             this.current_image = this.images[index - 1];
@@ -207,7 +216,7 @@ export default {
                 this.prev_shown = false;
         },
         next() {
-            this.scale = 1;
+            this.resetTransformations();
 
             let index = this.images.indexOf(this.current_image);
             this.current_image = this.images[index + 1];
