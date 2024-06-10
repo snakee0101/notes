@@ -24,7 +24,7 @@
             <a href="#" @click.prevent="prev()" class="slider_controls left-4" v-if="prev_shown">
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
-            <img :src="'data:image/jpg;base64,' + current_image.image_encoded" ref="image">
+            <img :src="'data:image/jpg;base64,' + current_image.image_encoded" ref="image" @dragStart="startDraggingImage" @drag="dragImage">
             <a href="#" @click.prevent="next()" class="slider_controls right-4" v-if="next_shown">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
@@ -90,7 +90,11 @@ export default {
         current_image: {},
         images: [],
         scale: 1.0,
-        zoom_delta: 0.1
+        zoom_delta: 0.1,
+        last_drag_position: {
+            screenX: 0,
+            screenY: 0
+        }
       };
     },
     computed: {
@@ -110,6 +114,22 @@ export default {
         document.onkeydown = this.keyboardShortcuts;
     },
     methods: {
+        startDraggingImage(event) { //start recording drag position to calculate moving speed and direction correctly
+            this.last_drag_position.screenX = event.screenX;
+            this.last_drag_position.screenY = event.screenY;
+        },
+        dragImage(event) { //when dragging an image you must move it at a correct distance (which is last_drag_position - current_mouse_position)
+            let distanceX = event.screenX - this.last_drag_position.screenX;
+            let distanceY = event.screenY - this.last_drag_position.screenY;
+
+            // Ignore abrupt movements (caused by events) that are more than 30 pixels
+            if(Math.abs(distanceX) < 30 && Math.abs(distanceY) < 30) {
+                console.log(distanceX, distanceY);
+            }
+
+            this.last_drag_position.screenX = event.screenX;
+            this.last_drag_position.screenY = event.screenY;
+        },
         keyboardShortcuts(event) {
             switch(event.code) {
                 case "ArrowLeft":
