@@ -21,11 +21,11 @@
             </div>
         </div>
         <div class="image-container" @click.self="close()">
-            <a href="#" @click.prevent="prev()" class="slider_controls left-4" v-if="prev_shown">
+            <a href="#" class="slider_controls left-4" @click.prevent="prev()" v-if="is_first_slide === false">
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
             <img :src="'data:image/jpg;base64,' + current_image.image_encoded" ref="image" @dragStart="startDraggingImage" @drag="dragImage">
-            <a href="#" @click.prevent="next()" class="slider_controls right-4" v-if="next_shown">
+            <a href="#" class="slider_controls right-4" @click.prevent="next()" v-if="is_last_slide === false">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
         </div>
@@ -105,6 +105,12 @@ export default {
         },
         transform_image() {
             return 'scale(' + this.scale + ') translate(' + this.translateX + 'px,' + this.translateY + 'px)';
+        },
+        is_first_slide() {
+            return this.images.indexOf(this.current_image) === 0;
+        },
+        is_last_slide() {
+            return this.images.indexOf(this.current_image) === this.images.length - 1;
         }
     },
     watch: {
