@@ -1,5 +1,5 @@
 <template>
-    <div class="image-viewer flex flex-col" @wheel="zoom($event.deltaY)" v-if="shown">
+    <div class="image-viewer flex flex-col" @wheel="zoom_on_mouse_wheel($event.deltaY)" v-if="shown">
         <div class="top-bar flex flex-row justify-between bg-black">
             <div class="ml-3 my-3">
                 <a href="#" @click.prevent="close()" class="icon-link">
@@ -73,7 +73,7 @@
 }
 
 img {
-
+    transition: .1s;
 }
 </style>
 
@@ -108,10 +108,10 @@ export default {
     },
     methods: {
         zoomIn() {
-            this.zoom(+0.1);
+            this.scale += 0.1;
         },
         zoomOut() {
-            this.zoom(-0.1);
+            this.scale -= 0.1;
         },
         resetZoom() {
             this.scale = 1;
@@ -129,8 +129,13 @@ export default {
 
             this.shown = true;
         },
-        zoom(delta) {
-            this.scale += delta;
+        /**
+         * I need only a sign of deltaY (+, -) to determine direction - zoom-in or zoom-out.
+         * * "-" means "scroll Up" - which must "zoom in" the image;  "+" means "scroll Down" - which must "zoom out" the image.
+         * Zoom ratio itself is determined by zoomIn() and zoomOut() methods
+         * */
+        zoom_on_mouse_wheel(deltaY) {
+            deltaY < 0 ? this.zoomIn() : this.zoomOut();
         },
         close() {
             this.shown = false;
