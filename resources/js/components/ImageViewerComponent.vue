@@ -24,7 +24,7 @@
             <a href="#" @click.prevent="prev()" class="absolute left-4 rounded-full" v-if="prev_shown">
                 <i class="bi bi-arrow-left-circle text-white" style="font-size: 3rem"></i>
             </a>
-            <img :src="'data:image/jpg;base64,' + current_image.image_encoded" style="width: 600px" ref="image">
+            <img :src="'data:image/jpg;base64,' + current_image.image_encoded" ref="image">
             <a href="#" @click.prevent="next()" class="absolute right-4 rounded-full" v-if="next_shown">
                 <i class="bi bi-arrow-right-circle text-white" style="font-size: 3rem"></i>
             </a>
@@ -37,7 +37,7 @@
                 </a>
 
                 <a href="#" @click.prevent="resetZoom()" class="hover:bg-gray-800 text-white pt-3">
-                    100%
+                    {{ scaleRatio }}%
                 </a>
 
                 <a href="#" @click.prevent="zoomOut()" class="icon-link">
@@ -66,6 +66,10 @@
     @apply text-white;
     font-size: 1.5rem;
 }
+
+img {
+
+}
 </style>
 
 
@@ -78,18 +82,24 @@ export default {
         prev_shown: true,
         next_shown: true,
         current_image: {},
-        images: []
+        images: [],
+        scale: 1.0
       };
+    },
+    computed: {
+        scaleRatio() {
+            return Math.round(this.scale * 100);
+        }
     },
     created() {
         window.events.$on('open-image-viewer', this.open);
     },
     methods: {
         zoomIn() {
-            this.zoom(-100);
+            this.zoom(+0.1);
         },
         zoomOut() {
-            this.zoom(+100);
+            this.zoom(-0.1);
         },
         resetZoom() {
             let image = this.$refs['image'];
@@ -111,17 +121,9 @@ export default {
         },
         zoom(delta) {
             let image = this.$refs['image'];
+            this.scale += delta;
 
-            let aspectRatio = image.clientWidth/image.clientHeight;
-
-            let newWidth = image.clientWidth - delta * aspectRatio;
-            let newHeight = image.clientHeight - delta;
-
-            if(newWidth < 400 || newWidth > image.naturalWidth)
-                return;
-
-            image.style.width = newWidth + 'px';
-            image.style.height = newHeight + 'px';
+            image.style.transform = 'scale(' + this.scale + ')';
         },
         close() {
             this.shown = false;
@@ -136,6 +138,8 @@ export default {
             alert('edit'); //TODO: Edit
         },
         prev() { //TODO: when loading - width should be original or maximum allowed
+            this.scale = 1;
+
             let index = this.images.indexOf(this.current_image);
             this.current_image = this.images[index - 1];
 
@@ -145,6 +149,8 @@ export default {
                 this.prev_shown = false;
         },
         next() {
+            this.scale = 1;
+
             let index = this.images.indexOf(this.current_image);
             this.current_image = this.images[index + 1];
 
