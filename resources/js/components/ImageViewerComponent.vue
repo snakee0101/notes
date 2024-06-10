@@ -120,7 +120,10 @@ export default {
 
             this.scale += 0.1;
         },
-        zoomOut() {
+        zoomOut() { // You should not zoom out infinitely (minimum scale is 100%)
+            if (this.scale - 0.1 < 1.0)
+                return;
+
             this.scale -= 0.1;
         },
         resetZoom() {
