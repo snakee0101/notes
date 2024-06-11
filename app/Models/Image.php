@@ -15,8 +15,8 @@ class Image extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['image_encoded', 'thumbnail_small_encoded', 'thumbnail_large_encoded'];
-    protected $hidden = ['image', 'thumbnail_small', 'thumbnail_large'];
+    protected $appends = ['image_encoded', 'thumbnail_encoded'];
+    protected $hidden = ['image', 'thumbnail'];
 
     public $timestamps = false;
 
@@ -34,14 +34,9 @@ class Image extends Model
         return base64_encode(utf8_decode($this->image));
     }
 
-    public function getThumbnailSmallEncodedAttribute()
+    public function getThumbnailEncodedAttribute()
     {
-        return base64_encode(utf8_decode($this->thumbnail_small));
-    }
-
-    public function getThumbnailLargeEncodedAttribute()
-    {
-        return base64_encode(utf8_decode($this->thumbnail_large));
+        return base64_encode(utf8_decode($this->thumbnail));
     }
 
     public static function removeSoftDeleted()
@@ -77,15 +72,9 @@ class Image extends Model
         $intervention_image = InterventionImage::make( $binary_image_data );
         $image = utf8_encode($binary_image_data);
 
-        if($intervention_image->width() <= 240) { //if image is smaller than 240 pixels - use image itself as a both thumbnails
-            $thumbnail_small = $thumbnail_large = $image;
-        } elseif ($intervention_image->width() <= 600) { //if image is smaller than 600 pixels - generate small thumbnail and use it as both thumbnails
-            $thumbnail_small = $thumbnail_large = utf8_encode((string)$intervention_image->widen(240)->encode('jpg', 100));
-        } else { //if image is bigger than 600 pixels - generate small and large thumbnail separately
-            $thumbnail_small = utf8_encode((string)$intervention_image->widen(240)->encode('jpg', 100));
-            $thumbnail_large = utf8_encode((string)$intervention_image->widen(600)->encode('jpg', 100));
-        }
+        $thumbnail = $intervention_image->width() <= 240 ? $image
+                                                         : utf8_encode((string)$intervention_image->widen(240)->encode('jpg', 100));
 
-        return compact('image', 'thumbnail_small', 'thumbnail_large');
+        return compact('image', 'thumbnail');
     }
 }

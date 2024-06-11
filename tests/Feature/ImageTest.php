@@ -5,9 +5,7 @@ namespace Tests\Feature;
 use App\Models\Image;
 use App\Models\Note;
 use Illuminate\Http\Testing\File;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Str;
-use \Illuminate\Http\UploadedFile;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -25,9 +23,6 @@ class ImageTest extends TestCase
         });
 
         Storage::fake('public');
-        Storage::disk('public')->makeDirectory('images');
-        Storage::disk('public')->makeDirectory('thumbnails_large');
-        Storage::disk('public')->makeDirectory('thumbnails_small');
     }
 
     public function generate_image() : File

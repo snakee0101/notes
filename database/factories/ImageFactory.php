@@ -22,8 +22,7 @@ class ImageFactory extends Factory
         return [
             'note_id' => Note::factory(),
             'image' => $encoded_image,
-            'thumbnail_small' => $encoded_image,
-            'thumbnail_large' => $encoded_image
+            'thumbnail' => $encoded_image
         ];
     }
 
@@ -48,8 +47,7 @@ class ImageFactory extends Factory
         return $this->state(function (array $attributes) use ($encoded_image) {
             return [
                 'image' => $encoded_image,
-                'thumbnail_small' => $encoded_image,
-                'thumbnail_large' => $encoded_image
+                'thumbnail' => $encoded_image
             ];
         });
     }

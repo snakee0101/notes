@@ -13,17 +13,6 @@ use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class ImageTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Storage::fake('public');
-
-        Storage::disk('public')->makeDirectory('images');
-        Storage::disk('public')->makeDirectory('thumbnails_large');
-        Storage::disk('public')->makeDirectory('thumbnails_small');
-    }
-
     public function test_when_upload_has_been_processed_image_contents_are_returned()
     {
         $image_fields = Image::processUpload(
@@ -31,8 +20,7 @@ class ImageTest extends TestCase
         );
 
         $this->assertEquals(utf8_encode($file->getContent()), $image_fields['image']);
-        $this->assertNotEmpty($image_fields['thumbnail_small']);
-        $this->assertNotEmpty($image_fields['thumbnail_large']);
+        $this->assertNotEmpty($image_fields['thumbnail']);
     }
 
     public function test_when_image_is_created_text_is_automatically_recognized_by_tesseract_OCR()

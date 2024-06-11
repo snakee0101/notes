@@ -16,8 +16,7 @@ class CreateImagesTable extends Migration
         });
 
         DB::statement("ALTER TABLE images ADD image LONGBLOB");
-        DB::statement("ALTER TABLE images ADD thumbnail_small LONGBLOB");
-        DB::statement("ALTER TABLE images ADD thumbnail_large LONGBLOB");
+        DB::statement("ALTER TABLE images ADD thumbnail LONGBLOB");
     }
 
     public function down()
