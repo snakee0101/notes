@@ -8,6 +8,7 @@ use App\Models\Reminder;
 use App\Models\Tag;
 use App\Models\User;
 use App\Notifications\CollaboratorWasAddedNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -20,14 +21,14 @@ class NoteController extends Controller
         $note = Note::create($data);
 
         /****Set the reminder****/
-        $reminder = $request->reminder;
+        $reminder = json_decode($request->reminder);
 
         if( !empty($reminder) )
         {
             $note->reminders()->create([
                 'user_id' => auth()->id(),
-                'time' => $reminder['time'] ?? "",
-                'repeat' => $reminder['repeat'] ? json_decode($reminder['repeat']) : new class(){},
+                'time' => $reminder?->time ?? "",
+                'repeat' => $reminder?->repeat ?? new class(){},
                 'location' => '',
             ]);
         }
