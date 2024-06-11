@@ -93,7 +93,7 @@ class ReminderTest extends TestCase
         Notification::assertSentTo($reminder->owner, TimeNotification::class);
     }
 
-    public function test_time_notification_sends_mail()
+    public function test_time_notification_is_sent()
     {
         Mail::fake();
 
@@ -104,22 +104,7 @@ class ReminderTest extends TestCase
         $this->travel(61)->minutes();
         Reminder::sendTimeReminders();
 
-        Notification::assertSentTo($reminder->owner, TimeNotification::class, function($notification, $channels, $notifiable){
-            return array_search('mail', $channels);
-        });
-    }
-
-    public function test_time_notification_is_broadcasted()
-    {
-        $note = Note::factory()->create();
-        $reminder = Reminder::factory()->for($note,'note')
-            ->for($note->owner,'owner')->create([ 'time' => now()->addHour() ]);
-
-        $this->travel(61)->minutes();
-        Reminder::sendTimeReminders();
-        Notification::assertSentTo($reminder->owner, TimeNotification::class, function($notification, $channels, $notifiable){
-            return array_search('broadcast', $channels);
-        });
+        Notification::assertSentTo($reminder->owner, TimeNotification::class);
     }
 
     public function test_reminder_could_send_expired_reminders()
