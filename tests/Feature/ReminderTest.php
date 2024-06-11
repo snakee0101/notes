@@ -176,7 +176,7 @@ class ReminderTest extends TestCase
         auth()->login($note->owner);
 
         $this->post( route('sync_collaborator', $note), [
-            'collaborator_ids' => [$users[0]->id, $users[2]->id,  $users[3]->id]
+            'emails' => [$users[0]->email, $users[2]->email,  $users[3]->email]
         ] )->assertOk();
 
 
