@@ -105,7 +105,10 @@ class NoteTest extends TestCase
             ->create();
 
         Image::factory()->create([ 'note_id' => $note->id ]);
-        Reminder::factory()->create([ 'note_id' => $note->id ]);
+        Reminder::factory()->create([
+            'note_id' => $note->id,
+            'user_id' => $note->owner_id
+        ]);
 
         $note->refresh();
 

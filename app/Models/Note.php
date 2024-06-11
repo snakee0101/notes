@@ -112,6 +112,9 @@ class Note extends Model
 
         if($this->reminders()->exists()) { //replicate the reminder
             $this->reminders->each(function($reminder) use ($replica) {
+                if($replica->owner_id != $reminder->user_id)    //Note replicates only owners reminder
+                    return;
+
                 $reminder_replica = $reminder->replicate();
                 $reminder_replica->note_id = $replica->id;
                 $reminder_replica->push();
