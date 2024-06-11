@@ -110,10 +110,12 @@ class Note extends Model
         $replica = $this->replicate();  //replicate the note
         $replica->push();
 
-        if($this->reminder) { //replicate the reminder
-            $reminder = $this->reminder->replicate();
-            $reminder->note_id = $replica->id;
-            $reminder->push();
+        if($this->reminders()->exists()) { //replicate the reminder
+            $this->reminders->each(function($reminder) use ($replica) {
+                $reminder_replica = $reminder->replicate();
+                $reminder_replica->note_id = $replica->id;
+                $reminder_replica->push();
+            });
         }
 
         $replica->tags()->saveMany( $this->tags()->get() );   //replicate the tags
