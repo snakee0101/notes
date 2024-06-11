@@ -39,13 +39,6 @@ class Image extends Model
         return base64_encode(utf8_decode($this->thumbnail));
     }
 
-    public static function removeSoftDeleted()
-    {
-        static::onlyTrashed()->each(function(self $image) {
-            $image->forceDelete();
-        });
-    }
-
     public function note()
     {
         return $this->belongsTo(Note::class);
