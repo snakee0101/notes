@@ -34,4 +34,9 @@
         <env name="DB_USERNAME" value="newuser"/>
         <env name="DB_PASSWORD" value="password"/>
     </php>
+    <groups>
+        <exclude>
+            <group>slow</group>
+        </exclude>
+    </groups>
 </phpunit>

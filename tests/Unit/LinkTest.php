@@ -7,6 +7,9 @@ use App\Models\Note;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
+/**
+ * @group slow
+ */
 class LinkTest extends TestCase
 {
     public function test_a_note_has_many_links()

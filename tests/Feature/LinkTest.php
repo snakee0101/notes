@@ -10,6 +10,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use phpDocumentor\Reflection\Types\False_;
 use Tests\TestCase;
 
+/**
+ * @group slow
+ */
 class LinkTest extends TestCase
 {
     public function test_links_are_persisted_in_the_DB_with_favicons_when_the_note_is_created()
