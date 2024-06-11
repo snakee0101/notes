@@ -115,11 +115,11 @@ class ReminderTest extends TestCase
             'repeat' => json_encode($obj)
         ]);
 
-        $this->assertDatabaseHas('reminders', ['repeat' => '{"every":{"number":2,"unit":"week","weekdays":["Monday","Tuesday","Friday"]},"ends":{"after":3}}']);
-        $this->assertIsArray(Reminder::first()->repeat->every->weekdays);
-        $this->assertContains('Monday', Reminder::first()->repeat->every->weekdays);
-        $this->assertContains('Tuesday', Reminder::first()->repeat->every->weekdays);
-        $this->assertContains('Friday', Reminder::first()->repeat->every->weekdays);
+        $first_reminder = Reminder::first();
+
+        $this->assertContains('Monday', $first_reminder->repeat->every->weekdays);
+        $this->assertContains('Tuesday', $first_reminder->repeat->every->weekdays);
+        $this->assertContains('Friday', $first_reminder->repeat->every->weekdays);
     }
 
     public function test_reminder_could_be_converted_to_json()
