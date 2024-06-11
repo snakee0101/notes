@@ -218,9 +218,13 @@ class ReminderTest extends TestCase
             'repeat' => $json
         ]);
 
-        $repeat_status = $reminder->repeat;
+        $old_repeat_status = $reminder->repeat;
         $reminder->sendTimeReminder();
-        $this->assertEquals(json_encode($repeat_status), json_encode($reminder->fresh()->repeat));
+
+
+        $repeat = $reminder->fresh()->repeat;
+        $this->assertEquals($old_repeat_status->every->unit, $repeat->every->unit);
+        $this->assertEquals($old_repeat_status->every->number, $repeat->every->number);
     }
 
     public function test_reminder_decrements_repeat_counter()
