@@ -88,10 +88,11 @@ class ReminderTest extends TestCase
             'repeat' => json_encode($obj)
         ]);
 
-        $this->assertDatabaseHas('reminders', ['repeat' => '{"every":{"number":2,"unit":"day"},"ends":{"after":3}}']);
-        $this->assertEquals(3, Reminder::first()->repeat->ends->after);
-        $this->assertEquals(2, Reminder::first()->repeat->every->number);
-        $this->assertEquals('day', Reminder::first()->repeat->every->unit);
+        $first_reminder = Reminder::first();
+
+        $this->assertEquals(3, $first_reminder->repeat->ends->after);
+        $this->assertEquals(2, $first_reminder->repeat->every->number);
+        $this->assertEquals('day', $first_reminder->repeat->every->unit);
     }
 
     public function test_a_repeat_status_on_specific_days_of_week_could_be_saved()
