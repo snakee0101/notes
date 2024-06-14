@@ -15,7 +15,6 @@ use Mockery\MockInterface;
 use Tests\TestCase;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 
-//test searching by label (+ searching by header and body at the same time)
 //test searching by type (+ searching by header and body at the same time)
 class SearchTest extends TestCase
 {
@@ -144,34 +143,38 @@ class SearchTest extends TestCase
         $this->assertStringContainsString($image->recognized_text, $note_recognized_test);
     }
 
-    public function test_a_note_could_be_filtered_by_tags() //TODO: Actually it works but not testable yet
+    public function test_a_note_could_be_filtered_by_tags()
     {
-        $owner = User::factory()->create();
+        auth()->login($owner = User::factory()->create());
 
         $tags = Tag::factory()->for($owner, 'owner')->count(3)->create();
 
-        $notes_with_tag_1_and_2 = Note::factory()->for($owner, 'owner')
+        $note_with_tag_1_and_2 = Note::factory()->for($owner, 'owner')
                                                  ->hasAttached($tags[0])
                                                  ->hasAttached($tags[1])
-                                                 ->count(3)
-                                                 ->create(['body' => 'note']);
+                                                 ->create(['body' => 'searching for this text', 'id' => 100_000_000]);
 
-        $notes_with_tag_2_and_3 = Note::factory()->for($owner, 'owner')
+        $note_with_tag_2_and_3 = Note::factory()->for($owner, 'owner')
                                                 ->hasAttached($tags[1])
                                                 ->hasAttached($tags[2])
-                                                ->count(2)
-                                                ->create(['body' => 'note']);
+                                                ->create(['body' => 'searching for this text', 'id' => 100_000_001]);
 
-        auth()->login($owner);
+        $note_with_tag_1_and_2->searchable();
+        $note_with_tag_2_and_3->searchable();
+        sleep(2);
 
-        $json = $this->post(route('search'), [
-            'query' => 'note',
-            'filterBy' => 'tag',
+        $json = $this->postJson(route('search'), [
+            'query' => 'searching for this text',
+            'filterBy' => 'tags',
             'filterValue' => $tags[0]->name
-        ])->assertOk()->content();
+        ])->content();
+
         $data = json_decode($json);
 
-        $this->assertCount(3, $data->data);
-        $this->assertEquals($notes_with_tag_1_and_2[0]->color, $data->data[0]->color);
+        $note_with_tag_1_and_2->unsearchable();
+        $note_with_tag_2_and_3->unsearchable();
+
+        $this->assertCount(1, $data);
+        $this->assertEquals($note_with_tag_1_and_2->id, $data[0]->id);
     }
 }

@@ -21,7 +21,7 @@ class NoteController extends Controller
         $note = Note::create($data);
 
         /****Set the reminder****/
-        $reminder = json_decode($request->reminder);
+        $reminder = $request->reminder;
 
         if( !empty($reminder) )
         {
