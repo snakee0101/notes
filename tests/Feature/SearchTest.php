@@ -15,7 +15,8 @@ use Mockery\MockInterface;
 use Tests\TestCase;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 
-
+//test searching by label (+ searching by header and body at the same time)
+//test searching by type (+ searching by header and body at the same time)
 class SearchTest extends TestCase
 {
     protected function setUp(): void
@@ -86,38 +87,13 @@ class SearchTest extends TestCase
         $this->assertArrayHasKey('color', $serialized_note);
         $this->assertEquals('orange', $serialized_note['color']);
     }
-
-    public function test_a_note_could_be_filtered_by_color()
-    {
-        $note = Note::factory()->create([
-            'body' => 'note body',
-            'color' => 'orange'
-        ]);
-
-        $note2 = Note::factory()->create([
-            'body' => 'note body',
-            'color' => 'black'
-        ]);
-
-        auth()->login($note->owner);
-
-        $json = $this->post(route('search'), [
-            'query' => 'note',
-            'filterBy' => 'color',
-            'filterValue' => 'orange'
-        ])->assertOk()->content();
-
-        $data = json_decode($json);
-        $this->assertCount(1, $data->data);
-        $this->assertEquals('orange', $data->data[0]->color);
-    }
-
     public function test_tags_are_included_in_note_search_index()
     {
         $tags = Tag::factory()->count(3)->create();
-        $note = Note::factory()->hasAttached($tags)->create();
+        $note = Note::factory()->hasAttached($tags)->create(['id' => 100_000_000]);
 
         $serialized_note = $note->toSearchableArray();
+        $note->unsearchable();
 
         $this->assertArrayHasKey('tags', $serialized_note);
 
@@ -126,23 +102,30 @@ class SearchTest extends TestCase
         $this->assertContains($tags[2]->name, $serialized_note['tags']);
     }
 
-    protected function create_3_fake_images(array $texts)
+    public function test_a_note_could_be_filtered_by_color()
     {
-        $paths = [];
+        $note = Note::factory()->create(['body' => 'note body', 'color' => 'orange', 'id' => 100_000_000]);
+        $note2 = Note::factory()->create(['body' => 'note body', 'color' => 'black', 'owner_id' => $note->owner_id, 'id' => 100_000_001]);
+        $note3 = Note::factory()->create(['body' => 'searching for this text', 'color' => 'black', 'owner_id' => $note->owner_id, 'id' => 100_000_002]);
+        $note4 = Note::factory()->create(['body' => 'searching for this text', 'color' => 'orange', 'owner_id' => $note->owner_id, 'id' => 100_000_003]);
 
-        foreach ($texts as $key => $text) {
-            $image = imagecreate(200, 200);
-            $color = imagecolorallocate($image, 255, 255, 255);
-            $text_color = imagecolorallocate($image, 0, 0, 0);
-            $font_path = 'storage/app/Roboto-Light.ttf';
+        auth()->login($note->owner);
 
-            imagefttext($image, 20, 0, 40,40, $text_color, $font_path, $text);
-            imagejpeg($image, Storage::path("test_OCR_$key.jpg"));
+        $json = $this->post(route('search'), [
+            'query' => 'searching for this text',
+            'filterBy' => 'color',
+            'filterValue' => 'orange'
+        ])->content();
 
-            $paths[] = Storage::path("test_OCR_$key.jpg");
-        }
+        $note->unsearchable();
+        $note2->unsearchable();
+        $note3->unsearchable();
+        $note4->unsearchable();
 
-        return $paths;
+        $data = json_decode($json);
+        $this->assertCount(1, $data);
+        $this->assertEquals('orange', $data[0]->color);
+        $this->assertEquals('searching for this text', $data[0]->body);
     }
 
     public function test_recognized_images_text_is_included_in_search_index()
