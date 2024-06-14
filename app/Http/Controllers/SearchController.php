@@ -12,7 +12,7 @@ class SearchController extends Controller
         return Note::search($request->input('query'), function(\Meilisearch\Endpoints\Indexes $meilisearch_index, $query, array $options) use ($request) {
             $meilisearch_index->updateFilterableAttributes(['tags', 'type', 'color']);
 
-            if($request->has('filterBy')) {
+            if($request->filled('filterBy')) {
                 $options['filter'] = "$request->filterBy = '$request->filterValue'";
             }
 
