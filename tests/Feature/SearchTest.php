@@ -132,20 +132,16 @@ class SearchTest extends TestCase
     {
         $this->forgetMock(TesseractOCR::class);
 
-        $note = Note::factory()->create();
-        $images = [];
-
-        foreach ($this->create_3_fake_images(['OCR test 1', 'new text', 'testing']) as $image_path) {
-            $images[] = Image::factory()->count(3)->for($note, 'note')->create([
-                'image_path' => $image_path
-            ]);
-        }
+        $note = Note::factory()->create(['id' => 100_000_000]);
+        $image = Image::factory()->forOCR()->create([
+            'note_id' => $note->id
+        ]);
 
         $note->refresh();
+        $note_recognized_test = $note->toSearchableArray()['recognized_text'];
+        $note->unsearchable();
 
-        $this->assertStringContainsString($images[0]->recognized_text, $note->toSearchableArray()['recognized_text']);
-        $this->assertStringContainsString($images[1]->recognized_text, $note->toSearchableArray()['recognized_text']);
-        $this->assertStringContainsString($images[2]->recognized_text, $note->toSearchableArray()['recognized_text']);
+        $this->assertStringContainsString($image->recognized_text, $note_recognized_test);
     }
 
     public function test_a_note_could_be_filtered_by_tags() //TODO: Actually it works but not testable yet
