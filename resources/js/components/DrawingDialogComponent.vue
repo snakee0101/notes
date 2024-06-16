@@ -278,10 +278,9 @@ export default {
             this.selected_tool_size = this['selected_' + tool + '_size'];
         },
         setToolByOption(tool, option, option_value) {
-            this.tool = tool;
-
             this['selected_' + tool + '_' + option] = option_value;
-            this['selected_tool_' + option] = option_value;
+
+            this.setTool(tool);
         },
         setGrid(grid_type) {
             this.grid = grid_type;
@@ -317,7 +316,12 @@ export default {
         },
         open() {
             this.shown = true;
-            //this.canvas = this.$refs['drawing_area'].getContext('2d');
+
+            setTimeout(this.setDefaultTool, 200);
+                //this.canvas = this.$refs['drawing_area'].getContext('2d');
+        },
+        setDefaultTool() {
+            this.setToolByOption('brush', 'size', 2);
         },
         close() {
             this.shown = false;
