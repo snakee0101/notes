@@ -44,6 +44,7 @@ class NoteController extends Controller
         foreach($links as $link)
             Link::persist($link['url'], $link['name'], $note);
 
+        $note->searchable();
 
         return $note->fresh();
     }
@@ -68,6 +69,8 @@ class NoteController extends Controller
 
         foreach($links as $link)
             @Link::persist($link['url'], $link['name'], $note);
+
+        $note->searchable();
     }
 
     public function destroy(Note $note)
