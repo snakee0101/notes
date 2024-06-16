@@ -196,7 +196,7 @@
                 </b-dropdown>
             </div>
         </div>
-        <canvas class="flex-grow" ref="drawing_area" id="canvas" v-bind:style="canvas_style"></canvas>
+        <canvas class="flex-grow" ref="drawing_area" id="canvas" v-bind:style="canvas_style" @mousemove="draw" @mouseenter="initialize_mouse_position"></canvas>
         <svg ref="cursor_svg" xmlns="http://www.w3.org/2000/svg" v-bind:width="selected_tool_size" v-bind:height="selected_tool_size" viewBox="0 0 12 12">
             <circle cx="6" cy="6" r="5" stroke="rgb(0,0,0)" v-bind:fill="selected_tool_color"/>
         </svg>
@@ -216,7 +216,7 @@ export default {
                 repeat_style: '',
                 position: ''
             },
-            canvas: {},
+            canvas_ctx: {},
             brush_colors: [
                 ['rgb(0,0,0)', 'rgb(255, 82, 82)', 'rgb(255, 188, 0)', 'rgb(0, 200, 83)', 'rgb(0, 176, 255)', 'rgb(213, 0, 249)', 'rgb(141, 110, 99)'],
                 ['rgb(250, 250, 250)', 'rgb(165, 39, 20)', 'rgb(238, 129, 0)', 'rgb(85, 139, 47)', 'rgb(1, 87, 155)', 'rgb(142, 36, 170)', 'rgb(78, 52, 46)'],
@@ -232,7 +232,11 @@ export default {
             selected_marker_size: 2,
             selected_tool_size: 2,
             selected_tool_color: 'rgb(0,0,0)',
-            tool: 'brush'
+            tool: 'brush',
+            last_mouse_position: {
+                x: 0,
+                y: 0
+            }
         };
     },
     computed: {
@@ -325,10 +329,26 @@ export default {
             this.setToolByOption('brush', 'color', 'rgb(0,0,0)');
             this.setToolByOption('brush', 'size', 2);
 
-            this.canvas = this.$refs['drawing_area'].getContext('2d');
+            this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
         },
         close() {
             this.shown = false;
+        },
+        initialize_mouse_position(event) {
+            this.last_mouse_position.x = event.offsetX;
+            this.last_mouse_position.y = event.offsetY;
+        },
+        draw(event) {
+            if(event.buttons === 1) { //draw only if left button is pressed
+                this.canvas_ctx.beginPath();
+                this.canvas_ctx.moveTo(this.last_mouse_position.x, this.last_mouse_position.y);   //move to last mouse position
+                this.canvas_ctx.lineTo(event.offsetX, event.offsetY);  //and create a line to current mouse position
+                this.canvas_ctx.stroke();  //draw a line
+            }
+
+            //it doesn't matter whether we are drawing or not - we must remember last mouse position
+            this.last_mouse_position.x = event.offsetX;
+            this.last_mouse_position.y = event.offsetY;
         }
     }
 }
