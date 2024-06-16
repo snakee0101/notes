@@ -16,6 +16,7 @@ class Link extends Model
     protected $guarded = [];
 
     public $timestamps = false;
+    protected $touches = ['note'];
 
     public function resolveRouteBinding($value, $field = null)
     {

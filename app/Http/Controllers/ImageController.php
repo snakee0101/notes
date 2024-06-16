@@ -46,6 +46,7 @@ class ImageController extends Controller
         abort_if(Gate::denies('image_manipulation', $image->note), 403, 'Only owner and collaborators can manipulate images');
 
         $image->restore();
+        $image->note->searchable();
 
         return $image->fresh();
     }
