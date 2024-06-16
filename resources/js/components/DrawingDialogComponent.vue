@@ -1,5 +1,5 @@
 <template>
-    <div class="drawer flex flex-col" v-show="shown">
+    <div class="drawer" v-show="shown">
         <div class="top-bar flex flex-row justify-between bg-white">
             <div class="ml-3 my-3">
                 <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-100 mr-4">
@@ -196,7 +196,12 @@
                 </b-dropdown>
             </div>
         </div>
-        <canvas class="flex-grow" ref="drawing_area" id="canvas" v-bind:style="canvas_style" @mousemove="draw" @mouseenter="initialize_mouse_position"></canvas>
+        <canvas ref="drawing_area" id="canvas"
+                v-bind:style="canvas_style"
+                :width="canvas_width"
+                :height="canvas_height"
+                @mousemove="draw"
+                @mouseenter="initialize_mouse_position"></canvas>
         <svg ref="cursor_svg" xmlns="http://www.w3.org/2000/svg" v-bind:width="selected_tool_size" v-bind:height="selected_tool_size" viewBox="0 0 12 12">
             <circle cx="6" cy="6" r="5" stroke="rgb(0,0,0)" v-bind:fill="selected_tool_color"/>
         </svg>
@@ -217,6 +222,8 @@ export default {
                 position: ''
             },
             canvas_ctx: {},
+            canvas_width: 0,
+            canvas_height: 0,
             brush_colors: [
                 ['rgb(0,0,0)', 'rgb(255, 82, 82)', 'rgb(255, 188, 0)', 'rgb(0, 200, 83)', 'rgb(0, 176, 255)', 'rgb(213, 0, 249)', 'rgb(141, 110, 99)'],
                 ['rgb(250, 250, 250)', 'rgb(165, 39, 20)', 'rgb(238, 129, 0)', 'rgb(85, 139, 47)', 'rgb(1, 87, 155)', 'rgb(142, 36, 170)', 'rgb(78, 52, 46)'],
@@ -323,11 +330,17 @@ export default {
         open() {
             this.shown = true;
 
-            setTimeout(this.setDefaultTool, 500);
+            setTimeout(this.setDefaultTool, 50);
         },
         setDefaultTool() {
             this.setToolByOption('brush', 'color', 'rgb(0,0,0)');
             this.setToolByOption('brush', 'size', 2);
+
+            this.canvas_width = window.innerWidth;
+
+            let top_panel_height = document.querySelector('.top-bar').offsetHeight;
+            let inner_area_height = window.innerHeight;
+            this.canvas_height = inner_area_height - top_panel_height;
 
             this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
         },
