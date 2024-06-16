@@ -276,6 +276,8 @@ export default {
 
             this.selected_tool_color = this['selected_' + tool + '_color'];
             this.selected_tool_size = this['selected_' + tool + '_size'];
+
+            setTimeout(() => document.getElementById('canvas').style.cursor = 'url(\'data:image/svg+xml;utf8,' + this.$refs['cursor_svg'].outerHTML + '\'), auto', 50);
         },
         setToolByOption(tool, option, option_value) {
             this['selected_' + tool + '_' + option] = option_value;
@@ -317,10 +319,11 @@ export default {
         open() {
             this.shown = true;
 
-            setTimeout(this.setDefaultTool, 200);
+            setTimeout(this.setDefaultTool, 500);
                 //this.canvas = this.$refs['drawing_area'].getContext('2d');
         },
         setDefaultTool() {
+            this.setToolByOption('brush', 'color', 'rgb(0,0,0)');
             this.setToolByOption('brush', 'size', 2);
         },
         close() {
