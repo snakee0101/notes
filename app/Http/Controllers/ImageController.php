@@ -32,7 +32,9 @@ class ImageController extends Controller
         abort_if(Gate::denies('image_manipulation', $image->note), 403, 'Only owner and collaborators can manipulate images');
 
         $image_id = $image->id;
+
         $image->delete();
+        $image->note->searchable();
 
         return $image_id;
     }

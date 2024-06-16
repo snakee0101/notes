@@ -19,6 +19,7 @@ class Image extends Model
     protected $hidden = ['image', 'thumbnail'];
 
     public $timestamps = false;
+    protected $touches = ['note'];
 
     protected static function boot()
     {
