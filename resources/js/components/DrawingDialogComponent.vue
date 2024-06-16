@@ -263,6 +263,11 @@ export default {
             return style;
         },
     },
+    watch: {
+        selected_color(newValue, oldValue) {
+            setTimeout(() => document.getElementById('canvas').style.cursor = 'url(\'data:image/svg+xml;utf8,' + this.$refs['cursor_svg'].outerHTML + '\'), auto', 50);
+        }
+    },
     created() {
         window.events.$on('show_drawing_dialog', this.open);
     },
@@ -275,8 +280,6 @@ export default {
             this['selected_' + tool + '_' + option] = option_value;
 
             this.selected_color = option_value;
-
-            document.getElementById('canvas').style.cursor = 'url(\'data:image/svg+xml;utf8,' + this.$refs['cursor_svg'].outerHTML + '\'), auto';
         },
         setGrid(grid_type) {
             this.grid = grid_type;
