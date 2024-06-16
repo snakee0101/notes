@@ -197,6 +197,7 @@
             </div>
         </div>
         <canvas class="flex-grow" ref="drawing_area" id="canvas" v-bind:style="canvas_style"></canvas>
+        <svg ref="cursor_svg" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="rgb(255,188,0)"/></svg>
     </div>
 </template>
 
@@ -245,12 +246,13 @@ export default {
             return (this.tool === 'marker') ? this.selected_marker_color : '#90a4ae';
         },
         canvas_cursor() {
-            return "url(\"data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 12 12\"><circle cx=\"6\" cy=\"6\" r=\"5\" stroke=\"rgb(0,0,0)\" stroke-width=\"1\" fill=\"rgb(255,188,0)\"/></svg>\") 6 6, auto";
+            return "url(" +
+                '"data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 12 12\"><circle cx=\"6\" cy=\"6\" r=\"5\" stroke=\"rgb(0,0,0)\" stroke-width=\"1\" fill=\"rgb(255,188,0)\"/></svg>")\" stroke-width=\"1\" fill=\"rgb(255,188,0)\"/></svg>'
+                + ") 6 6, auto";
         },
         canvas_style() {
             let style = {};
 
-            style.cursor = this.canvas_cursor;
             style.backgroundImage = this.grid_style.image;
             style.backgroundSize = this.grid_style.size;
             style.backgroundRepeat = this.grid_style.repeat_style;
@@ -271,6 +273,8 @@ export default {
             this['selected_' + tool + '_' + option] = option_value;
 
             this.selected_color = option_value;
+
+            document.getElementById('canvas').style.cursor = 'url(\'data:image/svg+xml;utf8,' + this.$refs['cursor_svg'].outerHTML + '\'), auto';
         },
         setGrid(grid_type) {
             this.grid = grid_type;
