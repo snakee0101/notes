@@ -196,7 +196,7 @@
                 </b-dropdown>
             </div>
         </div>
-        <canvas class="flex-grow" ref="drawing_area" id="canvas" :style="grid_style"></canvas>
+        <canvas class="flex-grow" ref="drawing_area" id="canvas" v-bind:style="{'background-image': grid_style.image, 'background-size': grid_style.size, 'background-repeat': grid_style.repeat_style, 'background-position': grid_style.position}"></canvas>
     </div>
 </template>
 
@@ -254,10 +254,30 @@ export default {
             this.grid = grid_type;
 
             let grid_styles = {
-                'Square' : 'background-image: linear-gradient(rgb(221 221 221) .1em, transparent .1em), linear-gradient(90deg, rgb(221 221 221) .1em, transparent .1em); background-size: 5em 5em;',
-                'Rules' : 'background-image: linear-gradient(rgb(170 202 237) .1em, transparent .1em), linear-gradient(rgb(170 202 237) .1em, transparent .1em); background-size: 5em 5em;',
-                'None' : '',
-                'Dots' : 'background-image: radial-gradient(circle at center, rgb(204,204,204) 0, rgb(204,204,204) 5px, #f7f7f7 5px, #f7f7f7 100%); background-repeat: repeat; background-position: left center; background-size: 5rem 5rem;'
+                'Square' : {
+                    image: 'linear-gradient(rgb(221 221 221) .1em, transparent .1em), linear-gradient(90deg, rgb(221 221 221) .1em, transparent .1em)',
+                    size: '5em 5em',
+                    repeat_style: 'repeat',
+                    position: 'left top'
+                },
+                'Dots' : {
+                    image: 'radial-gradient(circle at center, rgb(204,204,204) 0, rgb(204,204,204) 5px, #f7f7f7 5px, #f7f7f7 100%)',
+                    size: '5rem 5rem',
+                    repeat_style: 'repeat',
+                    position: 'left center'
+                },
+                'Rules' : {
+                    image: 'linear-gradient(rgb(170 202 237) .1em, transparent .1em), linear-gradient(rgb(170 202 237) .1em, transparent .1em)',
+                    size: '5em 5em',
+                    repeat_style: 'repeat',
+                    position: 'left center'
+                },
+                'None' : {
+                    image: '',
+                    size: '',
+                    repeat_style: '',
+                    position: ''
+                }
             };
 
             this.grid_style = grid_styles[grid_type];
