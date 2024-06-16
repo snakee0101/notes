@@ -37,8 +37,10 @@ class ChecklistController extends Controller
     {
         abort_if(Gate::denies('checklist', $note), 403, 'Only owner and collaborators can manipulate checklists');
 
-        $note->update(['body' => $note->checklist->toHTML()]);
-        $note->checklist()->delete();
+        if($note->checklist) {
+            $note->update(['body' => $note->checklist->toHTML()]);
+            $note->checklist()->delete();
+        }
 
         return $note->fresh();
     }

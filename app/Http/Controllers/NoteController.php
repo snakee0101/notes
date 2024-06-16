@@ -65,7 +65,7 @@ class NoteController extends Controller
             $request->only(['header', 'body', 'pinned', 'archived', 'color', 'type'])
         );
 
-        $links = Link::parseNote($note->fresh());
+        $links = Link::parseNote($note = $note->fresh());
 
         foreach($links as $link)
             @Link::persist($link['url'], $link['name'], $note);
