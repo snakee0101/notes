@@ -197,7 +197,9 @@
             </div>
         </div>
         <canvas class="flex-grow" ref="drawing_area" id="canvas" v-bind:style="canvas_style"></canvas>
-        <svg ref="cursor_svg" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" stroke="rgb(0,0,0)" stroke-width="1" fill="rgb(255,188,0)"/></svg>
+        <svg ref="cursor_svg" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+            <circle cx="6" cy="6" r="5" stroke="rgb(0,0,0)" stroke-width="1" v-bind:fill="selected_color"/>
+        </svg>
     </div>
 </template>
 
@@ -216,19 +218,19 @@ export default {
             },
             canvas: {},
             brush_colors: [
-                ['#000', '#ff5252', '#ffbc00', '#00c853', '#00b0ff', '#d500f9', '#8d6e63'],
-                ['#fafafa', '#a52714', '#ee8100', '#558b2f', '#01579b', '#8e24aa', '#4e342e'],
-                ['#90a4ae', '#ff4081', '#ff6e40', '#aeea00', '#304ffe', '#7c4dff', '#1de9b6'],
-                ['#cfd8dc', '#f8bbd0', '#ffccbc', '#f0f4c3', '#9fa8da', '#d1c4e9', '#b2dfdb'],
+                ['rgb(0,0,0)', 'rgb(255, 82, 82)', 'rgb(255, 188, 0)', 'rgb(0, 200, 83)', 'rgb(0, 176, 255)', 'rgb(213, 0, 249)', 'rgb(141, 110, 99)'],
+                ['rgb(250, 250, 250)', 'rgb(165, 39, 20)', 'rgb(238, 129, 0)', 'rgb(85, 139, 47)', 'rgb(1, 87, 155)', 'rgb(142, 36, 170)', 'rgb(78, 52, 46)'],
+                ['rgb(144, 164, 174)', 'rgb(255, 64, 129)', 'rgb(255, 110, 64)', 'rgb(174, 234, 0)', 'rgb(48, 79, 254)', 'rgb(124, 77, 255)', 'rgb(29, 233, 182)'],
+                ['rgb(207, 216, 220)', 'rgb(248, 187, 208)', 'rgb(255, 204, 188)', 'rgb(240, 244, 195)', 'rgb(159, 168, 218)', 'rgb(209, 196, 233)', 'rgb(178, 223, 219)'],
             ],
             brush_sizes: [2, 4, 6, 8, 10, 12, 14],
-            selected_brush_color: '#000',
-            selected_pen_color: '#000',
-            selected_marker_color: '#000',
+            selected_brush_color: 'rgb(0,0,0)',
+            selected_pen_color: 'rgb(0,0,0)',
+            selected_marker_color: 'rgb(0,0,0)',
             selected_brush_size: 2,
             selected_pen_size: 2,
             selected_marker_size: 2,
-            selected_color: '#000',
+            selected_color: 'rgb(0,0,0)',
             tool: 'brush'
         };
     },
