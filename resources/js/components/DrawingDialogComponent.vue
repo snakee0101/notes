@@ -272,6 +272,7 @@ export default {
     },
     watch: {
         selected_tool_color(newValue, oldValue) {
+            this.canvas_ctx.strokeStyle = newValue;
             setTimeout(() => document.getElementById('canvas').style.cursor = 'url(\'data:image/svg+xml;utf8,' + this.$refs['cursor_svg'].outerHTML + '\'), auto', 50);
         },
         selected_tool_size(newValue, oldValue) {
