@@ -320,11 +320,12 @@ export default {
             this.shown = true;
 
             setTimeout(this.setDefaultTool, 500);
-                //this.canvas = this.$refs['drawing_area'].getContext('2d');
         },
         setDefaultTool() {
             this.setToolByOption('brush', 'color', 'rgb(0,0,0)');
             this.setToolByOption('brush', 'size', 2);
+
+            this.canvas = this.$refs['drawing_area'].getContext('2d');
         },
         close() {
             this.shown = false;
