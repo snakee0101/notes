@@ -230,6 +230,7 @@ export default {
             selected_brush_size: 2,
             selected_pen_size: 2,
             selected_marker_size: 2,
+            selected_tool_size: 2,
             selected_color: 'rgb(0,0,0)',
             tool: 'brush'
         };
@@ -278,6 +279,10 @@ export default {
         setToolByOption(tool, option, option_value) {
             this.tool = tool;
             this['selected_' + tool + '_' + option] = option_value;
+
+            if(option == 'size') {
+                this.selected_tool_size = option_value;
+            }
 
             this.selected_color = option_value;
         },
