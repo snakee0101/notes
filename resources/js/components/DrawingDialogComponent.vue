@@ -275,6 +275,7 @@ export default {
             setTimeout(() => document.getElementById('canvas').style.cursor = 'url(\'data:image/svg+xml;utf8,' + this.$refs['cursor_svg'].outerHTML + '\'), auto', 50);
         },
         selected_tool_size(newValue, oldValue) {
+            this.canvas_ctx.lineWidth = newValue;
             setTimeout(() => document.getElementById('canvas').style.cursor = 'url(\'data:image/svg+xml;utf8,' + this.$refs['cursor_svg'].outerHTML + '\'), auto', 50);
         },
     },
