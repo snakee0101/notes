@@ -2,7 +2,7 @@
     <div class="drawer" v-show="shown">
         <div class="top-bar flex flex-row justify-between bg-white">
             <div class="ml-3 my-3">
-                <a href="#" @click.prevent class="p-2 pt-3 hover:bg-gray-100 mr-4">
+                <a href="#" @click.prevent="close()" class="p-2 pt-3 hover:bg-gray-100 mr-4">
                     <i class="bi bi-arrow-left text-gray-800" style="font-size: 1.5rem"></i>
                 </a>
 
