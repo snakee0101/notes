@@ -385,7 +385,9 @@ export default {
                 this.canvas_ctx.beginPath();
                 this.canvas_ctx.moveTo(this.last_mouse_position.x, this.last_mouse_position.y);   //move to last mouse position
                 this.canvas_ctx.lineTo(event.offsetX, event.offsetY);  //and create a line to current mouse position
+                this.canvas_ctx.lineCap = 'round';
                 this.canvas_ctx.stroke();  //draw a line
+                this.canvas_ctx.closePath();
             }
 
             //it doesn't matter whether we are drawing or not - we must remember last mouse position
