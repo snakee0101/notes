@@ -221,8 +221,8 @@ export default {
                 repeat_style: '',
                 position: ''
             },
-            canvas: {},
-            canvas_ctx: {},
+            canvas: null,
+            canvas_ctx: null,
             canvas_width: 0,
             canvas_height: 0,
             opacity: "/ 100%",
@@ -295,7 +295,9 @@ export default {
             this.target_note = target_note;
 
             this.shown = true;
-            setTimeout(this.setDefaultTool, 50);
+
+            setTimeout(this.initialize, 50);
+            this.setDefaultTool();
         },
         setTool(tool) {
             this.tool = tool;
@@ -344,18 +346,26 @@ export default {
 
             this.grid_style = grid_styles[grid_type];
         },
-        setDefaultTool() {
-            this.setToolByOption('brush', 'color', 'rgb(0,0,0)');
-            this.setToolByOption('brush', 'size', 2);
-
+        initialize() {
             this.canvas_width = window.innerWidth;
 
             let top_panel_height = document.querySelector('.top-bar').offsetHeight;
             let inner_area_height = window.innerHeight;
             this.canvas_height = inner_area_height - top_panel_height;
 
-            this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
-            this.canvas = this.$refs['drawing_area'];
+            if(this.canvas == null){
+                this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
+                this.canvas = this.$refs['drawing_area'];
+
+                setTimeout(() => {
+                    this.canvas_ctx.fillStyle = 'white';
+                    this.canvas_ctx.fillRect(0, 0, this.canvas_width, this.canvas_height);
+                }, 100)
+            }
+        },
+        setDefaultTool() {
+            this.setToolByOption('brush', 'color', 'rgb(0,0,0)');
+            this.setToolByOption('brush', 'size', 2);
         },
         close() {
             this.shown = false;
