@@ -24,6 +24,19 @@
             </div>
         </div>
 
+        <div class="images">
+            <div class="inline-block relative m-2" v-for="(drawing, index) in drawings">
+                <img :src="drawing" style="height: 120px">
+                <a class="bg-gray-300 rounded-full absolute top-1 left-1"
+                   v-b-tooltip.hover.bottom
+                   title="Delete image"
+                   style="cursor: pointer"
+                   @click.prevent="delete_drawing(index)">
+                    <i class="bi bi-x icon"></i>
+                </a>
+            </div>
+        </div>
+
         <textarea name="note_header" placeholder="Title"
                   class="note-header-input mx-2 focus:outline-none h-auto resize-none font-bold bg-transparent text-xl"
                   v-model="note.header">
@@ -323,6 +336,7 @@ export default {
                 'purple', 'pink', 'brown', 'grey'
             ],
             images: [],
+            drawings: [],
             isChecklist: false,
             checklist: [],
             newChecklistItem: '',
@@ -356,6 +370,8 @@ export default {
         autosave_drawing(target_note_component, target_note, exported_image_data_url) {
             if(target_note_component !== 'new-note-component')
                 return false;
+
+            this.drawings.push(exported_image_data_url);
         },
         openDrawingDialog() {
             window.events.$emit('show_drawing_dialog', 'new-note-component');
@@ -582,6 +598,9 @@ export default {
         delete_image(index) {
             this.images.splice(index, 1);
             this.encoded_images.splice(index, 1);
+        },
+        delete_drawing(index) {
+            this.drawings.splice(index, 1);
         }
     }
 }
