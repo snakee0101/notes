@@ -357,11 +357,12 @@ export default {
                 this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
                 this.canvas = this.$refs['drawing_area'];
 
-                setTimeout(() => {
-                    this.canvas_ctx.fillStyle = 'white';
-                    this.canvas_ctx.fillRect(0, 0, this.canvas_width, this.canvas_height);
-                }, 100)
+                setTimeout(this.clearCanvas, 100)
             }
+        },
+        clearCanvas() {
+            this.canvas_ctx.fillStyle = 'white';
+            this.canvas_ctx.fillRect(0, 0, this.canvas_width, this.canvas_height);
         },
         setDefaultTool() {
             this.setToolByOption('brush', 'color', 'rgb(0,0,0)');
@@ -372,6 +373,8 @@ export default {
 
             let exported_image_data_url = this.canvas.toDataURL("image/jpeg", 1.0);
             window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, exported_image_data_url);
+
+            this.clearCanvas();
         },
         initialize_mouse_position(event) {
             this.last_mouse_position.x = event.offsetX;
