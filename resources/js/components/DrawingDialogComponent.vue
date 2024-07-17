@@ -201,7 +201,8 @@
                 :width="canvas_width"
                 :height="canvas_height"
                 @mousemove="draw"
-                @mouseenter="initialize_mouse_position"></canvas>
+                @mouseenter="initialize_mouse_position"
+                @click="drawInitialShape"></canvas>
         <svg ref="cursor_svg" xmlns="http://www.w3.org/2000/svg" v-bind:width="selected_tool_size" v-bind:height="selected_tool_size" viewBox="0 0 12 12">
             <circle cx="6" cy="6" r="5" stroke="rgb(0,0,0)" v-bind:fill="selected_tool_color"/>
         </svg>
@@ -379,6 +380,13 @@ export default {
         initialize_mouse_position(event) {
             this.last_mouse_position.x = event.offsetX;
             this.last_mouse_position.y = event.offsetY;
+        },
+        drawInitialShape(event) {
+            this.canvas_ctx.beginPath();
+            this.canvas_ctx.arc(event.offsetX, event.offsetY, this.selected_tool_size / 2, 0, 2 * Math.PI);
+            this.canvas_ctx.fillStyle = this.selected_tool_color;
+            this.canvas_ctx.fill();
+            this.canvas_ctx.closePath();
         },
         draw(event) {
             if(event.buttons === 1) { //draw only if left button is pressed
