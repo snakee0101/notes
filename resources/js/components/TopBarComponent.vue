@@ -154,7 +154,6 @@
 
         <section class="flex flex-row justify-between py-2 px-3 items-center" v-else>
             <menu-switcher-component></menu-switcher-component>
-            <button @click="showDrawingDialog()" class="btn btn-primary">Show drawing dialog</button>
             <search-component></search-component>
 
             <section class="flex flex-row items-center">
@@ -450,10 +449,6 @@ export default {
             this.repeat_every_unit = repeat_units[this.repeatStatus];
         },
         //TODO: How to undo multiple note actions?
-
-        showDrawingDialog() {
-            window.events.$emit('show_drawing_dialog');
-        },
         logout() {
             axios.get('/logout')
                  .then(res => location.reload());

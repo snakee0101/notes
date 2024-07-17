@@ -174,7 +174,7 @@
                         <i class="bi bi-three-dots-vertical icon-sm p-0"></i>
                     </template>
                     <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
-                    <b-dropdown-item href="#">Add drawing</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="openDrawingDialog()">Add drawing</b-dropdown-item>
                     <b-dropdown-item href="#" @click="convertToText()" v-if="isChecklist">Hide checkboxes
                     </b-dropdown-item>
                     <b-dropdown-item href="#" @click="uncheckAll()" v-if="isChecklist">Uncheck all
@@ -351,6 +351,9 @@ export default {
     },
     watch: {},
     methods: {
+        openDrawingDialog() {
+            window.events.$emit('show_drawing_dialog', 'new-note-component');
+        },
         addToChecklist() {
             this.checklist.push({
                 text: this.newChecklistItem,

@@ -238,7 +238,9 @@ export default {
             last_mouse_position: {
                 x: 0,
                 y: 0
-            }
+            },
+            target_note_component: null,
+            target_note: null
         };
     },
     computed: {
@@ -287,6 +289,13 @@ export default {
         window.events.$on('show_drawing_dialog', this.open);
     },
     methods: {
+        open(target_note_component, target_note = null) {
+            this.target_note_component = target_note_component;
+            this.target_note = target_note;
+
+            this.shown = true;
+            setTimeout(this.setDefaultTool, 50);
+        },
         setTool(tool) {
             this.tool = tool;
 
@@ -333,11 +342,6 @@ export default {
             };
 
             this.grid_style = grid_styles[grid_type];
-        },
-        open() {
-            this.shown = true;
-
-            setTimeout(this.setDefaultTool, 50);
         },
         setDefaultTool() {
             this.setToolByOption('brush', 'color', 'rgb(0,0,0)');
