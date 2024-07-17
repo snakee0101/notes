@@ -345,12 +345,18 @@ export default {
     created() {
         window.events.$on('reload_new_note_tags', this.reload_tags);
         window.events.$on('save_new_note_collaborators', this.reload_collaborators);
+        window.events.$on('autosave_drawing', this.autosave_drawing);
+
 
         //TODO: Save the note when clicked outside feature
         this.initialize_dependencies();
     },
     watch: {},
     methods: {
+        autosave_drawing(target_note_component, target_note, exported_image_data_url) {
+            if(target_note_component !== 'new-note-component')
+                return false;
+        },
         openDrawingDialog() {
             window.events.$emit('show_drawing_dialog', 'new-note-component');
         },

@@ -221,6 +221,7 @@ export default {
                 repeat_style: '',
                 position: ''
             },
+            canvas: {},
             canvas_ctx: {},
             canvas_width: 0,
             canvas_height: 0,
@@ -354,9 +355,13 @@ export default {
             this.canvas_height = inner_area_height - top_panel_height;
 
             this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
+            this.canvas = this.$refs['drawing_area'];
         },
         close() {
             this.shown = false;
+
+            let exported_image_data_url = this.canvas.toDataURL("image/jpeg", 1.0);
+            window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, exported_image_data_url);
         },
         initialize_mouse_position(event) {
             this.last_mouse_position.x = event.offsetX;
