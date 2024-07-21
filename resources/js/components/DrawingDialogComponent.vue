@@ -13,7 +13,7 @@
                            :style="'color:' + displayed_eraser_color"></i>
                     </template>
 
-                    <b-dropdown-item href="#">Clear page</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="clearCanvas">Clear page</b-dropdown-item>
                 </b-dropdown>
 
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
