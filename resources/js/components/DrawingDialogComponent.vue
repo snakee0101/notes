@@ -64,30 +64,6 @@
                     </div>
                 </b-dropdown>
 
-                <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret
-                            class="p-0 mr-3" @click="setTool('marker')">
-                    <template #button-content>
-                        <i class="bi bi-pen-fill" style="font-size: 1.5rem"
-                           :style="'color:' + displayed_marker_color"></i>
-                    </template>
-
-                    <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_9 in brush_colors[0]" class="color-circle" :class="(selected_marker_color === color_9) ? 'active' : ''" :style="'background:' + color_9" @click="setToolByOption('marker', 'color', color_9)"></a>
-                    </div>
-                    <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_10 in brush_colors[1]" class="color-circle" :class="(selected_marker_color === color_10) ? 'active' : ''" :style="'background:' + color_10" @click="setToolByOption('marker', 'color', color_10)"></a>
-                    </div>
-                    <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_11 in brush_colors[2]" class="color-circle" :class="(selected_marker_color === color_11) ? 'active' : ''" :style="'background:' + color_11" @click="setToolByOption('marker', 'color', color_11)"></a>
-                    </div>
-                    <div class="p-2 flex flex-row items-center">
-                        <a href="#" v-for="color_12 in brush_colors[3]" class="color-circle" :class="(selected_marker_color === color_12) ? 'active' : ''" :style="'background:' + color_12" @click="setToolByOption('marker', 'color', color_12)"></a>
-                    </div>
-                    <div class="p-2 flex flex-row items-center border-t-2 border-gray-200 justify-center">
-                        <a href="#" v-for="marker_size in brush_sizes" class="size-circle" :class="(selected_marker_size === marker_size) ? 'active' : ''" :style="{'padding': marker_size / 2.4 + 'px'}" @click="setToolByOption('marker', 'size', marker_size)"></a>
-                    </div>
-                </b-dropdown>
-
                 <b-dropdown size="lg" variant="link" split toggle-class="text-decoration-none" no-caret class="p-0">
                     <template #button-content>
                         <i class="bi bi-grid-3x3 text-gray-800" style="font-size: 1.5rem"></i>
@@ -230,10 +206,8 @@ export default {
             brush_sizes: [2, 4, 8, 12, 16, 20, 24, 30],
             selected_brush_color: 'rgb(0,0,0)',
             selected_pen_color: 'rgb(0,0,0)',
-            selected_marker_color: 'rgb(0,0,0)',
             selected_brush_size: 2,
             selected_pen_size: 2,
-            selected_marker_size: 2,
             selected_tool_size: 2,
             selected_tool_color: 'rgb(0,0,0)',
             tool: 'brush',
@@ -254,9 +228,6 @@ export default {
         },
         displayed_pen_color() {
             return (this.tool === 'pen') ? this.selected_pen_color : '#90a4ae';
-        },
-        displayed_marker_color() {
-            return (this.tool === 'marker') ? this.selected_marker_color : '#90a4ae';
         },
         canvas_style() {
             let style = {};
@@ -305,8 +276,6 @@ export default {
 
             this.selected_tool_color = this['selected_' + tool + '_color'];
             this.selected_tool_size = this['selected_' + tool + '_size'];
-
-            this.opacity = tool == 'marker' ? " / 25%" : " / 100%";
 
             setTimeout(() => document.getElementById('canvas').style.cursor = 'url(\'data:image/svg+xml;utf8,' + this.$refs['cursor_svg'].outerHTML + '\'), auto', 50);
         },
