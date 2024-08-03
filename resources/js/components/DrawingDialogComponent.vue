@@ -287,7 +287,7 @@ export default {
         setGrid(grid_type) {
             this.grid = grid_type;
 
-            let grid_styles = {
+           /* let grid_styles =
                 'Square' : {
                     image: 'linear-gradient(rgb(221 221 221) .1em, transparent .1em), linear-gradient(90deg, rgb(221 221 221) .1em, transparent .1em)',
                     size: '5em 5em',
@@ -312,7 +312,25 @@ export default {
                     repeat_style: '',
                     position: ''
                 }
-            };
+            };*/
+
+            if(grid_type == 'Square') {
+                let padding = 10;
+                let line_gap = 80;
+
+                for (var x = -15; x <= this.canvas_width; x += line_gap) { // negative offset - because grid should have no borders - it must be "infinite"
+                    this.canvas_ctx.moveTo(0.5 + x + padding, padding);
+                    this.canvas_ctx.lineTo(0.5 + x + padding, this.canvas_height + padding);
+                }
+
+                for (var y = -15; y <= this.canvas_height; y += line_gap) { // negative offset - because grid should have no borders - it must be "infinite"
+                    this.canvas_ctx.moveTo(padding, 0.5 + y + padding);
+                    this.canvas_ctx.lineTo(this.canvas_width + padding, 0.5 + y + padding);
+                }
+
+                this.canvas_ctx.strokeStyle = "black";
+                this.canvas_ctx.stroke();
+            }
 
             this.grid_style = grid_styles[grid_type];
         },
