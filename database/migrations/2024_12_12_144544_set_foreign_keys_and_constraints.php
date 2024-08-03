@@ -15,13 +15,6 @@ class SetForeignKeysAndConstraints extends Migration
                 ->onDelete('cascade');
         });
 
-        Schema::table('drawings', function (Blueprint $table) {
-            $table->foreign('note_id')
-                ->references('id')
-                ->on('notes')
-                ->onDelete('cascade');
-        });
-
         Schema::table('links', function (Blueprint $table) {
             $table->foreign('note_id')
                 ->references('id')
@@ -77,10 +70,21 @@ class SetForeignKeysAndConstraints extends Migration
                 ->on('checklists')
                 ->cascadeOnDelete();
         });
+
+        Schema::table('drawings', function (Blueprint $table) {
+            $table->foreign('note_id')
+                ->references('id')
+                ->on('notes')
+                ->onDelete('cascade');
+        });
     }
 
     public function down()
     {
+        Schema::table('drawings', function (Blueprint $table) {
+            $table->dropForeign(['note_id']);
+        });
+        
         Schema::table('tasks', function (Blueprint $table) {
             $table->dropForeign(['checklist_id']);
         });
@@ -112,10 +116,6 @@ class SetForeignKeysAndConstraints extends Migration
         });
 
         Schema::table('images', function (Blueprint $table) {
-            $table->dropForeign(['note_id']);
-        });
-
-        Schema::table('drawings', function (Blueprint $table) {
             $table->dropForeign(['note_id']);
         });
     }

@@ -84,6 +84,11 @@ class Note extends Model
     {
         return $this->hasMany(Image::class);
     }
+    
+    public function drawings()
+    {
+        return $this->hasMany(Drawing::class);
+    }
 
     public function reminders()
     {
