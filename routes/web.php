@@ -3,6 +3,7 @@
 use App\Actions\NoteIndexAction;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\CollaboratorController;
+use App\Http\Controllers\DrawingController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\NoteController;
@@ -53,6 +54,9 @@ Route::middleware('auth')->group(function() {
     Route::resource('image', ImageController::class)->except('destroy');
     Route::post('/image/delete/{image}', [ImageController::class, 'destroy'])->name('image.destroy');
     Route::put('/image/restore/{image_id}', [ImageController::class, 'restore'])->name('image.restore');
+
+    Route::resource('drawing', DrawingController::class)->except('destroy');
+
 
     Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');
     Route::delete('/reminder/{note}', [ReminderController::class, 'destroy'])->name('reminder.destroy');
