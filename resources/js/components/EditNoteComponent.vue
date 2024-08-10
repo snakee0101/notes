@@ -61,6 +61,20 @@
                 </div>
             </div>
 
+            <div class="images mt-4" v-if="typeof note.drawings !== 'undefined' && note.drawings.length > 0">
+                <h6 class="pb-1">Note drawings (drawings are saved immediately)</h6>
+                <div class="inline-block relative m-2" v-for="(drawing, index) in note.drawings">
+                    <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" style="height: 120px; cursor: pointer" @click="openImageViewer(drawing)">
+                    <a class="x-button rounded-full absolute top-1 left-1"
+                       v-b-tooltip.hover.bottom
+                       title="Delete image"
+                       style="cursor: pointer"
+                       @click.prevent="delete_drawing(index)">
+                        <i class="bi bi-x icon"></i>
+                    </a>
+                </div>
+            </div>
+
             <p class="mt-2">
                 <button class="btn btn-success btn-sm" @click="selectImage()">Add image</button>
                 <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
@@ -286,6 +300,9 @@ export default {
         delete_image(index) {
             axios.post('/image/delete/' + this.note.images[index].id)
                  .then(res => this.deleteImageCallback(this.note.images[index], index));
+        },
+        delete_drawing(index) {
+            alert('not yet implemented')
         },
         deleteImageCallback(deleted_image, index) {
             window.deleted_image = deleted_image;

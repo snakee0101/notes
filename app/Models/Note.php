@@ -22,7 +22,7 @@ class Note extends Model
     ];
 
     protected $appends = ['reminder'];
-    protected $with = ['checklist', 'links', 'images', 'owner', 'collaborators', 'tags'];
+    protected $with = ['checklist', 'links', 'images', 'drawings', 'owner', 'collaborators', 'tags'];
 
     public function toSearchableArray()
     {
@@ -84,7 +84,7 @@ class Note extends Model
     {
         return $this->hasMany(Image::class);
     }
-    
+
     public function drawings()
     {
         return $this->hasMany(Drawing::class);

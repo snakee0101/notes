@@ -367,11 +367,11 @@ export default {
     },
     watch: {},
     methods: {
-        autosave_drawing(target_note_component, target_note, exported_image_data_url) {
+        autosave_drawing(target_note_component, target_note, exported_image_data) {
             if(target_note_component !== 'new-note-component')
                 return false;
 
-            this.drawings.push(exported_image_data_url);
+            this.drawings.push(exported_image_data);
         },
         openDrawingDialog() {
             window.events.$emit('show_drawing_dialog', 'new-note-component');
@@ -507,6 +507,7 @@ export default {
                 collaborator_ids: this.note.collaborators.map( user => user.id )
             }).then(res => this.saveChecklist(res))
               .then(res => this.attach_images())
+              .then(res => this.attach_drawings())
               .then(res => this.refreshNotesContainer())
               .then(res => this.reset());
         },
@@ -533,6 +534,19 @@ export default {
                      .then(res => window.newNote.images.push(res.data));
             });
         },
+        attach_drawings() {
+            let note = window.newNote;
+
+            this.drawings.forEach(function (image_data_blob) {
+                let data = new FormData();
+
+                data.append('image', new File([image_data_blob], 'test.jpg'));
+                data.append('note_id', note.id);
+
+                axios.post('/drawing', data)
+                    .then(res => window.newNote.drawings.push(res.data));
+            });
+        },
         refreshNotesContainer() {
             window.events.$emit('note_created', window.newNote);
         },
@@ -548,6 +562,7 @@ export default {
             this.$refs['new-note-editor'].value = '';
 
             this.note.collaborators = [];
+            this.drawings = [];
             this.images = [];
             this.encoded_images = [];
 

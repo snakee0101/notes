@@ -27,9 +27,11 @@
 
         <div @click="openForEditing" style="cursor: pointer">
             <div class="images">
+                <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" v-for="drawing in note.drawings">
+            </div>
+            <div class="images">
                 <img :src="'data:image/jpg;base64,' + image.thumbnail_encoded" v-for="image in note.images">
             </div>
-
             <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>
 
             <div v-if="note.checklist && note.checklist.tasks.length > 0">

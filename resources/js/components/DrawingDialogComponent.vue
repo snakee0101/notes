@@ -359,8 +359,11 @@ export default {
         close() {
             this.shown = false;
 
-            let exported_image_data_url = this.canvas.toDataURL("image/jpeg", 1.0);
-            window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, exported_image_data_url);
+            this.canvas.toBlob(
+                (image_data) => {
+                    window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, image_data);
+                }, "image/jpeg", 1.0
+            );
 
             this.clearCanvas();
         },
