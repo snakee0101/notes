@@ -142,6 +142,7 @@ export default {
     },
     created() {
         window.events.$on('open_note_for_editing', this.openModal);
+        window.events.$on('autosave_drawing', this.autosave_drawing);
     },
     computed: {
         lastEditDate() {
@@ -157,6 +158,18 @@ export default {
         }
     },
     methods: {
+        autosave_drawing(target_note_component, target_note, exported_image_data, drawing_id) {
+            if(target_note_component !== 'edit-note-component')
+                return false;
+
+            let data = new FormData();
+
+            data.append('image', new File([exported_image_data], 'test.jpg'));
+            data.append('note_id', target_note.id);
+
+            axios.post('/drawing/' + drawing_id, data)
+                .then(r => console.log(r.response.data));
+        },
         openDrawingDialog(drawing) {
             window.events.$emit('show_drawing_dialog', 'edit-note-component', this.note, drawing);
         },

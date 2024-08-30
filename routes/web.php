@@ -55,7 +55,8 @@ Route::middleware('auth')->group(function() {
     Route::post('/image/delete/{image}', [ImageController::class, 'destroy'])->name('image.destroy');
     Route::put('/image/restore/{image_id}', [ImageController::class, 'restore'])->name('image.restore');
 
-    Route::resource('drawing', DrawingController::class)->except('destroy');
+    Route::resource('drawing', DrawingController::class)->except('update');
+    Route::post('/drawing/{drawing}', [DrawingController::class, 'update'])->name('drawing.update');
 
 
     Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');
