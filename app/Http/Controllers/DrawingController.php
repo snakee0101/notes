@@ -47,9 +47,11 @@ class DrawingController extends Controller
     {
         $image = $request->file('image'); // files could only be sent through POST request
 
-        return $drawing->update(
+        $drawing->update(
             Drawing::processUpload($image)
         );
+
+        return $drawing;
     }
 
     public function destroy(Drawing $drawing)

@@ -26,7 +26,7 @@
 
         <div class="images">
             <div class="inline-block relative m-2" v-for="(drawing, index) in drawings">
-                <img :src="drawing" style="height: 120px">
+                <img :src="drawing.url" style="height: 120px">
                 <a class="bg-gray-300 rounded-full absolute top-1 left-1"
                    v-b-tooltip.hover.bottom
                    title="Delete image"
@@ -367,11 +367,14 @@ export default {
     },
     watch: {},
     methods: {
-        autosave_drawing(target_note_component, target_note, exported_image_data) {
+        autosave_drawing(target_note_component, target_note, exported_image_data, drawing) {
             if(target_note_component !== 'new-note-component')
                 return false;
 
-            this.drawings.push(exported_image_data);
+            this.drawings.push({
+                blob: exported_image_data, // this is saved to database
+                url: URL.createObjectURL(exported_image_data) // this is displayed to the user
+            });
         },
         openDrawingDialog() {
             window.events.$emit('show_drawing_dialog', 'new-note-component');
@@ -537,10 +540,10 @@ export default {
         attach_drawings() {
             let note = window.newNote;
 
-            this.drawings.forEach(function (image_data_blob) {
+            this.drawings.forEach(function (drawing) {
                 let data = new FormData();
 
-                data.append('image', new File([image_data_blob], 'test.jpg'));
+                data.append('image', new File([drawing.blob], 'test.jpg'));
                 data.append('note_id', note.id);
 
                 axios.post('/drawing', data)

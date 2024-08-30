@@ -158,7 +158,7 @@ export default {
         }
     },
     methods: {
-        autosave_drawing(target_note_component, target_note, exported_image_data, drawing_id) {
+        autosave_drawing(target_note_component, target_note, exported_image_data, drawing) {
             if(target_note_component !== 'edit-note-component')
                 return false;
 
@@ -167,7 +167,7 @@ export default {
             data.append('image', new File([exported_image_data], 'test.jpg'));
             data.append('note_id', target_note.id);
 
-            axios.post('/drawing/' + drawing_id, data)
+            axios.post('/drawing/' + drawing.id, data)
                 .then(r => console.log(r.response.data));
         },
         openDrawingDialog(drawing) {

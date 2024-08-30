@@ -371,7 +371,7 @@ export default {
 
             this.canvas.toBlob(
                 (image_data) => {
-                    window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, image_data, this.drawing.id);
+                    window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, image_data, this.drawing);
                 }, "image/jpeg", 1.0
             );
 
