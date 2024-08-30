@@ -202,6 +202,7 @@ export default {
             canvas_ctx: null,
             canvas_width: 0,
             canvas_height: 0,
+            drawing: null,
             opacity: "/ 100%",
             brush_sizes: [2, 4, 8, 12, 16, 20, 24, 30],
             selected_brush_color: 'rgb(0,0,0)',
@@ -262,10 +263,11 @@ export default {
         window.events.$on('show_drawing_dialog', this.open);
     },
     methods: {
-        open(target_note_component, target_note = null) {
+        open(target_note_component, target_note = null, drawing = null) {
             this.target_note_component = target_note_component;
             this.target_note = target_note;
 
+            this.drawing = drawing;
             this.shown = true;
 
             setTimeout(this.initialize, 50);
@@ -349,8 +351,16 @@ export default {
             }
         },
         clearCanvas() {
-            this.canvas_ctx.fillStyle = 'white';
-            this.canvas_ctx.fillRect(0, 0, this.canvas_width, this.canvas_height);
+            if(this.drawing == null) {
+                this.canvas_ctx.fillStyle = 'white';
+                this.canvas_ctx.fillRect(0, 0, this.canvas_width, this.canvas_height);
+            } else {
+                this.canvas_ctx.clearRect(0, 0, this.canvas_width, this.canvas_height);
+
+                var img = new Image;
+                img.onload = () => this.canvas_ctx.drawImage(img,0,0);
+                img.src = 'data:image/jpg;base64,' + this.drawing.image_encoded;
+            }
         },
         setDefaultTool() {
             this.setToolByOption('brush', 'color', 'rgb(0,0,0)');

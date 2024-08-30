@@ -64,7 +64,7 @@
             <div class="images mt-4" v-if="typeof note.drawings !== 'undefined' && note.drawings.length > 0">
                 <h6 class="pb-1">Note drawings (drawings are saved immediately)</h6>
                 <div class="inline-block relative m-2" v-for="(drawing, index) in note.drawings">
-                    <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" style="height: 120px; cursor: pointer" @click="openImageViewer(drawing)">
+                    <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" style="height: 120px; cursor: pointer" @click="openDrawingDialog(drawing)">
                     <a class="x-button rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
                        title="Delete image"
@@ -157,6 +157,9 @@ export default {
         }
     },
     methods: {
+        openDrawingDialog(drawing) {
+            window.events.$emit('show_drawing_dialog', 'edit-note-component', this.note, drawing);
+        },
         removeLink(deleted_link) {
             window.linkToRestore = deleted_link;
             axios.delete('/link/' + deleted_link.id);
