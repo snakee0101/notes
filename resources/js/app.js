@@ -35,6 +35,7 @@ Vue.component('top-bar-component', require('./components/TopBarComponent.vue').d
 Vue.component('edit-note-component', require('./components/EditNoteComponent.vue').default);
 Vue.component('image-viewer-component', require('./components/ImageViewerComponent.vue').default);
 Vue.component('drawing-dialog-component', require('./components/DrawingDialogComponent.vue').default);
+Vue.component('photo-capture-dialog-component', require('./components/PhotoCaptureDialogComponent.vue').default);
 Vue.component('theme-switcher-component', require('./components/ThemeSwitcher.vue').default);
 
 

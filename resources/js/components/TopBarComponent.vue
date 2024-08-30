@@ -257,6 +257,7 @@
         </b-modal>
 
         <drawing-dialog-component></drawing-dialog-component>
+        <photo-capture-dialog-component></photo-capture-dialog-component>
     </header>
 </template>
 

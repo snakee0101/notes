@@ -188,6 +188,7 @@
                     </template>
                     <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
                     <b-dropdown-item href="#" @click="openDrawingDialog()">Add drawing</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="openPhotoCaptureDialog()">Take photo</b-dropdown-item>
                     <b-dropdown-item href="#" @click="convertToText()" v-if="isChecklist">Hide checkboxes
                     </b-dropdown-item>
                     <b-dropdown-item href="#" @click="uncheckAll()" v-if="isChecklist">Uncheck all
@@ -378,6 +379,9 @@ export default {
         },
         openDrawingDialog() {
             window.events.$emit('show_drawing_dialog', 'new-note-component');
+        },
+        openPhotoCaptureDialog() {
+            window.events.$emit('show_photo_capture_dialog', 'new-note-component');
         },
         addToChecklist() {
             this.checklist.push({
