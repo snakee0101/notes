@@ -10,9 +10,14 @@
                 <button class="btn btn-warning">Take photo</button>
             </div>
         </div>
-        <canvas ref="drawing_area" id="canvas"
-                :width="canvas_width"
-                :height="canvas_height"></canvas>
+
+        <div class="wrapper">
+            <canvas ref="drawing_area" id="canvas"
+                    :width="canvas_width"
+                    :height="canvas_height" v-if="is_photo_taken"></canvas>
+
+            <video autoplay v-else></video>
+        </div>
     </div>
 </template>
 
@@ -27,7 +32,8 @@ export default {
             canvas_width: 0,
             canvas_height: 0,
             target_note_component: null,
-            target_note: null
+            target_note: null,
+            is_photo_taken: false,
         };
     },
     computed: {
@@ -45,7 +51,6 @@ export default {
             this.shown = true;
 
             setTimeout(this.initialize, 50);
-            this.setDefaultTool();
         },
         initialize() {
             this.canvas_width = window.innerWidth;
@@ -89,5 +94,11 @@ export default {
 </script>
 
 <style scoped>
-
+    video {
+        width: 100%;
+    }
+    .wrapper {
+        background: #000;
+        height: 100%;
+    }
 </style>
