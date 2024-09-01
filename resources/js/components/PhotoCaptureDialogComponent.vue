@@ -75,7 +75,7 @@ export default {
         },
         close() {
             window.events.$emit('autosave_photo', this.target_note_component, this.target_note, this.saved_photo);
-
+            this.video.srcObject = null; // close mediastream
             this.shown = false;
         }
     }
