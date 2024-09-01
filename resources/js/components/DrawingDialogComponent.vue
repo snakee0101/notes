@@ -203,6 +203,7 @@ export default {
             canvas_width: 0,
             canvas_height: 0,
             drawing: null,
+            drawing_index: null,
             opacity: "/ 100%",
             brush_sizes: [2, 4, 8, 12, 16, 20, 24, 30],
             selected_brush_color: 'rgb(0,0,0)',
@@ -263,14 +264,15 @@ export default {
         window.events.$on('show_drawing_dialog', this.open);
     },
     methods: {
-        open(target_note_component, target_note = null, drawing = null) {
+        open(target_note_component, target_note = null, drawing = null, drawing_index = null) {
             this.target_note_component = target_note_component;
             this.target_note = target_note;
 
             this.drawing = drawing;
+            this.drawing_index = drawing_index;
             this.shown = true;
 
-            setTimeout(this.initialize, 50);
+            setTimeout(this.initialize, 150);
             this.setDefaultTool();
         },
         setTool(tool) {
@@ -359,7 +361,7 @@ export default {
 
                 var img = new Image;
                 img.onload = () => this.canvas_ctx.drawImage(img,0,0);
-                img.src = 'data:image/jpg;base64,' + this.drawing.image_encoded;
+                img.src = URL.createObjectURL(this.drawing.image_encoded);
             }
         },
         setDefaultTool() {
@@ -371,7 +373,7 @@ export default {
 
             this.canvas.toBlob(
                 (image_data) => {
-                    window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, image_data, this.drawing);
+                    window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, image_data, this.drawing, this.drawing_index);
                 }, "image/jpeg", 1.0
             );
 
