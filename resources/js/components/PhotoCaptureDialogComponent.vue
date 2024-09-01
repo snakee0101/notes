@@ -76,8 +76,7 @@ export default {
             this.video.style.width = this.video.videoWidth + 'px';
             this.video.style.height = this.video.videoHeight + 'px';
 
-            let ctx = this.canvas.getContext('2d');
-            ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+            this.canvas_ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
 
             this.canvas.toBlob(
                 (image_data) => this.saved_photo = image_data,
