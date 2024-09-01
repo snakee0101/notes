@@ -8,12 +8,6 @@
                 <button class="btn btn-warning" @click="start_capture()">Start capture</button>
                 <button class="btn btn-warning" @click="take_photo()">Take photo</button>
             </div>
-            <div class="mr-3 my-3">
-                Select camera:
-                <select name="camera_selection" id="selected_camera">
-                    <option :value="videoDevice.deviceId" v-for="videoDevice in video_devices">{{ videoDevice.label }}</option>
-                </select>
-            </div>
         </div>
 
         <div class="wrapper">
@@ -35,18 +29,10 @@ export default {
             canvas_height: 0,
             target_note_component: null,
             target_note: null,
-            is_photo_taken: false,
-            video_settings: {},
-            video_devices: [],
             saved_photo: null
         };
     },
     computed: {
-    },
-    watch: {
-        is_photo_taken: function (newValue, oldValue) {
-
-        }
     },
     created() {
         window.events.$on('show_photo_capture_dialog', this.open);
@@ -56,7 +42,6 @@ export default {
             this.target_note_component = target_note_component;
             this.target_note = target_note;
 
-            this.is_photo_taken = false;
             this.shown = true;
 
             setTimeout(this.initialize, 50);
@@ -84,10 +69,6 @@ export default {
                         video.style.height = video.videoHeight + 'px';
                         video.play();
                     };
-                })
-                .catch((err) => {
-                    // always check for errors at the end.
-                    console.error(`${err.name}: ${err.message}`);
                 });
         },
         take_photo() {
@@ -119,20 +100,6 @@ export default {
 
             this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
             this.canvas = this.$refs['drawing_area'];
-
-            setTimeout(this.clearCanvas, 100)
-        },
-        clearCanvas() {
-            /*if(this.drawing == null) {
-                this.canvas_ctx.fillStyle = 'white';
-                this.canvas_ctx.fillRect(0, 0, this.canvas_width, this.canvas_height);
-            } else {
-                this.canvas_ctx.clearRect(0, 0, this.canvas_width, this.canvas_height);
-
-                var img = new Image;
-                img.onload = () => this.canvas_ctx.drawImage(img,0,0);
-                img.src = 'data:image/jpg;base64,' + this.drawing.image_encoded;
-            }*/
         },
         close() {
             let canvas = document.querySelector("#photo_canvas");
