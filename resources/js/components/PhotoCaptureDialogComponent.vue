@@ -25,8 +25,7 @@ export default {
             shown: false,
             canvas: null,
             canvas_ctx: null,
-            canvas_width: 0,
-            canvas_height: 0,
+            video: null,
             target_note_component: null,
             target_note: null,
             saved_photo: null
@@ -47,11 +46,8 @@ export default {
             setTimeout(this.initialize, 50);
         },
         start_capture() {
-            let video = document.querySelector("video");
-            let canvas = document.querySelector("#photo_canvas");
-
-            video.style.display = "inline-block";
-            canvas.style.display = 'none';
+            this.video.style.display = "inline-block";
+            this.canvas.style.display = 'none';
 
             const constraints = {
                 audio: false,
@@ -61,45 +57,37 @@ export default {
             window.navigator.mediaDevices
                 .getUserMedia(constraints)
                 .then((mediaStream) => {
-                    const video = document.querySelector("video");
-                    video.srcObject = mediaStream;
+                    this.video.srcObject = mediaStream;
 
-                    video.onloadedmetadata = () => {
-                        video.style.width = video.videoWidth + 'px';
-                        video.style.height = video.videoHeight + 'px';
-                        video.play();
+                    this.video.onloadedmetadata = () => {
+                        this.video.style.width = video.videoWidth + 'px';
+                        this.video.style.height = video.videoHeight + 'px';
+                        this.video.play();
                     };
                 });
         },
         take_photo() {
-            const video = document.querySelector("video");
-            video.style.display = "none";
+            this.video.style.display = "none";
 
-            let canvas = document.querySelector("#photo_canvas");
-            canvas.style.display = 'inline-block';
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            this.canvas.style.display = 'inline-block';
+            this.canvas.width = this.video.videoWidth;
+            this.canvas.height = this.video.videoHeight;
 
-            video.style.width = video.videoWidth + 'px';
-            video.style.height = video.videoHeight + 'px';
+            this.video.style.width = this.video.videoWidth + 'px';
+            this.video.style.height = this.video.videoHeight + 'px';
 
-            let ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            let ctx = this.canvas.getContext('2d');
+            ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
 
-            canvas.toBlob(
+            this.canvas.toBlob(
                 (image_data) => this.saved_photo = image_data,
                 "image/jpeg", 1.0
             );
         },
         initialize() {
-            this.canvas_width = window.innerWidth;
-
-            let top_panel_height = document.querySelector('.top-bar').offsetHeight;
-            let inner_area_height = window.innerHeight;
-            this.canvas_height = inner_area_height - top_panel_height;
-
-            this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
-            this.canvas = this.$refs['drawing_area'];
+            this.canvas = document.querySelector("#photo_canvas");
+            this.canvas_ctx = document.querySelector("#photo_canvas").getContext('2d');
+            this.video = document.querySelector("video");
         },
         close() {
             let canvas = document.querySelector("#photo_canvas");
