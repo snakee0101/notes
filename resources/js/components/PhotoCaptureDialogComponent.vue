@@ -18,10 +18,7 @@
 
         <div class="wrapper">
             <video autoplay></video>
-
-            <canvas id="photo_canvas"
-                    :width="canvas_width"
-                    :height="canvas_height"></canvas>
+            <canvas id="photo_canvas"></canvas>
         </div>
     </div>
 </template>
@@ -65,17 +62,11 @@ export default {
             setTimeout(this.initialize, 50);
         },
         start_capture() {
-            const video = document.querySelector("video");
-            video.style.display = "inline-block";
-
+            let video = document.querySelector("video");
             let canvas = document.querySelector("#photo_canvas");
+
+            video.style.display = "inline-block";
             canvas.style.display = 'none';
-
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-
-            video.style.width = video.videoWidth + 'px';
-            video.style.height = video.videoHeight + 'px';
 
             const constraints = {
                 audio: false,
@@ -87,7 +78,10 @@ export default {
                 .then((mediaStream) => {
                     const video = document.querySelector("video");
                     video.srcObject = mediaStream;
+
                     video.onloadedmetadata = () => {
+                        video.style.width = video.videoWidth + 'px';
+                        video.style.height = video.videoHeight + 'px';
                         video.play();
                     };
                 })
