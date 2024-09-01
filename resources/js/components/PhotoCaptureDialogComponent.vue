@@ -48,11 +48,7 @@ export default {
 
             window.navigator.mediaDevices
                 .getUserMedia({ audio: false, video: true })
-                .then((mediaStream) => {
-                    this.video.srcObject = mediaStream;
-
-                    this.video.onloadedmetadata = () => this.video.play();
-                });
+                .then((mediaStream) => this.video.srcObject = mediaStream );
         },
         take_photo() {
             this.toggle_preview(true);
