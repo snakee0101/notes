@@ -361,6 +361,7 @@ export default {
         window.events.$on('reload_new_note_tags', this.reload_tags);
         window.events.$on('save_new_note_collaborators', this.reload_collaborators);
         window.events.$on('autosave_drawing', this.autosave_drawing);
+        window.events.$on('autosave_photo', this.autosave_photo);
 
 
         //TODO: Save the note when clicked outside feature
@@ -376,6 +377,16 @@ export default {
                 blob: exported_image_data, // this is saved to database
                 url: URL.createObjectURL(exported_image_data) // this is displayed to the user
             });
+        },
+        autosave_photo(target_note_component, target_note, exported_image_data) {
+            if(target_note_component !== 'new-note-component')
+                return false;
+
+            this.images.push(
+                new File([exported_image_data], Math.floor(Math.random() * 1000000000000) + '.jpg')
+            );
+
+            this.encoded_images.push( URL.createObjectURL(exported_image_data) );
         },
         openDrawingDialog() {
             window.events.$emit('show_drawing_dialog', 'new-note-component');

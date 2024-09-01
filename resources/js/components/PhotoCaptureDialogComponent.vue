@@ -2,21 +2,26 @@
     <div class="drawer" v-show="shown">
         <div class="top-bar flex flex-row justify-between bg-white">
             <div class="ml-3 my-3">
-                <a href="#" @click.prevent="close()" class="p-2 pt-3 hover:bg-gray-100 mr-4">
-                    <i class="bi bi-arrow-left text-gray-800" style="font-size: 1.5rem"></i>
-                </a>
+                <button @click="close()">Go back & save</button>
             </div>
             <div class="mr-3 my-3 flex flex-row items-center">
-                <button class="btn btn-warning">Take photo</button>
+                <button class="btn btn-warning" @click="start_capture()">Start capture</button>
+                <button class="btn btn-warning" @click="take_photo()">Take photo</button>
+            </div>
+            <div class="mr-3 my-3">
+                Select camera:
+                <select name="camera_selection" id="selected_camera">
+                    <option :value="videoDevice.deviceId" v-for="videoDevice in video_devices">{{ videoDevice.label }}</option>
+                </select>
             </div>
         </div>
 
         <div class="wrapper">
-            <canvas ref="drawing_area" id="canvas"
-                    :width="canvas_width"
-                    :height="canvas_height" v-if="is_photo_taken"></canvas>
+            <video autoplay></video>
 
-            <video autoplay v-else></video>
+            <canvas id="photo_canvas"
+                    :width="canvas_width"
+                    :height="canvas_height"></canvas>
         </div>
     </div>
 </template>
@@ -34,11 +39,17 @@ export default {
             target_note_component: null,
             target_note: null,
             is_photo_taken: false,
+            video_settings: {},
+            video_devices: [],
+            saved_photo: null
         };
     },
     computed: {
     },
     watch: {
+        is_photo_taken: function (newValue, oldValue) {
+
+        }
     },
     created() {
         window.events.$on('show_photo_capture_dialog', this.open);
@@ -48,9 +59,62 @@ export default {
             this.target_note_component = target_note_component;
             this.target_note = target_note;
 
+            this.is_photo_taken = false;
             this.shown = true;
 
             setTimeout(this.initialize, 50);
+        },
+        start_capture() {
+            const video = document.querySelector("video");
+            video.style.display = "inline-block";
+
+            let canvas = document.querySelector("#photo_canvas");
+            canvas.style.display = 'none';
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            video.style.width = video.videoWidth + 'px';
+            video.style.height = video.videoHeight + 'px';
+
+            const constraints = {
+                audio: false,
+                video: true,
+            };
+
+            window.navigator.mediaDevices
+                .getUserMedia(constraints)
+                .then((mediaStream) => {
+                    const video = document.querySelector("video");
+                    video.srcObject = mediaStream;
+                    video.onloadedmetadata = () => {
+                        video.play();
+                    };
+                })
+                .catch((err) => {
+                    // always check for errors at the end.
+                    console.error(`${err.name}: ${err.message}`);
+                });
+        },
+        take_photo() {
+            const video = document.querySelector("video");
+            video.style.display = "none";
+
+            let canvas = document.querySelector("#photo_canvas");
+            canvas.style.display = 'inline-block';
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            video.style.width = video.videoWidth + 'px';
+            video.style.height = video.videoHeight + 'px';
+
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob(
+                (image_data) => this.saved_photo = image_data,
+                "image/jpeg", 1.0
+            );
         },
         initialize() {
             this.canvas_width = window.innerWidth;
@@ -59,15 +123,13 @@ export default {
             let inner_area_height = window.innerHeight;
             this.canvas_height = inner_area_height - top_panel_height;
 
-            if(this.canvas == null){
-                this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
-                this.canvas = this.$refs['drawing_area'];
+            this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
+            this.canvas = this.$refs['drawing_area'];
 
-                setTimeout(this.clearCanvas, 100)
-            }
+            setTimeout(this.clearCanvas, 100)
         },
         clearCanvas() {
-            if(this.drawing == null) {
+            /*if(this.drawing == null) {
                 this.canvas_ctx.fillStyle = 'white';
                 this.canvas_ctx.fillRect(0, 0, this.canvas_width, this.canvas_height);
             } else {
@@ -76,18 +138,16 @@ export default {
                 var img = new Image;
                 img.onload = () => this.canvas_ctx.drawImage(img,0,0);
                 img.src = 'data:image/jpg;base64,' + this.drawing.image_encoded;
-            }
+            }*/
         },
         close() {
-            this.shown = false;
-
-            this.canvas.toBlob(
-                (image_data) => {
-                    window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, image_data, this.drawing);
-                }, "image/jpeg", 1.0
+            let canvas = document.querySelector("#photo_canvas");
+            canvas.toBlob(
+                (image_data) => window.events.$emit('autosave_photo', this.target_note_component, this.target_note, this.saved_photo),
+                "image/jpeg", 1.0
             );
 
-            this.clearCanvas();
+            this.shown = false;
         }
     }
 }
@@ -95,10 +155,15 @@ export default {
 
 <style scoped>
     video {
-        width: 100%;
+        display: inline-block;
+        margin: auto;
+        width: 70%;
     }
     .wrapper {
         background: #000;
         height: 100%;
+    }
+    canvas {
+        display: none;
     }
 </style>
