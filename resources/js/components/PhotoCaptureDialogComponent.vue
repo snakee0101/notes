@@ -31,8 +31,6 @@ export default {
             saved_photo: null
         };
     },
-    computed: {
-    },
     created() {
         window.events.$on('show_photo_capture_dialog', this.open);
     },
@@ -46,16 +44,10 @@ export default {
             setTimeout(this.initialize, 50);
         },
         start_capture() {
-            this.video.style.display = "inline-block";
-            this.canvas.style.display = 'none';
-
-            const constraints = {
-                audio: false,
-                video: true,
-            };
+            this.toggle_preview(false);
 
             window.navigator.mediaDevices
-                .getUserMedia(constraints)
+                .getUserMedia({ audio: false, video: true })
                 .then((mediaStream) => {
                     this.video.srcObject = mediaStream;
 
@@ -63,21 +55,25 @@ export default {
                 });
         },
         take_photo() {
-            this.video.style.display = "none";
+            this.toggle_preview(true);
+            this.resize_video();
 
-            this.canvas.style.display = 'inline-block';
+            this.canvas_ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+            this.canvas.toBlob(
+                (image_data) => this.saved_photo = image_data,
+                "image/jpeg", 1.0
+            );
+        },
+        toggle_preview(is_visible) {
+            this.video.style.display = is_visible ? 'none' : 'block';
+            this.canvas.style.display = is_visible ? 'block' : 'none';
+        },
+        resize_video() {
             this.canvas.width = this.video.videoWidth;
             this.canvas.height = this.video.videoHeight;
 
             this.video.style.width = this.video.videoWidth + 'px';
             this.video.style.height = this.video.videoHeight + 'px';
-
-            this.canvas_ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-
-            this.canvas.toBlob(
-                (image_data) => this.saved_photo = image_data,
-                "image/jpeg", 1.0
-            );
         },
         initialize() {
             this.canvas = document.querySelector("#photo_canvas");
@@ -95,9 +91,8 @@ export default {
 
 <style scoped>
     video {
-        display: inline-block;
+        display: block;
         margin: auto;
-        width: 70%;
     }
     .wrapper {
         background: #000;
@@ -105,5 +100,6 @@ export default {
     }
     canvas {
         display: none;
+        margin: auto;
     }
 </style>
