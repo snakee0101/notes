@@ -59,11 +59,7 @@ export default {
                 .then((mediaStream) => {
                     this.video.srcObject = mediaStream;
 
-                    this.video.onloadedmetadata = () => {
-                        this.video.style.width = video.videoWidth + 'px';
-                        this.video.style.height = video.videoHeight + 'px';
-                        this.video.play();
-                    };
+                    this.video.onloadedmetadata = () => this.video.play();
                 });
         },
         take_photo() {
