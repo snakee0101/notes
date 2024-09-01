@@ -44,15 +44,15 @@ export default {
             setTimeout(this.initialize, 50);
         },
         start_capture() {
-            this.toggle_preview(false);
+            this.toggle_preview_visibility(false);
 
             window.navigator.mediaDevices
                 .getUserMedia({ audio: false, video: true })
                 .then((mediaStream) => this.video.srcObject = mediaStream );
         },
         take_photo() {
-            this.toggle_preview(true);
-            this.resize_video();
+            this.toggle_preview_visibility(true);
+            this.resize_video_to_true_dimensions();
 
             this.canvas_ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
             this.canvas.toBlob(
@@ -60,16 +60,13 @@ export default {
                 "image/jpeg", 1.0
             );
         },
-        toggle_preview(is_visible) {
+        toggle_preview_visibility(is_visible) {
             this.video.style.display = is_visible ? 'none' : 'block';
             this.canvas.style.display = is_visible ? 'block' : 'none';
         },
-        resize_video() {
-            this.canvas.width = this.video.videoWidth;
-            this.canvas.height = this.video.videoHeight;
-
-            this.video.style.width = this.video.videoWidth + 'px';
-            this.video.style.height = this.video.videoHeight + 'px';
+        resize_video_to_true_dimensions() {
+            this.video.width = this.canvas.width = this.video.videoWidth;
+            this.video.height = this.canvas.height = this.video.videoHeight;
         },
         initialize() {
             this.canvas = document.querySelector("#photo_canvas");
