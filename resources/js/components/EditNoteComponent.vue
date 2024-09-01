@@ -77,6 +77,7 @@
 
             <p class="mt-2">
                 <button class="btn btn-success btn-sm" @click="selectImage()">Add image</button>
+                <button class="btn btn-success btn-sm" @click="openPhotoCaptureDialog()">Take photo</button>
                 <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
                        @change="handleFile()">
 
@@ -143,6 +144,7 @@ export default {
     created() {
         window.events.$on('open_note_for_editing', this.openModal);
         window.events.$on('autosave_drawing', this.autosave_drawing);
+        window.events.$on('autosave_photo', this.autosave_photo);
     },
     computed: {
         lastEditDate() {
@@ -170,8 +172,21 @@ export default {
             axios.post('/drawing/' + drawing.id, data)
                 .then(r => console.log(r.response.data));
         },
+        autosave_photo(target_note_component, target_note, exported_image_data) {
+            if(target_note_component !== 'note-component' || target_note.id !== this.note.id)
+                return false;
+
+            this.handleFile(
+                new File([exported_image_data], Math.floor(Math.random() * 1000000000000) + '.jpg')
+            );
+
+            this.encoded_images.push( URL.createObjectURL(exported_image_data) );
+        },
         openDrawingDialog(drawing) {
             window.events.$emit('show_drawing_dialog', 'edit-note-component', this.note, drawing);
+        },
+        openPhotoCaptureDialog() {
+            window.events.$emit('show_photo_capture_dialog', 'note-component', this.note);
         },
         removeLink(deleted_link) {
             window.linkToRestore = deleted_link;
@@ -297,12 +312,12 @@ export default {
         selectImage() {
             this.$refs['image'].click();
         },
-        handleFile() {
-            let file = this.$refs['image'].files[0];
+        handleFile(specific_file = null) {
+            let file = specific_file ?? this.$refs['image'].files[0];
             const reader = new FileReader();
 
             reader.onloadend = () => {
-                let image = this.$refs['image'].files[0];
+                let image = file;
 
                 let data = new FormData();
                 data.append('image', image, image.name);
