@@ -89,11 +89,7 @@ export default {
             this.video = document.querySelector("video");
         },
         close() {
-            let canvas = document.querySelector("#photo_canvas");
-            canvas.toBlob(
-                (image_data) => window.events.$emit('autosave_photo', this.target_note_component, this.target_note, this.saved_photo),
-                "image/jpeg", 1.0
-            );
+            window.events.$emit('autosave_photo', this.target_note_component, this.target_note, this.saved_photo);
 
             this.shown = false;
         }
