@@ -190,13 +190,10 @@
                     <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
                     <b-dropdown-item href="#" @click="openDrawingDialog()">Add drawing</b-dropdown-item>
                     <b-dropdown-item href="#" @click="openPhotoCaptureDialog()">Take photo</b-dropdown-item>
-                    <b-dropdown-item href="#" @click="convertToText()" v-if="isChecklist">Hide checkboxes
-                    </b-dropdown-item>
-                    <b-dropdown-item href="#" @click="uncheckAll()" v-if="isChecklist">Uncheck all
-                    </b-dropdown-item>
-                    <b-dropdown-item href="#" @click="removeCompleted()" v-if="isChecklist">Remove completed
-                    </b-dropdown-item>
-                    <b-dropdown-item href="#" @click="convertToChecklist()" v-else>Show checkboxes</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="convertToText()" v-if="isChecklist">Convert to text</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="uncheckAll()" v-if="isChecklist">Uncheck all</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="removeCompleted()" v-if="isChecklist">Remove completed</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="convertToChecklist()" v-else>Convert to checklist</b-dropdown-item>
                 </b-dropdown>
             </a>
 
@@ -316,7 +313,6 @@
 </template>
 
 <script>
-import moment from 'moment';
 import SetLabelsComponent from "./SetLabelsComponent";
 
 let reminders = require('./mixins/reminders.js');
@@ -447,11 +443,11 @@ export default {
         },
         convertToChecklist() {
             let unformatted_text = this.$refs['new-note-editor'].editor.element.innerText;
-            let items = unformatted_text.split(/\n/m);
-            let blanks_deleted = items.filter(function (item) {
-                return !(new RegExp(/^\s+$/)).test(item); //remove spaces
-            }).filter(function (item) {
-                return item != ''; //remove empty lines
+            let lines = unformatted_text.split(/\n/m);
+
+            this.checklist = lines.filter(function (line) {
+                return line != '' &&
+                       (new RegExp(/^\s+$/)).test(line) == false; //remove spaces and empty lines
             }).map(function (text) {
                 return {
                     text: text,
@@ -460,7 +456,6 @@ export default {
                 };
             });
 
-            this.checklist = blanks_deleted;
             this.isChecklist = true;
         },
         convertToText() {

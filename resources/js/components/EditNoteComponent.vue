@@ -81,10 +81,10 @@
                 <input type="file" ref="image" class="hidden" accept="image/jpeg,image/png,image/gif"
                        @change="handleFile()">
 
-                <button class="btn btn-danger btn-sm" @click="convertToText()" v-if="isChecklist">Hide checkboxes</button>
+                <button class="btn btn-danger btn-sm" @click="convertToText()" v-if="isChecklist">Convert to text</button>
                 <button class="btn btn-warning btn-sm" @click="uncheckAll()" v-if="isChecklist">Uncheck all</button>
                 <button class="btn btn-danger btn-sm" @click="removeCompleted()" v-if="isChecklist">Remove completed</button>
-                <button class="btn btn-primary btn-sm" @click="convertToChecklist()" v-else>Show checkboxes</button>
+                <button class="btn btn-primary btn-sm" @click="convertToChecklist()" v-else>Convert to checklist</button>
             </p>
 
             <div v-for="link in note.links" class="mt-1">
