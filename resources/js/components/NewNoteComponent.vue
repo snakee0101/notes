@@ -44,7 +44,7 @@
 
         </textarea>
 
-        <div v-show="isChecklist">
+        <div v-show="isChecklist" class="checklist">
             <div class="form-check mb-2 flex flex-col" v-for="(item, index) in checklist" :key="item.key">
                 <div class="flex flex-row">
                     <a href="#" @click.prevent="moveItem(item, index, 'up')">

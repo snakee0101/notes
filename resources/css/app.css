@@ -77,6 +77,10 @@
     --top-bar-icon-hover-color: #FBBF24;
 }
 
+.checklist input {
+    background: var(--page-background) !important;
+}
+
 .top-bar-icon-color { color: var(--top-bar-icon-color) }
 .top-bar-icon-color:hover { color: var(--top-bar-icon-hover-color) }
 
