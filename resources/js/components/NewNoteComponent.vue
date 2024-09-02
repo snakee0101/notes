@@ -540,7 +540,7 @@ export default {
                 axios.post('/checklist', {
                     'checklist_data': this.checklist,
                     'note_id': note.id
-                }).then(res => window.newNote = res.data);
+                }).then(res => Object.assign(window.newNote, res.data));
         },
         attach_images() {
             let note = window.newNote;
