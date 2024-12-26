@@ -43,10 +43,11 @@ class NoteController extends Controller
 
         foreach($links as $link)
             Link::persist($link['url'], $link['name'], $note);
-
+           
+        $note->refresh();
         $note->searchable();
 
-        return $note->fresh();
+        return $note;
     }
 
     public function show(Note $note)

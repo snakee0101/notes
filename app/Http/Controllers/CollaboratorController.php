@@ -33,8 +33,11 @@ class CollaboratorController extends Controller
         {
             User::find($detachedCollaboratorId)->notify( new CollaboratorWasDeletedNotification($note) );
         }
+        
+        $note->refresh();
+        $note->searchable();
 
-        return $note->fresh()->collaborators->pluck('email');
+        return $note->collaborators->pluck('email');
     }
 
     public function check($email) //returns user object, if it exists

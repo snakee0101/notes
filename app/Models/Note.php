@@ -33,6 +33,7 @@ class Note extends Model
             'color' => $this->color,
             'tags' => $this->tags()->pluck('name')->toArray(),
             'type' => NoteTypeDetector::select($this)->detectTypes(),
+            'owners' => [$this->owner_id, ...$this->collaborators->pluck('id')->toArray()],
             'recognized_text' => $this->images->reduce(function($carry, $image) {
                 return $carry . ',' . $image->recognized_text;
             })
