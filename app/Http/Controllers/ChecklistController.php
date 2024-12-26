@@ -20,7 +20,10 @@ class ChecklistController extends Controller
 
         $checklist->tasks()->createMany( Checklist::wrap($request->checklist_data) ); //Save all tasks to the checklist
 
-        return $note->fresh();
+        $note->refresh();
+        $note->searchable();
+
+        return $note;
     }
 
     public function update(Request $request, Checklist $checklist) //updates tasks in checklist (in fact - it just replaces them)
@@ -30,7 +33,12 @@ class ChecklistController extends Controller
         $checklist->tasks()->delete();
         $checklist->tasks()->createMany( Checklist::wrap($request->tasks) );
 
-        return $checklist->note->fresh();
+        $note = $checklist->note;
+
+        $note->refresh();
+        $note->searchable();
+
+        return $note;
     }
 
     public function destroy(Note $note)
@@ -42,7 +50,10 @@ class ChecklistController extends Controller
             $note->checklist()->delete();
         }
 
-        return $note->fresh();
+        $note->refresh();
+        $note->searchable();
+
+        return $note;
     }
 
     public function uncheck_all(Checklist $checklist)
@@ -50,14 +61,31 @@ class ChecklistController extends Controller
         abort_if(Gate::denies('checklist', $checklist->note), 403, 'Only owner and collaborators can manipulate checklists');
 
         $checklist->uncheckAll();
-        return $checklist->note;
+       
+        $note = $checklist->note;
+
+        $note->refresh();
+        $note->searchable();
+
+        return $note;
     }
 
     public function remove_completed(Checklist $checklist)
     {
         abort_if(Gate::denies('checklist', $checklist->note), 403, 'Only owner and collaborators can manipulate checklists');
 
+        $note = Note::find($checklist->note->id);
+
         $checklist->removeCompleted();
-        return Note::find($checklist->note->id);
+        $checklist->refresh();
+
+        if($checklist->tasks()->count() == 0) {
+            $checklist->delete();
+        }
+
+        $note->refresh();
+        $note->searchable();
+
+        return $note;
     }
 }
