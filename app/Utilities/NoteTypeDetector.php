@@ -32,6 +32,12 @@ class NoteTypeDetector
             $this->types[] = 'links';
     }
 
+    private function detectDrawings()
+    {
+        if ($this->note->drawings()->exists())
+            $this->types[] = 'drawings';
+    }
+
     public static function select(Note $note) : static
     {
         return new static($note);
@@ -42,6 +48,8 @@ class NoteTypeDetector
         $this->detectImages();
         $this->detectChecklist();
         $this->detectLinks();
+        $this->detectDrawings();
+
         return $this->types;
     }
 }
