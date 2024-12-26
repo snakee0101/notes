@@ -52,7 +52,9 @@ class DrawingController extends Controller
 
     public function restore($drawing_id)
     {
-        Drawing::withTrashed()->findOrFail($drawing_id)
-                              ->restore();
+        $drawing = Drawing::withTrashed()->findOrFail($drawing_id);
+
+        $drawing->restore();
+        $drawing->note->searchable();
     }
 }
