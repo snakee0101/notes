@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function() {
 
     Route::resource('drawing', DrawingController::class)->except('update');
     Route::post('/drawing/{drawing}', [DrawingController::class, 'update'])->name('drawing.update');
+    Route::post('/drawing_restore/{drawing_id}', [DrawingController::class, 'restore'])->name('drawing.restore');
 
 
     Route::post('/reminder/{note}', [ReminderController::class, 'store'])->name('reminder.store');

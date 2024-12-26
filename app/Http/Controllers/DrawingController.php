@@ -56,6 +56,16 @@ class DrawingController extends Controller
 
     public function destroy(Drawing $drawing)
     {
-        //
+        abort_if(Gate::denies('image_manipulation', $drawing->note), 403, 'Only owner and collaborators can manipulate drawings');
+
+        $drawing->delete();
+
+        return $drawing;
+    }
+
+    public function restore($drawing_id)
+    {
+        Drawing::withTrashed()->findOrFail($drawing_id)
+                              ->restore();
     }
 }

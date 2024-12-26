@@ -333,13 +333,26 @@ export default {
                  .then(res => this.deleteImageCallback(this.note.images[index], index));
         },
         delete_drawing(index) {
-            alert('not yet implemented')
+            axios.delete('/drawing/' + this.note.drawings[index].id)
+                 .then(res => this.deleteDrawingCallback(this.note.drawings[index], index));
+        },
+        deleteDrawingCallback(deleted_drawing, index) {
+            window.deleted_drawing = deleted_drawing;
+
+            this.note.drawings.splice(index, 1);
+            window.events.$emit('show-notification', 'Drawing deleted', this.undoDrawingDeletion);
         },
         deleteImageCallback(deleted_image, index) {
             window.deleted_image = deleted_image;
 
             this.note.images.splice(index, 1);
             window.events.$emit('show-notification', 'Image deleted', this.undoImageDeletion);
+        },
+        undoDrawingDeletion() {
+            axios.post('/drawing_restore/' + window.deleted_drawing.id);
+            this.note.drawings.push(window.deleted_drawing);
+
+            window.events.$emit('show-notification', 'Action undone');
         },
         undoImageDeletion() {
             axios.put('/image/restore/' + window.deleted_image.id);
