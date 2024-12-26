@@ -10,16 +10,6 @@ use Illuminate\Support\Facades\Gate;
 
 class DrawingController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $note = Note::find( $request->input('note_id') );
@@ -28,19 +18,14 @@ class DrawingController extends Controller
 
         $image = $request->file('image');
 
-        return $note->drawings()->create(
+        $drawings = $note->drawings()->create(
             Drawing::processUpload($image)
         );
-    }
 
-    public function show(Drawing $drawing)
-    {
-        //
-    }
+        $note->refresh();
+        $note->searchable();
 
-    public function edit(Drawing $drawing)
-    {
-        //
+        return $drawings;
     }
 
     public function update(Request $request, Drawing $drawing)

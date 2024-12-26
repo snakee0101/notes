@@ -12,8 +12,7 @@
                         <i class="bi bi-image icon-lg text-white"></i>
                         <p class="mt-10 mb-4">Images</p>
                     </button>
-                    <button class="blue-search-box-button" @click="filterByType('drawing')">
-                        <!--TODO: Drawings feature is not implemented yet-->
+                    <button class="blue-search-box-button" @click="filterByType('drawings')">
                         <i class="bi bi-brush-fill icon-lg text-white"></i>
                         <p class="mt-10 mb-4">Drawings</p>
                     </button>
