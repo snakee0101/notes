@@ -43,8 +43,10 @@ class DrawingController extends Controller
     {
         abort_if(Gate::denies('image_manipulation', $drawing->note), 403, 'Only owner and collaborators can manipulate drawings');
 
+        $note = $drawing->note;
         $drawing->delete();
-
+        $note->searchable();
+        
         return $drawing;
     }
 
