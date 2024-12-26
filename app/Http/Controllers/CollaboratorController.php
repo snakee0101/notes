@@ -20,7 +20,7 @@ class CollaboratorController extends Controller
     {
         abort_if(Gate::denies('sync_collaborator', $note), 403, 'Only owner of the note may update collaborators');
 
-        $collaborator_ids = User::whereIn('email', request('emails'))->pluck('id');
+        $collaborator_ids = User::whereIn('email', request('emails'))->pluck('id') ?? [];
 
         $res = $note->collaborators()->sync( $collaborator_ids );
 
@@ -33,7 +33,7 @@ class CollaboratorController extends Controller
         {
             User::find($detachedCollaboratorId)->notify( new CollaboratorWasDeletedNotification($note) );
         }
-        
+
         $note->refresh();
         $note->searchable();
 

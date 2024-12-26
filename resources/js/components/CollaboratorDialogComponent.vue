@@ -115,7 +115,7 @@ export default {
                 window.events.$emit('save_new_note_collaborators', this.note.collaborators);
             } else {
                 axios.post('/collaborator/' + this.note.id, {
-                    collaborator_ids: this.note.collaborators.map( user => user.id )
+                    emails: this.note.collaborators.map( user => user.email )
                 }).then(res => this.note.collaborators = res.data);
             }
         },
