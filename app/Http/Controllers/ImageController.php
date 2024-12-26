@@ -22,9 +22,14 @@ class ImageController extends Controller
 
         $image = $request->file('image');
 
-        return $note->images()->create(
+        $note = $note->images()->create(
             Image::processUpload($image)
         );
+
+        $note->refresh();
+        $note->searchable();
+
+        return $note;
     }
 
     public function destroy(Image $image)
