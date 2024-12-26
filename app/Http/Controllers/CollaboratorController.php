@@ -37,7 +37,7 @@ class CollaboratorController extends Controller
         $note->refresh();
         $note->searchable();
 
-        return $note->collaborators->pluck('email');
+        return $note->collaborators;
     }
 
     public function check($email) //returns user object, if it exists
