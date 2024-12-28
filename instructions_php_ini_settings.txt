@@ -1,0 +1,5 @@
+important settings in php.ini to be able to upload multiple big images at once:
+
+upload_max_filesize = 100M
+post_max_size = 105M
+memory_limit = -1

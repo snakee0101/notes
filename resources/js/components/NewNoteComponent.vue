@@ -516,61 +516,37 @@ export default {
             this.repeatStatus = "Doesn't repeat";
         },
         save() {
-            axios.post('/note/', {
-                header: this.note.header,
-                body: this.isChecklist ? '_' : this.$refs['new-note-editor'].editor.element.innerHTML,
-                pinned: this.note.pinned,
-                archived: false,
-                color: this.note.color,
-                type: this.note.type,
-                reminder: this.note.reminder,
-                tag_ids: this.note.tags.map( tag => tag.id ),
-                collaborator_ids: this.note.collaborators.map( user => user.id )
-            }).then(res => this.saveChecklist(res))
-              .then(res => this.attach_images())
-              .then(res => this.attach_drawings())
-              .then(res => this.refreshNotesContainer())
-              .then(res => this.reset());
-        },
-        saveChecklist(result) {
-            let note = result.data;
-            window.newNote = note;
+            let formData = new FormData();
 
-            if (this.isChecklist)
-                axios.post('/checklist', {
-                    'checklist_data': this.checklist,
-                    'note_id': note.id
-                }).then(res => Object.assign(window.newNote, res.data));
-        },
-        attach_images() {
-            let note = window.newNote;
-            window.newNote.images = [];
+            formData.append('header', this.note.header);
+            formData.append('body', this.isChecklist ? '_' : this.$refs['new-note-editor'].editor.element.innerHTML);
+            formData.append('pinned', this.note.pinned);
+            formData.append('archived', false);
+            formData.append('color', this.note.color);
+            formData.append('type', this.note.type);
+            formData.append('reminder', JSON.stringify(this.note.reminder));
+            formData.append('tag_ids', JSON.stringify(this.note.tags.map(tag => tag.id)));
+            formData.append('collaborator_ids', JSON.stringify(this.note.collaborators.map(user => user.id)));
+            formData.append('checklist_data', JSON.stringify(this.checklist));
 
-            this.images.forEach(function (image) {
-                let data = new FormData();
-                data.append('image', image, image.name);
-                data.append('note_id', note.id);
-
-                axios.post('/image', data)
-                    .then(res => window.newNote.images.push(res.data));
+            this.images.forEach((image) => {
+                formData.append('images[]', image);
             });
-        },
-        attach_drawings() {
-            let note = window.newNote;
-            window.newNote.drawings = [];
 
-            this.drawings.forEach(function (drawing) {
-                let data = new FormData();
-
-                data.append('image', new File([drawing.blob], 'test.jpg'));
-                data.append('note_id', note.id);
-
-                axios.post('/drawing', data)
-                    .then(res => window.newNote.drawings.push(res.data));
+            this.drawings.forEach((drawing) => {
+                formData.append('drawings[]', new File([drawing.blob], 'test.jpg'));
             });
+
+            axios.post('/note/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }).then(res => this.refreshNotesContainer());
         },
         refreshNotesContainer() {
             window.events.$emit('note_created', window.newNote);
+
+            this.reset();
         },
         reset() {
             this.note = {
