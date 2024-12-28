@@ -57,12 +57,12 @@ class NoteController extends Controller
         }
 
         /**Persist images**/
-        foreach($request->file('images') as $image) {
+        foreach((array)$request->file('images') as $image) {
             $note->images()->create( Image::processUpload($image) );
         }
 
         /**Persist drawings**/
-        foreach($request->file('drawings') as $drawing) {
+        foreach((array)$request->file('drawings') as $drawing) {
             $note->drawings()->create( Drawing::processUpload($drawing) );
         }
 
