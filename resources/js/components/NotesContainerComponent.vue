@@ -90,9 +90,9 @@ export default {
     methods: {
         addNote(note) {
             if(note.pinned)
-                this.pinned_notes_collection.push(note);
+                this.pinned_notes_collection.unshift(note);
             else
-                this.other_notes_collection.push(note);
+                this.other_notes_collection.unshift(note);
         },
         deleteNote(note) {
             if(note.pinned)
