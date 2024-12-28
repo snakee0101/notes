@@ -557,6 +557,7 @@ export default {
         },
         attach_drawings() {
             let note = window.newNote;
+            window.newNote.drawings = [];
 
             this.drawings.forEach(function (drawing) {
                 let data = new FormData();
@@ -569,6 +570,7 @@ export default {
             });
         },
         refreshNotesContainer() {
+            console.log(window.newNote);
             window.events.$emit('note_created', window.newNote);
         },
         reset() {
