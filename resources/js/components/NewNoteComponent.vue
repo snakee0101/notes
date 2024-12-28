@@ -541,12 +541,10 @@ export default {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-            }).then(res => this.refreshNotesContainer());
-        },
-        refreshNotesContainer() {
-            window.events.$emit('note_created', window.newNote);
-
-            this.reset();
+            }).then(new_note => {
+                window.events.$emit('note_created', new_note.data);
+                this.reset();
+            });
         },
         reset() {
             this.note = {
