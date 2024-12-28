@@ -46,6 +46,7 @@ class NoteController extends Controller
         $note->refresh();
         $note->searchable();
 
+        $note->load('tags');
         return $note;
     }
 
