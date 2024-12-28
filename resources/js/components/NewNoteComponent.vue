@@ -509,7 +509,7 @@ export default {
         storeReminder(text_time) {
             let formatted_time = this.formatDate(text_time, 'YYYY-MM-DD HH:mm:ss');
 
-            this.note.reminder = {'time': formatted_time, 'repeat': {}};
+            this.note.reminder = {'time': formatted_time, 'repeat': '{}'};
 
             this.pickedDate = this.formatDate(text_time, 'YYYY-MM-DD');
             this.pickedTime = this.formatDate(text_time, 'HH:mm:ss');
@@ -552,10 +552,7 @@ export default {
                 data.append('note_id', note.id);
 
                 axios.post('/image', data)
-                    .then(res => {
-                        console.log(res.data);
-                        window.newNote.images.push(res.data);
-                    });
+                    .then(res => window.newNote.images.push(res.data));
             });
         },
         attach_drawings() {
