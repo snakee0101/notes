@@ -21,14 +21,13 @@ class NoteController extends Controller
         $note = Note::create($data);
 
         /****Set the reminder****/
-        $reminder = $request->reminder;
+        $reminder = $request->input('reminder');
 
-        if( !empty($reminder) )
-        {
+        if (!empty($reminder)) {
             $note->reminders()->create([
                 'user_id' => auth()->id(),
-                'time' => $reminder?->time ?? "",
-                'repeat' => $reminder?->repeat ?? new class(){},
+                'time' => is_null($reminder['time']) ? null : Carbon::parse($reminder['time']),
+                'repeat' => isset($reminder['repeat']) ? json_decode($reminder['repeat']) : null,
                 'location' => '',
             ]);
         }

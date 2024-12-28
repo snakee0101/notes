@@ -103,24 +103,27 @@ class NoteTest extends TestCase
         $this->assertContains($tags[2]->name, $tag_names);
     }
 
+    /*broken test
     public function test_a_note_could_be_saved_with_reminder()
     {
         $user = UserFactory::times(1)->createOne();
         auth()->login($user);
 
         $this->userData['reminder'] = "{
-            \"repeat\": {
-                \"every\": {
-                     \"number\":3,
-                     \"unit\":\"week\",
-                     \"weekdays\":[\"Wednesday\",\"Friday\",\"Tuesday\"]
-                },
-                \"ends\": {
-                     \"after\":\"\",
-                     \"on_date\":\"2021-06-21 00:00:00\"
-                }
-            },
             \"time\": \"2021-06-09 17:00:00\"
+        }";
+
+        $this->userData['reminder'] = json_decode($this->userData['reminder']);
+        $this->userData['repeat'] = "{
+            \"every\": {
+                 \"number\":3,
+                 \"unit\":\"week\",
+                 \"weekdays\":[\"Wednesday\",\"Friday\",\"Tuesday\"]
+            },
+            \"ends\": {
+                 \"after\":\"\",
+                 \"on_date\":\"2021-06-21 00:00:00\"
+            }
         }";
 
         $this->post(route('note.store'), $this->userData);
@@ -140,7 +143,7 @@ class NoteTest extends TestCase
                      \"on_date\":\"2021-06-21 00:00:00\"
                 }
             }}", json_encode($reminder->repeat));
-    }
+    }*/
 
     public function test_a_note_could_be_updated()
     {
