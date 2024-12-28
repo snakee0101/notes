@@ -574,16 +574,21 @@ export default {
         },
         reset() {
             this.note = {
+                id: 'new_note',
                 header: '',
                 body: '',
                 pinned: false,
                 archived: false,
                 color: 'white',
-                type: 'text'
+                type: 'text',
+                tags: [],
+                collaborators: [],
+                reminder: {}
             };
+            window.newNote = null;
+
             this.$refs['new-note-editor'].value = '';
 
-            this.note.collaborators = [];
             this.drawings = [];
             this.images = [];
             this.encoded_images = [];
@@ -594,8 +599,6 @@ export default {
             this.repeatStatus = '';
             this.customRepeatStatusShown = false;
 
-            this.note.reminder = {};
-            this.note.tags = [];
             this.initialize_dependencies();
 
             this.repeat_ends = 'never';
