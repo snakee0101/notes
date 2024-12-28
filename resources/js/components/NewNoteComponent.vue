@@ -570,7 +570,6 @@ export default {
             });
         },
         refreshNotesContainer() {
-            console.log(window.newNote);
             window.events.$emit('note_created', window.newNote);
         },
         reset() {
