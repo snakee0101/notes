@@ -552,7 +552,10 @@ export default {
                 data.append('note_id', note.id);
 
                 axios.post('/image', data)
-                     .then(res => window.newNote.images.push(res.data));
+                    .then(res => {
+                        console.log(res.data);
+                        window.newNote.images.push(res.data);
+                    });
             });
         },
         attach_drawings() {
