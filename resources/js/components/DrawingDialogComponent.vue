@@ -373,16 +373,15 @@ export default {
             this.setToolByOption('brush', 'size', 2);
         },
         close() {
-            this.shown = false;
-
-            this.canvas.toBlob(
-                (image_data) => {
-                    window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, image_data, this.drawing, this.drawing_index);
-                }, "image/jpeg", 1.0
-            );
+            this.canvas.toBlob(this.autosave_drawing, "image/jpeg", 1.0);
+        },
+        autosave_drawing(image_data) {
+            window.events.$emit('autosave_drawing', this.target_note_component, this.target_note, image_data, this.drawing, this.drawing_index);
 
             this.drawing = null;
             this.clearCanvas();
+
+            this.shown = false;
         },
         initialize_mouse_position(event) {
             this.last_mouse_position.x = event.offsetX;

@@ -64,7 +64,7 @@
             <div class="images mt-4" v-if="typeof note.drawings !== 'undefined' && note.drawings.length > 0">
                 <h6 class="pb-1">Note drawings (drawings are saved immediately)</h6>
                 <div class="inline-block relative m-2" v-for="(drawing, index) in note.drawings">
-                    <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" style="height: 120px; cursor: pointer" @click="openDrawingDialog(drawing, index)">
+                    <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" style="height: 120px; cursor: pointer" @click="edit_drawing(drawing, index)">
                     <a class="x-button rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
                        title="Delete image"
@@ -164,13 +164,17 @@ export default {
             if(target_note_component !== 'edit-note-component')
                 return false;
 
-            let data = new FormData();
+            if (drawing.id !== null) { //if drawing exists
+                alert('drawing exists');
+            } else { //if drawing doesn't exist
+                let data = new FormData();
 
-            data.append('image', new File([exported_image_data], 'test.jpg'));
-            data.append('note_id', target_note.id);
+                data.append('image', new File([exported_image_data], 'test.jpg'));
+                data.append('note_id', target_note.id);
 
-            axios.post('/drawing/' + drawing.id, data)
-                .then(r => console.log(r.response.data));
+                axios.post('/drawing/' + drawing.id, data)
+                    .then(r => console.log(r.response.data));
+            }
         },
         autosave_photo(target_note_component, target_note, exported_image_data) {
             if(target_note_component !== 'note-component' || target_note.id !== this.note.id)
@@ -182,7 +186,7 @@ export default {
 
             this.encoded_images.push( URL.createObjectURL(exported_image_data) );
         },
-        openDrawingDialog(drawing, drawing_index) {
+        edit_drawing(drawing, drawing_index) {
             window.events.$emit('show_drawing_dialog', 'edit-note-component', this.note, drawing, drawing_index);
         },
         openPhotoCaptureDialog() {
