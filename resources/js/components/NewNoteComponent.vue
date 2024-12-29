@@ -26,7 +26,7 @@
 
         <div class="images">
             <div class="inline-block relative m-2" v-for="(drawing, index) in drawings">
-                <img :src="drawing.url" style="height: 120px; cursor: pointer"
+                <img :src="drawing.image_encoded" style="height: 120px; cursor: pointer"
                      @click="edit_drawing(drawing, index)">
                 <a class="bg-gray-300 rounded-full absolute top-1 left-1"
                    v-b-tooltip.hover.bottom
@@ -373,14 +373,14 @@ export default {
             if(drawing_index == null) {
               return this.drawings.push({
                     blob: exported_image_data, // this is saved to database
-                    url: URL.createObjectURL(exported_image_data) // this is displayed to the user
+                    image_encoded: URL.createObjectURL(exported_image_data) // this is displayed to the user
               });
             }
 
-            this.drawings[drawing_index] = {
+            Object.assign(this.drawings[drawing_index], {
                 blob: exported_image_data,
-                url: URL.createObjectURL(exported_image_data)
-            };
+                image_encoded: URL.createObjectURL(exported_image_data)
+            });
         },
         autosave_photo(target_note_component, target_note, exported_image_data) {
             if(target_note_component !== 'new-note-component')
@@ -615,6 +615,9 @@ export default {
         },
         delete_drawing(index) {
             this.drawings.splice(index, 1);
+        },
+        edit_drawing(drawing, drawing_index) { 
+            window.events.$emit('show_drawing_dialog', 'new-note-component', this.note, drawing, drawing_index)
         }
     }
 }

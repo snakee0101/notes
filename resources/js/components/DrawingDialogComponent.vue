@@ -348,9 +348,9 @@ export default {
             if(this.canvas == null){
                 this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
                 this.canvas = this.$refs['drawing_area'];
-
-                setTimeout(this.clearCanvas, 100)
             }
+            
+            setTimeout(this.clearCanvas, 100)
         },
         clearCanvas() {
             if(this.drawing == null) {
@@ -361,7 +361,7 @@ export default {
 
                 var img = new Image;
                 img.onload = () => this.canvas_ctx.drawImage(img,0,0);
-                img.src = URL.createObjectURL(this.drawing.image_encoded);
+                img.src = URL.createObjectURL(this.drawing.blob);
             }
         },
         setDefaultTool() {
@@ -377,6 +377,7 @@ export default {
                 }, "image/jpeg", 1.0
             );
 
+            this.drawing = null;
             this.clearCanvas();
         },
         initialize_mouse_position(event) {
