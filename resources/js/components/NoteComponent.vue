@@ -194,7 +194,7 @@
                     </template>
                     <b-dropdown-item href="#" @click="deleteNote()">Delete note</b-dropdown-item>
                     <b-dropdown-item href="#" @click="openSetLabelsDialog()">Add label</b-dropdown-item>
-                    <b-dropdown-item href="#">Add drawing</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="add_drawing()">Add drawing</b-dropdown-item>
                     <b-dropdown-item href="#" @click="copy()">Make a copy</b-dropdown-item>
 
                     <b-dropdown-item href="#" @click="convertToText()" v-if="note.checklist">Hide checkboxes</b-dropdown-item>
@@ -380,8 +380,23 @@ export default {
         window.events.$on('deselect_all', this.deselectAll);
         window.events.$on('perform_note_action', this.performAction);
         window.events.$on('note-links-updated', this.reloadLinks);
+        window.events.$on('autosave_drawing', this.autosave_drawing);
     },
     methods: {
+        autosave_drawing(target_note_component, target_note, exported_image_data, drawing) {
+            if(target_note_component !== 'note-component' || target_note.id != this.note.id)
+                return false;
+
+            //create non-existing drawing
+            let data = new FormData();
+
+            data.append('image', new File([exported_image_data], 'test.jpg'));
+            data.append('note_id', target_note.id);
+
+            axios.post('/drawing', data)
+                 .then(response => this.note.drawings.push(response.data));
+            
+        },
         reloadLinks(note) {
             if(this.note.id === note.id)
                 this.note.links = note.links;
@@ -448,6 +463,9 @@ export default {
         },
         openSetLabelsDialog() {
             window.events.$emit('open_set_labels_dialog', this.note.id, this.note.tags);
+        },
+        add_drawing() {
+            window.events.$emit('show_drawing_dialog', 'note-component', this.note);
         },
         saveReminder() {
             let time = this.pickedDate + ' ' + this.pickedTime;

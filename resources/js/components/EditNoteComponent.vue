@@ -164,9 +164,9 @@ export default {
             if(target_note_component !== 'edit-note-component')
                 return false;
 
-            if (drawing.id !== null) { //if drawing exists
+            if (drawing.id !== null) { //TODO: if drawing exists - it must be replaced
                 alert('drawing exists');
-            } else { //if drawing doesn't exist
+            } else { //TODO: if drawing doesn't exist - it must be created
                 let data = new FormData();
 
                 data.append('image', new File([exported_image_data], 'test.jpg'));
