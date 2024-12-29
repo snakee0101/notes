@@ -5,7 +5,7 @@
                 <button @click="close()">Go back & save</button>
             </div>
             <div class="mr-3 my-3 flex flex-row items-center">
-                <button class="btn btn-warning" @click="start_capture()">Start capture</button>
+                <button class="btn btn-warning" @click="start_capture()">Restart capture</button>
                 <button class="btn btn-warning" @click="take_photo()">Take photo</button>
             </div>
         </div>
@@ -28,7 +28,8 @@ export default {
             video: null,
             target_note_component: null,
             target_note: null,
-            saved_photo: null
+            saved_photo: null,
+            was_photo_taken: false
         };
     },
     created() {
@@ -39,11 +40,13 @@ export default {
             this.target_note_component = target_note_component;
             this.target_note = target_note;
 
+            this.was_photo_taken = false;
             this.shown = true;
 
             setTimeout(this.initialize, 50);
         },
         start_capture() {
+            this.was_photo_taken = false;
             this.toggle_preview_visibility(false);
 
             window.navigator.mediaDevices
@@ -51,6 +54,7 @@ export default {
                 .then((mediaStream) => this.video.srcObject = mediaStream );
         },
         take_photo() {
+            this.was_photo_taken = true;
             this.toggle_preview_visibility(true);
             this.resize_video_to_true_dimensions();
 
@@ -72,9 +76,14 @@ export default {
             this.canvas = document.querySelector("#photo_canvas");
             this.canvas_ctx = document.querySelector("#photo_canvas").getContext('2d');
             this.video = document.querySelector("video");
+
+            this.start_capture();
         },
         close() {
-            window.events.$emit('autosave_photo', this.target_note_component, this.target_note, this.saved_photo);
+            if (this.was_photo_taken) {
+                window.events.$emit('autosave_photo', this.target_note_component, this.target_note, this.saved_photo);
+            }
+
             this.video.srcObject = null; // close mediastream
             this.shown = false;
         }
