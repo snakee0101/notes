@@ -349,7 +349,7 @@ export default {
                 this.canvas_ctx = this.$refs['drawing_area'].getContext('2d');
                 this.canvas = this.$refs['drawing_area'];
             }
-            
+
             setTimeout(this.clearCanvas, 100)
         },
         clearCanvas() {
@@ -361,7 +361,11 @@ export default {
 
                 var img = new Image;
                 img.onload = () => this.canvas_ctx.drawImage(img,0,0);
-                img.src = URL.createObjectURL(this.drawing.blob);
+
+                if (this.drawing.blob)
+                    img.src = URL.createObjectURL(this.drawing.blob);
+                else
+                    img.src = 'data:image/jpg;base64,' + this.drawing.image_encoded;
             }
         },
         setDefaultTool() {

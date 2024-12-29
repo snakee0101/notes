@@ -64,7 +64,7 @@
             <div class="images mt-4" v-if="typeof note.drawings !== 'undefined' && note.drawings.length > 0">
                 <h6 class="pb-1">Note drawings (drawings are saved immediately)</h6>
                 <div class="inline-block relative m-2" v-for="(drawing, index) in note.drawings">
-                    <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" style="height: 120px; cursor: pointer" @click="openDrawingDialog(drawing)">
+                    <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" style="height: 120px; cursor: pointer" @click="openDrawingDialog(drawing, index)">
                     <a class="x-button rounded-full absolute top-1 left-1"
                        v-b-tooltip.hover.bottom
                        title="Delete image"
@@ -182,8 +182,8 @@ export default {
 
             this.encoded_images.push( URL.createObjectURL(exported_image_data) );
         },
-        openDrawingDialog(drawing) {
-            window.events.$emit('show_drawing_dialog', 'edit-note-component', this.note, drawing);
+        openDrawingDialog(drawing, drawing_index) {
+            window.events.$emit('show_drawing_dialog', 'edit-note-component', this.note, drawing, drawing_index);
         },
         openPhotoCaptureDialog() {
             window.events.$emit('show_photo_capture_dialog', 'note-component', this.note);
