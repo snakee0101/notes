@@ -160,21 +160,17 @@ export default {
         }
     },
     methods: {
-        autosave_drawing(target_note_component, target_note, exported_image_data, drawing) {
+        autosave_drawing(target_note_component, target_note, exported_image_data, drawing, drawing_index) {
             if(target_note_component !== 'edit-note-component')
                 return false;
 
-            if (drawing.id !== null) { //TODO: if drawing exists - it must be replaced
-                alert('drawing exists');
-            } else { //TODO: if drawing doesn't exist - it must be created
-                let data = new FormData();
+            let data = new FormData();
 
-                data.append('image', new File([exported_image_data], 'test.jpg'));
-                data.append('note_id', target_note.id);
+            data.append('image', new File([exported_image_data], 'test.jpg'));
 
-                axios.post('/drawing/' + drawing.id, data)
-                    .then(r => console.log(r.response.data));
-            }
+            axios.post('/drawing/' + drawing.id, data)
+                 .then(response => Object.assign(this.note.drawings[drawing_index], response.data));
+            
         },
         autosave_photo(target_note_component, target_note, exported_image_data) {
             if(target_note_component !== 'note-component' || target_note.id !== this.note.id)
