@@ -204,7 +204,7 @@ export default {
             canvas_height: 0,
             drawing: null,
             drawing_index: null,
-            opacity: "/ 100%",
+            opacity: 1.0,
             brush_sizes: [2, 4, 8, 12, 16, 20, 24, 30],
             selected_brush_color: 'rgb(0,0,0)',
             selected_pen_color: 'rgb(0,0,0)',
@@ -243,10 +243,10 @@ export default {
         },
         brush_colors() {
             return [
-                [`rgb(0 0 0 ${this.opacity})`, `rgb(255 82 82 ${this.opacity})`, `rgb(255 188 0 ${this.opacity})`, `rgb(0 200 83 ${this.opacity})`, `rgb(0 176 255 ${this.opacity})`, `rgb(213 0 249 ${this.opacity})`, `rgb(141 110 99 ${this.opacity})`],
-                [`rgb(250 250 250 ${this.opacity})`, `rgb(165 39 20 ${this.opacity})`, `rgb(238 129 0 ${this.opacity})`, `rgb(85 139 47 ${this.opacity})`, `rgb(1 87 155 ${this.opacity})`, `rgb(142 36 170 ${this.opacity})`, `rgb(78 52 46 ${this.opacity})`],
-                [`rgb(144 164 174 ${this.opacity})`, `rgb(255 64 129 ${this.opacity})`, `rgb(255 110 64 ${this.opacity})`, `rgb(174 234 0 ${this.opacity})`, `rgb(48 79 254 ${this.opacity})`, `rgb(124 77 255 ${this.opacity})`, `rgb(29 233 182 ${this.opacity})`],
-                [`rgb(207 216 220 ${this.opacity})`, `rgb(248 187 208 ${this.opacity})`, `rgb(255 204 188 ${this.opacity})`, `rgb(240 244 195 ${this.opacity})`, `rgb(159 168 218 ${this.opacity})`, `rgb(209 196 233 ${this.opacity})`, `rgb(178 223 219 ${this.opacity})`],
+                [`rgba(0,0,0,${this.opacity})`, `rgba(255,82,82,${this.opacity})`, `rgba(255,188,0,${this.opacity})`, `rgba(0,200,83,${this.opacity})`, `rgba(0,176,255,${this.opacity})`, `rgba(213,0,249,${this.opacity})`, `rgba(141,110,99,${this.opacity})`],
+                [`rgba(250,250,250,${this.opacity})`, `rgba(165,39,20,${this.opacity})`, `rgba(238,129,0,${this.opacity})`, `rgba(85,139,47,${this.opacity})`, `rgba(1,87,155,${this.opacity})`, `rgba(142,36,170,${this.opacity})`, `rgba(78,52,46,${this.opacity})`],
+                [`rgba(144,164,174,${this.opacity})`, `rgba(255,64,129,${this.opacity})`, `rgba(255,110,64,${this.opacity})`, `rgba(174,234,0,${this.opacity})`, `rgba(48,79,254,${this.opacity})`, `rgba(124,77,255,${this.opacity})`, `rgba(29,233,182,${this.opacity})`],
+                [`rgba(207,216,220,${this.opacity})`, `rgba(248,187,208,${this.opacity})`, `rgba(255,204,188,${this.opacity})`, `rgba(240,244,195,${this.opacity})`, `rgba(159,168,218,${this.opacity})`, `rgba(209,196,233,${this.opacity})`, `rgba(178,223,219,${this.opacity})`],
             ];
         }
     },
@@ -277,6 +277,8 @@ export default {
         },
         setTool(tool) {
             this.tool = tool;
+
+            this.canvas_ctx.globalAlpha = this.opacity;
 
             this.selected_tool_color = this['selected_' + tool + '_color'];
             this.selected_tool_size = this['selected_' + tool + '_size'];
@@ -395,6 +397,30 @@ export default {
             this.canvas_ctx.closePath();
         },
         draw(event) {
+            const pixelData = this.canvas_ctx.getImageData(event.x + this.selected_tool_size / 2, event.y + this.selected_tool_size / 2, 1, 1).data;
+
+            // The data array contains the RGBA values
+            const red = pixelData[0];
+            const green = pixelData[1];
+            const blue = pixelData[2];
+            const alpha = pixelData[3] / 255; // Alpha value is from 0 to 255, normalize to 0-1
+
+            // Return as an RGBA string
+            let pixel_color = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+
+            if (this.tool == 'brush') {
+                this.opacity = 0.5;
+
+                if (pixel_color == 'rgba(255, 255, 255, 1)') {  //if there is no color (white) under the cursor - then - normal blending mode
+                    this.canvas_ctx.globalCompositeOperation = 'source-over'; 
+                } else { //otherwise - overlay (semi-transparent blending mode)
+                    this.canvas_ctx.globalCompositeOperation = 'lighten'; 
+                }
+            } else {
+                this.canvas_ctx.globalCompositeOperation = 'source-over'; 
+                this.opacity = 1.0;
+            }
+
             if(event.buttons === 1) { //draw only if left button is pressed
                 this.canvas_ctx.beginPath();
                 this.canvas_ctx.moveTo(this.last_mouse_position.x + this.selected_tool_size / 2, this.last_mouse_position.y + this.selected_tool_size / 2);   //move to last mouse position
