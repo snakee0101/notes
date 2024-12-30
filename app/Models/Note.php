@@ -135,6 +135,12 @@ class Note extends Model
                   ->push();
         });
 
+        $this?->drawings->each(function($drawing) use ($replica) {  //replicate each drawing and reassign it to new note
+            $drawing->replicate(['id'])
+                  ->fill(['note_id' => $replica->id])
+                  ->push();
+        });
+
         $replica->collaborators()->saveMany( $this->collaborators ); //replicate the collaborators
 
         $modified_links = $this->links->map(function($link) {  //replicate the links
