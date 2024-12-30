@@ -53,8 +53,11 @@ class Reminder extends Model
     {
         Notification::send($this->owner, new TimeNotification($this->note));
 
-        if (is_null($this->repeat?->every)) {
-            return $this->delete();
+        //if reminder is not repeatable (in this case it will be empty object without properties) - delete it
+        if ($this->repeat == new \stdClass) {
+            $this->delete();
+
+            return;
         }
 
         $this->processRepeatableReminder();
