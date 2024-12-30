@@ -27,7 +27,6 @@ class ReminderFactory extends Factory
             'note_id' => Note::factory(),
             'user_id' => User::factory(),
             'time' => now()->addDay(),
-            'location' => $this->faker->address,
             'repeat' => null
         ];
     }

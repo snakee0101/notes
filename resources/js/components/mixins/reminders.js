@@ -97,17 +97,6 @@ module.exports = {
             this.$refs['dateTimePicker-modal'].show();
             this.$refs['reminder-dropdown'].hide()
         },
-        pickPlace() {
-            this.$refs['placePicker-modal'].show();
-            this.$refs['reminder-dropdown'].hide();
-        },
-        cancelPickPlace() {
-            //TODO: clear location and marker
-            this.$refs['placePicker-modal'].hide();
-        },
-        confirmPickPlace() {
-            this.$refs['placePicker-modal'].hide();
-        },
         formatDate(text_time, format) {
             let time = {
                 'later_today': moment().set({'hour': 20}),

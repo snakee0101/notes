@@ -32,8 +32,7 @@ class NoteController extends Controller
             $note->reminders()->create([
                 'user_id' => auth()->id(),
                 'time' => is_null($reminder->time) ? null : Carbon::parse($reminder->time),
-                'repeat' => isset($reminder->repeat) ? json_decode($reminder->repeat) : null,
-                'location' => '',
+                'repeat' => isset($reminder->repeat) ? json_decode($reminder->repeat) : null
             ]);
         }
 

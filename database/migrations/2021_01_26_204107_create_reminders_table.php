@@ -18,7 +18,6 @@ class CreateRemindersTable extends Migration
             $table->foreignId('note_id');
             $table->foreignId('user_id');
             $table->timestamp('time')->nullable();
-            $table->string('location')->nullable();
             $table->json('repeat')->nullable();
             /*
              * repeat structure

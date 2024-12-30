@@ -32,7 +32,6 @@ class Reminder extends Model
     public static function sendExpired()
     {
         static::sendTimeReminders();
-        static::sendLocationReminders();
     }
 
     public static function sendTimeReminders()
@@ -42,11 +41,6 @@ class Reminder extends Model
             ->get()
             ->each
             ->sendTimeReminder();
-    }
-
-    public static function sendLocationReminders()
-    {
-
     }
 
     public function sendTimeReminder()

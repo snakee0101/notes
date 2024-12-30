@@ -100,10 +100,6 @@
                                 <i class="bi bi-alarm-fill mr-3"></i>
                                 Pick date & time
                             </b-dropdown-item>
-                            <b-dropdown-item href="#" @click="" class="focus:outline-none py-2.5">
-                                <i class="bi bi-geo-alt-fill mr-3"></i>
-                                Pick place
-                            </b-dropdown-item>
                         </b-dropdown>
                     </a>
 

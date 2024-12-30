@@ -442,19 +442,4 @@ class ReminderTest extends TestCase
 
         $this->assertEquals($before, $after);
     }
-
-    /*public function test_reminder_sends_a_location_notification()
-    {
-
-    }
-
-    public function test_location_notification_sends_mail()
-    {
-
-    }
-
-    public function test_location_notification_is_broadcasted()
-    {
-
-    }*/
 }

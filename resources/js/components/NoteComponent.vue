@@ -126,10 +126,6 @@
                         <i class="bi bi-alarm-fill mr-3"></i>
                         Pick date & time
                     </b-dropdown-item>
-                    <b-dropdown-item href="#" @click="pickPlace()" class="focus:outline-none">
-                        <i class="bi bi-geo-alt-fill mr-3"></i>
-                        Pick place
-                    </b-dropdown-item>
                 </b-dropdown>
             </a>
 
@@ -226,15 +222,6 @@
         <set-labels-component :note="note">
 
         </set-labels-component>
-
-        <b-modal title="BootstrapVue" ref="placePicker-modal"
-                 centered hide-footer modal-class="placePicker-modal" id="placePicker-modal">
-            pick place
-            <div class="modal-footer">
-                <button class="btn btn-secondary" @click="cancelPickPlace()">Cancel</button>
-                <button class="btn btn-primary" @click="confirmPickPlace()">OK</button>
-            </div>
-        </b-modal>
 
         <b-modal title="BootstrapVue" ref="dateTimePicker-modal"
                  centered hide-footer modal-class="dateTimePicker-modal" id="dateTimePicker-modal">
