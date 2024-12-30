@@ -6,8 +6,7 @@
            @click.prevent="toggle()">
             <i class="bi bi-list icon menu-icon-color"></i>
         </a>
-        <img src="/keep.png" alt="">
-        <span class="text-xl text-color">Keep</span>
+        <span class="text-xl text-color">Notes</span>
     </section>
 </template>
 
