@@ -389,7 +389,7 @@ export default {
         },
         drawInitialShape(event) {
             this.canvas_ctx.beginPath();
-            this.canvas_ctx.arc(event.offsetX, event.offsetY, this.selected_tool_size / 2, 0, 2 * Math.PI);
+            this.canvas_ctx.arc(event.offsetX + this.selected_tool_size / 2, event.offsetY + this.selected_tool_size / 2, this.selected_tool_size / 2, 0, 2 * Math.PI);
             this.canvas_ctx.fillStyle = this.selected_tool_color;
             this.canvas_ctx.fill();
             this.canvas_ctx.closePath();
@@ -397,8 +397,8 @@ export default {
         draw(event) {
             if(event.buttons === 1) { //draw only if left button is pressed
                 this.canvas_ctx.beginPath();
-                this.canvas_ctx.moveTo(this.last_mouse_position.x, this.last_mouse_position.y);   //move to last mouse position
-                this.canvas_ctx.lineTo(event.offsetX, event.offsetY);  //and create a line to current mouse position
+                this.canvas_ctx.moveTo(this.last_mouse_position.x + this.selected_tool_size / 2, this.last_mouse_position.y + this.selected_tool_size / 2);   //move to last mouse position
+                this.canvas_ctx.lineTo(event.offsetX + this.selected_tool_size / 2, event.offsetY + this.selected_tool_size / 2);  //and create a line to current mouse position
                 this.canvas_ctx.lineCap = 'round';
                 this.canvas_ctx.stroke();  //draw a line
                 this.canvas_ctx.closePath();
