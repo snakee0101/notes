@@ -43,18 +43,24 @@ new Vue({
     el: '#app'
 });
 
-window.onload = function() {
+window.onload = function () {
+    // open note for editing immediately if its id is present in URL hash
     axios.get('/tag').then( (res) => window.tags_list = res.data );
 
     let note_id_from_hash = location.hash.substr(1);
-
-    axios.get('/note/' + note_id_from_hash)
-        .then( (res) => window.events.$emit('open_note_for_editing', res.data) );
+    
+    if (note_id_from_hash != '') {
+        axios.get('/note/' + note_id_from_hash)
+            .then((res) => window.events.$emit('open_note_for_editing', res.data));
+    }
 };
 
-window.onhashchange = function() {
+window.onhashchange = function () {
+    //if hash part of url changes - open another note, whic id is in the hash
     let note_id_from_hash = location.hash.substr(1);
 
-    axios.get('/note/' + note_id_from_hash)
-        .then( (res) => window.events.$emit('open_note_for_editing', res.data) );
+    if (note_id_from_hash != '') {
+        axios.get('/note/' + note_id_from_hash)
+            .then((res) => window.events.$emit('open_note_for_editing', res.data));
+    }
 };
