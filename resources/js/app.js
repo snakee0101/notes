@@ -64,3 +64,19 @@ window.onhashchange = function () {
             .then((res) => window.events.$emit('open_note_for_editing', res.data));
     }
 };
+
+
+// display in-browser notification for a note reminder
+if (!Notification.permission !== 'granted') {
+    Notification.requestPermission();
+}
+
+window.redirectToNote = function(){
+    location.hash = window.notificationData.link;
+};
+
+window.Echo.private('App.Models.User.' + window.userId)
+    .notification(function(notification) {
+        window.notificationData = notification;
+        new Notification(notification.reminder_text).onclick = window.redirectToNote;
+    });
