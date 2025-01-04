@@ -16,8 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $user = User::factory()->create([
+            'email' => 'testing@gmail.com',
             'password' => Hash::make('password')
         ]);
+
         \App\Models\Note::factory()->for($user,'owner')->count(20)->create();
     }
 }

@@ -1,6 +1,6 @@
 ## About this project
 
-This is a clone of google keep - note taking application.
+This is my sample project - a clone of google keep - note taking application.
 
 <p align="center"><img src="https://github.com/snakee0101/notes/raw/refs/heads/master/application%20screenshot.png" style="width: 100%"></p>
 
@@ -22,8 +22,21 @@ This is a clone of google keep - note taking application.
 - Note **duplication**
 - **Links** (which are in the note) are shown in separate panel with their favicons 
 
-## Frameworks
+## How to run the application
 
+run this command from project directory: 
+sudo docker compose up --build
+
+after starting the application run these commands (get id of the laravel-app container through docker ps):
+sudo docker exec -it container-id-of-laravel-app-container php artisan migrate:fresh --seed
+
+Site can be accessed at http://127.0.0.1:8000/
+Register a new user through page http://127.0.0.1:8000/register
+
+
+## Frameworks and technologies
+
+- HTML, CSS, JavaScript, PHP, SQL
 - Laravel 
 - Vue
 
@@ -51,3 +64,7 @@ This is a clone of google keep - note taking application.
 
 - Dropdown menu in DrawingDialogComponent (vue) doesn't work when drawing editor was called when editing a note
 - Sudden darkening of background in a drawing after saving/reopening it
+- Database events doesn't work with docker (database/migrations/2024_06_11_131113_create_database_events.php)
+
+## Author
+Lebediantsev Danylo, snakee0101@gmail.com

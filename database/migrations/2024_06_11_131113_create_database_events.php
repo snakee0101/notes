@@ -9,20 +9,18 @@ class CreateDatabaseEvents extends Migration
 {
     public function up()
     {
-        DB::statement("DROP EVENT delete_soft_deleted_images");
-
-        DB::statement("SET GLOBAL event_scheduler = ON");
+        /*DB::statement("SET GLOBAL event_scheduler = ON");
         DB::statement("CREATE EVENT delete_soft_deleted_images
 ON SCHEDULE EVERY 1 MINUTE
 DO
 BEGIN
 	DELETE FROM images
 	WHERE TIMESTAMPDIFF(MINUTE,deleted_at,CURRENT_TIMESTAMP) > 1;
-END");
+END");*/
     }
 
     public function down()
     {
-        DB::statement("DROP EVENT delete_soft_deleted_images");
+        //DB::statement("DROP EVENT IF EXISTS delete_soft_deleted_images");
     }
 }
