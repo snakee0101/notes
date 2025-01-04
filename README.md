@@ -58,7 +58,8 @@ sudo docker exec -it container-id-of-laravel-app-container php artisan migrate:f
 - Dropdown menu in DrawingDialogComponent (vue) doesn't work when drawing editor was called when editing a note
 - Sudden darkening of background in a drawing after saving/reopening it
 - Database events doesn't work with docker (database/migrations/2024_06_11_131113_create_database_events.php)
-- After finishing search page layout breaks (probably it's the issue with vue-masonry library) 
+- After finishing search page layout breaks (probably it's the issue with vue-masonry library)
+- Schedule automatic removal of expired notes in "Trash"
 
 ## Author
 Lebediantsev Danylo, snakee0101@gmail.com
