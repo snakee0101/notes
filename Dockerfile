@@ -26,12 +26,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy application files
 COPY . /var/www
 
-# Set permissions for Laravel
-#RUN chown -R www-data:www-data /var/www \
-##    && chmod -R 755 /var/www/storage \
-#    && chmod -R 755 /var/www/bootstrap/cache
-# RUN git config --global --add safe.directory /var/www
-
 # Install dependencies
 RUN composer install
 RUN npm install --legacy-peer-deps

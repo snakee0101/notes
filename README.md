@@ -24,14 +24,17 @@ This is my sample project - a clone of google keep - note taking application.
 
 ## How to run the application
 
-run this command from project directory: 
+1. run this command from project directory: 
 sudo docker compose up --build
 
-after starting the application run these commands (get id of the laravel-app container through docker ps):
+2. after starting the application run these commands (get id of the laravel-app container through docker ps):
 sudo docker exec -it container-id-of-laravel-app-container php artisan migrate:fresh --seed
 
-Site can be accessed at http://127.0.0.1:8000/
-Register a new user through page http://127.0.0.1:8000/register
+3. Site is accessible at http://127.0.0.1:8000/
+
+4. You can register a new user through page http://127.0.0.1:8000/register
+
+4. You can login with email "testing@gmail.com" and password "password" (login page url: http://127.0.0.1:8000/login)
 
 
 ## Frameworks and technologies
@@ -50,21 +53,12 @@ Register a new user through page http://127.0.0.1:8000/register
 - TailwindCSS - styling
 - Trix editor (Javascript) - WYSIWYG editor for notes content
 
-## What services must be launched to make application work properly
-
-- php artisan serve
-- npm run watch
-- php artisan queue:work
-- meilisearch (must be previously installed on your system)
-- php artisan schedule:work
-- mysql
-
-
 ## Known issues
 
 - Dropdown menu in DrawingDialogComponent (vue) doesn't work when drawing editor was called when editing a note
 - Sudden darkening of background in a drawing after saving/reopening it
 - Database events doesn't work with docker (database/migrations/2024_06_11_131113_create_database_events.php)
+- After finishing search page layout breaks (probably it's the issue with vue-masonry library) 
 
 ## Author
 Lebediantsev Danylo, snakee0101@gmail.com
