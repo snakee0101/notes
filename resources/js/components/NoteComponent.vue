@@ -429,7 +429,14 @@ export default {
         reload_tags(note_id) {
             if(note_id == this.note.id) {
                 axios.get('/note/' + note_id)
-                     .then( (res) => this.note.tags = res.data.tags );
+                    .then((res) => {
+                        this.note.tags = res.data.tags;
+
+                        setTimeout(() => {
+                            window.masonry_layouts['pinned_notes_masonry'].layout();
+                            window.masonry_layouts['other_notes_masonry'].layout();
+                        }, 200);
+                    });
 
                 this.note.tags.forEach(function(tag) {
                     if( location.href.includes('tag/' + encodeURIComponent(tag.name)) ) { //if the current tag was deleted from the note
@@ -469,7 +476,12 @@ export default {
             let formatted_time = this.formatDate(text_time, 'YYYY-MM-DD HH:mm:ss');
 
             axios.post('/reminder/' + this.note.id, {'time': formatted_time});
-            this.note.reminder = {'time': formatted_time};
+            this.note.reminder = { 'time': formatted_time };
+
+            setTimeout(() => {
+                window.masonry_layouts['pinned_notes_masonry'].layout();
+                window.masonry_layouts['other_notes_masonry'].layout();
+            }, 200);
         },
         refreshImage(data) {
             this.note.images.push(data);
@@ -531,6 +543,11 @@ export default {
             let tagsLocation = 'tag/' + encodeURIComponent(tag.name);
             if (location.href.includes(tagsLocation))
                 window.events.$emit('note_deleted', this.note);
+
+            setTimeout(() => {
+                window.masonry_layouts['pinned_notes_masonry'].layout();
+                window.masonry_layouts['other_notes_masonry'].layout();
+            }, 200);
         },
         performAction(note, action, parameter) {
             if(this.note.id !== note.id)

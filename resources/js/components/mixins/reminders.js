@@ -73,6 +73,11 @@ module.exports = {
                 window.events.$emit('note_deleted', this.note);
 
             window.events.$emit('show-notification', 'Reminder deleted', this.undoReminderRemoval);
+
+            setTimeout(() => {
+                window.masonry_layouts['pinned_notes_masonry'].layout();
+                window.masonry_layouts['other_notes_masonry'].layout();
+            }, 200);
         },
         undoReminderRemoval() {
             axios.post('/reminder/' + window.ReminderNoteId, {

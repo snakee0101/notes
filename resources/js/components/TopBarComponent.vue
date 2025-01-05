@@ -378,7 +378,7 @@ export default {
             this.notes.forEach((note) => {
                 setTimeout(() => window.events.$emit('perform_note_action', note, 'copy', ''), 50); 
             });
-            
+
             this.deselectAll();
         },
         pickDateAndTime() {
@@ -400,8 +400,10 @@ export default {
             let formatted_time = time[text_time].set({'minute': 0, 'second': 0})
                 .format('YYYY-MM-DD HH:mm:ss');
 
-            this.notes.forEach( note => axios.post('/reminder/' + note.id, {'time': formatted_time})
-                                             .then(window.events.$emit('perform_note_action', note, 'update_reminder', {'time': formatted_time})));
+            this.notes.forEach(note => setTimeout(() => {
+                 axios.post('/reminder/' + note.id, { 'time': formatted_time })
+                    .then(window.events.$emit('perform_note_action', note, 'update_reminder', { 'time': formatted_time }))
+            }, 50));
         },
         saveReminder() {
             let time = this.pickedDate + ' ' + this.pickedTime;
