@@ -344,11 +344,17 @@ export default {
         },
         pin() {
             let notes_to_be_pinned = this.notes.filter(note => note.pinned === false);
-            notes_to_be_pinned.forEach(note => window.events.$emit('perform_note_action', note, 'pin', ''));
+
+            notes_to_be_pinned.forEach(note => {
+                setTimeout(() => window.events.$emit('perform_note_action', note, 'pin', ''), 50)
+            });
+
             this.deselectAll();
         },
         unpin() {
-            this.notes.forEach(note => window.events.$emit('perform_note_action', note, 'unpin', '')); //unpinned notes are already selected by isAllNotesPinned computed property
+            this.notes.forEach(note => {
+                setTimeout(() => window.events.$emit('perform_note_action', note, 'unpin', ''), 50) 
+            }); //unpinned notes are already selected by isAllNotesPinned computed property
             this.deselectAll();
         },
         changeColor(color) {
@@ -369,7 +375,10 @@ export default {
             window.events.$emit('open_set_labels_dialog');
         },
         copy() {
-            this.notes.forEach((note) => window.events.$emit('perform_note_action', note, 'copy', ''));
+            this.notes.forEach((note) => {
+                setTimeout(() => window.events.$emit('perform_note_action', note, 'copy', ''), 50); 
+            });
+            
             this.deselectAll();
         },
         pickDateAndTime() {
