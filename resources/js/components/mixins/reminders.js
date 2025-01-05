@@ -32,9 +32,9 @@ module.exports = {
             let reminder_date = this.note.reminder.time;
 
             if (moment(reminder_date).year() > moment().year())
-                return moment(reminder_date).format('MMM D, YYYY, H:mm A');
+                return moment(reminder_date).format('MMM D, YYYY, HH:mm');
 
-            return moment(reminder_date).format('MMM D, H:mm A');
+            return moment(reminder_date).format('MMM D, HH:mm');
         }
     },
     methods: {
