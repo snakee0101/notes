@@ -29,9 +29,13 @@ class NoteController extends Controller
         $reminder = json_decode($request->input('reminder'));
 
         if (empty(get_object_vars($reminder)) == false) {
+            //to avoid timezone conflict - all dates are normalized to UTC
+            $utc_date = new \DateTime($reminder->time, new \DateTimeZone($request->input('client_timezone')));
+            $utc_date->setTimezone(new \DateTimeZone('UTC'));
+
             $note->reminders()->create([
                 'user_id' => auth()->id(),
-                'time' => is_null($reminder->time) ? null : Carbon::parse($reminder->time),
+                'time' => is_null($reminder->time) ? null : $utc_date,
                 'repeat' => isset($reminder->repeat) ? json_decode($reminder->repeat) : null
             ]);
         }

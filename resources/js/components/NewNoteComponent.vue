@@ -302,6 +302,7 @@
 
 <script>
 import SetLabelsComponent from "./SetLabelsComponent";
+let moment = require('moment');
 
 let reminders = require('./mixins/reminders.js');
 
@@ -516,6 +517,7 @@ export default {
             formData.append('tag_ids', JSON.stringify(this.note.tags.map(tag => tag.id)));
             formData.append('collaborator_ids', JSON.stringify(this.note.collaborators.map(user => user.id)));
             formData.append('checklist_data', JSON.stringify(this.checklist));
+            formData.append('client_timezone', moment().format('Z'));
 
             this.images.forEach((image) => {
                 formData.append('images[]', image);
