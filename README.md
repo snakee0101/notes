@@ -57,7 +57,6 @@ sudo docker exec -it container-id-of-laravel-app-container php artisan migrate:f
 
 - Dropdown menu in DrawingDialogComponent (vue) doesn't work when drawing editor was called when editing a note
 - Sudden darkening of background in a drawing after saving/reopening it
-- After finishing search page layout breaks (probably it's the issue with vue-masonry library)
 - After saving a note with reminder, reminder time shifts several hours back (client-server timezone mismatch issue)
 
 ## Author
