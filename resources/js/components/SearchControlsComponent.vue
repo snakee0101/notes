@@ -106,18 +106,12 @@ export default {
             this.areSearchControlsVisible = false;
 
             setTimeout(() => {
-                if (!this.isMasonryInitialized) {
-                    this.isMasonryInitialized = true;
-
-                    window.masonry_layouts['search_controls_masonry'] = new Masonry("#search_controls_masonry", {
-                        itemSelector: '.grid-item',
-                        columnWidth: 270,
-                        gutter: 10
-                    });
-                }
-
-                window.events.$emit('refresh-all-masonry-layouts');
-            }, 300);
+               window.masonry_layouts['search_controls_masonry'] = new Masonry("#search_controls_masonry", {
+                  itemSelector: '.grid-item',
+                  columnWidth: 270,
+                  gutter: 10
+               });
+            }, 100);
         },
         activateSearch() {
             this.isSearchActive = true;
