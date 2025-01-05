@@ -54,13 +54,16 @@ window.onload = function () {
 
     window.masonry_layouts = [];
 
-    document.querySelectorAll('.grid').forEach((grid) => { //documentation: https://masonry.desandro.com/methods
-        window.masonry_layouts.push(new Masonry(grid, {
-            itemSelector: '.grid-item',
-            columnWidth: 270,
-            gutter: 10
-        }));
-    });
+    //documentation: https://masonry.desandro.com/methods
+    let masonry_options = {
+        itemSelector: '.grid-item',
+        columnWidth: 270,
+        gutter: 10
+    };
+
+    window.masonry_layouts['pinned_notes_masonry'] = new Masonry("#pinned_notes_masonry", masonry_options);
+    window.masonry_layouts['other_notes_masonry'] = new Masonry("#other_notes_masonry", masonry_options);
+    window.masonry_layouts['search_controls_masonry'] = new Masonry("#search_controls_masonry", masonry_options);
 
     window.events.$on('refresh-all-masonry-layouts', function () {
         window.masonry_layouts.forEach(l => l.layout());

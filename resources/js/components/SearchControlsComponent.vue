@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults notes-container grid" v-show="results != undefined">
+        <div class="searchResults notes-container grid" v-show="results != undefined" id="search_controls_masonry">
             <note-component v-for="note in results"
                             :key="note.id"
                             :note="note"
@@ -63,11 +63,14 @@
 </template>
 
 <script>
+import Masonry from 'masonry-layout';
+
 export default {
     name: "SearchControlsComponent.vue",
     data: function () {
         return {
             isSearchActive: false,
+            isMasonryInitialized: false,
             areSearchControlsVisible: false,
             resultsNotFound: false,
             colors: [
@@ -101,6 +104,20 @@ export default {
         checkForResults() {
             this.resultsNotFound = !(this.results.length);
             this.areSearchControlsVisible = false;
+
+            setTimeout(() => {
+                if (!this.isMasonryInitialized) {
+                    this.isMasonryInitialized = true;
+
+                    window.masonry_layouts['search_controls_masonry'] = new Masonry("#search_controls_masonry", {
+                        itemSelector: '.grid-item',
+                        columnWidth: 270,
+                        gutter: 10
+                    });
+                }
+
+                window.events.$emit('refresh-all-masonry-layouts');
+            }, 300);
         },
         activateSearch() {
             this.isSearchActive = true;

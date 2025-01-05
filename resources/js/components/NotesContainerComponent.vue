@@ -4,7 +4,7 @@
             <div class="pinned">
                 <p class="font-bold text-sm mb-2 text-color">PINNED</p>
 
-                <div ref="pinned_notes_content" class="grid">
+                <div ref="pinned_notes_content" class="grid" id="pinned_notes_masonry">
                     <note-component v-for="pinned_note in pinned_notes_collection"
                                     :key="pinned_note.id"
                                     :note="pinned_note"
@@ -18,7 +18,7 @@
             <div class="others">
                 <p class="font-bold text-sm mt-20 mb-2 text-color">OTHERS</p>
 
-                <div ref="other_notes_content" class="grid">
+                <div ref="other_notes_content" class="grid" id="other_notes_masonry">
                     <note-component v-for="other_note in other_notes_collection"
                                     :key="other_note.id"
                                     :note="other_note"
@@ -84,9 +84,14 @@ export default {
     created() {
       window.events.$on('note_created', this.addNote);
       window.events.$on('note_deleted', this.deleteNote);
-      window.events.$on('trash_emptied', this.clearAll);
+      window.events.$on('searchCleared', this.refreshMasonry);
     },
     methods: {
+        refreshMasonry() { 
+            setTimeout(() => {
+                window.events.$emit('refresh-all-masonry-layouts');
+            }, 300);
+        },
         addNote(note) {
             if(note.pinned)
                 this.pinned_notes_collection.unshift(note);
