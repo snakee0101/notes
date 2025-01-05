@@ -1,7 +1,7 @@
 <template>
     <div class="note p-3 relative transition-colors m-auto new-note"
          :class="'bg-google-' + note.color"
-         style="width: 630px"
+         style="max-width: 80%"
          ref="note">
 
         <a href="" class="absolute right-1 top-1 p-2 rounded-full"
@@ -11,8 +11,9 @@
             <i class="bi bi-pin icon" v-else></i>
         </a>
 
-        <div class="images">
-            <div class="inline-block relative m-2" v-for="(encoded_image, index) in encoded_images">
+        <p v-if="images.length > 0">Images</p>
+        <div class="images flex justify-stretch flex-wrap">
+            <div class="inline-block relative m-2" v-for="(encoded_image, index) in encoded_images" style="max-width: 30%">
                 <img :src="encoded_image" style="height: 120px">
                 <a class="bg-gray-300 rounded-full absolute top-1 left-1"
                    v-b-tooltip.hover.bottom
@@ -24,8 +25,9 @@
             </div>
         </div>
 
-        <div class="images">
-            <div class="inline-block relative m-2" v-for="(drawing, index) in drawings">
+        <p v-if="drawings.length > 0">Drawings</p>
+        <div class="images flex justify-stretch flex-wrap">
+            <div class="inline-block relative m-2" v-for="(drawing, index) in drawings" style="max-width: 30%">
                 <img :src="drawing.image_encoded" style="height: 120px; cursor: pointer"
                      @click="edit_drawing(drawing, index)">
                 <a class="bg-gray-300 rounded-full absolute top-1 left-1"
