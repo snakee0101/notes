@@ -99,10 +99,19 @@ export default {
                 this.other_notes_collection.unshift(note);
         },
         deleteNote(note) {
-            if(note.pinned)
-                this.pinned_notes_collection.splice( this.pinned_notes_collection.indexOf(note) ,1);
-            else
-                this.other_notes_collection.splice( this.other_notes_collection.indexOf(note) ,1);
+            if (note.pinned) {
+                this.pinned_notes_collection.splice(this.pinned_notes_collection.indexOf(note), 1);
+
+                let note_element = document.querySelector('[data-note-id="' + note.id + '"]');
+                window.masonry_layouts['pinned_notes_masonry'].remove(note_element);
+                window.masonry_layouts['pinned_notes_masonry'].layout();
+            } else {
+                this.other_notes_collection.splice(this.other_notes_collection.indexOf(note), 1);
+
+                let note_element = document.querySelector('[data-note-id="' + note.id + '"]');
+                window.masonry_layouts['other_notes_masonry'].remove(note_element);
+                window.masonry_layouts['other_notes_masonry'].layout();
+            }
         },
         clearAll() {
             this.pinned_notes_collection = [];
