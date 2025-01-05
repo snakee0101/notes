@@ -71,4 +71,11 @@ class Image extends Model
 
         return compact('image', 'thumbnail');
     }
+
+    public static function removeSoftDeleted()
+    {
+        self::onlyTrashed()
+            ->where('deleted_at', '<', now()->subMinute(1))
+            ->forceDelete();
+    }
 }

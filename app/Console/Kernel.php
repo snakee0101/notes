@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () { Trash::removeExpired(); })->daily();
         $schedule->call(function () { Reminder::sendExpired(); })->everyMinute();
+        $schedule->call(function () { Image::removeSoftDeleted(); })->everyMinute();
     }
 
     protected function commands()
