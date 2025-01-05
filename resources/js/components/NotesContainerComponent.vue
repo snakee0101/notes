@@ -79,7 +79,10 @@ export default {
         }
     },
     watch: {
-
+        pinned_notes_collection: function (newValue, oldValue) {
+            this.answer = 'Waiting for you to stop typing...'
+            this.debouncedGetAnswer()
+        }
     },
     created() {
       window.events.$on('note_created', this.addNote);
@@ -93,22 +96,37 @@ export default {
             }, 300);
         },
         addNote(note) {
-            if(note.pinned)
+            if (note.pinned) {
                 this.pinned_notes_collection.unshift(note);
-            else
+
+                setTimeout(() => {
+                    let note_element = document.querySelector('[data-note-id="' + note.id + '"]');
+
+                    window.masonry_layouts['pinned_notes_masonry'].prepended(note_element);
+                    window.masonry_layouts['pinned_notes_masonry'].layout();
+                }, 100); // delay is required because HTML element could not be created immediately
+            } else {
                 this.other_notes_collection.unshift(note);
+
+                setTimeout(() => {
+                    let note_element = document.querySelector('[data-note-id="' + note.id + '"]');
+
+                    window.masonry_layouts['other_notes_masonry'].prepended(note_element);
+                    window.masonry_layouts['other_notes_masonry'].layout();
+                }, 100); // delay is required because HTML element could not be created immediately
+            }
         },
         deleteNote(note) {
+            let note_element = document.querySelector('[data-note-id="' + note.id + '"]');
+
             if (note.pinned) {
                 this.pinned_notes_collection.splice(this.pinned_notes_collection.indexOf(note), 1);
 
-                let note_element = document.querySelector('[data-note-id="' + note.id + '"]');
                 window.masonry_layouts['pinned_notes_masonry'].remove(note_element);
                 window.masonry_layouts['pinned_notes_masonry'].layout();
             } else {
                 this.other_notes_collection.splice(this.other_notes_collection.indexOf(note), 1);
 
-                let note_element = document.querySelector('[data-note-id="' + note.id + '"]');
                 window.masonry_layouts['other_notes_masonry'].remove(note_element);
                 window.masonry_layouts['other_notes_masonry'].layout();
             }
