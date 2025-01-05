@@ -61,6 +61,10 @@ window.onload = function () {
             gutter: 10
         }));
     });
+
+    window.events.$on('refresh-all-masonry-layouts', function () {
+        window.masonry_layouts.forEach(l => l.layout());
+    })
 };
 
 window.onhashchange = function () {

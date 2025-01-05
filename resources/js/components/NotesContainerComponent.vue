@@ -78,6 +78,9 @@ export default {
             return this.pinned_notes_collection.length + this.other_notes_collection.length;
         }
     },
+    watch: {
+
+    },
     created() {
       window.events.$on('note_created', this.addNote);
       window.events.$on('note_deleted', this.deleteNote);

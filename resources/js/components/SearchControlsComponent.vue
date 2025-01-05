@@ -43,16 +43,17 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults notes-container" v-if="results != undefined">
+        <div class="searchResults notes-container grid" v-show="results != undefined">
             <note-component v-for="note in results"
                             :key="note.id"
                             :note="note"
-                            :isTrashed="false">
+                            :isTrashed="false"
+                            class="grid-item">
 
             </note-component>
         </div>
 
-        <div class="searchResults notes-container" v-if="resultsNotFound">
+        <div class="searchResults notes-container" v-show="resultsNotFound">
             <div class="alert alert-danger" role="alert">
                 No results found
             </div>
