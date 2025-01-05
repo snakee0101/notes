@@ -1,17 +1,15 @@
 import Vue from 'vue';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-
-import {VueMasonryPlugin} from 'vue-masonry';
-Vue.use(VueMasonryPlugin);
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import Masonry from 'masonry-layout';
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 // Make BootstrapVue available throughout your project
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
+Vue.use(IconsPlugin);
 
 
 require('./bootstrap');
@@ -53,6 +51,16 @@ window.onload = function () {
         axios.get('/note/' + note_id_from_hash)
             .then((res) => window.events.$emit('open_note_for_editing', res.data));
     }
+
+    window.masonry_layouts = [];
+
+    document.querySelectorAll('.grid').forEach((grid) => { //documentation: https://masonry.desandro.com/methods
+        window.masonry_layouts.push(new Masonry(grid, {
+            itemSelector: '.grid-item',
+            columnWidth: 270,
+            gutter: 10
+        }));
+    });
 };
 
 window.onhashchange = function () {

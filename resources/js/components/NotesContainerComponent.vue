@@ -4,14 +4,12 @@
             <div class="pinned">
                 <p class="font-bold text-sm mb-2 text-color">PINNED</p>
 
-                <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" ref="pinned_notes_content">
-                    <div class="gutter"></div>
-
-                    <note-component v-masonry-tile
-                                    v-for="pinned_note in pinned_notes_collection"
+                <div ref="pinned_notes_content" class="grid">
+                    <note-component v-for="pinned_note in pinned_notes_collection"
                                     :key="pinned_note.id"
                                     :note="pinned_note"
-                                    :isTrashed="isTrashed">
+                                    :isTrashed="isTrashed"
+                                    class="grid-item">
 
                     </note-component>
                 </div>
@@ -20,14 +18,12 @@
             <div class="others">
                 <p class="font-bold text-sm mt-20 mb-2 text-color">OTHERS</p>
 
-                <div v-masonry transition-duration="0.3s" item-selector=".note" gutter=".gutter" :origin-top="true" ref="other_notes_content">
-                    <div class="gutter"></div>
-
-                    <note-component v-masonry-tile
-                                    v-for="other_note in other_notes_collection"
+                <div ref="other_notes_content" class="grid">
+                    <note-component v-for="other_note in other_notes_collection"
                                     :key="other_note.id"
                                     :note="other_note"
-                                    :isTrashed="isTrashed">
+                                    :isTrashed="isTrashed"
+                                    class="grid-item">
 
                     </note-component>
                 </div>

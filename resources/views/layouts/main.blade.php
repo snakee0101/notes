@@ -21,7 +21,6 @@
     </script>
 
     <script type="text/javascript" src="{{ asset('trix/trix.js') }}"></script>
-    <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.0.0/masonry.pkgd.min.js"></script>
 </head>
 <body class="h-screen antialiased leading-none font-sans flex flex-col main-page theme-light">
 <div id="app">

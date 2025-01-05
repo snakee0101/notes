@@ -142,7 +142,6 @@ ol {
 }
 
 .note {
-    width: 270px;
     border: 1px solid var(--note-border-color);
 }
 
@@ -594,4 +593,16 @@ section.search.active {
 
 .toolbar button.btn-dark {
     color: #fff!important;
+}
+
+/*masonry layout*/
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.grid-item {
+    width: 270px;
+    float: left;
 }

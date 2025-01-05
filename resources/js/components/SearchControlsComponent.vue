@@ -43,12 +43,8 @@
                 </div>
             </div>
         </div>
-        <div class="searchResults notes-container flex justify-between" v-if="results != undefined" v-masonry transition-duration="0.3s" item-selector=".note"
-             gutter=".gutter" :origin-top="true">
-            <div class="gutter"></div>
-
-            <note-component v-masonry-tile
-                            v-for="note in results"
+        <div class="searchResults notes-container" v-if="results != undefined">
+            <note-component v-for="note in results"
                             :key="note.id"
                             :note="note"
                             :isTrashed="false">

@@ -305,7 +305,6 @@ export default {
         }
     },
     methods: {
-        //TODO: After most action manually redraw masonry with Vuemasonry.redraw
         //TODO: Problem - sometimes notes are duplicating (for example, with pin/unpin actions)
         bindTags(label, action) {
             if(action === 'add')
