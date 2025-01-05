@@ -26,12 +26,16 @@
         </a>
 
         <div @click="openForEditing" style="cursor: pointer">
-            <div class="images">
-                <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" v-for="drawing in note.drawings">
+            <div class="images flex justify-stretch">
+                <img :src="'data:image/jpg;base64,' + drawing.thumbnail_encoded" v-for="drawing in note.drawings.slice(0,2)" 
+                     :style="{'max-width': note.drawings.length == 1 ? '100%' : '50%'}">
             </div>
-            <div class="images">
-                <img :src="'data:image/jpg;base64,' + image.thumbnail_encoded" v-for="image in note.images">
+            <p v-if="note.drawings.length > 2">and {{ note.drawings.length - 2 }} more</p>
+            <div class="images flex justify-stretch">
+                <img :src="'data:image/jpg;base64,' + image.thumbnail_encoded" v-for="image in note.images.slice(0,2)"
+                     :style="{'max-width': note.images.length == 1 ? '100%' : '50%'}">
             </div>
+            <p v-if="note.images.length > 2">and {{ note.images.length - 2 }} more</p>
             <h3 class="font-bold mr-3 break-words">{{ note.header }}</h3>
 
             <div v-if="note.checklist && note.checklist.tasks.length > 0">
