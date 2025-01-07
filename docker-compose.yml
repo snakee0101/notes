@@ -31,6 +31,20 @@ services:
     networks:
       - laravel-network
 
+  mysql-testing:
+    image: mysql:8.0
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_DATABASE: notes_testing
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: laravel_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - mysql-data2:/var/lib/mysql
+    networks:
+      - laravel-network
+
   meilisearch:
     image: getmeili/meilisearch:v1.8
     ports:
@@ -84,6 +98,7 @@ services:
 
 volumes:
   mysql-data:
+  mysql-data2:
 
 networks:
   laravel-network:
